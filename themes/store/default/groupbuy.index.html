@@ -1,0 +1,369 @@
+{include file=header.html}
+<div id="navBartg" class="mb10" >
+    <div class="content">
+        <div id="all-category">
+            <div class="title" style="background:#119f92">
+                <h2 title="商品全部分类"><a href="{url app=category}">商品全部分类</a></h2>
+                <i></i></div>
+            <div id="category" class="category pngFix">
+                <ul class="menu">
+                    <!--{foreach from=$gcategorys_left item=gcategory name=gcategory}-->
+                    <!-- {if $smarty.foreach.gcategory.index<7 }-->
+                    <!-- {if !empty($gcategory) }-->
+                    <li id="cat_{$smarty.foreach.gcategory.index}">
+                        <h3><span class="block"><a href="{url app=search&cate_id=$gcategory.id}" title="{$gcategory.value|escape}">{$gcategory.value|escape}</a>   </span>
+                         <span>
+                                <a href="{url app=search&cate_id=$gcategory.children[0].id}">{$gcategory.children[0].value}</a>
+                                <a href="{url app=search&cate_id=$gcategory.children[1].id}">{$gcategory.children[1].value}</a>
+                               <a href="{url app=search&cate_id=$gcategory.children[2].id}">{$gcategory.children[2].value}</a>
+                         </span>
+                        </h3>
+                        <div class="cat-menu" id="cat_{$smarty.foreach.gcategory.index}_menu">
+                            <dl>
+                                <dt> {$gcategory.value|escape} </dt>
+                                <dd><!--{foreach from=$gcategory.children item=child}--><a href="{url app=search&cate_id=$child.id}">{$child.value|escape}</a> <!--{/foreach}--> </dd>
+                            </dl>
+
+                        </div>
+                    </li>
+                    <!--{/if}-->
+                    <!--{/if}-->
+                    <!--{/foreach}-->
+
+                    <div class="clear"></div>
+                </ul>
+            </div>
+
+        </div>
+        <ul class="nc-nav-menu">
+            <li class="link"><a href="{url app=default}"><span>{$lang.first_page}</span></a></li>
+            <li class="link"><a href="{url app=market&pd_id=2}"><span>超市</span></a></li>
+            <li class="link"><a class="pngFix" href="{url app=tese&pd_id=3}"><span class="pngFix">特色大集</span></a></li>
+            <li class="link"><a href="#"><span>本地生活</span></a></li>
+            <li class="link"><a href="#"><span>工厂直供</span></a></li>
+            <li class="link"><a href="{url app=search&act=groupbuy}"><span>团购</span></a></li>
+            <!--<li class="link"><a href="#"><span>优惠券</span></a></li>-->
+            <li class="link"><a href="#"><span>积分中心</span></a></li>
+            <li class="link"><a href="#"><span>微商城</span></a></li>
+            <li class="link"><a href="index.php?app=service&act=register_service"><span>服务中心</span></a></li>
+            <li class="link"><a href="{url app=member&act=cj}"><span>我要抽奖</span></a></li>
+        </ul>
+    </div>
+</div>
+<div class="mbm warp-all content">
+<div class="left2">
+<div class="group">
+<h1><a href="goods-84.html" target="_blank" title="新款鳄鱼恤男式钱包 进口二层牛皮男皮夹钱包">新款鳄鱼恤男式钱包 进口二层牛皮男皮夹钱包</a></h1>
+<div class="box"><div class="buy-now"><span>&yen;{$group.groupbuy_price}</span><a href="#" target="_blank">我要团</a></div>
+    <div class="info">
+        <div class="prices">
+            <dl>
+                <dt>市场价</dt>
+                <dd>298.00</dd>
+            </dl>
+            <dl>
+                <dt>折扣</dt>
+                <dd>2.32折</dd>
+            </dl>
+            <dl>
+                <dt>节省</dt>
+                <dd>229.00</dd>
+            </dl>
+        </div>
+
+        <div class="time">
+
+            <!-- 倒计时 距离本期结束 -->
+            <h3>距离本期结束</h3>
+            <p><span id="d1">0</span><strong>天</strong><span id="h1">0</span><strong>小时</strong><span id="m1">0</span><strong>分</strong><span id="s1">0</span><strong>秒</strong></p>
+            <script type="text/javascript">
+                tms[tms.length] = "14200020";
+                day[day.length] = "d1";
+                hour[hour.length] = "h1";
+                minute[minute.length] = "m1";
+                second[second.length] = "s1";
+            </script>
+        </div>
+        <div class="require">
+            <h3>本商品已被团购                            <em>
+                1                            </em>
+                件</h3>
+            <p>数量有限请您尽快下单</p>
+        </div>
+    </div>
+    <div class="pic"><span class="thumb"><i></i><img src="images/176ef2fe9f642f292cd1f03fa12ad814.jpg_small.jpg" alt="" onload="javascript:DrawImage(this,480,350);"></span></div>
+</div>
+<div class="content">
+<div class="side-left">
+    <div class="intro"><h3>商品信息</h3><div><img src="images/4b31a940c3acd55c40658565fb08c0ad.jpg_max.jpg" /></div></div>
+    <div class="buyer"><h3>他们已经买了</h3><table width="100%" border="0" cellspacing="0" cellpadding="0"><thead><tr>
+        <th width="25%" style="text-align:center">买家</th>
+        <th width="15%" style="text-align:center">购买数量</th>
+        <th width="15%" style="text-align:center">单价</th>
+        <th style="text-align:center">下单时间</th>
+    </tr></thead><tbody>
+    <tr>
+        <td>q123***</td>
+        <td>1</td>
+        <td>&yen;69.00</td>
+        <td>2013-07-10 17:28:16</td>
+    </tr>
+    <tr>
+        <td>冷漠***</td>
+        <td>18</td>
+        <td>&yen;69.00</td>
+        <td>2013-05-26 22:11:33</td>
+    </tr>
+    <tr>
+        <td>lxy0***</td>
+        <td>1</td>
+        <td>&yen;69.00</td>
+        <td>2013-05-26 21:00:55</td>
+    </tr>
+    <tr>
+        <td>tuld***</td>
+        <td>1</td>
+        <td>&yen;69.00</td>
+        <td>2013-05-18 10:45:24</td>
+    </tr>
+    <tr>
+        <td>liyu***</td>
+        <td>1</td>
+        <td>&yen;69.00</td>
+        <td>2013-05-15 16:12:08</td>
+    </tr>
+    <tr>
+        <td>jerr***</td>
+        <td>1</td>
+        <td>&yen;69.00</td>
+        <td>2013-05-10 12:04:02</td>
+    </tr>
+    <tr>
+        <td>狐狸***</td>
+        <td>1</td>
+        <td>&yen;69.00</td>
+        <td>2013-01-22 13:02:05</td>
+    </tr>
+    <tr>
+        <td>zhen***</td>
+        <td>1</td>
+        <td>&yen;69.00</td>
+        <td>2012-12-21 10:48:07</td>
+    </tr>
+    <tr>
+        <td>zhen***</td>
+        <td>1</td>
+        <td>&yen;69.00</td>
+        <td>2012-12-21 10:17:38</td>
+    </tr>
+    <tr>
+        <td>zhen***</td>
+        <td>1</td>
+        <td>&yen;69.00</td>
+        <td>2012-12-21 10:17:14</td>
+    </tr>
+    <tr>
+        <td>zhen***</td>
+        <td>1</td>
+        <td>&yen;69.00</td>
+        <td>2012-12-20 15:51:52</td>
+    </tr>
+    <tr>
+        <td>zhen***</td>
+        <td>1</td>
+        <td>&yen;69.00</td>
+        <td>2012-12-20 15:51:01</td>
+    </tr>
+    <tr>
+        <td>1988***</td>
+        <td>1</td>
+        <td>&yen;69.00</td>
+        <td>2012-10-31 14:42:15</td>
+    </tr>
+    <tr>
+        <td>caic***</td>
+        <td>1</td>
+        <td>&yen;69.00</td>
+        <td>2012-10-26 16:00:40</td>
+    </tr>
+    <tr>
+        <td>test***</td>
+        <td>1</td>
+        <td>&yen;69.00</td>
+        <td>2012-09-29 22:09:43</td>
+    </tr>
+    <tr>
+        <td>1111***</td>
+        <td>1</td>
+        <td>&yen;69.00</td>
+        <td>2012-09-25 20:02:59</td>
+    </tr>
+    <tr>
+        <td>1111***</td>
+        <td>1</td>
+        <td>&yen;69.00</td>
+        <td>2012-09-22 23:31:33</td>
+    </tr>
+    <tr>
+        <td>otuo***</td>
+        <td>1</td>
+        <td>&yen;69.00</td>
+        <td>2012-09-04 10:15:03</td>
+    </tr>
+    <tr>
+        <td>otuo***</td>
+        <td>1</td>
+        <td>&yen;69.00</td>
+        <td>2012-09-04 10:14:54</td>
+    </tr>
+    <tr>
+        <td>cats***</td>
+        <td>1</td>
+        <td>&yen;69.00</td>
+        <td>2012-08-09 17:25:30</td>
+    </tr>
+    </tbody>
+        <tfoot><tr><td colspan="4">
+            <span>&yen;69.00</span>
+            <a href="goods-84.html" target="_blank"><em>立即购买</em></a>
+        </td></tr></tfoot>
+    </table>
+    </div></div>
+<div class="store">
+    <!-- 店铺信息 -->
+    <h3>店铺信息</h3>
+    <dl>
+        <dt>商品所在店铺</dt>
+        <dd class="store-name"><a href="store-2.html" target="_blank">极限运动基地</a></dd>
+    </dl>
+    <!-- 店铺推荐商品 -->
+    <dl>
+        <dt>店铺推荐商品</dt>
+        <dd>
+            <p class="pic">
+                        <span class="thumb size120"><i></i>
+                            <a href="goods-231.html" target="_blank">
+                                <img src="images/default_goods_image.gif_small.gif" onload="javascript:DrawImage(this,120,120);"></a>
+                        </span>
+            </p>
+            <p class="name"><a href="goods-231.html" target="_blank">1132# 印花 包臀 短裙 半身裙</a></p>
+            <p class="store_price">商城价：<span>&yen;29.00</span></p>
+        </dd>
+        <dd>
+            <p class="pic">
+                        <span class="thumb size120"><i></i>
+                            <a href="goods-233.html" target="_blank">
+                                <img src="images/default_goods_image.gif_small.gif" onload="javascript:DrawImage(this,120,120);"></a>
+                        </span>
+            </p>
+            <p class="name"><a href="goods-233.html" target="_blank">5656565</a></p>
+            <p class="store_price">商城价：<span>&yen;1000.00</span></p>
+        </dd>
+        <dd>
+            <p class="pic">
+                        <span class="thumb size120"><i></i>
+                            <a href="goods-235.html" target="_blank">
+                                <img src="images/default_goods_image.gif_small.gif" onload="javascript:DrawImage(this,120,120);"></a>
+                        </span>
+            </p>
+            <p class="name"><a href="goods-235.html" target="_blank">test</a></p>
+            <p class="store_price">商城价：<span>&yen;100.00</span></p>
+        </dd>
+        <dd>
+            <p class="pic">
+                        <span class="thumb size120"><i></i>
+                            <a href="goods-236.html" target="_blank">
+                                <img src="images/default_goods_image.gif_small.gif" onload="javascript:DrawImage(this,120,120);"></a>
+                        </span>
+            </p>
+            <p class="name"><a href="goods-236.html" target="_blank">12121212</a></p>
+            <p class="store_price">商城价：<span>&yen;100.00</span></p>
+        </dd>
+        <dd>
+            <p class="pic">
+                        <span class="thumb size120"><i></i>
+                            <a href="goods-237.html" target="_blank">
+                                <img src="images/default_goods_image.gif_small.gif" onload="javascript:DrawImage(this,120,120);"></a>
+                        </span>
+            </p>
+            <p class="name"><a href="goods-237.html" target="_blank">111111111111</a></p>
+            <p class="store_price">商城价：<span>&yen;22222.00</span></p>
+        </dd>
+        <dd>
+            <p class="pic">
+                        <span class="thumb size120"><i></i>
+                            <a href="goods-234.html" target="_blank">
+                                <img src="images/default_goods_image.gif_small.gif" onload="javascript:DrawImage(this,120,120);"></a>
+                        </span>
+            </p>
+            <p class="name"><a href="goods-234.html" target="_blank">中华人民共和国</a></p>
+            <p class="store_price">商城价：<span>&yen;22.00</span></p>
+        </dd>
+        <dd>
+            <p class="pic">
+                        <span class="thumb size120"><i></i>
+                            <a href="goods-232.html" target="_blank">
+                                <img src="images/default_goods_image.gif_small.gif" onload="javascript:DrawImage(this,120,120);"></a>
+                        </span>
+            </p>
+            <p class="name"><a href="goods-232.html" target="_blank">1132# 印花 包臀 短裙 半身裙</a></p>
+            <p class="store_price">商城价：<span>&yen;559.00</span></p>
+        </dd>
+        <dd>
+            <p class="pic">
+                        <span class="thumb size120"><i></i>
+                            <a href="goods-83.html" target="_blank">
+                                <img src="http://www.multibuy.cn/upload/store/goods/2/951803703f9d12009f3a29b887aa5460.jpg_small.jpg" onload="javascript:DrawImage(this,120,120);"></a>
+                        </span>
+            </p>
+            <p class="name"><a href="goods-83.html" target="_blank">金士顿TF 8G卡</a></p>
+            <p class="store_price">商城价：<span>&yen;99.00</span></p>
+        </dd>
+        <dd>
+            <p class="pic">
+                        <span class="thumb size120"><i></i>
+                            <a href="goods-84.html" target="_blank">
+                                <img src="http://www.multibuy.cn/upload/store/goods/2/9a52993ed687970a1e012444d2061872.jpg_small.jpg" onload="javascript:DrawImage(this,120,120);"></a>
+                        </span>
+            </p>
+            <p class="name"><a href="goods-84.html" target="_blank">新款鳄鱼恤男式钱包 进口二层牛皮男皮夹钱包</a></p>
+            <p class="store_price">商城价：<span>&yen;198.00</span></p>
+        </dd>
+    </dl>
+</div>
+</div>
+</div>
+</div>
+<div class="right2"><div class="group-hot">
+    <div class="module_sidebar">
+        <h2 style=" font-size: 14px; color: #C00;">本期热门团购</h2>
+        <ul>
+            <li style=' border:none' ><div class="name"><a href="groupbuy-2-2.html" target="_blank">新款鳄鱼恤男式钱包 进口二层牛皮男皮夹钱包</a></div>
+                <div class="box">
+                    <div class="price"><span class="l">&yen;69.00</span><span class="r">&yen;298.00</span></div>
+                    <div class="mask"></div>
+                    <div class="pic"><span class="thumb size168x123"><i></i><a href="groupbuy-2-2.html" target="_blank"><img src="images/176ef2fe9f642f292cd1f03fa12ad814.jpg_small.jpg" alt="" onload="javascript:DrawImage(this,168,123);"></a></span></div>
+                </div>
+                <div class="info"><span>已购买<em>
+                    1        </em>件</span><a href="groupbuy-2-2.html" target="_blank">去看看</a></div>
+            </li>
+            <li  ><div class="name"><a href="groupbuy-1-2.html" target="_blank">【爆款团购】A团金士顿TF 8G卡B团16G TF卡C团8G</a></div>
+                <div class="box">
+                    <div class="price"><span class="l">&yen;69.00</span><span class="r">&yen;119.00</span></div>
+                    <div class="mask"></div>
+                    <div class="pic"><span class="thumb size168x123"><i></i><a href="groupbuy-1-2.html" target="_blank"><img src="images/b9b56b145b4a2a2c8b6ecaf382a30e9e.jpg_small.jpg" alt="" onload="javascript:DrawImage(this,168,123);"></a></span></div>
+                </div>
+                <div class="info"><span>已购买<em>
+                    0        </em>件</span><a href="groupbuy-1-2.html" target="_blank">去看看</a></div>
+            </li>
+        </ul>
+    </div></div>
+    <div class="group-top10">
+        <div class="module_sidebar">
+            <h2 style=" font-size: 14px; color: #C00;">往期热销排行</h2>
+            <ol>
+            </ol>
+        </div></div>
+</div>
+</div>
+<div class="clear"></div>

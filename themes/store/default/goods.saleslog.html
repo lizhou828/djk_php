@@ -1,0 +1,247 @@
+{include file="header.html"}
+
+{include file="top.html"}
+
+<script type="text/javascript">
+
+
+//    var SITE_URL = "http://localhost";
+    //<!CDATA[
+    /* buy */
+    function buy(type) {
+        var B = false;
+        $('ul[nctyle="ul_sign"]').each(function () {
+            if (!$(this).find('a').hasClass('hovered')) {
+                B = true;
+            }
+        });
+        if (goodsspec.getSpec() == null || B) {
+            alert('请选择相关规格');
+            return;
+        }
+        var spec_id = goodsspec.getSpec().id;
+        var quantity = parseInt($("#quantity").val());
+        if (!quantity >= 1) {
+            alert("请填写购买数量");
+            $("#quantity").val('1');
+            return;
+        }
+        max = parseInt($('[nctype="goods_stock"]').text());
+        if (quantity > max) {
+            alert("您购买的商品数量，超出了该商品库存，请您重新选择商品数量");
+            return;
+        }
+        switch (type) {
+            case 'groupbuy' :
+                buynow(spec_id, quantity, "groupbuy");
+                break;
+            case 'buynow':
+                buynow(spec_id, quantity, 'buynow');
+                break;
+            default:
+                add_to_cart(spec_id, quantity);
+                break;
+        }
+    }
+    // 立即购买js
+    function buynow(spec_id, quantity, type) {
+        login_dialog();
+    }
+    var specs = new Array();
+    <!--{foreach from=$goods._specs item=spec}-->
+    specs.push(new spec({$spec.spec_id}, '{$spec.spec_1|escape}', '{$spec.spec_2|escape}',{$spec.price},{$spec.stock}));
+    <!--{/foreach}-->
+    var specQty ={$goods.spec_qty};
+    var defSpec ={$goods.default_spec|escape};
+    var goodsspec = new goodsspec(specs, specQty, defSpec);
+    //]]>
+</script>
+<article id="content">
+<section class="nc-detail">
+<header class="nc-detail-hd clearfix">
+    <h3>{$goods.goods_name|escape}</h3>
+
+   <!-- <div class="nc-inform"><span><a href="javascript:void(0)" title="举报中心">举报中心<i></i></a></span>
+        <ul>
+            <li><a href="index.php?act=member_inform&op=inform_submit&goods_id=184" title="举报该商品">举报该商品</a></li>
+        </ul>
+    </div>-->
+</header>
+<div class="nc-detail-bd">
+    {include file=goodsinfo.html}
+<!--S 店铺信息-->
+<div class="ncg-info">
+    <!--店铺基本信息 S-->
+
+    <div style="height: 420px;">
+        <div class="ncs-info clearfix">
+            <div class="shop-card">
+                <h4>{$store.store_name|escape}</h4>
+                <dl>
+                    <dt><a href="{url app=store&id=$store.store_id}"><img src="{$store.store_logo}" class="size60"
+                                                                          title="{$store.store_owner.user_name|escape}" alt="{$store.store_owner.user_name|escape}"/></a></dt>
+                    <dd><a href="" class="shopkeeper">{$store.store_owner.user_name|escape}</a> <a href="{r_url app=message&act=send&to_id=$store.store_owner.user_id|escape}"
+                                                                                                   class="message text-hidden" title="发站内信">发站内信</a></dd>
+                    <dd class="ncs-level">
+                        <span class="seller-crown level-5"></span>
+                    </dd>
+                    <dd><span>好评率：</span>{$store.praise_rate}%</dd>
+                </dl>
+            </div>
+            <!--<div class="shop-rate">-->
+            <!--<h4>动态评价</h4>-->
+            <!--&lt;!&ndash; 动态评价 &ndash;&gt;-->
+            <!--<dl class="rate">-->
+            <!--<dt>描述相符：</dt>-->
+            <!--<dd class="rate-star"><em><i style=" width: 80%;"></i></em><span>4分</span></dd>-->
+            <!--<dt>服务态度：</dt>-->
+            <!--<dd class="rate-star"><em><i style=" width: 80%;"></i></em><span>4分</span></dd>-->
+            <!--<dt>发货速度：</dt>-->
+            <!--<dd class="rate-star"><em><i style=" width: 74%;"></i></em><span>3.7分</span></dd>-->
+            <!--</dl>-->
+            <!--</div>-->
+            <div class="shop-detail">
+                <h4>店铺信息</h4>
+                <!-- 店铺信息 -->
+                <dl>
+                    <dt>{$lang.store_add_time}：</dt>
+                    <dd>{$store.add_time|date}</dd>
+                    <dt>{$lang.region}：</dt>
+                    <dd>{$store.region_name|escape}</dd>
+                    <dt>{$lang.goods_count}：</dt>
+                    <dd><strong>{$store.goods_count}</strong>件商品</dd>
+                    <dt>{$lang.credit_value}：</dt>
+                    <dd>{$store.credit_value}
+                        <!--{if $store.credit_value ge 0}--><!--{/if}--></dd>
+                    <!--详细地址       <dt>详细地址：</dt>
+              <dd>朝阳门外大街8号</dd>
+              -->
+                    <!--联系电话       <dt>联系电话：</dt>
+                    <dd>010-58214000</dd>
+                    -->
+
+                </dl>
+            </div>
+            <div class="shop-im">
+                <a href="javascript:zxkf('{$store.store_id}')"> <img border="0" src="{res file=images/online.aw.gif}" alt="点击这里给我发消息" style=" vertical-align: middle;"/></a>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <!--店铺基本信息 E-->
+    <script type="text/javascript">
+        /* var cityName = "北京市";
+         var address = "朝阳门外大街8号";
+         var store_name = "创时装-NC服装旗舰店";
+         var map = "";
+         var localCity = "";
+         function initialize() {
+         map = new BMap.Map("map_container");
+         localCity = new BMap.LocalCity();
+
+         map.enableScrollWheelZoom();
+         localCity.get(function (cityResult) {
+         if (cityResult) {
+         var level = cityResult.level;
+         if (level < 13) level = 13;
+         map.centerAndZoom(cityResult.center, level);
+         cityResultName = cityResult.name;
+         if (cityResultName.indexOf(cityName) >= 0) cityName = cityResult.name;
+         getPoint();
+         }
+         });
+         }
+         */
+        <!--function loadScript() {-->
+        <!--var script = document.createElement("script");-->
+        //<!--script.src = "http://api.map.baidu.com/api?v=1.2&callback=initialize";-->
+        <!--document.body.appendChild(script);-->
+        <!--}-->
+        <!--function getPoint() {-->
+        <!--var myGeo = new BMap.Geocoder();-->
+        <!--myGeo.getPoint(address, function (point) {-->
+        <!--if (point) {-->
+        <!--setPoint(point);-->
+        <!--}-->
+        <!--}, cityName);-->
+        <!--}-->
+        <!--function setPoint(point) {-->
+        <!--if (point) {-->
+        <!--map.centerAndZoom(point, 16);-->
+        <!--var marker = new BMap.Marker(point);-->
+        <!--map.addOverlay(marker);-->
+        <!--}-->
+        <!--}-->
+
+        // 当鼠标放在店铺地图上再加载百度地图。-->
+        <!--$(function () {-->
+        <!--$('.ncs-info-btn-map').one('mouseover', function () {-->
+        <!--loadScript();-->
+        <!--});-->
+        <!--});-->
+    </script>
+</div>
+<!--E 店铺信息 -->
+</div>
+<div class="clear"></div>
+</section>
+
+
+<section class="nc-promotion" style="display:none;">
+    <!--S 组合销售 -->
+    <div class="nc-bundling" id="nc-bundling" style="display:none;">
+    </div>
+    <!--E 组合销售 -->
+    <!--S 满就送 -->
+    <!--E 满就送 -->
+</section>
+<section class="layout expanded">
+<article class="nc-goods-main" id="main-nav-holder">
+    <nav class="tabbar pngFix" id="main-nav">
+        <div class="pr" style="z-index: 70;">
+            <a name="module" style=""></a>
+            <ul id="categorymenu">
+                <li ><a id="tabGoodsIntro" href="{r_url app=goods&id=$goods.goods_id}#module"><span>{$lang.goods_detail}</span></a></li>
+                <li><a id="tabGoodsRate" href="{r_url app=goods&act=comments&id=$goods.goods_id}#module"><span>{$lang.goods_comment}</span></a></li>
+                <li class="current"><a id="tabGoodsTraded" href="{r_url app=goods&act=saleslog&id=$goods.goods_id}#module"><span>{$lang.sales_log}</span></a></li>
+                <li><a id="tabGuestbook" href="{r_url app=goods&act=qa&id=$goods.goods_id}#module"><span>{$lang.qa}</span></a></li>
+            </ul>
+            <div class="switch-bar"><a href="javascript:void(0)" id="abc">&nbsp;</a></div>
+            <div class="gotop"><a href="#header">&nbsp;</a></div>
+        </div>
+    </nav>
+   <!-- <section class="nc-s-c-s4 ncg-intro">
+        <div class="content bd" id="ncGoodsIntro">
+            <ul class="nc-goods-sort">
+                <li>品牌：{$goods.brand}</li>
+                &lt;!&ndash;<li>款式：</li>
+                <li>材质：纯棉</li>
+                <li>衣长：短款（衣长35-50CM）</li>&ndash;&gt;
+            </ul>
+            <div class="default">{$goods.description|escape:editor}</div>
+        </div>
+    </section>-->
+    {include file=saleslog.html}
+</article>
+
+    <aside class="nc-sidebar">
+        {include file="left.html"}
+    </aside>
+</section>
+</article>
+<form id="groupbuy_form" method="get" action="http://www.multibuy.cn/index.php?act=show_groupbuy&op=groupbuy_buy">
+    <input id="act1" name="act" type="hidden" value="show_groupbuy"/>
+    <input id="op" name="op" type="hidden" value="groupbuy_buy"/>
+    <input id="group_id" name="group_id" type="hidden" value=""/>
+    <input id="groupbuy_spec_id" name="groupbuy_spec_id" type="hidden"/>
+    <input id="groupbuy_quantity" name="groupbuy_quantity" type="hidden"/>
+</form>
+<form id="buynow_form" method="get" action="http://www.multibuy.cn/index.php?act=buynow">
+    <input id="act" name="act" type="hidden" value="buynow"/>
+    <input id="buynow_spec_id" name="buynow_spec_id" type="hidden"/>
+    <input id="buynow_quantity" name="buynow_quantity" type="hidden" value='1'/>
+</form>
+
+<div class="clear"></div>
+{include file=footer.html}
+

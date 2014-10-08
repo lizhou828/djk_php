@@ -1,0 +1,371 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>订单支付</title>
+    <link href="{$site_url}/weixin/templates/style/com.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/hone.css" rel="stylesheet" type="text/css" />
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            var payStatus = "{$code}";
+//            alert("payStatus="+payStatus+typeof payStatus);
+            if(payStatus == true || payStatus == "true" || payStatus =="1"){
+                alert("支付成功");
+            }
+            $("#choose_koushui_yue").bind("click",function(){
+                var code = 1;
+                selectYue(code);
+            });
+            $("#choose_un_koushui_yue").bind("click",function(){
+                var code = 2;
+                selectYue(code);
+            });
+        });
+        function  payByZhifubao(){
+            var use_koushui_yue = $("#use_koushui_yue").val();
+            var use_unkoushui_yue = $("#use_unkoushui_yue").val();
+            var is_enough_pay = $("#is_enough_pay").val();
+            var payMethodName = $("#payMethodName").html();
+            payMethodName = payMethodName.trim();
+            var payMethodCode = $("#payMethodCode").val();
+
+            //选了不够支付
+            if(is_enough_pay =="false" && ( use_unkoushui_yue=="true" || use_koushui_yue=="true") ){
+                choose_pay_method();
+            //没选
+            }else if(is_enough_pay =="false" && use_unkoushui_yue=="false" && use_koushui_yue=="false"){
+                choose_pay_method()
+            }else if(payMethodName=="请选择" || !payMethodCode || payMethodCode==null || payMethodCode=="" ){
+                choose_pay_method();
+            }
+        }
+
+        function selectYue(code){
+            var orderAmountAll = $("#orderAmountAll").html();
+            orderAmountAll = parseFloat(orderAmountAll);
+            var unkoushui_yue = $("#unkoushui_yue").val();
+            var koushui_yue = $("#koushui_yue").val();
+            unkoushui_yue = parseFloat(unkoushui_yue);
+            koushui_yue = parseFloat(koushui_yue);
+
+
+
+            if(code=="1"){
+                if($("#use_koushui_yue").val()=="true"){
+                    $("#use_koushui_yue").val("false");
+                    $("#koushui_yue_img").attr("src","{$site_url}/weixin/templates/images/tt6.png");
+                    $("#choose_koushui_yue").css({"color":"#999999"})
+                }else{
+                    //假如扣税账户足够支付，则把不扣税账户变灰色
+                    if($("#is_enough_pay").val()=="true" && $("#use_unkoushui_yue").val()=="true" ){
+                        $("#use_unkoushui_yue").val("false");
+                        $("#un_koushui_yue_img").attr("src","{$site_url}/weixin/templates/images/tt6.png");
+                        $("#choose_un_koushui_yue").css({"color":"#999999"})
+                    }
+                    $("#use_koushui_yue").val("true");
+                    $("#koushui_yue_img").attr("src","{$site_url}/weixin/templates/images/tt7.png");
+                    $("#choose_koushui_yue").css({"color":"#333333"})
+                }
+            } else if(code == "2") {
+                if($("#use_unkoushui_yue").val()=="true"){
+                    $("#use_unkoushui_yue").val("false");
+                    $("#un_koushui_yue_img").attr("src","{$site_url}/weixin/templates/images/tt6.png");
+                    $("#choose_un_koushui_yue").css({"color":"#999999"})
+                }else{
+                    //假如不扣税账户足够支付，则把扣税账户变灰色
+                    if($("#is_enough_pay").val()=="true" && $("#use_koushui_yue").val()=="true" ){
+                        $("#use_koushui_yue").val("false");
+                        $("#koushui_yue_img").attr("src","{$site_url}/weixin/templates/images/tt6.png");
+                        $("#choose_koushui_yue").css({"color":"#999999"})
+                    }
+                    $("#use_unkoushui_yue").val("true");
+                    $("#un_koushui_yue_img").attr("src","{$site_url}/weixin/templates/images/tt7.png");
+                    $("#choose_un_koushui_yue").css({"color":"#333333"})
+                }
+            }
+            var use_koushui_yue = $("#use_koushui_yue").val();
+            var use_unkoushui_yue = $("#use_unkoushui_yue").val();
+//            alert(use_koushui_yue+","+use_unkoushui_yue);
+            if(use_koushui_yue =="true" ||  use_unkoushui_yue =="true"){
+                $("#payPasswordDIV").css({"display":"block"});
+            }else{
+                $("#payPasswordDIV").css({"display":"none"});
+            }
+            //判断是否足够支付
+            if( isEnoughPay(orderAmountAll,getSelectYue() )){
+                $("#is_enough_pay").val("true");
+            }else{
+                $("#is_enough_pay").val("false");
+            }
+
+
+            var orderNeedToPay=$("#orderNeedToPay").html();
+            orderNeedToPay = parseFloat(orderNeedToPay);
+            var stillNeedToPay = null ;
+            if( getSelectYue() >= orderNeedToPay){
+                stillNeedToPay = parseFloat(orderNeedToPay);
+            }else{
+                stillNeedToPay = parseFloat(getSelectYue());
+                var otherWayToPay =   orderNeedToPay - getSelectYue();
+                otherWayToPay = ((otherWayToPay*100).toFixed(2))/100;
+                $("#otherWayToPay").html(otherWayToPay);
+            }
+            stillNeedToPay = parseFloat(stillNeedToPay);
+            $("#chooseToPay").html(stillNeedToPay);
+
+
+            if( $("#is_enough_pay").val() == "false" ){
+                $("#stillNeedToPayMessage").css({"display":"block"});
+                $("#payByZhifubao").css({"display":"block"});
+            }else{
+                $("#alreadyPay").html(orderAmountAll);
+                $("#stillNeedToPayMessage").css({"display":"block"});
+                $("#stillNeedToPayDIV").css({"display":"none"});
+                $("#payByZhifubao").css({"display":"none"});
+            }
+
+        }
+        function isEnoughPay(_orderAmountAll,_yue){
+//            alert("_orderAmountAll="+_orderAmountAll+typeof _orderAmountAll);
+//            alert("_yue="+_yue+typeof _yue);
+            if(_yue >= _orderAmountAll){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        function getSelectYue(){
+            var unkoushui_yue = $("#unkoushui_yue").val();
+            var koushui_yue = $("#koushui_yue").val();
+            unkoushui_yue = parseFloat(unkoushui_yue);
+            koushui_yue = parseFloat(koushui_yue);
+            var yue = 0;
+            if( $("#use_koushui_yue").val()=="true"){
+                yue += koushui_yue;
+            }
+            if( $("#use_unkoushui_yue").val()=="true"){
+                yue +=unkoushui_yue;
+            }
+            return yue;
+        }
+
+        function confirm_pay_order(orderSnAll){
+            var orderAmountAll = $("#orderAmountAll").html();
+            orderAmountAll = parseFloat(orderAmountAll);
+            var unkoushui_yue = $("#unkoushui_yue").val();
+            var koushui_yue = $("#koushui_yue").val();
+
+            var use_koushui_yue = $("#use_koushui_yue").val();
+            var use_unkoushui_yue = $("#use_unkoushui_yue").val();
+            var is_enough_pay = $("#is_enough_pay").val();
+
+            var payMethodName = $("#payMethodName").html();
+            payMethodName = payMethodName.trim();
+            var payMethodCode = $("#payMethodCode").val();
+
+            var password2 = $("#password2").val();
+            var user_password2 = '{$user.password2}'
+            if(use_koushui_yue=="true" || use_unkoushui_yue =="true"){
+                if( !user_password2 || user_password2==null || user_password2==""){
+                    if(confirm("您还未开通支付密码,现在开通吗?")){
+                        window.location = '{$site_url}/weixin/index.php?app=member_safecenter&act=setPayPassword';
+                    }
+                    return;
+                }
+                if (  password2 && ( password2 == null || password2 == "") ) {
+                    alert("支付密码不允许为空，请重新输入！");
+                    return;
+                }
+                var currentUrl = "{$site_url}/weixin/index.php?app=member_order&act=validatePayPassword";
+                var data = "userId=" + '{$user.user_id}' + "&password2=" + password2;
+                $.ajax({
+                    url:currentUrl,
+                    cache:false,
+                    type:"post",
+                    data:data,
+                    success:function (callBackResult) {
+                        callBackResult = eval("("+callBackResult+")");
+//                        alert(callBackResult.retval+","+callBackResult.msg);
+                        if( callBackResult.retval == 1){
+                            if( use_koushui_yue == "true" || use_unkoushui_yue=='true'){
+                                window.location="{$site_url}/weixin/index.php?app=member_order&act=pay&orderSn="+orderSnAll+
+                                        "&useYue="+ use_unkoushui_yue + "&useKoushuiYue="+use_koushui_yue+"&userId="+'{$user.user_id}'+"&is_enough_pay="+is_enough_pay+
+                                        "&payMethodName="+payMethodName+"&payMethodCode="+payMethodCode;
+                                pay_waiting();
+                            }else if(payMethodName =="支付宝" && payMethodCode && payMethodCode=="ZHIFUBAO"){
+                                window.location = "{$site_url}/weixin/index.php?app=member_order&act=alliyPay&orderSn={$orderAll.orderSnAll}";
+                            }else if(payMethodName =="银联手机支付" && payMethodCode && payMethodCode=="unionPay"){
+                                window.location = "{$site_url}/weixin/index.php?app=member_order&act=unionPay&orderSn={$orderAll.orderSnAll}";
+                            }else{
+                                alert("您未选择支付方式！");
+                            }
+                        }else{
+                            alert(callBackResult.msg);
+                            return;
+                        }
+                    }
+                })
+            }else if(payMethodName =="支付宝" && payMethodCode && payMethodCode=="ZHIFUBAO"){
+                window.location = "{$site_url}/weixin/index.php?app=member_order&act=alliyPay&orderSn={$orderAll.orderSnAll}";
+            }else if(payMethodName =="银联手机支付" && payMethodCode && payMethodCode=="unionPay"){
+                window.location = "{$site_url}/weixin/index.php?app=member_order&act=unionPay&orderSn={$orderAll.orderSnAll}";
+            }else{
+                alert("您未选择支付方式！");
+                return;
+            }
+        }
+
+        function order_detail(order_id){
+            if(!order_id || order_id==null || order_id=="" || typeof order_id =="undefined"){
+                alert("订单号错误!");
+            }else{
+                window.location="{$site_url}/weixin/index.php?app=member_order&act=detail&order_id="+order_id+"&type=buyer";
+            }
+
+        }
+    </script>
+</head>
+<body>
+<div style="width: 320px;margin: 0px auto;padding-top: 50px;">
+    <div class="enter-t">
+        <a href="javascript:history.go(-1)"><div class="enter-t1">返回</div></a>
+        <div class="enter-t222">订单支付</div>
+        <a href="{$site_url}/weixin/index.php?app=member">
+            <div class="enter-t3" style="width:61px;background: url('{$site_url}/weixin/templates/images/address-bg.jpg') no-repeat scroll 0 0 rgba(0, 0, 0, 0); ">
+                会员中心
+            </div>
+        </a>
+    </div>
+    <div class="enter-bg">
+        <input type="hidden" id="use_koushui_yue" value="false"/>
+        <input type="hidden" id="use_unkoushui_yue" value="false"/>
+        <input type="hidden" id="is_enough_pay" value="false"/>
+        <div class="zhifu">
+            <p>
+                订单号 :<br/>
+                {foreach from=$orderAll.orders item=order}
+                    <div style="width: 297px;height: 20px;margin-top: 10px;">
+                    <span style="cursor: pointer" onclick="order_detail('{$order.order_id}')">{$order.order_sn}
+                        <span style="float: right">
+                            {$order.order_amount|number2}元&nbsp;&nbsp;&nbsp;&nbsp;>
+                        </span>
+                        </span>
+                    </div>
+                {/foreach}
+            </p>
+            <br/>
+            <p>订单总金额：<s id="orderAmountAll">{$orderAll.orderAmount}</s><s> 元</s></p>
+            {if $orderAll.orderAlreadyPay && $orderAll.orderAlreadyPay> 0}
+                <p style="display: none">已支付：<s id="orderAlreadyPay">{$orderAll.orderAlreadyPay}</s><s> 元</s></p>
+            {/if}
+            {if $orderAll.orderStillNeedToPay && floatval($orderAll.orderStillNeedToPay) > 0 }
+                <p style="display: none">还需支付：<s id="orderNeedToPay">{$orderAll.orderStillNeedToPay}</s><s> 元</s></p>
+            {/if}
+        </div>
+
+
+        {if $orderAll.orderStillNeedToPay && floatval($orderAll.orderStillNeedToPay) > 0 }
+
+
+    {if false}
+
+            { if $member_finance.koushui_yue  && floatval($member_finance.koushui_yue) > 0}
+                <div id="choose_koushui_yue"  class="zhifu1" style="cursor: pointer">
+                    <span ><img id="koushui_yue_img" src="{$site_url}/weixin/templates/images/tt6.png"></span>
+                    可用收益账户余额：{$member_finance.koushui_yue|number2}元
+                    <input type="hidden" id="koushui_yue" value="{$member_finance.koushui_yue}"/>
+                </div>
+            {/if}
+            { if $member_finance.unkoushui_yue  && floatval($member_finance.unkoushui_yue) > 0}
+                <div id="choose_un_koushui_yue" class="zhifu1" style="cursor: pointer">
+                    <span ><img id="un_koushui_yue_img" src="{$site_url}/weixin/templates/images/tt6.png"></span>
+                    可用营业额/充值余额：{$member_finance.unkoushui_yue|number2}元
+                    <input type="hidden" id="unkoushui_yue" value="{$member_finance.unkoushui_yue}"/>
+                </div>
+            {/if}
+
+            {if  !$user.password2 ||  $user.password2==null ||$user.password2==''}
+                <div class="zhifu2">为保障您的账户资金安全，余额暂不可用，请先<br />
+                    <a href="{$site_url}/weixin/index.php?app=member_safecenter&act=setPayPassword"><span>[开启支付密码]</span></a>
+                </div>
+            {/if}
+
+
+            { if floatval($member_finance.unkoushui_yue) > 0 || floatval($member_finance.koushui_yue) > 0}
+                {if  $user.password2 &&  $user.password2 != null && $user.password2 != ''}
+                    <div class="zhifu5" id="payPasswordDIV" style="display: none">
+                            <span style="width: 60px;height:28px;float: left;">支付密码:
+                            </span>
+                            <span>
+                                <input  onblur="if(this.value==''){this.value='';this.style.color='#666'}"
+                                        onfocus="if(this.value==''){this.value='';this.style.color='#333'}"
+                                        value="" name="password2" id="password2" type="password" style="width: 120px;" />
+                            </span>
+                            <a href="{$site_url}/weixin/index.php?app=member_safecenter&act=setPayPassword" style="color: red;float: right;margin-right: 10px;">忘记支付密码?</a>
+                    </div>
+                {/if}
+            {/if}
+
+                { if floatval($member_finance.unkoushui_yue) <= 0 && floatval($member_finance.koushui_yue) <= 0}
+                    <div style="font-size: 14px;margin-bottom: 40px;margin-top: 40px;">
+                        您的账户(<span style="color: red">{$user.user_name}</span>)没有余额可用来支付，请使用其他方式付款！
+                    </div>
+                {/if}
+
+                <div id="stillNeedToPayMessage" style="font-size: 14px;margin-bottom: 40px;margin-top: 40px;display: none">
+                    您已选择余额支付 (<span id="chooseToPay" style="color: red"></span>) 元
+                    <span id="stillNeedToPayDIV"> ，您还可以选择其它方式付款。</span>
+                </div>
+
+    {/if}
+
+                    <div id="payByZhifubao" class="zhifu3" style="cursor: pointer" onclick="payByZhifubao()">
+                        <span><strong>></strong></span>
+                        <span id="payMethodName">{if $payMethodName} {$payMethodName} {else} 请选择 {/if} </span>
+                        <input type="hidden" id="payMethodCode" name="payMethodCode" {if $payMethodCode } value="{$payMethodCode}" {/if} />
+                        使用其他方式付款：<b style="margin-left: 10px;width: 50px;color: red" id="otherWayToPay" >{$orderAll.orderStillNeedToPay|number2}</b>元
+                    </div>
+
+
+
+                <form name="yuePayForm" id="yuePayForm" method="post" action="">
+                    <input type="hidden" name="userId" id="userId" value="{$user.user_id}">
+                        <div class="zhifu4" id="confirm_pay_order" style="cursor: pointer" onclick="confirm_pay_order('{$orderAll.orderSnAll}')">确认付款</div>
+                </form>
+
+        {else}
+            <div style="font-size: 14px;text-align: center;margin-bottom: 30px;margin-top: 30px;">您已经支付过该订单!</div>
+        {/if}
+
+    </div>
+{include file=cnzz.html}
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.plugins/jquery.validate.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/dialog/dialog.js" id="dialog_js"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jike.js" ></script>
+<script type="text/javascript">
+    function pay_waiting(){
+        var uri =encodeURI("index.php?app=default&act=waiting");
+        var id = 'waiting';
+        var title = "余额支付";
+        var width = '300';
+        ajax_form(id, title, uri, width);
+    }
+</script>
+<script type="text/javascript">
+    function choose_pay_method(){
+        var uri =encodeURI("index.php?app=member_order&act=payMethod&orderSn={$orderAll.orderSnAll}");
+        var id = 'choose_pay_method';
+        var title = "选择支付方式";
+        var width = '300';
+        ajax_form(id, title, uri, width);
+    }
+</script>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>提现明细</title>
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/binding.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{$SITE_URL}/weixin/templates/js/jquery-1.6.2.min.js"></script>
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+</head>
+<body>
+<div style="width: 320px;margin: 0px auto">
+    <div style="padding-top: 50px;">
+<div class="address-t">
+    <div class="address-l"><a href="javascript:history.go(-1)">返回</a></div>
+    <div class="address-c2" style="padding-left: 55px;">提现明细</div>
+    {include file=member.index_header.html}
+</div>
+<div class="binding-cen">
+    <div class="detail">
+        <div class="detail-t">
+            <ul>
+                <li>提现银行</li>
+            </ul>
+            <ul>
+                <li>提现金额</li>
+            </ul>
+            <ul>
+                <li>提现日期</li>
+            </ul>
+        </div>
+        {if !$tixianLogs || count($tixianLogs) ==0 }
+            <div class="detail-b">
+                <div class="detail-b1" style="width:293px;text-align: center">没有提现记录...</div>
+            </div>
+        {else}
+            {foreach from=$tixianLogs item=tixianLog}
+                <div class="detail-b">
+                    <div class="detail-b1">{$tixianLog.channel_name}</div>
+                    <div class="detail-b2">
+                        <p><strong>{$tixianLog.jine|number2}</strong></p>
+                    </div>
+                    <div class="detail-b3">
+                        <p>{$tixianLog.add_time}</p>
+                    </div>
+                </div>
+            {/foreach}
+            <!--分页开始-->
+                <script type="text/javascript">
+                    function formerPage(curr_page,page_count){
+                        //                alert(curr_page-1);
+                        var page = parseInt(curr_page)-1
+                        if( page> 0 ){
+                            window.location ="{$site_url}/weixin/index.php?app=member_account&act=tixian_detail&page="+page;
+                        }else{
+                            alert("已经到了首页！");
+                            return;
+                        }
+                    }
+                    function nextPage(curr_page,page_count){
+                        var page = parseInt(curr_page)+1;
+                        if(page > page_count){
+                            alert("已经到了最后一页！");
+                        }else{
+                            window.location ="{$site_url}/weixin/index.php?app=member_account&act=tixian_detail&page="+page;
+                        }
+                    }
+                </script>
+
+
+                <div class="Safety-cen-1">
+                    <div class="ddi">
+                        <div class="left" style="width: 235px; padding-left: 75px;">
+                            <a href="javascript:formerPage('{$page.curr_page}','{$page.page_count}')" class="a1" style="margin-right: 20px;"></a>
+                            <a style="float: left; height: 26px; line-height: 26px; font-family: tahoma; font-size: 14px; margin-right: 20px;">{$page.curr_page}/{$page.page_count}</a>
+                            <a href="javascript:nextPage('{$page.curr_page}','{$page.page_count}')" class="a2"></a>
+                        </div>
+                    </div>
+                </div>
+            <!--分页结束-->
+        {/if}
+
+    </div>
+</div>
+    </div>
+</div>
+{include file=cnzz.html}
+</body>
+</html>

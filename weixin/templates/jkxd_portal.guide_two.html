@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>集客小店三大收入来源</title>
+    <link href="{$site_url}/weixin/templates/style/com.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/hone.css" rel="stylesheet" type="text/css" />
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/show_share_button.js"></script>
+</head>
+<body>
+<div style=" width:320px; margin:0px auto;">
+<div class="enter-t">
+    <a href="index.php?app=jkxd_portal">
+        <div class="enter-t1">首页</div></a>
+    <div class="enter-t2">集客小店三大收入来源</div>
+</div>
+<div class="clear"></div>
+<div class="enter-bg">
+    <div class="ess-bg1" style="margin:0px;"><img src="{$site_url}/weixin/templates/style/img/ess-bg4.jpg" width="309" height="231" /></div>
+    <div class="essay1">
+        <h3 style="width:231px;">可获得公司代理商品平台使用费的20%-30%奖励</h3>
+        <dl>
+            <dt>您免费开通一个集客小店，<br />
+                就拥有了数以万计的大集客代理产品<br />
+                库的产品销售权，即获得了一座无需<br />
+                库存的网上百货商城。<br />
+                消费者进入您的集客小店所产生的商<br />
+                品购买行为，您就可以轻松获得该商<br />
+                品平台使用费的20%-30%奖励。</dt>
+            <dd><img src="{$site_url}/weixin/templates/style/img/ess-bg5.jpg" width="108" height="168" /></dd>
+        </dl>
+        <div class="clear"></div>
+    </div>
+    <div class="essay1">
+        <h3 style="width:217px;">可获得自己引进商家平台使用费4%-8%的奖励</h3>
+        <dl>
+            <dt style=" float:right;">供应商通过您的集客小店成功入驻大<br />
+                集客，您就能轻松锁定此商家。此商<br />
+                家的每一笔销售您都能获得现金奖励<br />
+                ，奖励高达8%。<br />
+                此外，您还可以随时查看此商家的订<br />
+                单销售明细，您真是躺着也&quot;赚钱&quot;<br />
+                ！</dt>
+            <dd style=" float:left;"><img src="{$site_url}/weixin/templates/style/img/ess-bg6.jpg" width="108" height="168" /></dd>
+        </dl>
+        <div class="clear"></div>
+    </div>
+    <div class="essay1" style="border:0px;margin-bottom:0px;">
+        <h3 style="width:263px;">可获得自己引进会员的消费额0.4%的现金奖励<br />
+        </h3>
+        <dl>
+            <dt>用户通过您的集客小店<br />
+                成功注册为大集客会员，您就能锁定此会员。<br />
+                此会员的每一笔消费您都能获得现金奖励，奖励达0.4%。<br />
+                最后再提醒您一下：这些都是终身的<br />
+                哦！<br />
+            </dt>
+            <dd><img src="{$site_url}/weixin/templates/style/img/ess-bg7.jpg" width="108" height="168" /></dd>
+        </dl>
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="essay2" style="margin-top:20px;">
+    <p><a href="index.php?app=jkxd_portal&act=guide_one">集客小店是什么</a></p>
+    <p><a href="index.php?app=jkxd_portal&act=guide_three">集客小店开通流程</a></p>
+    <p><a href="index.php?app=jkxd_portal&act=guide_four">集客小店推广攻略</a></p>
+</div>
+<script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+<script type="text/javascript">
+    function apply_jkxd(){
+        $.get('index.php?app=jkxd_portal&act=apply_jkxd',function(data){
+            data = eval("("+data+")");
+            if(data.retval == 0){
+                alert(data.msg);
+            }else if(data.retval==1){
+                window.location='index.php?app=jkxd_portal&act=apply_jkxd_page';
+            }
+        })
+    }
+</script>
+<div class="essay3" style="cursor:pointer" onclick="apply_jkxd()">免费申请开通</div>
+{include file=cnzz.html}
+</div>
+</body>
+</html>

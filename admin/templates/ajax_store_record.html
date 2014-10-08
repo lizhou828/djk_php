@@ -1,0 +1,42 @@
+<table style="margin-left: 100px; width: 1000px;">
+    <!--{if $orders}-->
+    <tr>
+        <td width="20%">订单号</td>
+        <td width="20%">卖家名称</td>
+        <td width="20%">买家名称</td>
+        <td width="10%">订单金额</td>
+        <td width="10%">订单类型</td>
+        <td width="20%">订单时间</td>
+    </tr>
+    <!--{foreach from=$orders item=order}-->
+    <tr>
+        <td>{$order.order_sn}</td>
+        <td>{$order.seller_name}</td>
+        <td>{$order.buyer_name}</td>
+        <td>{$order.order_amount}</td>
+        <td>{if $order.type == 'material'}
+            普通订单
+            {elseif $order.type == 'shop'}
+            集客小店
+            {elseif $order.type == 'mobile'}
+            移动商城
+            {elseif $order.type == 'pos'}
+            pos机刷卡
+            {elseif $order.type == 'weidian'}
+            微店
+            {elseif $order.type == 'vshop'}
+            精品集客小店
+            {elseif $order.type == 'mobile,vshop'}
+            精品集客小店(手机版)
+            {elseif $order.type == 'mobile,shop'}
+            集客小店(手机版)
+            {elseif $order.type == 'two' && $order.is_daifu ==1}
+            二维码(代付)
+            {elseif $order.type == 'two' && $order.is_daifu ==0}
+            二维码
+            {/if}</td>
+        <td>{$order.add_time|date}</td>
+    </tr>
+    <!--{/foreach}-->
+    <!--{/if}-->
+</table>

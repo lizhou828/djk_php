@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="{$site_url}/weixin/templates/style/public.css" rel="stylesheet" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>无标题文档</title>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/show_share_button.js"></script>
+</head>
+
+
+<script type="text/javascript">
+    $(function(){
+        var status= "{$dis}";
+        if(status == '1' || status == ""){
+            $(".cate22").css({"background":"none repeat scroll 0 0 #CCCCCC"});
+            $(".cate11").css({"background":"none repeat scroll 0 0 #999999"});
+        }else{
+            $(".cate11").css({"background":"none repeat scroll 0 0 #CCCCCC"});
+            $(".cate22").css({"background":"none repeat scroll 0 0 #999999"});
+        }
+    });
+
+    function update1(id){
+        var name = "#" + id;
+        $(".kuang_right").hide();
+        $(name).show();
+    }
+</script>
+
+<style>
+    #kuang{height:300px; width:307px; margin:0px auto; overflow:hidden; border:1px solid #ddd;}
+    .kuang_left{width:100px; float:left; background:#f1f1f1;height:300px; overflow:scroll;}
+    .kuang_left a{color:#666; font-size:12px; text-decoration:none; width:88px; height:32px; line-height:32px; display:block; padding-left:12px;border-bottom:1px solid #fff;}
+    .kuang_left a:hover{ background:#fff;}
+    .kuang_right{width:207px; float:right; height:300px;overflow:scroll;}
+    .kuang_right a{color:#666; font-size:12px; text-decoration:none; width:207px; height:32px; line-height:32px; display:block; text-align:center; border-bottom:1px dotted #eee;}
+    .kuang_right a:hover{ background:#fff;}
+</style>
+
+
+<body>
+<div id="kuang">
+    <div class="kuang_left">
+        <a href="index.php?app=bdsh&act=goodsList&region_id={$region_id}&keyWord={$keyWord}&order={$order}&dis={$dis}&rgid={$rgid}">全部分类</a>
+        <!--{foreach from=$cates item=ce}-->
+            <a href="javascript:update1('{$ce.cate_id}')">{$ce.cate_name}</a>
+        <!--{/foreach}-->
+
+    </div>
+    <!--{foreach from=$cates item=cte name=cte}-->
+        <!--{if $smarty.foreach.cte.index == 0}-->
+            <div class="kuang_right" id = "{$cte.cate_id}">
+        <!--{else}-->
+            <div class="kuang_right" id = "{$cte.cate_id}" style="display: none">
+        <!--{/if}-->
+            <!--{foreach from=$cte.gcategorys item=ggy}-->
+                <a href="index.php?app=bdsh&act=goodsList&region_id={$region_id}&keyWord={$keyWord}&cate_id={$ggy.cate_id}&order={$order}&dis={$dis}&rgid={$rgid}">{$ggy.cate_name}</a>
+            <!--{/foreach}-->
+        </div>
+    <!--{/foreach}-->
+</div>
+</body>
+</html>

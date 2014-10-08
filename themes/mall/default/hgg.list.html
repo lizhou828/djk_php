@@ -1,0 +1,281 @@
+{include file=header.html}
+
+
+<link href="{res file=css/hanguo.css}" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+    $(function(){
+        $("#span_cate").click(function(){
+            if ($("#category").is(":hidden")) {
+                $("#span_cate").attr("class","ico_01");
+                $("#category").show();
+            } else {
+                $("#span_cate").attr("class","ico_02");
+                $("#category").hide();
+            }
+        });
+        $('span[nc_type="show"]').click(function(){
+            s = $(this).parents('dd').prev().find('li[nc_type="none"]');
+            if(s.css('display') == 'none'){
+                $(this).addClass('btn2').removeClass('btn1');
+                s.show();
+                $(this).html('收起');
+            }else{
+                $(this).addClass('btn1').removeClass('btn2');
+                s.hide();
+                $(this).html('更多');
+            }
+        });
+        // 单行显示更多
+        $('a[nc_type="show"]').click(function(){
+            s = $(this).parents('dt').find('div[nc_type="none"]');
+            if(s.css('display') == 'none'){
+                s.show();
+                $(this).html('收起');
+            }else{
+                s.hide();
+                $(this).html('展开');
+            }
+        });
+    });
+
+
+    function replaceParam(order)
+    {
+        var sort = null;
+        if ($("#sort_order").val()=="desc") {
+            sort = "asc";
+        } else {
+            sort ="desc";
+        }
+        <!--{if $cate_id eq 0}-->
+        location="index.php?app=hgg&act=search&keyword={$filters.keyword[0]}&brand={$filters.brand.value}&attrvalue={$filters.attrs}&startPrice={$filters.startPrice}&endPrice={$filters.endPrice}&order="+order+"&sort_order="+sort;
+        <!--{else}-->
+        location="index.php?app=hgg&act=search&cate_id={$cate_id}&keyword={$filters.keyword[0]}&brand={$filters.brand.value}&attrvalue={$filters.attrs}&startPrice={$filters.startPrice}&endPrice={$filters.endPrice}&order="+order+"&sort_order="+sort;
+        <!--{/if}-->
+    }
+    function  formsubmit(url,attrid,str){
+        if($("#ar").val()!=undefined)
+        {
+            var arr=document.getElementById("ar").value;
+            if(arr.length<=0){return;}
+            if(str=="不限") {
+                var ars = arr.split(";");
+                var newarr = "";
+                for (var j=0;j<ars.length;j++) {
+                    if(ars[j].indexOf(attrid)!=0) {
+                        if(newarr=="")
+                        {
+                            newarr+=ars[j];
+                        }else
+                        {
+                            newarr+=";"+ars[j];
+                        }
+                    }
+                }
+                url=url+"&attrvalue="+newarr;
+            } else {
+                if (arr.split(";")==undefined) {
+                    location=url;
+                } else {
+                    var attrs = arr.split(";");
+                    for (var i=0;i<attrs.length;i++){
+                        if(attrs[i].indexOf(attrid)==-1){
+                            url+=";"+attrs[i];
+                        } else {
+                            attrs[i] = attrs[i].replace(new RegExp(attrs[i]),"");
+                            url+=attrs[i];
+                        }
+                    }
+                }
+            }
+        }
+//                url = rawurlencode(url);
+        location=url;
+    }
+</script>
+<!--内容-->
+
+<div id="center_w1200" style="width: 100%;margin: 0px auto" >
+<!--logo部分-->
+{include file=hgg.common.html}
+
+<div id="hg_bg" style="background:#ffffff;">
+        <div id="hg_menu">
+            <div class="w1200">
+                <div class="left_w210">所有商品分类<span class="hg_ico"></span>
+                <div class="fenlei">
+                    <!--{foreach from=$hgg_category item=gcategory name=gcategory}-->
+                    <!-- {if $smarty.foreach.gcategory.index<8 }-->
+                    <!-- {if !empty($gcategory) }-->
+                    <dl>
+                        <dd><a href="{r_url app=hgg&act=search&pd_id=$pd_id&cate_id=$gcategory.id}">{$gcategory.value|truncate:22:"……"}</a></dd>
+                        <dt>
+                            <span><a href="{r_url  app=hgg&act=search&pd_id=$pd_id&cate_id=$gcategory.children[0].id}">{$gcategory.children[0].value}</a></span>
+                            <span><a href="{r_url  app=hgg&act=search&pd_id=$pd_id&cate_id=$gcategory.children[1].id}">{$gcategory.children[1].value}</a></span>
+                            <span><a href="{r_url  app=hgg&act=search&pd_id=$pd_id&cate_id=$gcategory.children[2].id}">{$gcategory.children[2].value}</a></span>
+                        </dt>
+                        <em>
+                            <dl class="ssp_no1">
+                                <dd>{$gcategory.value|escape}</dd>
+                                <dt><!--{foreach from=$gcategory.children item=child}-->
+                                    <i><a href="{r_url app=hgg&act=search&pd_id=$pd_id&cate_id=$child.id}">{$child.value|escape}</a></i> <!--{/foreach}-->
+                                </dt>
+                            </dl>
+                        </em>
+
+                    </dl>
+                    <span class="menu_line"></span>
+                    <!--{/if}-->
+                    <!--{/if}-->
+                    <!--{/foreach}-->
+                </div>
+                </div>
+                {include file=hgg.top.html}
+                <div class="hg_right">更多精彩，敬请期待……</div>
+            </div>
+        </div>
+<!--商品筛选-->
+
+    <div style="width: 1200px;margin: 0px auto;">
+    <div class="mbxie">
+        <!--{foreach from=$_curlocal item=lnk}-->
+        <!--{if $lnk.url}-->
+        <a href="{$lnk.url}">{$lnk.text|escape} </a> >
+        <!--{else}-->
+        <span> {$lnk.text|escape}</span>
+        <!--{/if}-->
+        <!--{/foreach}--></div>
+    <!--list内容部分-->
+    <div class="list_con">
+        <div class="list_left">
+            <div class="list_fl1">
+                <dl>
+                    <dd>{$curlocalStr.text}<span class="ico_01" id="span_cate"></span></dd>
+                    <dt id="category" style="border-bottom:1px solid #ddd;">
+                        <!--{foreach from=$categories item=category name=fe_category}-->
+                        <!-- {if $smarty.foreach.fe_category.index < 10} -->
+                        <a href="{r_url app=hgg&act=search&cate_id=$category.cate_id}" id="{$category.cate_id}">{$category.cate_name|escape}({$category.count})</a>
+                        <!-- {/if} -->
+                        <!--{/foreach}-->
+                    </dt>
+                </dl>
+
+
+            </div>
+            <div class="list_fl2">
+                <h2 class="listz_title">热卖推荐商品</h2>
+                <ul>
+                    <!--{foreach from=$goods_list2 item=hot_goods}-->
+                    <li>
+                        <div class="pic"><a href="{r_url app=goods&id=$hot_goods.goods_id}"><img src="{$img_url}/{$hot_goods.default_image}" width="100" height="100" /></a></div>
+                        <div class="text"><a href="{r_url app=goods&id=$hot_goods.goods_id}">{$hot_goods.goods_name|escape}</a></div>
+                        <div class="jiage"><span>{$hot_goods.price|price}</span></div>
+                    </li>
+                    <!--{/foreach}-->
+                </ul>
+            </div>
+            <div class="list_fl3"><img src="{res file=images/pic/list_ad.jpg}" width="210" height="260" /></div>
+            <div class="list_fl2">
+                <h2 class="listz_title">浏览过的商品</h2>
+                <ul>
+                    <!--{foreach from=$goods_history item=gh_goods name=my_hostory}-->
+                    <!--{if $smarty.foreach.my_hostory.index<4}-->
+                    <li>
+                        <div class="pic"><a href="{r_url app=goods&id=$gh_goods.goods_id}"><img src="{$img_url}/{$gh_goods.default_image}" width="100" height="100" /></a></div>
+                        <div class="text"><a href="{r_url app=goods&id=$gh_goods.goods_id}">{$gh_goods.goods_name|escape}</a></div>
+                        <div class="jiage"><span>{$gh_goods.price|price}</span></div>
+                    </li>
+                    <!--{/if}-->
+                    <!--{/foreach}-->
+                </ul>
+            </div>
+        </div>
+        <div class="list_right">
+            <div class="xuanz">
+                <h2>商品筛选</h2>
+                <div class="cont">
+                    <dl>
+                        <dd>品牌：</dd>
+                        <dt style="height:auto;">
+                            <!--{if count($brands) > 10}-->
+                            <a href="javascript:void(0);" class="zg" nc_type="show">展开</a>
+                            <!--{/if}-->
+
+                        <div class="pinpai"> <a href="{r_url app=hgg&act=search&cate_id=$cate_id&order=$order&page=$page_info.curr_page&startPrice=$startPrice$endPrice=$endPrice&attrvalue=$filters.attrs}" <!--{if !$filters.brand.value }--> style="color:#4598d2" <!--{/if}-->>不限</a></div>
+                        <!--{foreach from=$brands item=row name=fe_brand}-->
+                        <!--{if $smarty.foreach.fe_brand.iteration < 10}-->
+                        <div class="pinpai">
+                            <!--{else}-->
+                            <div class="pinpai" style="display: none" nc_type="none">
+                                <!--{/if}-->
+                                <a  href="{r_url app=hgg&act=search&cate_id=$cate_id&order=$order&page=$page_info.curr_page&startPrice=$startPrice$endPrice=$endPrice&brand=$row.brand_id&attrvalue=$filters.attrs}" <!--{if $filters.brand.value eq $row.brand_id }--> style="color:#4598d2"<!--{/if}-->>{$row.brand_name|escape}</a><!-- em>(0)</em -->
+                            </div>
+                            <!--{/foreach}-->
+                            </dt>
+                    </dl>
+                    <!--{if $goodsattrs}-->
+                    <!--{foreach from=$goodsattrs item=ar name=my_attr}-->
+                    <dl>
+                        <dd>{$ar.attr_name}：</dd>
+                        <dt>
+                        <div><a id="ar_{$ar.attr_id}" href="javascript:formsubmit('{r_url app=search&cate_id=$cate_id&page=$page_info.curr_page&order=$order&startPrice=$startPrice$endPrice=$endPrice&brand=$filters.brand.value}','{$ar.attr_id}','不限')"
+                                style="color: #4598d2">不限</a> </div>
+                        <!--{foreach from=$ar.def_value item=def name=my_value}-->
+                        <div><a href="javascript:formsubmit('{r_url app=hgg&act=search&cate_id=$cate_id&page=$page_info.curr_page&brand=$filters.brand.value&order=$order&startPrice=$startPrice$endPrice=$endPrice&attrvalue=$ar.attr_id},{$def}','{$ar.attr_id}','')"
+                            <!--{foreach from=$filters.arvalue item=vl}-->
+                            <!--{if $vl.attr_value eq $def}-->
+                            style ="color:#4598d2"
+                            <!--{/if}-->
+                            <!--{/foreach}-->
+                            >{$def} </a></div>
+                        <!--{/foreach}-->
+                        </dt>
+                    </dl>
+                    <!--{/foreach}-->
+                    <!--{/if}-->
+                </div>
+            </div>
+            <script type="text/javascript">
+                var ss ="";
+                <!--{if $filters.attrid}-->
+                <!--{foreach from=$filters.attrid item=ai}-->
+                ss = {$ai.attr_id};
+                $("#ar_"+ss).css("color","");
+                <!--{/foreach}-->
+                <!--{/if}-->
+            </script>
+            <div class="biaoq">
+                <dl>
+                    <dd>商品排序：</dd>
+                    <dt><a <!--{if $order == 'views'}--> class="cur" <!--{/if}-->  href="javascript:void(0);"  onClick="javascript:replaceParam('views');" <!--{if $order == 'views'}--> class="selected" <!--{/if}--> >默认<span class="list_ico"></span></a>
+                        <a <!--{if $order == 'sales'}--> class="cur" <!--{/if}-->  href="javascript:void(0);" onClick="javascript:replaceParam('sales');">销量<span <!--{if $order =='sales' && $filters.sort_order =='asc'}--> class="list_ico" <!--{else}-->class="list_ico2" <!--{/if}-->></span></a>
+                        <a <!--{if $order == 'credit_value'}--> class="cur" <!--{/if}--> href="javascript:void(0);" onClick="javascript:replaceParam('credit_value');">信用<span <!--{if $order =='credit_value' && $filters.sort_order =='asc'}--> class="list_ico" <!--{else}--> class="list_ico2" <!--{/if}-->></span></a>
+                        <a <!--{if $order == 'price'}--> class="cur" <!--{/if}--> href="javascript:void(0);" onClick="javascript:replaceParam('price');">价格<span <!--{if $order =='price' && $filters.sort_order =='asc'}--> class="list_ico" <!--{else}-->class="list_ico2" <!--{/if}-->></span></a>
+                        <input type="hidden" value="{$filters.sort_order}" id="sort_order">
+                    </dt>
+                </dl>
+                {include file=page.top.html}
+                <div class="shul">共 <span>{$page_info.item_count}</span> 个商品</div>
+            </div>
+            <div class="list_r">
+                <ul>
+                    <!-- {if $goods_list} -->
+                    <!--{foreach from=$goods_list item=goods name=my_goods}-->
+                    <li <!--{if $smarty.foreach.my_goods.iteration % 4 ==0 }--> style="padding-right:0px;"<!--{/if}-->>
+                    <div class="pic"><a href="{r_url app=goods&id=$goods.goods_id}" target="_blank" title="{$goods.goods_name|escape}"><img src="{img_url $img_url/$goods.default_image/220X220}" width="220" height="220" /></a></div>
+                    <div class="text"><a href="{r_url app=goods&id=$goods.goods_id}" target="_blank"  title="{$goods.goods_name|escape}">{$goods.goods_name|truncate:35:"……"}</a></div>
+                    <div class="jiage"><span>{$goods.price|price}</span><em><a href="{r_url app=goods&id=$goods.goods_id}" target="_blank" >加入购物车</a></em></div>
+                    <div class="text"><a href="{r_url app=goods&id=$goods.goods_id}" title="{$goods.goods_name|escape}">评论数:{$goods.comments|default:0}条</a></div>
+                    </li>
+                    <!--{/foreach}-->
+                    <!--{/if}-->
+                </ul>
+            </div>
+            {include file=page.bottom.html}
+        </div>
+    </div>
+    </div>
+    <div class="clear"></div>
+
+</div>
+{include file=footer.html}

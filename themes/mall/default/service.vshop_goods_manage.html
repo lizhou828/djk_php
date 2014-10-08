@@ -1,0 +1,160 @@
+{include file=member.header.html}
+
+<script type="text/javascript" charset="utf-8">
+    jQuery(function($){
+        $("#create_time_from").datepicker({dateFormat: 'yyyy-mm-dd'});
+        $("#create_time_to").datepicker({dateFormat: 'yyyy-mm-dd'});
+    });
+</script>
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js"></script>
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js"></script>
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right">
+        <ul class="tab">
+            <li class="active">商品管理</li>
+        </ul>
+        <div class="wrap">
+            <div class="public_select table" style=" padding: 20px 0;">
+                <table id="my_goods" class="table" style="text-align: center">
+                    <tbody>
+                        <tr>
+                            <th colspan="12">
+                                <div class="scarch_order">
+                                    <form id="my_goods_form" method="get">
+                                        <input type="hidden" name="app" value="service">
+                                        <input type="hidden" name="act" value="vshop_goods_manage">
+                                        商品名
+                                        <input type="text" class="text_normal" name="goods_name" value="{$goods_name}">&nbsp;&nbsp;&nbsp;&nbsp;
+                                        新增时间
+                                        <input class="text_normal width2" type="text" name="create_time_from" id="create_time_from" value="{$create_time_from}"> –
+                                        <input class="text_normal width2" id="create_time_to" type="text" name="create_time_to" value="{$create_time_to}">&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                        分类&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <select name="cate_id" id="cate_id">
+                                            <option value="0">请选择...</option>
+                                            {html_options options=$scategories selected=$smarty.get.cate_id}
+                                        </select>
+                                        <br/>
+                                        <br/>
+                                        服务中心&nbsp;&nbsp;&nbsp;&nbsp;<select name="region_id" id="region_id">
+                                                                                <option value="-1">请选择...</option>
+                                                                                {foreach from=$services item=service}
+                                                                                    <option value="{$service.region_id}" {if $region_id==$service.region_id}selected="selected"{/if}>{$service.region_name}</option>
+                                                                                {/foreach}
+                                                                            </select>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        审核状态&nbsp;&nbsp;&nbsp;&nbsp;<select name="status" id="status">
+                                                                                <option value="-1">请选择...</option>
+                                                                                <option value="0_0" {if $status && $status==0}selected="selected"{/if}>待审核</option>
+                                                                                <option value="1" {if $status && $status==1}selected="selected"{/if}>通过</option>
+                                                                                <option value="2" {if $status && $status==2}selected="selected"{/if}>不通过</option>
+                                                                            </select>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        位置&nbsp;&nbsp;&nbsp;&nbsp;<select name="position" id="position">
+                                                                            <option value="-1">请选择...</option>
+                                                                            <option value="1" {if $position && $position==1}selected="selected"{/if}>精品集客小店--本地特卖</option>
+                                                                        </select>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="submit" class="btn" value="搜索">
+                                    </form>
+                                </div>
+                            </th>
+                        </tr>
+                        <tr class="line_bold"><th colspan="13">&nbsp;</th></tr>
+                        <tr class="gray"   ectype="table_header">
+                            <th width="25"></th>
+                            <th width="40"  style="padding-left: 5px;    text-align: center;">缩略图</th>
+                            <th width="150" colspan="2" style="text-align: center;" coltype="editable" column="goods_name" checker="check_required" inputwidth="90%" title="排序"  class="cursor_pointer" >
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span ectype="order_by">商品名称</span>
+                            </th>
+                            <th width="70" column="cate_id" title="排序"  class="cursor_pointer" style="text-align: center;"><span ectype="order_by">商品分类</span></th>
+                            <th width="75" coltype="editable" column="brand" checker="check_required" style="text-align: center;"inputwidth="55px" title="排序"  class="cursor_pointer"><span ectype="order_by">审核状态</span></th>
+                            <th width="50" class="cursor_pointer" coltype="editable" column="price" checker="check_number"style="text-align: center;" inputwidth="50px" title="排序"><span ectype="order_by">价格</span></th>
+                            <th width="50" class="cursor_pointer" coltype="editable" column="stock" checker="check_pint" inputwidth="50px" title="排序"style="text-align: center;"><span ectype="order_by">库存</span></th>
+                            <th width="80" coltype="switchable" column="recommended" onclass="right_ico" offclass="wrong_ico" title="排序" style="text-align: center;"  class="cursor_pointer">
+                                &nbsp;&nbsp;&nbsp;<span ectype="order_by">服务中心</span></th>
+                            <th width="60" coltype="switchable" column="if_show" onclass="right_ico" offclass="wrong_ico" title="排序"  class="cursor_pointer" style="text-align: center;">佣金比例</th>
+                            <th width="100" style="text-align: center;">
+                                操作
+                            </th>
+
+                        </tr>
+
+                        {if $page_info && $page_info.goodsList && count($page_info.goodsList) > 0 }
+                            {foreach from=$page_info.goodsList item=vshop_goods}
+                                <tr class="line" ectype="table_item">
+                                    <td width="25" class="align2">
+                                        <!--<input type="checkbox" class="checkitem" value=""/>-->
+                                    </td>
+                                    <td width="40" class="align2">
+                                        <a href="index.php?app=goods&amp;id={$vshop_goods.goods_id}&amp;readonly=true" target="_blank">
+                                            <img src="{if !$vshop_goods.default_iamge}{$site_url}/data/system/default_goods_image.gif {else}{$site_url}/{$vshop_goods.default_iamge}{/if}" width="50" height="50"  />
+                                        </a>
+                                    </td>
+                                    <td width="150" align="align2" colspan="2">
+                                        <a href="index.php?app=goods&amp;id={$vshop_goods.goods_id}&amp;readonly=true">
+                                            {$vshop_goods.goods_name|truncate:28}
+                                        </a>
+                                    </td>
+                                    <td width="65">{$vshop_goods.cate_name}</td>
+                                    <td width="50" class="align2">
+                                        {if $vshop_goods.status==0}
+                                            <span>待审核</span>
+                                        {elseif $vshop_goods.status==1 }
+                                            <img src="{$site_url}/themes/mall/default/styles/default/images/right.gif"/>
+                                        {elseif $vshop_goods.status==2 }
+                                            <img src="{$site_url}/themes/mall/default/styles/default/images/wrong.gif"/>
+                                        {/if}
+                                    </td>
+                                    <td width="50" class="align2">{$vshop_goods.price|price}</td>
+                                    <td width="50" class="align2">{$vshop_goods.stock}</td>
+                                    <td width="80" class="align2"><span style="margin:0px 5px;"><span class="color2">{$vshop_goods.region_name}</span></span></td>
+                                    <td width="60" class="align2">{$vshop_goods.yongjibili}%</td>
+                                    <td width="120">
+                                        <a href="{$site_url}/index.php?app=goods&id={$vshop_goods.goods_id}">查看</a>&nbsp;
+                                        {if $vshop_goods.status== 0 || $vshop_goods.status==2 }
+                                            <a href="javascript:vshop_goods_shenhe('{$vshop_goods.id}','1')">通过</a>&nbsp;
+                                        {/if}
+                                        {if $vshop_goods.status== 0 || $vshop_goods.status==1 }
+                                            <a href="javascript:vshop_goods_shenhe('{$vshop_goods.id}','2')">不通过</a>
+                                        {/if}
+                                    </td>
+                                </tr>
+                            {/foreach}
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td class="align1" colspan="3">
+                                    <span class="all"></span>
+                                </td>
+                                <td colspan="8">{include file=member.page.bottom.html}</td>
+                            </tr>
+                        {else}
+                            <tr>
+                                <td class="align2 member_no_records padding6" colspan="10">没有符合条件的商品</td>
+                            </tr>
+                        {/if}
+                    </tbody>
+                </table>
+            </div>
+            <div class="wrap_bottom"></div>
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+</div>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.plugins/jquery.validate.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/dialog/dialog.js" id="dialog_js"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js" ></script>
+<script type="text/javascript">
+    function vshop_goods_shenhe(_id,status){
+        var uri="{$site_url}/index.php?app=service&act=vshop_goods_shenhe_page&id="+_id+"&status="+status;
+        uri =encodeURI(uri);
+        var id = 'vshop_goods_shenhe';
+        var title = "精品店待审核商品管理";
+        var width = '570';
+        ajax_form(id, title, uri, width);
+    }
+</script>
+{include file=footer.html}

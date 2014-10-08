@@ -1,0 +1,237 @@
+{include file=member.header.html}
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js"></script>
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js"></script>
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+<style type="text/css">
+.user_name { position: relative; bottom: 18px; margin-left:5px; }
+
+</style>
+<div class="content">
+    <div class="totline"></div><div class="botline"></div>
+    {include file=member.menu.html}
+    <div id="right">
+        <ul class="tab">
+            <li class="<!--{if $smarty.get.act=='showYueLog' }-->active<!--{else}-->normal<!--{/if}-->"   ><a href="index.php?app=service&act=showYueLog&p=service">余额记录</a></li>
+        </ul>
+        <div class="wrap">
+            
+            <div class="public table">
+            	 <div class="scarch_order">
+                        <form method="get">
+                            <input type="hidden" name="app" value="service"/>
+                            <!--{if $smarty.get.act=='showYueLog'}-->
+                            按类型 <select name="type">
+                            <option value="-2" <!--{if !$smarty.get.type || $smarty.get.type=='-1'}-->selected="selected"<!--{/if}-->  >--全部--</option>
+                            <option value="0"  <!--{if $smarty.get.type=='0'}-->selected="selected"<!--{/if}--> >抽奖</option>
+                            <option value="1"  <!--{if $smarty.get.type=='1'}-->selected="selected"<!--{/if}--> >未抽奖，获得平均分配</option>
+                            <option value="2"  <!--{if $smarty.get.type=='2'}-->selected="selected"<!--{/if}--> >买家退款</option>
+                            <option value="3"  <!--{if $smarty.get.type=='3'}-->selected="selected"<!--{/if}--> >提现</option>
+                            <option value="4" <!--{if $smarty.get.type=='4'}-->selected="selected"<!--{/if}--> >完成订单</option>
+                            <option value="5" <!--{if $smarty.get.type=='5'}-->selected="selected"<!--{/if}--> >支付</option>
+                            <option value="6" <!--{if $smarty.get.type=='6'}-->selected="selected"<!--{/if}--> >收益或奖励</option>
+                            <option value="7" <!--{if $smarty.get.type=='7'}-->selected="selected"<!--{/if}--> >充值</option>
+                        </select>
+                            <!--{/if}-->
+                            <input type="hidden" name="act" value="{$smarty.get.act}"/>                   
+                            按日期
+                            <input class="text_normal width2" type="text" name="add_time_from" id="add_time_from" value="{$smarty.get.add_time_from|escape}" /> &#8211; 
+          					<input class="text_normal width2" id="add_time_to" type="text" name="add_time_to" value="{$smarty.get.add_time_to|escape}" />&nbsp;                   
+                            
+                            <input type="submit" class="btn" value="查询"/>&nbsp;&nbsp;&nbsp;&nbsp;     
+                            <div id="shouyi_jine" name="shouyi_jine" style="display:inline"></div>                   
+                        </form>
+                                              
+                    </div>	
+            
+            	{$visitor.info.store_id}	
+            	<br>
+                <table class="table_head_line">
+              
+
+                    <tr class="line_bold">                  
+                        <th class="width1" colspan="5"></th>                     
+                    </tr>
+          
+          		
+          			<!--{if $smarty.get.act=='showYueLog'}-->
+                    <!--余额log-->
+                    <tr class="line tr_color">
+                        <th>&nbsp;&nbsp;&nbsp;&nbsp;金额</th>
+                        <th>类型</th>
+                        <th>描述</th>
+                        <th>&nbsp;&nbsp;</th>
+                        <th>时间</th>
+                    </tr>
+                    <!--{foreach from=$yuelog item=log name=v}--> 
+                    <tr <!--{if $smarty.foreach.v.last}-->class="line_bold"<!--{else}-->class="line"<!--{/if}-->>
+                    <td class="width13">&nbsp;&nbsp;&nbsp;&nbsp;{$log.jine|number2}</td>
+                    <td class="width13">
+                        <!--{if $log.type=='-1'}-->未知
+                        <!--{elseif $log.type=='0'}-->抽奖
+                        <!--{elseif $log.type=='1'}-->未抽奖，获得平均分配
+                        <!--{elseif $log.type=='2'}-->买家退款
+                        <!--{elseif $log.type=='3'}-->提现
+                        <!--{elseif $log.type=='4'}-->完成订单
+                        <!--{elseif $log.type=='5'}-->支付
+                        <!--{elseif $log.type=='6'}-->收益或奖励
+                        <!--{elseif $log.type=='7'}-->充值<!--{/if}-->
+
+                    </td>
+                    <td <!--{if $log.new eq 1}-->class="link2 font_bold width7"<!--{else}-->class="link2 width7"<!--{/if}-->>{$log.beizhu|truncate:110}</td>
+                    <td class="width2">&nbsp;&nbsp;</td>
+                    <td class="align2 color1 width8">{$log.create_time}</td>
+                    </tr>
+                    <!--{foreachelse}-->
+                    <tr>
+                        <td colspan="5" class="member_no_records padding6">没有找到记录</td>
+                    </tr>
+                    <!--{/foreach}-->
+                    <!--{if $smarty.get.act neq 'announcepm'}-->
+                    <tr>                 
+                        <td colspan="5">
+                           <p class="position2">
+                                {include file=member.page.bottom.html}
+                            </p>
+                         </td>
+                    </tr>
+                    <!--{else}-->
+                    <tr>
+                        <td colspan="5">
+                           <p class="position2">
+                                {include file=member.page.bottom.html}
+                            </p>
+                        </td>
+                    </tr>
+                    <!--{/if}-->
+                    
+                    <!--{elseif $smarty.get.act=='showChongzhiLog'}-->
+                    
+                    <!--充值log-->
+                       <tr class="line tr_color">                                        
+                        <th>&nbsp;&nbsp;&nbsp;&nbsp;充值渠道</th>
+                        <th>充值金额</th>     
+                        <th>充值状态</th>                                                
+                        <th>更新时间</th>
+                        <th class="width4">&nbsp;&nbsp;</th>
+                    </tr>
+                    <!--{foreach from=$paylog item=log name=v}-->                 
+                    <tr <!--{if $smarty.foreach.v.last}-->class="line_bold"<!--{else}-->class="line"<!--{/if}-->>                                 
+                        <td <!--{if $log.new eq 1}-->class="link2 font_bold"<!--{else}-->class="link2"<!--{/if}-->>&nbsp;&nbsp;&nbsp;&nbsp;{$log.pay_channel_name|truncate:110}</td>
+                        <td class="align2 color1 width8">{$log.pay_amount|number2}</td>
+                        <td class="align2 color1 width8">
+                        <!--{if $log.status eq 0}-->
+                        未支付
+                        <!--{elseif $log.status eq 1}-->
+                        <span style="color:#FF3300">充值成功</span>
+                        <!--{elseif $log.status eq 2}-->
+                        充值失败
+                        <!--{/if}-->                        
+                        </td>
+                        <td class="align2 color1 width8">{$log.create_time}</td>
+                        <td class="width8">                 
+                          &nbsp;&nbsp;
+                        </td>
+                    </tr>
+                    <!--{foreachelse}-->
+                    <tr>
+                        <td colspan="5" class="member_no_records padding6">没有找到记录</td>
+                    </tr>
+                    <!--{/foreach}-->
+                    <!--{if $smarty.get.act neq 'announcepm'}-->
+                    <tr>                 
+                        <td colspan="5">
+                           <p class="position2">
+                                {include file=member.page.bottom.html}
+                            </p>
+                         </td>
+                    </tr>
+                    <!--{else}-->
+                    <tr>
+                        <td colspan="5">
+                           <p class="position2">
+                                {include file=member.page.bottom.html}
+                            </p>
+                        </td>
+                    </tr>
+                    <!--{/if}-->
+                    
+                    
+                    <!--{elseif $smarty.get.act=='showTiXianLog'}-->
+                    
+                    <!--提现log-->
+                       <tr class="line tr_color">                        
+                        <th>提现银行</th>
+                        <th>提现卡号</th>
+                        <th>提现金额</th>
+                        <th>状态</th>
+                        <th class="width4">提现时间</th>
+                    </tr>
+                    <!--{foreach from=$tixianLog item=log name=v}-->                 
+                    <tr <!--{if $smarty.foreach.v.last}-->class="line_bold"<!--{else}-->class="line"<!--{/if}-->>
+                        <td class="width5">{$log.channel_name}</td>
+                        <td class="width5">{$log.channel_card}</td>
+                        <td <!--{if $log.new eq 1}-->class="link2 font_bold"<!--{else}-->class="link2"<!--{/if}-->>{$log.jine|number2}</td>
+                        <td class="align2 color1 width8">
+                        <!--{if $log.state eq 0}-->
+                        未处理
+                        <!--{elseif $log.state eq 1}-->
+                        处理中
+                        <!--{elseif $log.state eq 2}-->
+                        已完成
+                        <!--{elseif $log.state eq 3}-->
+                        失败
+                        <!--{/if}-->
+                        
+                        </td>
+                        <td class="width8">                 
+                          {$log.add_time}
+                        </td>
+                    </tr>
+                    <!--{foreachelse}-->
+                    <tr>
+                        <td colspan="5" class="member_no_records padding6">没有找到记录</td>
+                    </tr>
+                    <!--{/foreach}-->
+                    <!--{if $smarty.get.act neq 'announcepm'}-->
+                    <tr>                 
+                        <td colspan="5">
+                           <p class="position2">
+                                {include file=member.page.bottom.html}
+                            </p>
+                         </td>
+                    </tr>
+                    <!--{else}-->
+                    <tr>
+                        <td colspan="5">
+                           <p class="position2">
+                                {include file=member.page.bottom.html}
+                            </p>
+                        </td>
+                    </tr>
+                    <!--{/if}-->
+            
+
+                  
+                    
+                  	<!--{/if}-->
+                   
+                </table>
+            </div>
+            <div class="wrap_bottom"></div>
+            
+        </div>
+        <div class="clear"></div>
+        <div class="adorn_right1"></div>
+        <div class="adorn_right2"></div>
+        <div class="adorn_right3"></div>
+        <div class="adorn_right4"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="clear"></div>
+<script>
+	$('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+	$('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});	
+</script>
+
+{include file=footer.html}

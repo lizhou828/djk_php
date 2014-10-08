@@ -1,0 +1,128 @@
+{include file=header.html}
+
+{include file=common.html}
+<link href="{res file=base.css}" rel="stylesheet" type="text/css">
+<link href="{res file=chaoshi.css}" rel="stylesheet" type="text/css">
+<link href="{res file=djk.css}" rel="stylesheet" type="text/css">
+<link href="{res file=shop.css}" rel="stylesheet" type="text/css">
+<link href="{res file=home_login.css}" rel="stylesheet" type="text/css">
+<link href="{res file=style.css}" rel="stylesheet" type="text/css">
+<link href="{res file=index.css}" rel="stylesheet" type="text/css">
+<link href="{res file=shop_2.css}" rel="stylesheet" type="text/css">
+<link href="{res file=home_tg.css}" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+//<!CDATA[
+$(function(){
+    $("select[ectype='order_by']").change(function(){
+        var params = location.search.substr(1).split('&');
+        var key    = 'order';
+        var value  = this.value;
+        var found  = false;
+        for (var i = 0; i < params.length; i++)
+        {
+            param = params[i];
+            arr   = param.split('=');
+            pKey  = arr[0];
+            if (pKey == 'page')
+            {
+                params[i] = 'page=1';
+            }
+            if (pKey == key)
+            {
+                params[i] = key + '=' + value;
+                found = true;
+            }
+        }
+        if (!found)
+        {
+            params.push(key + '=' + value);
+        }
+        location.assign(SITE_URL + '/index.php?' + params.join('&'));
+    });
+});
+//]]>
+</script>
+<article id="content">
+    <section class="layout expanded mt10" >
+        <article class="nc-goods-main">
+            <div class="nc-s-c-s3 ncg-list mt10">
+                <div class="title pngFix"> <!--<span><a href="index.php?act=show_store&op=goods_all&id=8" class="more">更多</a></span>-->
+                    <h4> {$search_name|escape}</h4>
+                </div>
+                <div class="content pt20">
+                    <ul>
+                        <!--{if $searched_goods}-->
+                        <!--{foreach from=$searched_goods item=sgoods}-->
+                        <li>
+                            <dl>
+                                <dt><a href="{r_url app=goods&id=$sgoods.goods_id}" target="_blank">{$sgoods.goods_name|escape}</a></dt>
+                                <dd class="ncg-pic pngFix"><a href="{r_url app=goods&id=$sgoods.goods_id}" target="_blank" class="thumb"><i></i><img src="{img_url $img_url/$sgoods.default_image/160X160}" onload="javascript:DrawImage(this,160,160);" title="{$sgoods.goods_name|escape}" alt="{$sgoods.goods_name|escape}" /></a></dd>
+                                <dd class="ncg-price"><em class="price"><i></i>
+                                    {$sgoods.price|price}                                      </em></dd>
+                                <!--<dd class="ncg-sold">已销售：<strong>12</strong> 件</dd>-->
+                            </dl>
+                        </li>
+                        <!--{/foreach}-->
+                        <!--{/if}-->
+                     </ul>
+                    </div>
+                </div>
+
+            <!--{if $searched_goods}-->
+            <br>
+            <div class="clear"></div>
+            <div class="pagination">
+                {include file=page.bottom.html}
+            </div>
+            <!--{/if}-->
+            </article>
+
+    <aside class="nc-sidebar">
+        <!--店铺基本信息 S-->
+        <div>
+            <div class="ncs-info clearfix">
+                <div class="shop-card">
+                    <h4>{$store.store_name|escape}</h4>
+                    <dl>
+                        <dt><a href="{r_url app=store&id=$store.store_id}"><img src="{$store.store_logo}" class="size60"
+                                                                              title="{$store.store_owner.user_name|escape}" alt="{$store.store_owner.user_name|escape}"/></a></dt>
+                        <dd><a href="" class="shopkeeper">{$store.store_owner.user_name|escape}</a> <a href="{r_url app=message&act=send&to_id=$store.store_owner.user_id|escape}"
+                                                                                                       class="message text-hidden" title="发站内信">发站内信</a></dd>
+                        <dd class="ncs-level">
+                            <span class="seller-crown level-5"></span>
+                        </dd>
+                        <dd><span>好评率：</span>{$store.praise_rate}%</dd>
+                    </dl>
+                </div>
+
+                <div class="shop-detail">
+                    <h4>店铺信息</h4>
+                    <!-- 店铺信息 -->
+                    <dl>
+                        <dt>{$lang.store_add_time}：</dt>
+                        <dd>{$store.add_time|date}</dd>
+                        <dt>{$lang.region}：</dt>
+                        <dd>{$store.region_name|escape}</dd>
+                        <dt>{$lang.goods_count}：</dt>
+                        <dd><strong>{$store.goods_count}</strong>件商品</dd>
+                        <dt>{$lang.credit_value}：</dt>
+                        <dd>{$store.credit_value}
+
+                    </dl>
+                </div>
+                <div class="shop-im">
+
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+        {include file=left1.html}
+
+    </aside>
+    </section>
+</article>
+
+
+<div class="clear"></div>
+
+{include file=footer.html}

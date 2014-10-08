@@ -1,0 +1,259 @@
+{include file=tuiguang_header.html}
+<script type="text/javascript" src="index.php?act=jslang"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.plugins/jquery.validate.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{lib file=mlselection.js}" ></script>
+<script type="text/javascript" src="{res file=js/jquery.showLoading.js}" charset="utf-8"></script>
+<link href="{res file=css/showLoading.css}" rel="stylesheet" type="text/css">
+
+<script>
+$(function(){
+    regionInit("region");
+	
+	$("#shenqingform").validate({
+        errorPlacement: function(error, element){
+            var error_td = element.parents('td').next('td');
+            error_td.find('.field_notice').hide();
+            error_td.find('.fontColor3').hide();
+            error_td.append(error);
+        },
+		submitHandler : function(form) {
+			$(".error,.error_font").html("");
+			$('.sava_tr').showLoading({'addClass': 'loading-indicator-bars'});
+			
+			$.post("index.php?app=tuiguang&act=sava_shenqing",$("#shenqingform").serialize(),function(rs){
+				
+				if(rs.flag == "error"){				   
+				   $("#"+rs.error_lbl+"_lbl").html("<font color='red' class='error_font' >"+rs.error_msg+"</font>");
+				   $('.sava_tr').hideLoading();
+				}else if(rs.flag == "ok"){				   
+				    //alert("提交申请签约推广客资料成功");
+				    $('.sava_tr').success_Loading({'div_title':'提交资料成功','location_url':'index.php?app=tuiguang&act=shenqing&success=1','hide_div':"sava_tr",'div_content':"感谢您申请成为大集客签约业务员，您的资料将进入审核流程，请关注审核状态，审核通过后就能进行推广了。"});
+				}else{
+					alert("服务器繁忙，请稍后重试！");
+					$('.sava_tr').hideLoading();
+				}
+					
+			 },"json")
+		 }, 
+        success: function(label){
+            label.remove();
+        },
+        onkeyup: false,		 
+        rules: {	
+			
+			region_id :{
+                required : true,
+				 remote   : {
+                    url :'index.php?app=member&act=check_region&ajax=1',
+                    type:'get',
+                    data:{
+                        region_id : function(){
+                            return $('#region_id').val();
+                        }
+                    }
+                }
+            },
+			user_name: {
+                required: true
+            },
+			
+			shenfenzheng: {
+                required: true
+            },
+			
+			phone_mob: {
+                required: true,
+				checkTel:true
+            },			
+			email : {
+				required : true,
+				email    : true
+			},
+            agree: {
+                required: true
+            },
+            company_address: {
+                company_address_Validate : []
+            },
+			company_name: {
+                company_name_Validate : []
+            }
+        },
+        messages: {
+            region_id :{
+                required : '&nbsp;请选择地区',
+				remote	 : '&nbsp;必须选择地区到最后一级'
+            },
+			user_name : {
+                    required : '您必须提供您的真实姓名'                        
+            }, 
+			shenfenzheng : {
+                    required : '您必须提供您的身份证号码'                                
+            }, 
+			phone_mob : {
+                    required : '您必须提供您的手机号码',
+					checkTel:  '手机号码错误'                            
+            }, 
+			email : {
+                    required : '您必须提供您的电子邮箱',
+                    email    : '这不是一个有效的电子邮箱'                  
+            }, 
+			agree : {
+                    required : '您必须同意《大集客业务员服务》'
+            }
+			
+        }
+    });
+});
+
+jQuery.validator.addMethod("updateView", function(value, element) {
+    if (value == 0) {
+        $("company_name").css("display","none");
+		$("company_address").css("display","none");
+    }else{
+		$("company_name").css("display","block");
+		$("company_address").css("display","block");
+	}
+    return true;
+}, "");
+
+jQuery.validator.addMethod("company_name_Validate", function(value, element) {
+	var account_type =$("input[name=account_type]:checked").val(); 
+    if ($.trim(value) == "" && account_type == 1) {
+        return false;
+    }
+    return true;
+}, "请输入公司名称");
+
+jQuery.validator.addMethod("company_address_Validate", function(value, element) {
+	var account_type =$("input[name=account_type]:checked").val(); 
+    if ($.trim(value) == "" && account_type == 1) {
+        return false;
+    }
+    return true;
+}, "请输入公司地址");
+</script>
+
+
+<!--面包屑-->
+<div id="mianb"><a href="index.php?app=tuiguang&act=view">首页</a> > <span>申请签约业务员</span></div>
+
+<!--正文-->
+<div class="sqgout">
+    <h2>在线提交资料</h2>
+
+    <!--{if !$success}-->
+    <p>欢迎加入大集客签约业务员！为了您能安全、快捷的收到奖励，请补充以下资料！</p>
+    <div class="nei">
+  <form method="post" id="shenqingform" name="shenqingform">
+  <table width="980" border="0" cellspacing="0" cellpadding="0" class="txt">
+  <tr>
+    <td width="101" height="45">&nbsp;</td>
+    <td width="142" align="right">账户类型：</td>
+    <td width="423" ><input type="radio" name="account_type" <!--{if !$qianyue.account_type || $qianyue.account_type eq 0}-->checked="checked" <!--{/if}--> value="0" />
+      <label for="radio">个人</label> <input type="radio"  <!--{if $qianyue.account_type eq 1}-->checked="checked" <!--{/if}-->	 name="account_type" id="radio" value="1" />
+      <label for="radio">公司</label>
+      </td>
+    <td width="248" id="account_type_lbl">&nbsp;</td>   
+  </tr>
+  
+  <tr class="account_type_1" style="display:none">
+    <td height="45">&nbsp;</td>
+    <td align="right">公司名称：</td>
+    <td ><input type="text" name="company_name" id="company_name" value="{$qianyue.company_name}"  class="input1"/></td>
+    <td id="company_name_lbl">&nbsp;</td> 
+  </tr>
+  <tr class="account_type_1" style="display:none">
+    <td height="45">&nbsp;</td>
+    <td align="right">公司地址：</td>
+    <td ><input type="text" name="company_address" id="company_address" value="{$qianyue.company_address}"  class="input1"/></td>
+    <td id="company_address_lbl">&nbsp;</td> 
+  </tr>
+
+  <tr>
+    <td height="45">&nbsp;</td>
+    <td align="right">所在地区：</td>
+    <td >
+        <div class="select_add" id="region" style="width:460px; display: inline">
+        <input type="hidden" id="region_id" name="region_id" value="{$qianyue.region_id}" class="mls_id" />
+        <input type="hidden" id="region_name" name="region_name" value="{$qianyue.region_name}" class="mls_names" />
+        {if $qianyue.region_name}
+        <span>{$qianyue.region_name|escape}</span>
+        <input type="button" value="{$lang.edit}" class="edit_region" />
+        {/if}
+        <select class="d_inline"{if $qianyue.region_name} style="display:none;"{/if}>
+        <option value="0">--选择地区--</option>
+        {html_options options=$regions}
+        </select>
+        </div>   
+      </td>    
+    <td id="region_id_lbl"></td>
+  </tr>
+  <tr>
+    <td height="45">&nbsp;</td>
+    <td align="right">联系人真实姓名：</td>
+    <td ><input type="text" name="user_name" id="user_name" value="{$qianyue.user_name}"  class="input1"/></td>
+    <td id="user_name_lbl">&nbsp;</td> 
+  </tr>
+  <tr>
+    <td height="45">&nbsp;</td>
+    <td align="right">联系人身份证号：</td>
+    <td ><input type="text" name="shenfenzheng" id="shenfenzheng" value="{$qianyue.shenfenzheng}"  class="input1"/></td>
+    <td id="shenfenzheng_lbl">&nbsp;</td> 
+  </tr>
+  <tr>
+    <td height="45">&nbsp;</td>
+    <td align="right">联系人手机号码：</td>
+    <td ><input type="text" name="phone_mob" id="phone_mob" value="{$qianyue.phone_mob}"  class="input1"/></td>
+    <td id="phone_mob_lbl">&nbsp;</td>  
+  </tr>
+  <tr>
+    <td height="45">&nbsp;</td>
+    <td align="right">联系人邮箱：</td>
+    <td ><input type="text" name="email" id="email"  value="{$qianyue.email}" class="input1"/></td>
+    <td id="email_lbl">&nbsp;</td>  
+  </tr>
+  <tr>
+    <td height="45">&nbsp;</td>
+    <td>&nbsp;</td>
+    <td ><input type="checkbox" name="agree" id="agree" />
+      我已阅读并同意<span style=" color:#0066cc">《大集客业务员服务》</span></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr class="sava_tr">
+    <td height="45">&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><input type="submit" id="submit_btn" name="submit_btn" value="提交申请" style="width:100px; height:32px; background:#d0281e; color:#fff; line-height:32px; text-align:center; border:0px; cursor:pointer"/></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+	</form>
+    </div>
+    <!--{else}-->
+    <div style="width:500px; height:200px; text-align:center; padding:30px; padding-left:200px; size:+2; color:#000;padding-top:80px  ">恭喜您提交资料成功，请耐心等待审核！
+        审核结果请进入 <a href="index.php?app=tuiguang&act=view">签约业务员首页</a> 查看
+    </div>
+    <!--{/if}-->
+</div>
+
+<script>
+$("input[name=account_type]").bind("click",function(){
+	var account_type =$("input[name='account_type']:checked").val(); 
+	if (account_type == 0) {
+        $(".account_type_1").css("display","none");	
+    }else{
+		$(".account_type_1").css("display","");
+	}
+})
+
+<!--{if $qianyue.account_type eq 1}-->
+$(".account_type_1").css("display","");
+<!--{/if}-->
+</script>
+
+<!--底部-->
+<div class="clear"></div>
+{include file=tuiguang_footer.html}
+</body>
+</html>

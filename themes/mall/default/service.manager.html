@@ -1,0 +1,647 @@
+{include file=member.header.html}
+<style type="text/css">
+.bgwhite { background: #FFFFFF; }
+</style>
+<script type="text/javascript">
+$(function(){
+});
+</script>
+<style>
+.borline td { padding:10px 0px; }
+.ware_list th { text-align:left; }
+</style>
+
+<!--[if IE]><style type="text/css">
+    .content #right .kuang3 .item .f1 .a1{margin-left:5px}
+</style><![endif]-->
+
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right" >
+        <ul class="tab">
+            <li class="active" > <a href="index.php?app={$smarty.get.app}&act=aqzx&p={$smarty.get.p}">安全中心</a></li>
+            </ul>
+
+        <div class="eject_con bgwhite" style="padding: 30px 0 50px">        
+        <center><div id="warning" name="warning" style="width:92%;"></div></center>
+        
+        
+        <!--修改密码-->
+        <!--{if $smarty.get.type=='changerpassword'}-->
+         <div class="kuang2">
+         <div class="ttp1">
+             <span class="spa1">1.验证身份</span>
+             <span class="spa2">2.输入密码</span>
+             <span class="spa3">3.完成</span>
+          </div>        
+          <div class="kuang3">
+          	 <form method="post" id="sava_form" name="sava_form"><br><br>
+             <input type="hidden" name="type" id="type" value="{$smarty.get.type}" />            
+             <input type="hidden" name="step" id="step" value="2" />
+             <div class="item" style="padding-top:0px;">
+                <span class="label">请输入新密码：</span>
+                <div class="f1"><input name="new_password" id="new_password" type="password" class="input1" /><span class="fontColor3">&nbsp;*</span></div>
+             </div>
+             <div class="item" style="padding-top:0px;">
+                <span class="label">请输入确认密码：</span>
+                <div class="f1"><input name="confirm_password" id="confirm_password"  type="password" class="input1" /><span class="fontColor3">&nbsp;*</span></div>
+             </div>            
+             <div class="item" style="padding-top:0px;">
+                <span class="label"></span>
+                <div class="f1"><a href="javascript:submit_form();" class="a1">提交</a></div>
+             </div>
+             </form>
+          </div>
+       </div>
+       {$user.im_qq }
+       <!--修改邮箱-->
+       <!--{elseif $smarty.get.type=='changeremail'}-->
+         <div class="kuang2">        
+         <div  <!--{if $user.im_qq }--> class="ttp1" <!--{else}-->  class="ttp2" <!--{/if}-->>
+             <span class="spa1">1.验证身份</span>
+             <span class="spa2">2.进入邮箱验证</span>
+             <span class="spa3">3.完成</span>
+          </div>        
+          <div class="kuang3">
+          	 <form method="post" id="sava_form" name="sava_form"> <br><br>
+             <input type="hidden" name="type" id="type" value="{$smarty.get.type}" />         
+                 <input type="hidden" name="step" id="step" value="2" />
+                 <!--{if $user.email}-->
+                 <div class="item" style="padding-top:0px;">
+                     <span class="label">原始邮箱地址：</span>
+                     <div class="f1"><div style=" margin-top:10px">&nbsp;&nbsp;&nbsp;{$user.show_email}</div></div>
+                     <div style=" margin-top:10px">&nbsp;&nbsp;&nbsp;</div>
+                 </div>
+                 <div class="item" style="padding-top:0px;">
+                     <span class="label">请输入新邮箱地址：</span>
+                     <div class="f1"><input name="new_email" id="new_email" onblur="check_email(this.value,'new_email')" type="txt" class="input1" /><span class="fontColor3">&nbsp;*</span></div>
+                  </div>
+                 <!--{else}-->
+                 <div class="item" style="padding-top:0px;">
+                     <span class="label">请输入邮箱地址：</span>
+                     <div class="f1"><input name="email" id="email" type="txt" onblur="check_email(this.value,'email')" value="{$post_data.email}" class="input1" /><span class="fontColor3">&nbsp;*</span></div>
+                 </div>
+                 <!--{/if}-->            
+             <div class="item" style="padding-top:0px;">
+                <span class="label"></span>
+                <div class="f1"><a href="javascript:submit_form();" class="a1">提交</a></div>
+             </div>
+             </form>
+          </div>
+       </div>
+       
+       
+       
+       <!--修改手机-->
+       <!--{elseif $smarty.get.type=='changerphonemob'}-->
+       
+       <div class="kuang2">        
+         <div class="ttp1">
+             <span class="spa1">1.验证身份</span>
+             <span class="spa2">2.输入手机</span>
+             <span class="spa3">3.完成</span>
+          </div>        
+          <div class="kuang3">
+          	 <form method="post" id="sava_form" name="sava_form"> <br><br>
+             <input type="hidden" name="type" id="type" value="{$smarty.get.type}" />
+                 <input type="hidden" name="step" id="step" value="2" />
+                 <!--{if $user.phone_mob}-->
+                         <!--{if $user.phone_mob_bind_status eq 0}-->
+                         <div class="item" style="padding-top:0px;">
+                             <span class="label">您的手机未验证：</span>
+                             <div class="f1"><div style=" margin-top:10px">{$user.show_phone_mob}</div>
+                             <input type="hidden" value="{$user.phone_mob}" name="phone_mob" id="phone_mob" />
+                             </div>
+                         </div>
+                         <script>
+                          document.getElementById("sava_form").action="index.php?app={$smarty.get.app}&act=aqzx_mob_bind";
+                         </script>
+                         <!--{else}-->
+                         <div class="item" style="padding-top:0px;">
+                             <span class="label">请输入新手机号码：</span>
+                             <div class="f1"><input name="new_phone_mob" onblur="check_mob(this.value,'new_phone_mob')" id="new_phone_mob" type="txt" class="input1" /><span class="fontColor3">&nbsp;*</span></div>
+                             <div style=" margin-top:10px">&nbsp;&nbsp;&nbsp;{$user.phone_mob|hidden}</div>
+
+                         </div>
+                        <!--{/if}-->
+                 <!--{else}-->
+                 <div class="item" style="padding-top:0px;">
+                     <span class="label">请输入手机号码：</span>
+                     <div class="f1"><input name="phone_mob" id="phone_mob" onblur="check_mob(this.value,'phone_mob')" type="txt" value="{$post_data.phone_mob}" class="input1" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" /><span class="fontColor3">&nbsp;*</span></div>
+
+                 </div>
+                 <!--{/if}-->
+
+                 <div class="item" style="padding-top:0px;">
+                     <span class="label">手机验证码：</span>
+                     <div class="f1"><input name="yanzhengma" id="yanzhengma" type="text" class="input1" /><span class="fontColor3">&nbsp;*</span></div>
+                     <input id="btnSendCode" type="button" class="btn" style="background-color: #ffffff ;color: green;width: 150px; cursor: pointer;" value="发送验证码" onclick="sendMessage()" />
+                 </div>
+           
+             <div class="item" style="padding-top:0px;">
+                <span class="label"></span>
+                <div class="f1"><a href="javascript:sava_mob_form();" class="a1">提交</a></div>
+             </div>
+             </form>
+          </div>
+       </div>
+       
+       <!--修改支付密码-->
+       <!--{elseif $smarty.get.type=='changerpassword2'}-->
+       			 <!--{if !$user.show_phone_mob}-->
+                 <br><br><br><br><br><br><br><br><br>
+                 <script>js_fail("<br><br>您还没有设置安全手机不能设置和修改支付密码，请先<a href='index.php?app={$smarty.get.app}&act=aqzx_manager&type=changerphonemob'>绑定安全手机</a>！<br><br>");</script>
+                 <br><br><br>
+                 <!--{else}-->
+                 <div class="kuang2">        
+                 <div class="ttp1">
+                     <span class="spa1">1.验证身份</span>
+                     <span class="spa2">2.输入手机验证码和支付密码</span>
+                     <span class="spa3">3.完成</span>
+                  </div>
+
+                  <div class="kuang3">
+                      <form method="post" id="sava_form" name="sava_form"> <br><br>
+                     <input type="hidden" name="type" id="type" value="{$smarty.get.type}" />
+                   
+                     <input type="hidden" name="step" id="step" value="2" />
+                     <div class="item" style="padding-top:0px;">
+                             <span class="label">手机验证码：</span>
+                             <div class="f1"><input name="yanzhengma" id="yanzhengma" type="text" class="input1" /><span class="fontColor3">&nbsp;*</span></div>
+                             <input id="btnSendCode" type="button" class="btn" style="background-color: #ffffff ;color: green;width: 150px; cursor: pointer;" value="发送验证码" onclick="sendMessage2()" />
+                             <br>
+                             <center>{$user.phone_mob|hidden} </center>
+                         </div>
+
+                         <div class="item" style="padding-top:0px;">
+                             <span class="label">支付密码：</span>
+                             <div class="f1"><input name="password2" id="password2" type="password" class="input1" /><span class="fontColor3">&nbsp;*</span></div>
+                         </div>
+
+                         <div class="item" style="padding-top:0px;">
+                             <span class="label">确认密码：</span>
+                             <div class="f1"><input name="confirm_password2" id="confirm_password2" type="password" class="input1" /><span class="fontColor3">&nbsp;*</span></div>
+                     </div>
+                     <!--{/if}-->
+                     <div class="item" style="padding-top:0px;">
+                        <span class="label"></span>
+                        <div class="f1"><a href="javascript:sava_password2_form();" class="a1">提交</a></div>
+                     </div>
+                     </form>
+                  </div>
+               </div>
+               <!--{/if}-->
+    
+      </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<script>
+        var state = 1;
+		var InterValObj; //timer变量，控制时间
+		var count = {$FAIL_TIME}; //间隔函数，1秒执行
+		var curCount;//当前剩余秒数
+		var code = ""; //验证码
+		var codeLength = 6;//验证码长度		
+		
+		function sendMessage() {
+			
+			<!--{if $user.phone_mob}-->
+                <!--{if $user.phone_mob_bind_status eq 1}-->
+                var phone_mob=$("#new_phone_mob").val();
+                <!--{else}-->
+                var phone_mob=$("#phone_mob").val();
+                <!--{/if}-->
+			<!--{else}-->
+			var phone_mob=$("#phone_mob").val();
+			<!--{/if}-->
+
+			$("#warning").html("");
+			if(check_phone_or_tel()){
+				curCount = count;
+				//设置button效果，开始计时
+				$("#btnSendCode").attr("disabled", "true");
+				$("#btnSendCode").val("请在" + curCount + "秒内输入验证码");			
+				InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+				//向后台发送处理数据
+				$.get("index.php?app=sendcode&act=send2",{phone_or_tel:phone_mob},function(rs){
+					js_fail(rs);
+                    state=0;
+				})
+			}
+		
+		}
+		
+		function sendMessage2() {		
+			$("#warning").html("");
+			curCount = count;				
+			//设置button效果，开始计时
+			$("#btnSendCode").attr("disabled", "true");
+			$("#btnSendCode").val("请在" + curCount + "秒内输入验证码");			
+			InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+			//向后台发送处理数据
+			$.get("index.php?app=sendcode&act=send3",function(rs){
+				js_fail(rs);
+                state=0;
+			})
+
+		
+		}
+		
+		function check_phone_or_tel(){			
+			<!--{if $user.phone_mob}-->
+                <!--{if $user.phone_mob_bind_status eq 1}-->
+                var phone_mob=$("#new_phone_mob").val();
+
+                <!--{else}-->
+                var phone_mob=$("#phone_mob").val();
+                <!--{/if}-->
+			<!--{else}-->
+			var phone_mob=$("#phone_mob").val();
+
+			<!--{/if}-->
+		
+			var phone_or_tel=$.trim(phone_mob);
+			if(phone_or_tel==""){
+				js_fail("请输入手机号码");
+				return false;
+			}
+			var phone_reg = /^([0-9]{11})?$/;
+			var falg=phone_or_tel.search(phone_reg);
+			if (falg==-1){
+				js_fail("手机格式错误");
+				return false;
+			}
+			return true;
+		}
+		
+		//timer处理函数
+		function SetRemainTime() {
+			if (curCount == 0) {
+				window.clearInterval(InterValObj);//停止计时器
+				$("#btnSendCode").removeAttr("disabled");//启用按钮
+                if(state ==0 ){
+                    $("#btnSendCode").val("重新发送验证码");
+                }else{
+                    $("#btnSendCode").val("发送验证码");
+                }
+				code = ""; //清除验证码。如果不清除，过时间后，输入收到的验证码依然有效
+			}
+			else {
+				curCount--;
+				$("#btnSendCode").val("请在" + curCount + "秒内输入验证码");
+			}
+		}
+
+
+
+
+function submit_form(){
+
+	$("#warning").html("");
+	
+	<!--修改密码-->
+    <!--{if $smarty.get.type=='changerpassword'}-->
+        <!--{if !$smarty.post.step}-->
+		var password		=$("#password").val();
+		if(password==""){
+			js_fail("请输入原始密码!");
+			return;
+		}
+        var captcha			=$("#captcha").val();
+        if(captcha==""){
+            js_fail("请输入验证码!");
+            return;
+        }
+        $.get("index.php?app=captcha&act=check_captcha2",{captcha:captcha},function(rs){
+            js_fail(rs);	return;
+            if(rs!=1){
+                window.clearInterval(InterValObj);
+                $("#btnSendCode").removeAttr("disabled");
+
+                if(state ==0 ){
+                    $("#btnSendCode").val("重新发送验证码");
+                }else{
+                    $("#btnSendCode").val("发送验证码");
+                }
+
+                js_fail("验证码验证错误");
+                $("#captcha").val("");
+                return;
+            } else {
+                $.get("index.php?app=sendcode&act=checkUser",{password:password},function(rs2){
+                    if(rs2==1){
+                        $(".a1").attr("disabled","disabled");
+                        $(".a1").css("background","");
+                        $(".a1").html("处理中...");
+                        document.getElementById('sava_form').submit();
+                    }else{
+                        js_fail("密码错误！");
+                    }
+                })
+
+            }
+        })
+    <!--{else}-->
+        var new_password	=$("#new_password").val();
+        var confirm_password=$("#confirm_password").val();
+		if(new_password==""){
+			js_fail("请输入新密码!");
+			return;
+		}
+		if(confirm_password==""){
+			js_fail("请输入确认密码!");
+			return;
+		}
+		if(new_password!=confirm_password){		
+			js_fail("二次输入的密码不一致!");
+			return;
+		}
+        document.getElementById('sava_form').submit();
+        <!--{/if}-->
+
+	<!--修改邮箱-->
+    <!--{elseif $smarty.get.type=='changeremail'}-->
+        <!--{if !$smarty.post.step}-->
+		var password		=$("#password").val();	
+		if(password==""){
+			js_fail("请输入密码!");
+			return;
+		}
+            var captcha			=$("#captcha").val();
+            //alert(captcha);
+            if(captcha==""){
+                js_fail("请输入验证码!");
+                return;
+            }
+            $.get("index.php?app=sendcode&act=checkCode3",{yanzhengma:captcha},function(rs){
+                //alert(rs);
+                if(rs!=1){
+                    window.clearInterval(InterValObj);
+                    $("#btnSendCode").removeAttr("disabled");
+
+                    if(state ==0 ){
+                        $("#btnSendCode").val("重新发送验证码");
+                    }else{
+                        $("#btnSendCode").val("发送验证码");
+                    }
+
+                    js_fail("验证码验证错误");
+                    $("#captcha").val("");
+                    return;
+                } else {
+                    $.get("index.php?app=sendcode&act=checkUser",{password:password},function(rs2){
+                        if(rs2==1){
+                            $(".a1").attr("disabled","disabled");
+                            $(".a1").css("background","");
+                            $(".a1").html("处理中...");
+                            document.getElementById('sava_form').submit();
+                        }else{
+                            js_fail("密码错误！");
+                        }
+                    })
+
+                }
+            })
+        <!--{else}-->
+        <!--{if $user.email}-->
+            var new_email		=$("#new_email").val();
+            if(new_email==""){
+                js_fail("请输入新邮箱!");
+                return;
+            }
+            <!--{else}-->
+            var email		=$("#email").val();
+            if(email==""){
+                js_fail("请输入邮箱!");
+                return;
+            }
+            <!--{/if}-->
+            $(".a1").attr("disabled","disabled");
+            $(".a1").css("background","");
+            $(".a1").html("处理中...");
+            document.getElementById('sava_form').submit();
+        <!--{/if}-->
+		
+	<!--{/if}-->
+	
+}
+
+function sava_mob_form(){
+		$("#warning").html("");
+
+        <!--{if !$smarty.post.step || $smarty.post.step eq 1}-->
+                var password		=$("#password").val();
+                if(password==""){
+                    js_fail("请输入密码!");
+                    return;
+                }
+                var captcha			=$("#captcha").val();
+                if(captcha==""){
+                    js_fail("请输入验证码!");
+                    return;
+                }
+                $.get("index.php?app=captcha&act=check_captcha2",{captcha:captcha},function(rs){
+                    js_fail(rs);	return;
+                    if(rs!=1){
+                        window.clearInterval(InterValObj);
+                        $("#btnSendCode").removeAttr("disabled");
+
+                        if(state ==0 ){
+                            $("#btnSendCode").val("重新发送验证码");
+                        }else{
+                            $("#btnSendCode").val("发送验证码");
+                        }
+
+                        js_fail("验证码验证错误");
+                        $("#captcha").val("");
+                        return;
+                    } else {
+                        $.get("index.php?app=sendcode&act=checkUser",{password:password},function(rs2){
+                            if(rs2==1){
+                                $(".a1").attr("disabled","disabled");
+                                $(".a1").css("background","");
+                                $(".a1").html("处理中...");
+                                document.getElementById('sava_form').submit();
+                            }else{
+                                js_fail("密码错误！");
+                            }
+                        })
+
+                    }
+                })
+        <!--{else}-->
+                <!--{if $user.phone_mob}-->
+                    <!--{if $user.phone_mob_bind_status==1}-->
+                    var new_phone_mob		=$("#new_phone_mob").val();
+                    if(new_phone_mob==""){
+                        js_fail("请输入新手机号码!");
+                        return;
+                    }
+                    if(!check_phone_or_tel()){
+                        return;
+                    }
+                    <!--{/if}-->
+                <!--{else}-->
+                        var phone_mob		=$("#phone_mob").val();
+                        if(phone_mob==""){
+                            js_fail("请输入手机号码!");
+                            return;
+                        }
+                 <!--{/if}-->
+
+                        var yanzhengma=$("#yanzhengma").val();
+                        if(yanzhengma==""){
+                            js_fail("请输入手机验证码!");
+                            return;
+                        }
+
+                        $.get("index.php?app=sendcode&act=checkCode2",{yanzhengma:yanzhengma},function(rs){
+                            if(rs!=1){
+                                window.clearInterval(InterValObj);
+                                $("#btnSendCode").removeAttr("disabled");
+
+                                if(state ==0 ){
+                                    $("#btnSendCode").val("重新发送验证码");
+                                }else{
+                                    $("#btnSendCode").val("发送验证码");
+                                }
+
+                                js_fail("验证码验证错误");
+                                $("#yanzhengma").val("");
+                                return;
+                            } else {
+                                $(".a1").attr("disabled","disabled");
+                                $(".a1").css("background","");
+                                $(".a1").html("处理中...");
+                                document.getElementById('sava_form').submit();
+                            }
+                        })
+    <!--{/if}-->
+
+		
+}
+
+function sava_password2_form(){
+		$("#warning").html("");
+        <!--{if !$smarty.post.step || $smarty.post.step eq 1}-->
+                var password		=$("#password").val();
+                if(password==""){
+                    js_fail("请输入密码!");
+                    return;
+                }
+                var captcha			=$("#captcha").val();
+                if(captcha==""){
+                    js_fail("请输入验证码!");
+                    return;
+                }
+                $.get("index.php?app=captcha&act=check_captcha2",{captcha:captcha},function(rs){
+                    js_fail(rs);	return;
+                    if(rs!=1){
+                        window.clearInterval(InterValObj);
+                        $("#btnSendCode").removeAttr("disabled");
+
+                        if(state ==0 ){
+                            $("#btnSendCode").val("重新发送验证码");
+                        }else{
+                            $("#btnSendCode").val("发送验证码");
+                        }
+
+                        js_fail("验证码验证错误");
+                        $("#captcha").val("");
+                        return;
+                    } else {
+                        $.get("index.php?app=sendcode&act=checkUser",{password:password},function(rs2){
+                            if(rs2==1){
+                                $(".a1").attr("disabled","disabled");
+                                $(".a1").css("background","");
+                                $(".a1").html("处理中...");
+                                document.getElementById('sava_form').submit();
+                            }else{
+                                js_fail("密码错误！");
+                            }
+                        })
+
+                    }
+                })
+		<!--{else}-->
+                var yanzhengma=$("#yanzhengma").val();
+                if(yanzhengma==""){
+                    js_fail("请输入手机验证码!");
+                    return;
+                }
+                var password2=$("#password2").val();
+                if(password2==""){
+                    js_fail("请输入支付密码!");
+                    return;
+                }
+                var confirm_password2=$("#confirm_password2").val();
+                if(confirm_password2==""){
+                    js_fail("请输入支付确认密码!");
+                    return;
+                }
+                if(password2!=confirm_password2){
+                    js_fail("二次密码不一致!");
+                    return;
+                }
+                $.get("index.php?app=sendcode&act=checkCode2",{yanzhengma:yanzhengma},function(rs){
+                    if(rs!=1){
+                        window.clearInterval(InterValObj);
+                        $("#btnSendCode").removeAttr("disabled");
+
+                        if(state ==0 ){
+                            $("#btnSendCode").val("重新发送验证码");
+                        }else{
+                            $("#btnSendCode").val("发送验证码");
+                        }
+
+                        js_fail("验证码验证错误");
+                        $("#yanzhengma").val("");
+                        return;
+                    } else {
+                        $(".a1").attr("disabled","disabled");
+                        $(".a1").css("background","");
+                        $(".a1").html("处理中...");
+                        document.getElementById('sava_form').submit();
+                    }
+                })
+    <!--{/if}-->
+}
+
+function check_mob (val,inputName){
+    if(val!=""){
+        $.get("index.php?app=member&act=check_phone_mob&ajax=1","phone_mob="+val,function(rs){
+            if(eval(rs) == false || eval(rs) == "false"){
+                 $("#"+inputName).val("");
+                 js_fail("手机号码已经存在，请更换");
+            }
+        })
+    }
+
+}
+
+function check_email(val,inputName){
+    if(val!=""){
+
+
+        var regu ='^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+@[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$';
+        var re = new RegExp(regu);
+        var flag = re.test(val);
+
+        if(!flag){
+            $("#"+inputName).val("");
+            js_fail("邮箱格式错误!");
+            return;
+        }
+
+        $.get("index.php?app=member&act=check_user_or_phone_mob&ajax=1","user_name="+val,function(rs){
+            if(eval(rs) == false || eval(rs) == "false"){
+                $("#"+inputName).val("");
+                js_fail("邮箱已经存在，请更换!");
+            }
+        })
+    }
+}
+
+</script>
+{include file=footer.html}

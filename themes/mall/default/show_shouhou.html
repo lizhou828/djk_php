@@ -1,0 +1,112 @@
+<ul class="tab">
+    <li class="active">申请退换货</li>
+</ul>
+<div class="content1">
+<div id="warning"></div>
+<form method="post" id="shouhouForm" name="shouhouForm"  action="index.php?app=ordershouhou&amp;act=showshouhou" method="post">
+
+	<input type="hidden" name="order_id" value="{$ordergoods.order_id}" />
+    <input type="hidden" name="goods_id" value="{$ordergoods.goods_id}" />    
+    <input type="hidden" name="shouhou_id" value="{$shouhou.id}" />
+    <input type="hidden" name="status" id="status" value="2" />
+    
+    <table class="shouhouTbl">
+    <tr>
+    <td><label for="d1">请选择售后方式</label></td>
+    <td><input type="radio" name="type" disabled="disabled" onclick="show(1)" class="text" <!--{if $shouhou.type eq 1}-->checked<!--{/if}--> id="d1" value="1" /> <label for="d1">退货</label>
+        <input type="radio" name="type" disabled="disabled" onclick="show(2)" class="text"  <!--{if !$shouhou || $shouhou.type eq 2 }-->checked<!--{/if}--> value="2" /> <label for="d2">换货</label></td>
+    </tr>
+    
+    <tr>
+    <td>希望退还金额: </td>
+    <td>
+    	<input type="text" class="text" 
+        disabled="disabled"
+      value="<!--{if $shouhou.jine}-->{$shouhou.jine}<!--{else}-->0<!--{/if}-->"  />
+    	<font color="#FF0000">(商品金额:¥{$ordergoods.price})</font>
+    </td>
+    </tr>
+    
+    <tr>
+    <td>买家申请原因:</td>
+    <td><textarea disabled="disabled" class="text width_normal" style="width:600px; height:130px">{$shouhou.content_post}</textarea>
+   	 </tr>
+    
+    <!--{if $shouhou.content_img1 || $shouhou.content_img2}-->
+    <tr>
+    <td colspan="2">&nbsp;</td>
+    </tr>
+    <tr>
+    <td>证明:</td>
+    <td>		
+    		
+                
+                <!--{if $shouhou.content_img1}-->图片证明1&nbsp;&nbsp;&nbsp;
+                <a href="{$site_url}/{$shouhou.content_img1}" target="_blank">{$site_url}/{$shouhou.content_img1}</a>
+                <!--{/if}-->
+                 <!--{if $shouhou.content_img2}--><br>图片证明2&nbsp;&nbsp;&nbsp;
+                <a href="{$site_url}/{$shouhou.content_img2}" target="_blank" >{$site_url}/{$shouhou.content_img2}</a>
+                <!--{/if}-->
+                
+                </td>
+    </tr>
+    <!--{/if}-->
+    
+	<tr>
+    <td colspan="2"><br><hr /><br></td>
+    </tr>
+    <tr>
+    
+    <!---卖家处理-->
+    
+    
+    <td>卖家处理内容 :</td>
+    <td><textarea id="content_post" name="content_reply" disabled="disabled" class="text width_normal" style="width:600px; height:130px">{$shouhou.content_reply}</textarea>
+   </td>
+    </tr>
+    
+    <!--{if $shouhou.reply_img1 || $shouhou.reply_img2}-->
+    <tr>
+    <td colspan="2">&nbsp;</td>
+    </tr>
+    <tr>
+    <td>证明:</td>
+    <td>		
+    			<!--{if $shouhou.reply_img1}-->
+                图片证明1&nbsp; &nbsp; &nbsp;                
+                <a href="{$site_url}/{$shouhou.reply_img1}" target="_blank">{$site_url}/{$shouhou.reply_img1}</a>
+                <!--{/if}-->
+                
+                <!--{if $shouhou.reply_img2}-->
+                <br>
+                图片证明2 &nbsp; &nbsp; &nbsp;                    
+                <a href="{$site_url}/{$shouhou.reply_img2}" target="_blank" >{$site_url}/{$shouhou.reply_img2}</a>
+                <!--{/if}-->
+                </td>
+    </tr>
+    <!--{/if}-->
+    
+	</table>	
+    <br>
+    <div class="btn">
+        <input type="button" onclick="submitForm(this.form,2)" id="confirm_button" class="btn1" value="已处理" />
+    </div>
+    
+     <div class="btn">
+        <input type="button" onclick="submitForm(this.form,0)" id="confirm_button" class="btn1" value="未处理" />
+    </div>
+    
+    <br><br>
+    </form>
+</div>
+
+<script>
+function submitForm(obj,val){
+if(val==val)
+{
+  $("#status").val(val);
+}
+obj.submit();
+}
+</script>
+

@@ -1,0 +1,21 @@
+@charset "utf-8";
+/*申请开店*/
+.sqgout{ width:998px; margin:0px auto; height:auto; border:1px solid #ddd; margin-bottom:15px;}
+.sqgout h2{ width:980px; height:33px; border-bottom:1px solid #eee; background:#f9f9f9; font-size:14px; font-weight:bold; color:#787878; line-height:33px; padding-left:18px;}
+.sqgout p{ width:980px; margin:0px auto; font-size:12px; height:50px; line-height:50px; border-bottom:1px dotted #d3d3d3; color:#1d5b9f; text-align:center; margin-top:35px;}
+.sqgout .nei{ width:980px; margin:0px auto; padding-bottom:50px; margin-top:25px;}
+.sqgout .nei .txt{
+    /*font-size:14px; */
+    color:#666;
+}
+.sqgout .nei .txt .input1{ width:325px; height:25px; border:1px solid #ddd; padding-left:5px; line-height:25px;}
+.sqgout .nei .txt .input2{ width:100px; height:25px; border:1px solid #ddd; padding-left:5px; line-height:25px;}
+.sqgout .nei .txt .input3{ width:120px; height:25px; border:1px solid #ddd; padding-left:5px; line-height:25px;}
+
+.sqgout .jd{ width:750px; margin:0px auto; margin-top:55px; display:block}
+.sqgout .jd ul{}
+.sqgout .jd ul li{ float:left; height:38px; line-height:38px; font-size:14px; font-family:"宋体"; font-weight:bold}
+.sqgout .jd ul .lir1{ width:130px; background:url(../images/member/fw_er001.png) no-repeat; color:#434343; padding-left:70px;}
+.sqgout .jd ul .lir2{ width:72px;background:url(../images/member/fw_er001.png) no-repeat -200px 0;}
+.sqgout .jd ul .lir3{ width:130px; background:url(../images/member/fw_er001.png) no-repeat -272px 0; color:#999999; padding-left:70px;}
+.sqgout .jd ul .lir4{ width:130px; background:url(../images/member/fw_er001.png) no-repeat -544px 0; color:#999999; padding-left:70px;}

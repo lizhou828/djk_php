@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>集客小店开通流程</title>
+    <link href="{$site_url}/weixin/templates/style/com.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/hone.css" rel="stylesheet" type="text/css" />
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/show_share_button.js"></script>
+</head>
+<body>
+<div style=" width:320px; margin:0px auto;">
+<div class="enter-t">
+    <a href="index.php?app=jkxd_portal">
+        <div class="enter-t1">首页</div></a>
+    <div class="enter-t2">集客小店开通流程</div>
+</div>
+<div class="clear"></div>
+<div class="enter-bg">
+    <div class="ess-bg1" style="margin:0px;"><img src="{$site_url}/weixin/templates/style/img/ess-bg8.jpg" width="309" height="208" /></div>
+    <div class="flow1">第一步：注册成为大集客会员</div>
+    <div class="flow1">第二步：免费开通集客小店</div>
+    <div class="flow1">第三步：推广店铺商品</div>
+    <div class="flow1" style="margin-bottom:60px;">第四步：商品售出获得奖励</div>
+</div>
+<div class="essay2" style="margin-top:20px;">
+    <p><a href="index.php?app=jkxd_portal&act=guide_one">集客小店是什么</a></p>
+    <p><a href="index.php?app=jkxd_portal&act=guide_two">集客小店三大收入来源</a></p>
+    <p><a href="index.php?app=jkxd_portal&act=guide_four">集客小店推广攻略</a></p>
+</div>
+<script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+<script type="text/javascript">
+    function apply_jkxd(){
+        $.get('index.php?app=jkxd_portal&act=apply_jkxd',function(data){
+            data = eval("("+data+")");
+            if(data.retval == 0){
+                alert(data.msg);
+            }else if(data.retval==1){
+                window.location='index.php?app=jkxd_portal&act=apply_jkxd_page';
+            }
+        })
+    }
+</script>
+<div class="essay3" style="cursor:pointer" onclick="apply_jkxd()">免费申请开通</div>
+{include file=cnzz.html}
+</div>
+</body>
+</html>

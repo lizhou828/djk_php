@@ -1,0 +1,184 @@
+{include file=header.html}
+<link href="{res file=css/other.css}" rel="stylesheet" type="text/css" />
+<link href="{res file=css/bdsh.css}" rel="stylesheet" type="text/css" />
+<script language="JavaScript">
+
+    //提交查询
+    function submit_search() {
+        $('#search_form').attr('method','get');
+        $('#search_form').submit();
+    }
+    //本地生活地区筛选
+
+    //超市县级筛选
+    function set_bdsh_city(reg_id) {
+        if(reg_id == '') {
+            $("#bdsh_city_id").val('');
+        }
+        else {
+            $("#bdsh_city_id").val(reg_id);
+            $("#bdsh_diqu_id").val("");
+            $("#bdsh_reg_id").val();
+        }
+        submit_search();
+    }
+    function set_diqu_id(reg_id,reg_name) {
+        if(reg_id == '') {
+            $("#bdsh_diqu_id").val('');
+        }
+        else {
+            $("#bdsh_diqu_name").val(reg_name);
+            $("#bdsh_diqu_id").val(reg_id);
+        }
+        $("#bdsh_reg_id").val();
+        $("#bdsh_city_id").val();
+        submit_search();
+    }
+    //分类筛选
+    function set_bdsh_class(class_id,class_name) {
+        $("#bdsh_class_sub_name").val("");
+        $("#bdsh_subcateid").val("");
+        if(class_id == '') {
+            $("#bdsh_class").val("");
+            $("#bdsh_class_name").val("");
+        }
+        else {
+            $("#bdsh_class").val(class_id);
+            $("#bdsh_class_name").val(class_name);
+        }
+        submit_search();
+    }
+    // 小分类筛选
+    function set_bdsh_subcate(class_id) {
+        $("#bdsh_subcateid").val(class_id);
+        submit_search();
+    }
+    //价格筛选
+    function set_bdsh_brand(price_range) {
+        $("#bdsh_brand").val(price_range);
+        submit_search();
+    }
+    //本地生活排序
+    function set_bdsh_order(order_key) {
+        if(order_key == $("#bdsh_order_key").val()) {
+            change_bdsh_order();
+        } else {
+            $("#bdsh_order").val('asc');
+        }
+        $("#bdsh_order_key").val(order_key);
+        submit_search();
+    }
+    //本地生活排序筛选
+    function change_bdsh_order() {
+        if($("#bdsh_order").val() == 'asc') {
+            $("#bdsh_order").val('desc');
+        } else {
+            $("#bdsh_order").val('asc');
+        }
+    }
+    //本地生活子分类
+    function set_bdsh_sub_class(class_id,class_name) {
+        $("#bdsh_subcateid").val(class_id);
+        $("#bdsh_class_sub_name").val(class_name);
+        submit_search();
+    }
+    </script>
+<!--全部内容-->
+{include file=bdsh.common_search.html}
+<!--菜单-->
+{include file=bdsh.category_common.html}
+
+{include file=bdsh_curlocal.html}
+<!--内容中-->
+    <form id="search_form">
+    <input name="app" type="hidden" value="bdsh">
+    <input name="act" type="hidden" value="store">
+    <input id="bdsh_subcateid" name="bdsh_subcateid" type="hidden" value="{$filters.bdsh_subcateid}"/>
+    <input id="bdsh_class" name="bdsh_class" type="hidden" value="{$filters.bdsh_class}"/>
+    <input id="bdsh_reg_id" name="bdsh_reg_id" type="hidden" value="{$filters.bdsh_reg_id}"/>
+    <input id="bdsh_diqu_id" name="bdsh_diqu_id" type="hidden" value="{$filters.bdsh_diqu_id}"/>
+    <input id="bdsh_class_name" name="bdsh_class_name" type="hidden" value="{$filters.bdsh_class_name}">
+    <input id="bdsh_diqu_name" name="bdsh_diqu_name" type="hidden" value="{$filters.bdsh_diqu_name}">
+    <input id="bdsh_class_sub_name" name="bdsh_class_sub_name" type="hidden" value="{$filters.bdsh_class_sub_name}">
+    </form>
+
+<div id="filter">
+    <div class="fov1">
+        <div class="txt1">分类:</div>
+
+        <ul class="inline">
+            <li class="item"><a href="javascript:void(0)" onclick="set_bdsh_class('','')" <!--{if !$filters.bdsh_class }--> style="background:#27a196;color:#ffffff" <!--{/if}-->>全部</a></li>
+            <!--{foreach from=$scategorys item=scategory}-->
+            <li class="item"><a href="javascript:void(0)" onclick="set_bdsh_class('{$scategory.id}','{$scategory.value}')" <!--{if $filters.bdsh_class eq $scategory.id }--> style="background:#27a196;color:#ffffff" <!--{/if}-->>{$scategory.value|escape}</a></li>
+            <!--{/foreach}-->
+        </ul>
+        <div class="bghot">
+            <ul class="inline">
+                <!--{foreach from=$son_category item=son_cate}-->
+                <li class="item"><a href="javascript:void(0)" onclick="set_bdsh_sub_class('{$son_cate.cate_id}','{$son_cate.cate_name}')" <!--{if $filters.bdsh_subcateid == $son_cate.cate_id}--> style="background:#27a196;color:#ffffff" <!--{/if}-->>{$son_cate.cate_name|escape}</a></li>
+                <!--{/foreach}-->
+            </ul>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="fov1">
+        <div class="txt1" style=" background-position:0 -21px;">区域:</div>
+        <ul class="inline">
+         <li class="item"><a href="javascript:void(0)" onclick="set_diqu_id('','')" <!--{if !$filters.bdsh_diqu_id }--> style="background:#27a196;color:#ffffff" <!--{/if}-->>全部</a></li>
+        <!--{foreach from=$diqu item =item key=key}-->
+        <li class="item"><a href="javascript:void(0)" onclick="set_diqu_id('{$key}','{$item}')" <!--{if $filters.bdsh_diqu_id == $key}--> style="background:#27a196;color:#ffffff" <!--{/if}-->>{$item}</a></li>
+        <!--{/foreach}-->
+        </ul>
+        <div class="clear"></div>
+    </div>
+    <div class="libiao">
+        <div class="div1">
+            <a href="javascript:void(0)" class="c_eeeded">默认排序</a>
+            <a href="javascript:void(0)"><span></span>店铺信誉</a>
+            <a href="javascript:void(0)"><span></span>评价数</a>
+            <a href="javascript:void(0)"><span></span>消费人数</a>
+        </div>
+    </div>
+</div>
+
+<!--列表-->
+<div id="bd_list">
+    <div class="sj">
+        <div class="sj_left">
+            <!--{foreach from=$stores item=store}-->
+                <dl class="sj_f">
+                    <dd class="pic"><a href="{r_url app=bdsh&act=list_detail&id=$store.store_id&bdsh_reg_id=$filters.bdsh_reg_id}" target="_blank"><!--{if $store.image }--><img src="{img_url $img_url/$store.image/200X200}" width="210" height="210"><!--{else}--><img src="{res file=images/bdsh/default_220X220.jpg}" width="210" height="210"> <!--{/if}--></a><em class="dizhi" style="overflow: hidden;" title="{$store.address}">地址：{$store.address}</em></dd>
+                    <dt class="fonts">
+                    <h2><a href="{r_url app=bdsh&act=list_detail&id=$store.store_id&bdsh_reg_id=$filters.bdsh_reg_id}" target="_blank" title="{$store.store_name}">{$store.store_name|truncate:25:"……"}</a></h2>
+                    <p class="bq">标签：<!--{if $store.tag }--> <!--{foreach from=$store.tag item=t name=tag_name}--> <!--{if $smarty.foreach.tag_name.index<3}--> <a href="javascript:void(0)">{$t}</a> <!--{/if}--> <!--{/foreach}--><!--{/if}--></p>
+                    </dt>
+                </dl>
+            <!--{/foreach}-->
+
+    </div>
+        <div class="sj_right">
+            <h3>人气商家</h3>
+            <!--{foreach from=$renqi_store item =store}-->
+            <dl class="nhg">
+                <dd><a href="{r_url app=bdsh&act=list_detail&id=$store.store_id&bdsh_reg_id=$filters.bdsh_reg_id}" target="_blank"> <!--{if $store.shitidian_img }--> <img src="{img_url $img_url/$store.shitidian_img/60X60}" width="60" height="60"><!--{else}--> <img src="{res file=images/bdsh/default_60X60.jpeg}" width="60" height="60"><!--{/if}--></a></dd>
+                <dt>
+                <h2><a href="{r_url app=bdsh&act=list_detail&id=$store.store_id&bdsh_reg_id=$filters.bdsh_reg_id}" target="_blank"> {$store.store_name}</a></h2>
+                <p>{$store.description2}</p>
+                </dt>
+            </dl>
+            <!--{/foreach}-->
+        </div>
+         <div class="clear"></div>
+        <div style="margin-right: 290px;">
+         {include file=page.bottom.html}
+        </div>
+        <div class="clear"></div>
+       <div class="tj">
+            <h3>您有新推荐的商家，请</h3>
+            <span><a href="index.php?app=tuiguang&act=uploadStore&p=tuiguang"><img src="{res file=images/bdsh/tj-bg.jpg}" width="110" height="31" /></a></span>
+       </div>
+</div>
+<!--底部横banner-->
+
+
+{include file=footer.html}

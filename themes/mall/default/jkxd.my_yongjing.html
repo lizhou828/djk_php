@@ -1,0 +1,203 @@
+{include file=member.header.html}
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js"></script>
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js"></script>
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/dialog/dialog.js" id="dialog_js"></script>
+<style>
+    .show_alert{
+        background-color: #F5F5F5;
+        border: 1px solid #D8D8D8;
+        margin-top: -20px;
+        margin-left: -12px;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        color: #919191;
+        line-height: 20px;
+        display: block;
+    }
+	.shouyi_detail{
+	   padding:5px;
+	   line-height:50px
+	}
+	.div1{
+		background-color: #F5F5F5;
+        border: 1px solid #D8D8D8; 
+		line-height:30px
+	}
+	.div2{margin-left:0px; height:30px; background:#FFFFFF; border-top:1px solid #D8D8D8}
+    .div2 div{
+        float: left;
+    }
+
+</style>
+
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right">
+    	
+
+        <ul class="tab">
+            <li class="<!--{if $smarty.get.orderBy=='jine' || !$smarty.get.orderBy}-->active<!--{else}-->normal<!--{/if}-->"><a href="index.php?app=jkxd&act=my_yongjing&orderBy=jine">金额收益</a></li>
+            <!--<li class="&lt;!&ndash;{if $smarty.get.orderBy=='jifen'}&ndash;&gt;active&lt;!&ndash;{else}&ndash;&gt;normal&lt;!&ndash;{/if}&ndash;&gt;"><a href="index.php?app=jkxd&act=my_yongjing&orderBy=jifen">积分收益</a></li>-->
+       </ul>
+
+        <div class="wrap">
+            <div class="public">
+
+
+
+                <div class="public table" id="serviceTable" name="serviceTable">
+
+                    <div class="scarch_order">
+
+                        <div class="show_alert">
+
+                        <form method="get">
+                            <input type="hidden" name="app" value="{$smarty.get.app}"/>
+                            <input type="hidden" name="act" value="my_yongjing"/>
+                            <input type="hidden" name="orderBy" value="{$smarty.get.orderBy}"/>
+                          
+                            订单号&nbsp;&nbsp;&nbsp;&nbsp;：
+                            <input class="queryInput" type="text" name="order_sn"
+                                   value="{$smarty.get.order_sn|escape}"/>&nbsp;&nbsp;&nbsp;&nbsp;                          
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;结算日期：
+                            <input class="text_normal width2" type="text" name="add_time_from" id="add_time_from" value="{$smarty.get.add_time_from|escape}" /> &#8211; 
+          					<input class="text_normal width2" id="add_time_to" type="text" name="add_time_to" value="{$smarty.get.add_time_to|escape}" />&nbsp;
+                            &nbsp;&nbsp;
+                           
+                            买家用户：
+                            <input class="queryInput" type="text" name="buyer_name"
+                                   value="{$smarty.get.buyer_name|escape}"/>&nbsp;&nbsp;&nbsp;&nbsp;
+                        	<br><br>
+                            商家用户：
+                            <input class="queryInput" type="text" name="seller_name"
+                                   value="{$smarty.get.seller_name|escape}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            
+                            <input type="submit" class="btn" style="cursor:pointer" value="查询"/>&nbsp;&nbsp;&nbsp;&nbsp;                                 
+                        </form>
+                            	
+                        </div>
+                    </div>
+                    <div class="public table">
+							
+                            <div id="shouyi_jine" name="shouyi_jine" style="  float: right;margin-bottom: -35px;">
+                            
+                            <font color='red'><strong>总收益： &nbsp;&nbsp;&nbsp;
+                                【<!--{if $yue_shouyi == ""}-->0<!--{else}-->{$yue_shouyi|number2}<!--{/if}-->】元
+                            </strong>
+                            </font>
+                            
+                            <input id="chouzhi_btn"  type="button" dialog_width="550" dialog_tixian="" dialog_id="tixian_page"
+                                   uri="index.php?app=member&act=tixian" ectype="dialog" value="提现"
+                                   style="cursor: pointer;background: none repeat scroll 0 0 #D0281E;border: medium none;color: #FFFFFF;font-weight: bold;height: 28px;margin-left: 15px;vertical-align: middle;width: 80px;margin-top: -10px;" name="chouzhi_btn" />
+                            
+                            </div>
+                            
+                            <table width="100%" cellspacing="0" class="table_head_line">
+                            <tr class="line_bold">
+                             <th class="" colspan="5"></th>
+                            </tr>
+                            <tr class="gray">                               
+                                <th width="150">&nbsp;&nbsp;&nbsp;买家</td>
+                                <th width="150">商家</td>
+                                <th width="150">订单金额</td>
+                                <!--<th width="150">提成比例</td>  -->
+                                <th width="100">收益额</td>
+                            </tr>                         
+                            <!--{foreach from=$shouyi item=sy}-->
+                            
+                            <tr>
+                                <td colspan="5">
+                                
+                                <div class="shouyi_detail">
+                                
+                             	<div class="div1">
+                                    <label>&nbsp;&nbsp;订单号：<a href="index.php?app=seller_order&act=view&order_id={$sy.order_info.order_id}&viewType=tuiguang" target="_blank">{$sy.order_sn}</a></label>
+                                    <label style="margin-left:35px">结算时间：{$sy.create_time}</label>
+                                    
+                                    <div class="div2">
+                                    <div style="width:159px">&nbsp;&nbsp;
+                                    <!--{if $sy.order_info.t_id_buyer==$visitor.user_id}-->
+                                    <font color='red'>{$sy.order_info.buyer_name|escape}</font>
+                                    <!--{else}-->
+                                    {$sy.order_info.buyer_name|escape}
+                                    <!--{/if}-->
+                                    </div>
+                                    <div style="width:165px">
+
+                                    <!--{if $sy.order_info.if_djk>0}-->
+                                        大集客商城
+                                    <!--{else}-->
+                                        <!--{if $sy.order_info.t_id_seller==$visitor.user_id}-->
+                                        <font color='red'>{$sy.order_info.seller_name|escape}</font>
+                                        <!--{else}-->
+                                        {$sy.order_info.seller_name|escape}
+                                        <!--{/if}-->
+                                    <!--{/if}-->
+                                    
+                                    </div>
+                                    <div style="width:175px">{$sy.order_info.order_amount|number2}元</div>
+                                    <!--<div style="width:160px">{$sy.order_info.ticheng|changerStr:100}%</div>-->
+                                    <div style="width:90px">
+                                    <!--{if $smarty.get.orderBy=='jine' || !$smarty.get.orderBy}-->
+                                    {$sy.jine|number2}元
+                                    <!--{else}-->
+                                    {$sy.jifen}积分
+                                    <!--{/if}-->
+                                    </div>
+                                	</div>
+                                    
+                                </div>
+                                </div>
+                                
+                           	   </td>
+                            </tr>
+                            
+                            
+                            
+                            <!--{foreachelse}-->
+                            <tr class="no_data">
+                                <td colspan="5" class="member_no_records"><br>没有查询到数据</td>
+                            </tr>
+                            <!--{/foreach}-->                          
+                            <tr class="line_bold">
+                            <th class="" colspan="5"></th>
+                            </tr>
+                        </table>
+                        <div class="kandan_foot">
+                            <!--{if $shouyi}-->
+                            <div class="pageLinks">{include file=member.page.bottom.html}</div>
+                            <!--{/if}-->
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+
+
+                </div>
+
+
+            </div>
+            <!--结束 -->
+        </div>
+
+
+       
+    </div>
+
+    <div class="clear"></div>
+    <div class="adorn_right1"></div>
+    <div class="adorn_right2"></div>
+    <div class="adorn_right3"></div>
+    <div class="adorn_right4"></div>
+</div>
+<div class="clear"></div>
+</div>
+
+<script>
+	$('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+	$('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+</script>
+{include file=footer.html}

@@ -1,0 +1,183 @@
+@charset "utf-8";
+/******************集客小店首页*******************/
+.home320{width:320px;margin:0 auto; background:#f0f0f0;}
+	.home1{width:136px;height:60px;margin-bottom:41px;margin-left:5px;}
+	
+	.home2{width:315px;height:220px;margin-left:5px; background: url(img/home-1.jpg) no-repeat;}
+	.home2-1{width:221px;height:35px;line-height:35px;float:right;margin-bottom:20px;background:url(img/li-1.png) no-repeat;}
+	.home2-2{width:221px;height:35px;line-height:35px;float:right;margin-bottom:20px;background:url(img/li-2.png) no-repeat;}
+	.home2-3{width:221px;height:35px;line-height:35px;float:right;margin-bottom:20px;background:url(img/li-3.png) no-repeat;}
+	.home2-4{width:221px;height:35px;line-height:35px;float:right;margin-bottom:20px;background:url(img/li-4.png) no-repeat;}
+	.home2-1 li,.home2-2 li,.home2-3 li,.home2-4 li{text-indent:50px;color:#fff;font-size:14px; font-weight:bold;}
+	.home2-1 li span,.home2-2 li span,.home2-3 li span,.home2-4 li span{margin-left:60px;}
+	
+	.home3{width:320px;height:299px;background:url(img/home-2.jpg) no-repeat;}
+	.home3-1{width:221px;float:right;border-radius:5px 0px 0px 5px;background:rgba(51,51,51,0.4);}
+	.home3-1 li{width:205px;line-height:20px;color:#fff;padding:8px 8px 10px 8px;border-bottom:1px solid #797979;}
+	.home-blank{height:20px;background:#fcfcfc;}
+	.home4{width:320px;height:125px;border-top:2px solid #c40000;background:#fcfcfc;}
+	.home4-1{ float:left;width:149px;height:23px;margin-left:5px;margin-bottom:8px;margin-top:10px;background: url(img/logo1.png) no-repeat;}
+	.home4-2{ float:right;width:129px;height:23px;line-height:23px;padding-left:20px;margin-right:6px;margin-top:10px;color:#0083e6;margin-bottom:8px;}
+	.home4-2 a{color:#0083e6;}
+
+
+/******************设置密码-弹窗*******************/
+.pop320{width:309px;margin:0 auto;}
+.popup{width:309px;height:450px; background:#ffffff;}
+.popup1{width:309px;height:35px;line-height:35px;font-size:14px;text-indent:10px;font-weight:bold;color:#ffffff;background:#0078d2;}
+.popup1 span{ float:right;margin-top:4px;margin-right:10px;}
+.popup2{width:289px;padding:35px 10px 0px 10px;}
+.popup2-1{font-family:"微软雅黑";font-size:14px;}
+	.popup2-2{width:281px;height:48px;line-height:22px;padding:2px 0px 0px 5px;margin-bottom:35px;text-indent:30px;border:1px solid #fcd5b5;margin-top:15px;background:#fef2e8 url(img/ld.png) no-repeat 12px 6px; }
+.set-text{width:125px;height:25px;border:1px solid #e5e5e5;padding-left:10px;}
+.set-buttom{width:96px;height:35px;line-height:35px;font-size:14px;color:#fff; font-weight:bold;border:0px; cursor:pointer;background:#c40000;}
+
+
+/******************QQ申请登录*******************/
+.enter1{width:307px;height:71px;border:1px solid #e5e5e5;}
+.enter1 td{font-size:14px;font-weight:bold;}
+.enter1-text{width:200px;height:30px;border:0px;}
+.enter-button{width:309px;height:35px;margin-top:55px;margin-bottom:45px;color:#ffffff;font-size:14px;border:0px; cursor:pointer;background:#c40000;}
+.enter2 p span,.enter22 p span{color:#c40000;}
+.enter2 p{margin-top:15px;}
+.enter22{margin-top:20px;}
+.enter22 p{margin-top:5px;}
+
+/******************我的集客小店-更多*******************/
+.my-more{width:307px;height:65px;border:1px solid #e5e5e5;}
+.my-more dt{width:73px;height:65px;float:left;}
+.my-more dd{width:224px;height:65px;float:left;}
+.my-more dd h3{margin-top:12px;font-size:12px;}
+.my-more dd h3 span{ float:right;font-size:16px;color:#666666;}
+.my-more dd p{font-size:14px;margin-top:7px;}
+.mmore1{width:307px;height:67px;border:1px solid #E5E5E5;margin-top:10px;margin-bottom:10px;}
+.mmore2{width:307px;height:33px;border:1px solid #E5E5E5;}
+.mmore1 td,.mmore2 td{font-size:14px;}
+.mmore22{width:309px;height:30px;line-height:30px;margin-top:50px;text-align:center; color:#ffffff;font-size:14px;background:#c40000;}
+.mmore23{width:309px;height:30px;line-height:30px;margin-top:120px;text-align:center; color:#ffffff;font-size:14px;background:#c40000;}
+
+
+/******************商家管理*****************/
+.shops1{width:309px;height:32px;line-height:32px;font-size:14px;font-weight:bold;border-bottom:1px solid #e5e5e5;}
+.shops2{width:309px;margin-top:15px;padding-bottom:20px;border-bottom:1px dashed #e5e5e5;}
+.shops2 dt{width:100px;height:110px;margin-right:10px;float:left;margin-top: 8px;}
+.shops2 dd{width:190px;height:110px;float:left;}
+.shops2 dd p{height:25px;line-height:25px;}
+
+
+/******************申请开通*****************/
+.h-yuan{width:309px;height:37px;}
+.h-yuan1{width:154px;height:35px;line-height:35px; text-align:center;font-size:14px; font-weight:bold;float:left;border-bottom:2px solid #c40000; background:#ffffff;}
+.h-yuan2{width:155px;height:35px;line-height:35px; text-align:center;font-size:14px;font-weight:bold;float:right;border-bottom:2px solid #d5d5d5;color:#999999;background:#f2f2f2;}
+.kuang{width:307px;border:1px solid #e5e5e5;margin-top:10px;margin-bottom:10px;}
+.kuang td{font-size:14px;color:#666;}
+.kuang td strong{ color:#333;}
+.kuang-text{width:175px;height:30px;border:0px;color:#666;font-size:14px;}
+.kuang-text1{ border:0px;width:175px;height:30px;color:#666;font-size:14px; }
+.shenqing{width:309px;line-height:18px;color:#666;margin-bottom:100px;}
+.shenqing2{margin:45px 0px 30px 65px;}
+
+
+/******************我的集客小店*****************/
+.sou-text{width:307px;height:28px;line-height:28px;border:1px solid #e5e5e5;color:#999; text-indent:32px;background:url(img/fdj.jpg) 10px 5px no-repeat;margin-bottom:10px;}
+.hot{width:307px;border:1px solid #e5e5e5;margin-top:10px;margin-bottom:10px;}
+.hot-t{width:307px;height:30px;line-height:30px; font-weight:bold; text-indent:10px;background:#e5e5e5;}
+.hot-t span{ float:right;margin-right:10px; font-weight:normal;}
+.hot-t span strong{ font-size:14px; color:#c40000;}
+.hot-c{width:280px;padding:20px 0px 12px 27px;}
+.hot-c dl{width:140px; float:left;}
+.hot-c dl dt{width:100px;height:100px;}
+.hot-c dl dd{width:100px;line-height:16px;margin-top:5px;}
+.hot-c dl p{ font-family:"微软雅黑";font-size:16px;color:#c40000;margin-top:5px;}
+
+
+/******************集客小店收益*****************/
+.earn{width:302px;height:81px;padding:14px 10px 17px 8px;margin:0 auto;background:url(img/ear-bg.jpg) repeat-x;}
+.earn2{font-size:48px; font-family:"微软雅黑";color:#ffffff;margin-top:6px;}
+.earn3{margin-top:20px;width:309px;}
+.earn33{font-size:24px; font-family:"微软雅黑";color:#f4471c;}
+.earn44{font-size:18px; font-family:"微软雅黑";color:#666;}
+
+
+
+/******************个人信息*****************/
+.per1{width:309px;height:30px;line-height:30px;font-size:14px;font-weight:bold;}
+.per2{width:307px;border:1px solid #e5e5e5;border-radius:5px; }
+.per2 td{font-size:14px;}
+
+
+/******************一键推广****************/
+.erwei{margin:30px 0 30px 50px;}
+.erwei img{margin-bottom:15px;}
+.erwei p{margin-left:10px;}
+
+.fenx{width:309px;height:54px;margin-bottom: 60px;}
+.fenx li{ float:left;}
+
+/******************集客小店是什么****************/
+.ess-bg1{margin-left:45px;}
+.essay1{width:309px;border-bottom:1px dashed #fae6c4;margin-bottom:25px;padding-bottom:20px;}
+.essay1 h3{width:247px;height:25px;line-height:25px;font-weight:bold;border-bottom:2px solid #efab3a;font-size:12px;margin-top:10px;margin-bottom:5px;}
+.essay1 dl{width:309px;}
+.essay1 dl dt{ float:left;width:200px;line-height:25px;color:#666;}
+.essay1 dl dd{ float:right;width:108px;}
+.essay2{width:305px;padding:15px 0px 0px 15px;border-top:2px solid #efab3a;margin:0 auto;}
+.essay2 p{height:25px;text-indent:12px;background:url(img/sanjiao.png) 0px 5px no-repeat;}
+.essay2 p a{color:#0083e6;}
+.essay3{width:309px;height:35px;line-height:35px;margin:0 auto;margin-top:40px;font-size:14px;color:#ffffff; text-align:center;background:#c40000;}
+
+/******************集客小店开通流程****************/
+.flow1{width:309px;height:35px;line-height:35px;font-weight:bold; text-indent:30px; background:url(img/yuanq.jpg) 12px 13px no-repeat;margin-bottom:30px;}
+
+/******************集客小店推广攻略****************/
+.strategy{width:309px;padding-bottom:25px;margin-top:20px;border-bottom:1px dashed #efab3a;}
+.strategy h3{font-weight:bold;font-size:12px; background:url(img/sanjiao.png) 0px 4px no-repeat; text-indent:10px;margin-bottom:5px;}
+.strategy p{line-height:25px;color:#666;}
+
+
+
+/******************解绑银行卡****************/
+.dahua1{font-size:14px;margin-top:20px;}
+.dahua2{height:35px;line-height:35px;margin-top:10px;}
+.dahua2 a{color:#0070c0;}
+.dahua2-text{width:190px;height:30px;padding-left:10px;border:1px solid #e5e5e5;}
+.dahua3{margin-top:20px;}
+.dahua3-1{width:100px;height:28px;line-height:28px; text-align:center;font-size:14px;font-weight:bold;color:#ffffff;float:left;border-radius:5px;background:#c40000;}
+.dahua3-2{width:100px;height:28px;line-height:28px; text-align:center;font-size:14px;color:#0070c0;float:left;margin-left:20px;}
+
+
+/******************解绑银行卡成功****************/
+.dahua4{width:187px;height:85px;border-radius:5px;background:#fff;border:1px solid #e5e5e5;margin:0 auto;margin-top:150px;}
+.dahua4-1{width:167px;height:50px;line-height:50px;padding:0px 10px 0px 10px;text-align:center;border-bottom:1px solid #e5e5e5;}
+.dahua4-2{width:187px;height:33px;line-height:33px;margin-top:2px;font-size:12px;text-align:center;color:#1d5b9f;font-weight:bold;}
+.dahua4-2 a{color:#1d5b9f;}
+
+
+/******************订单余额支付****************/
+.zhifu{font-size:14px; font-family:"微软雅黑";margin-bottom:10px;}
+.zhifu p span{font-size:16px;float:right;margin-right:10px;}
+.zhifu p s{text-decoration:none;color:#f24b00;}
+.zhifu1{width:297px;height:30px;line-height:30px;padding-left:10px;border-radius:5px;border:1px solid #e5e5e5;color:#999;margin-bottom:10px;}
+.zhifu1 span{ float:right;margin-top:2px;margin-right:10px;}
+.zhifu2{width:309px;height:36px;line-height:18px;color:#c40000;margin-bottom:10px;}
+.zhifu2 span{color:#0070c0;}
+.zhifu3{width:297px;height:30px;line-height:30px;padding-left:10px;border-radius:5px;border:1px solid #e5e5e5;margin-bottom:10px;}
+.zhifu3 span{ float:right;margin-right:10px;color:#666;}
+.zhifu4{font-size:14px;font-weight:bold;width:309px;height:30px;line-height:30px; background:#c40000;border-radius:5px;text-align:center;color:#ffffff;}
+.zhifu5{ width:297px;height:28px;line-height:28px;border:1px solid #e5e5e5;border-radius:5px;padding-left: 10px;  margin-bottom: 10px;}
+.zhifu5-text{width:207px;line-height:28px;margin-left:100px;color:#666;}
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	

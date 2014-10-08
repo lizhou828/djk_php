@@ -1,0 +1,133 @@
+@charset "utf-8";
+/*********************** 内容区(安全中心)************************* */	
+.Safety-cen{width:309px; height:500px;padding:10px 6px 0px 5px;margin:0 auto;background:#f8f8f8;}
+	.Safety-cen-bg{width:307px; height:88px;border:1px solid #e5e5e5; background:#FFF;}
+	.Safety-cen1{width:307px; height:33px;line-height:33px;border-bottom:1px solid #e5e5e5;}
+	.Safety-cen1 h3{margin-left:12px;font-size:14px;}
+	.Safety-cen1 h3 span{margin-left:180px;}
+	.Safety-cen2{width:307px; height:53px;}
+	.Safety-cen2 h3{margin-left:12px;margin-top:10px;font-size:14px;}
+	.Safety-cen2 h3 span{margin-left:180px;}
+	.Safety-cen2 p{margin-left:12px;margin-top:5px;color:#c40000;}
+	
+/*********************** 内容区(设置支付密码0)************************* */	
+.pay{width:309x;height:70px;background:url(../images/pay-bg.jpg) center no-repeat;}
+	.pay dl {width:74px;height:52px;float:left;padding-top:18px;padding-left:21px;}
+	.pay dl dd{margin-left:18px;}
+	.pay dl dt{margin-top:3px; text-align:center;}
+.pay0{width:299x;height:92px;margin-top:30px;padding-left:10px;border:1px solid #e5e5e5; background:#FFF;}
+	.pay0 h3{font-size:12px; font-weight:normal;margin-top:18px;}
+	.pay0-captcha{height:28px;margin-top:12px;}
+	.pay-input{width:148px;height:24px;padding-left:12px;border:1px solid #e5e5e5;vertical-align: middle;}
+	.pay-submit{width:119px;height:28px;line-height:28px;color:#fff;font-size:12px;border:0px; cursor:pointer;vertical-align: middle;background:#c40000;}
+	
+	
+.next-step{width:309px;height:28px;line-height:28px; text-align:center;margin-top:66px;color:#fff;background:#27a196;}
+.next-step a{font-size:14px; color:#fff;}
+
+/*********************** 内容区(设置支付密码1)************************* */
+.pay0-1 p{color:#999;margin-top:3px;}
+	.pay0-1{width:299x;height:120px;margin-top:30px;padding-left:10px;border:1px solid #e5e5e5; background:#FFF;}
+	.pay0-1 h3{font-size:12px; font-weight:normal;margin-top:18px;}
+	.pay0-1-captcha{height:28px;margin-top:12px;}
+	.pay-submit-1{width:119px;height:28px;line-height:28px;color:#fff;font-size:12px;border:0px; cursor:pointer;vertical-align: middle;background:#999;}
+	.next-step-1{width:309px;height:28px;line-height:28px; text-align:center;margin-top:66px;background:#27a196;}
+	.next-step-1 a{font-size:14px; color:#fff;}
+
+/*********************** 内容区(设置支付密码2)************************* */	
+.pay2{width:284x;height:94px;margin-top:30px;padding-top:18px;padding-left:25px;border:1px solid #e5e5e5;background:#FFF;}
+.pay2-1{width:250px;height:28px;line-height:28px;margin-bottom:15px;}
+.pay2-1 span{ float:left;}
+.pay2-text{width:150px;height:24px;padding-left:10px;border:1px solid #e5e5e5;float:right;}
+
+/*********************** 内容区(设置支付密码3)************************* */	
+.pay3{width:284x;height:161px;margin-top:30px;padding-top:18px;padding-left:25px;border:1px solid #e5e5e5;background:#FFF;}
+.pay3-1{width:280px;height:61px;line-height:28px;margin-bottom:15px;}
+.pay3-1 span{ float:left;}
+.pay3-text{width:150px;height:24px;padding-left:10px;border:1px solid #e5e5e5;float:left;}
+.pay3-1 p{width:195px;height:24px;margin-top:4px;float:right;line-height:14px;color:#999;}
+
+/*********************** 内容区(设置支付密码4)************************* */	
+.pay-4{width:320px;height:450px;margin:0 auto;padding-top:150px;background:#f8f8f8;}
+.Success{width:187px;height:85px;border-radius:5px;background:#fff;border:1px solid #e5e5e5;margin:0 auto;}
+.Success-1{width:187px;height:50px;line-height:50px; text-align:center;border-bottom:1px solid #e5e5e5;}
+.Success-11{width:167px;height:40px;line-height:16px;padding:10px 10px 0px 10px;text-align:center;border-bottom:1px solid #e5e5e5;}
+
+.Success-2{width:187px;height:33px;line-height:33px; font-weight:bold;font-size:12px;text-align:center; }
+.Success-2 a{color:#1d5b9f;}
+.Success-3{width:187px;height:33px;line-height:33px;margin-top:2px;font-size:12px;text-align:center; }
+.Success-3 a{color:#1d5b9f;}
+
+
+/*********************** 内容区(设置支付密码5)************************* */	
+.pay-5{width:309px;height:590px;margin:0 auto;padding:10px 6px 0px 5px;background:#f8f8f8;}
+.pay-5-1{width:299px;height:77px;line-height:18px;border:1px solid #e5e5e5;padding-left:10px;padding-top:14px;margin-bottom:37px;background:#fff;}
+.pay-5-1 span{color:#c40000;}
+.pay-5-an{width:143px;height:28px;line-height:28px; text-align:center;font-size:14px;margin:0 auto;background:#c40000; color: #ffffff}
+
+
+/*********************** 内容区(手机绑定1)************************* */	
+.phone1{width:284x;height:140px;margin-top:30px;padding-top:18px;padding-left:25px;border:1px solid #e5e5e5;background:#FFF;}
+.phone1-1{width:280px;height:61px;line-height:28px;margin-bottom:15px; position:relative;}
+.phone1-1 span{ float:left;}
+.phone1-text{width:150px;height:24px;padding-left:10px;border:1px solid #e5e5e5;float:left;}
+.phone1-1 p{width:95px;height:22px;margin-left:60px;margin-top:4px;}
+.phone1-submi{width:97px;height:22px; color:#fff; background:#c40000;margin-top:4px;border:0px;}
+.phone1-submi-1{width:97px;height:22px; color:#fff; background:#c40000;margin-top:4px;border:0px;}
+
+.phone1-hint{width:309px;height:60px;line-height:22px; text-indent:36px;margin-top:20px;background: url(../images/x-d.jpg) no-repeat;}
+
+
+/*********************** 内容区(手机绑定2)************************* */	
+.shan-chu{width:15px;height:14px; background: url(../images/s-c-bg.jpg) no-repeat; position:absolute;left:205px; top:7px; cursor:pointer;}
+
+/*********************** 内容区(手机绑定3)************************* */	
+.phone1-1 span strong{ font-weight:normal;font-size:14px;}
+.phone1-submi-2{width:32px;height:22px; color:#fff; background:#999;border:0px;}
+
+/*********************** 内容区(手机绑定4)************************* */	
+.phone4{width:307x;height:136px;margin-top:30px;padding-top:20px;border:1px solid #e5e5e5;background:#FFF;}
+.phone4 p{text-align:center;font-size:14px;margin-top:8px;}
+.phone4 p strong{font-size:12px;color:#c40000;}
+.phone4 p s{text-decoration:none; font-size:12px;}
+.phone4 span img{margin-left:126px;}
+
+/*********************** 内容区(修改密码1)************************* */
+.modify-1{width:269x;height:70px;padding-left:49px;background:url(../images/pay-bg-1.jpg) center no-repeat;}
+	.modify-1 dl {width:74px;height:52px;float:left;padding-top:18px;padding-left:21px;}
+	.modify-1 dl dd{margin-left:18px;}
+	.modify-1 dl dt{margin-top:3px; text-align:center;}
+	
+.modify-0{width:289x;height:142px;margin-top:30px;padding-top:18px;padding-left:20px;border:1px solid #e5e5e5;background:#FFF;}
+.modify{width:280px;height:42px;line-height:28px;}
+.modify span{ float:left;}
+.modify-text{width:150px;height:24px;padding-left:10px;border:1px solid #e5e5e5;float:left;}
+.modify p{width:195px;height:24px;margin-top:4px;float:right;line-height:14px;color:#999;}
+
+.modify-11{width:280px;height:60px;line-height:28px;}
+.modify-11{ float:left;}
+.modify-11 span{ float:left;}
+.modify-11-text{width:150px;height:24px;padding-left:10px;border:1px solid #e5e5e5;float:left;}
+.modify-11 p{width:183px;height:23px;line-height:23px;margin-top:4px;float:right;color:#999;}
+.modify-11 p span{margin-right:3px;float:left;}
+
+/*********************** 内容区(修改密码2)************************* */
+.modify-00{width:299x;height:100px;margin-top:30px;padding-top:18px;padding-left:10px;border:1px solid #e5e5e5;background:#FFF;}
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	

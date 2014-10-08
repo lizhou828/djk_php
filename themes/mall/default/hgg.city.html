@@ -1,0 +1,121 @@
+{include file=header.html}
+
+
+<link href="{res file=css/hanguo.css}" rel="stylesheet" type="text/css" />
+<!--内容-->
+<script>
+    function get_city(reg_id) {
+        var url = SITE_URL+"/index.php?app=mlselection&type=region";
+        $.getJSON(url,{'pid':reg_id},function(data){
+            if (data.done) {
+                jQuery("#city").empty();
+                var data  = data.retval;
+                for (i = 0; i < data.length; i++)
+                {
+                    $("#city").append("<option value='" + data[i].region_id + "'>" + data[i].region_name + "</option>");
+                }
+            }
+        });
+    }
+
+    function to_index(reg_id,reg_name) {
+        if (reg_id==""||reg_name=="") {
+            var reg_id= $("#city").val();
+            var reg_name= $("#city").find("option:selected").text();
+        }
+        location ="index.php?app=hgg&act=get_category_goods&pd_id=10&hgg_area="+reg_name+"&hgg_reg_id="+reg_id;
+    }
+</script>
+<div id="center_w1200" style="width: 100%;" >
+<!--logo部分-->
+{include file=hgg.common.html}
+<div id="hg_bg">
+<div id="hg_menu">
+    <div class="w1200">
+        <div class="left_w210">所有商品分类<span class="hg_ico"></span>
+            <div class="fenlei">
+                <!--{foreach from=$hgg_category item=gcategory name=gcategory}-->
+                <!-- {if $smarty.foreach.gcategory.index<8 }-->
+                <!-- {if !empty($gcategory) }-->
+                <dl>
+                    <dd><a href="{r_url app=hgg&act=search&pd_id=$pd_id&cate_id=$gcategory.id}">{$gcategory.value|truncate:22:"……"}</a></dd>
+                    <dt>
+                        <span><a href="{r_url  app=hgg&act=search&pd_id=$pd_id&cate_id=$gcategory.children[0].id}">{$gcategory.children[0].value}</a></span>
+                        <span><a href="{r_url  app=hgg&act=search&pd_id=$pd_id&cate_id=$gcategory.children[1].id}">{$gcategory.children[1].value}</a></span>
+                        <span><a href="{r_url  app=hgg&act=search&pd_id=$pd_id&cate_id=$gcategory.children[2].id}">{$gcategory.children[2].value}</a></span>
+                    </dt>
+                    <em>
+                        <dl class="ssp_no1">
+                            <dd>{$gcategory.value|escape}</dd>
+                            <dt><!--{foreach from=$gcategory.children item=child}-->
+                                <i><a href="{r_url app=hgg&act=search&pd_id=$pd_id&cate_id=$child.id}">{$child.value|escape}</a></i> <!--{/foreach}-->
+                            </dt>
+                        </dl>
+                    </em>
+
+                </dl>
+                <span class="menu_line"></span>
+                <!--{/if}-->
+                <!--{/if}-->
+                <!--{/foreach}-->
+            </div>
+        </div>
+        {include file=hgg.top.html}
+        <div class="hg_right">更多精彩，敬请期待……</div>
+    </div>
+</div>
+
+    <div id="chengs">
+        <div class="fol1" id="region">
+            <span class="label">按省份选择：</span>
+            <span class="xuz">
+            <select onchange="javascript:get_city(this.value);">
+                <option value="0">{$lang.select_pls}</option>
+                {html_options options=$region}
+            </select>
+            <select name="" id="city">
+                <option value="0">{$lang.select_pls}</option>
+            </select>
+                </span>
+            <input type="hidden" class="mls_id" name="region_id" id="region_id"/><input type="hidden" name="region_name" class="mls_names" id="region_name"/>
+            <a href="javascript:void(0)" onclick="to_index('','')"><input  type="button" value="确定" class="anniu" /></a>
+        </div>
+        <div class="fol2">
+            <h2>常用城市：</h2>
+            <p>
+                <a href="javascript:to_index(321,'上海')">上海</a><a href="javascript:to_index(52,'北京')">北京</a>
+                <a href="javascript:to_index(76,'广州')">广州</a><a href="javascript:to_index(77,'深圳')">深圳</a>
+                <a href="javascript:to_index(180,'武汉')">武汉</a><a href="javascript:to_index(343,'天津')">天津</a>
+                <a href="javascript:to_index(311,'西安')">西安</a><a href="javascript:to_index(220,'南京')">南京</a>
+                <a href="javascript:to_index(383,'杭州')">杭州</a><a href="javascript:to_index(322,'成都')">成都</a>
+            </p>
+        </div>
+        <div class="fol2">
+            <h2>最近访问：</h2>
+            <p>
+                <a href="javascript:to_index(321,'上海')">上海</a>
+            </p>
+        </div>
+        <div class="fol3">
+            <h2>按省份选择<span class="arrow">»</span></h2>
+            <ul>
+                <!--{foreach from=$shengshi item=city key=key}-->
+                <li>
+                    <p>
+                        <span class="lable" style="width: 80px;"><strong style="width: 80px;">{$city.shengfen}</strong></span>
+                   <span class="cc">
+                    <!--{foreach from=$city item=item name=my_city key=cc}-->
+                     <!--{if !$smarty.foreach.my_city.last}-->
+                    <a href="javascript:to_index('{$item.region_id}','{$item.region_name}')">{$item.region_name}</a>
+                       <!--{/if}-->
+                     <!--{/foreach}-->
+                   </span>
+                    </p>
+                </li>
+                <!--{/foreach}-->
+            </ul>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+{include file=footer.html}

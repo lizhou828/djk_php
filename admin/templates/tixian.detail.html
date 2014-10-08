@@ -1,0 +1,310 @@
+{include file="header.html"}
+
+        <script type="text/javascript">
+            function isshow(type) {
+                $(".dataTable").hide();
+                if (type == 'yueTab') {
+                    $("#"+type).show();
+                }
+                if (type == 'unKouYueTab') {
+                    $("#"+type).show();
+                }
+                if (type == 'choujiangTab') {
+                    $("#"+type).show();
+                }
+
+                if (type == 'chongzhiTab') {
+                    $("#"+type).show();
+                }
+                if (type == 'zhifuTab') {
+                    $("#"+type).show();
+                }
+                if (type == 'orderSellerTab') {
+                    $("#"+type).show();
+                }
+                if (type == 'orderBuyTab') {
+                    $("#"+type).show();
+                }
+            }
+        </script>
+<div id="rightTop">
+    <p>提现</p>
+    <ul class="subnav">
+        <li><a class="btn1" href="index.php?app=tixian">列表</a></li>
+    </ul>
+</div>
+
+<div>
+    <ul class="subnav">
+        <li><a class="btn1" href="javascript:isshow('yueTab')">缴税余额记录</a></li>
+    </ul>
+    <ul class="subnav">
+        <li><a class="btn1" href="javascript:isshow('unKouYueTab')">非缴税余额记录</a></li>
+    </ul>
+    <ul class="subnav">
+        <li><a class="btn1" href="javascript:isshow('choujiangTab')">抽奖记录</a></li>
+    </ul>
+    <ul class="subnav">
+        <li><a class="btn1" href="javascript:isshow('chongzhiTab')">充值记录</a></li>
+    </ul>
+    <ul class="subnav">
+        <li><a class="btn1" href="javascript:isshow('zhifuTab')">支付记录</a></li>
+    </ul>
+    <ul class="subnav">
+        <li><a class="btn1" href="javascript:isshow('orderSellerTab')">订单销售记录</a></li>
+    </ul>
+    <ul class="subnav">
+        <li><a class="btn1" href="javascript:isshow('orderBuyTab')">订单购买记录</a></li>
+    </ul>
+</div>
+  <div class="clear"></div>
+
+<div class="tdare">
+    <table width="100%" cellspacing="0" class="dataTable" style="table-layout:fixed;" id="yueTab">
+        <tr class="tatr1">
+            <td  class="firstCell" colspan="5" width="100%"><span>扣税余额记录</span></td>
+        </tr>
+        <tr class="tatr1" >
+            <td width="100%" class="firstCell" colspan = "5"><span>扣税账户余额:{$total|price}</span>&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="formbtn"  onclick="exportLog('yue','{$id}')" name="export" value="当前导出" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="formbtn"  onclick="exportLog('yue',0)" name="export" value="所有导出" /></td>
+        </tr>
+        <tr class="tatr1">
+            <td width="25%" class="firstCell"><span>会员名</span></td>
+            <td width="25%" class="firstCell"><span>摘要</span></td>
+            <td width="25%" class="firstCell"><span>金额</span></td>
+            <td width="25%" class="firstCell"><span>备注</span></td>
+            <td width="25%" class="firstCell"><span>日期</span></td>
+        </tr>
+        <!--{foreach from=$ksyueLog item=user}-->
+            <tr class="tatr2">
+                <td class="firstCell">{$user.user_name}</td>
+
+                <td class="firstCell"><!--{if $user.type == -1}-->
+                    未知
+                    <!--{/if}-->
+                    <!--{if $user.type == 2}-->
+                    取消订单
+                    <!--{/if}-->
+                    <!--{if $user.type == 3}-->
+                    提现
+                    <!--{/if}-->
+                    <!--{if $user.type == 4}-->
+                    营业额
+                    <!--{/if}-->
+                    <!--{if $user.type == 5}-->
+                    支付
+                    <!--{/if}-->
+                    <!--{if $user.type == 6}-->
+                    受益
+                    <!--{/if}--></td>
+                <td class="firstCell">{$user.jine}</td>
+                <td class="firstCell">{$user.beizhu}</td>
+                <td class="firstCell">{$user.create_time}</td>
+        <!--{foreachelse}-->
+        <tr class="no_data">
+            <td colspan="8">{$lang.no_data}</td>
+        </tr>
+        <!--{/foreach}-->
+    </table>
+
+    <table width="100%" cellspacing="0" class="dataTable" style="table-layout:fixed;display: none" id="unKouYueTab">
+        <tr class="tatr1">
+            <td  class="firstCell" colspan="5" width="100%"><span>非扣税余额记录</span></td>
+        </tr>
+        <tr class="tatr1" >
+            <td width="100%" class="firstCell" colspan = "5"><span>非扣税账户余额:{$untotal|price}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="formbtn"  onclick="exportLog('unkouyue','{$id}')" name="export" value="当前导出" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="formbtn"  onclick="exportLog('unkouyue',0)" name="export" value="所有导出" /></td>
+        </tr>
+        <tr class="tatr1">
+            <td width="25%" class="firstCell"><span>会员名</span></td>
+            <td width="25%" class="firstCell"><span>摘要</span></td>
+            <td width="25%" class="firstCell"><span>金额</span></td>
+            <td width="25%" class="firstCell"><span>备注</span></td>
+            <td width="25%" class="firstCell"><span>日期</span></td>
+        </tr>
+        <!--{foreach from=$unksyueLog item=user}-->
+        <tr class="tatr2">
+            <td class="firstCell">{$user.user_name}</td>
+
+            <td class="firstCell"> <!--{if $user.type == -1}-->
+                未知
+                <!--{/if}-->
+                <!--{if $user.type == 2}-->
+                取消订单
+                <!--{/if}-->
+                <!--{if $user.type == 3}-->
+                提现
+                <!--{/if}-->
+                <!--{if $user.type == 4}-->
+                营业额
+                <!--{/if}-->
+                <!--{if $user.type == 5}-->
+                支付
+                <!--{/if}-->
+                <!--{if $user.type == 6}-->
+                受益
+                <!--{/if}--></td>
+            <td class="firstCell">{$user.jine}</td>
+            <td class="firstCell">{$user.beizhu}</td>
+            <td class="firstCell">{$user.create_time}</td>
+            <!--{foreachelse}-->
+        <tr class="no_data">
+            <td colspan="8">{$lang.no_data}</td>
+        </tr>
+        <!--{/foreach}-->
+    </table>
+
+
+    <table width="100%" cellspacing="0" class="dataTable" style="table-layout:fixed;display: none;" id="choujiangTab">
+        <tr class="tatr1">
+            <td class="firstCell" colspan="4" width="100%"><span>抽奖记录</span></td>
+        </tr>
+        <tr class="tatr1" >
+            <td width="100%" class="firstCell" colspan = "4"><span>抽奖余额:{$cjtotal|price}</span></td>
+        </tr>
+        <tr class="tatr1">
+            <td width="25%" class="firstCell"><span>会员名</span></td>
+            <td width="25%" class="firstCell"><span>金额</span></td>
+            <td width="25%" class="firstCell"><span>备注</span></td>
+            <td width="25%" class="firstCell"><span>抽奖时间</span></td>
+        </tr>
+        <!--{foreach from=$choujiangLog item=cj}-->
+        <tr class="tatr2">
+            <td class="firstCell">{$cj.user_name}</td>
+            <td class="firstCell">{$cj.jine}</td>
+            <td class="firstCell"></td>
+            <td class="firstCell">{$cj.create_time}</td>
+            <!--{foreachelse}-->
+        <tr class="no_data">
+            <td colspan="8">{$lang.no_data}</td>
+        </tr>
+        <!--{/foreach}-->
+    </table>
+
+    <table width="100%" cellspacing="0" class="dataTable" style="table-layout:fixed;display: none;" id="chongzhiTab">
+        <tr class="tatr1">
+            <td  class="firstCell" colspan="4" width="100%"><span>充值记录</span></td>
+        </tr>
+        <tr class="tatr1" >
+            <td width="100%" class="firstCell" colspan = "4"><span>账户余额:{$cztotal|price}</span></td>
+        </tr>
+        <tr class="tatr1">
+            <td width="25%" class="firstCell"><span>会员名</span></td>
+            <td width="25%" class="firstCell"><span>充值金额</span></td>
+            <td width="25%" class="firstCell"><span>充值记录</span></td>
+            <td width="25%" class="firstCell"><span>充值时间</span></td>
+        </tr>
+        <!--{foreach from=$chongzhiLog item=cz}-->
+        <tr class="tatr2">
+            <td class="firstCell">{$cz.user_name}</td>
+            <td class="firstCell">{$cz.jine|price}</td>
+            <td class="firstCell">{$cz.beizhu}</td>
+            <td class="firstCell">{$cz.create_time}</td>
+            <!--{foreachelse}-->
+        <tr class="no_data">
+            <td colspan="8">{$lang.no_data}</td>
+        </tr>
+        <!--{/foreach}-->
+    </table>
+
+
+    <table width="100%" cellspacing="0" class="dataTable" style="table-layout:fixed;display: none;" id="zhifuTab">
+        <tr class="tatr1">
+            <td class="firstCell" colspan="5" width="100%"><span>支付记录</span></td>
+        </tr>
+        <tr class="tatr1">
+            <td width="25%" class="firstCell"><span>会员名</span></td>
+            <td width="25%" class="firstCell"><span>支付类型</span></td>
+            <td width="25%" class="firstCell"><span>支付渠道</span></td>
+            <td width="25%" class="firstCell"><span>订单网银支付金额</span></td>
+            <td width="25%" class="firstCell"><span>支付时间</span></td>
+        </tr>
+        <!--{foreach from=$payLog item=pay}-->
+        <tr class="tatr2">
+            <td class="firstCell">{$pay.user_name}</td>
+            <td class="firstCell">{$pay.pay_type}</td>
+            <td class="firstCell">{$pay.pay_channel_name}</td>
+            <td class="firstCell">{$pay.pay_amount|price}</td>
+            <td class="firstCell">{$pay.create_time}</td>
+            <!--{foreachelse}-->
+        <tr class="no_data">
+            <td colspan="8">{$lang.no_data}</td>
+        </tr>
+        <!--{/foreach}-->
+    </table>
+
+
+    <table width="100%" cellspacing="0" class="dataTable" style="table-layout:fixed;display: none;" id="orderSellerTab">
+        <tr class="tatr1">
+            <td class="firstCell" colspan="7" width="100%"><span>销售订单记录</span></td>
+        </tr>
+        <tr class="tatr1">
+            <td width="25%" class="firstCell"><span>会员名</span></td>
+            <td width="25%" class="firstCell"><span>订单号</span></td>
+            <td width="25%" class="firstCell"><span>卖家</span></td>
+            <td width="25%" class="firstCell"><span>买家</span></td>
+            <td width="25%" class="firstCell"><span>订单金额</span></td>
+            <td width="25%" class="firstCell"><span>订单时间</span></td>
+            <td width="25%" class="firstCell"><span>状态</span></td>
+        </tr>
+        <!--{foreach from=$orderLog item=order}-->
+        <!--{if $smarty.get.id == $order.seller_id}-->
+        <tr class="tatr2">
+            <td class="firstCell">{$order.user_name}</td>
+            <td class="firstCell">{$order.order_sn}</td>
+            <td class="firstCell"><b style="color: red">{$order.seller_name}</b></td>
+            <td class="firstCell">{$order.buyer_name}</td>
+            <td class="firstCell">{$order.order_amount|price}</td>
+            <td class="firstCell">{$order.add_time|date}</td>
+            <td class="firstCell">
+                <!--{if $order.status == 40 }-->
+                已完成
+                <!--{/if}-->
+            </td>
+            <!--{/if}-->
+            <!--{foreachelse}-->
+        <tr class="no_data">
+            <td colspan="8">{$lang.no_data}</td>
+        </tr>
+        <!--{/foreach}-->
+    </table>
+    <table width="100%" cellspacing="0" class="dataTable" style="table-layout:fixed;display: none;" id="ordeBuyTab">
+        <tr class="tatr1">
+            <td class="firstCell" colspan="7" width="100%"><span>消费订单记录</span></td>
+        </tr>
+        <tr class="tatr1">
+            <td width="25%" class="firstCell"><span>会员名</span></td>
+            <td width="25%" class="firstCell"><span>订单号</span></td>
+            <td width="25%" class="firstCell"><span>卖家</span></td>
+            <td width="25%" class="firstCell"><span>买家</span></td>
+            <td width="25%" class="firstCell"><span>订单金额</span></td>
+            <td width="25%" class="firstCell"><span>订单时间</span></td>
+            <td width="25%" class="firstCell"><span>状态</span></td>
+        </tr>
+        <!--{foreach from=$orderLog item=order}-->
+        <!--{if $smarty.get.id == $order.buyer_id }-->
+        <tr class="tatr2">
+            <td class="firstCell">{$order.user_name}</td>
+            <td class="firstCell">{$order.order_sn}</td>
+            <td class="firstCell"><b style="color: red">{$order.seller_name}</b></td>
+            <td class="firstCell">{$order.buyer_name}</td>
+            <td class="firstCell">{$order.order_amount|price}</td>
+            <td class="firstCell">{$order.add_time|date}</td>
+            <td class="firstCell">
+                <!--{if $order.status == 40 }-->
+                已完成
+                <!--{/if}-->
+            </td>
+            <!--{/if}-->
+            <!--{foreachelse}-->
+        <tr class="no_data">
+            <td colspan="8">{$lang.no_data}</td>
+        </tr>
+        <!--{/foreach}-->
+    </table>
+    <div class="clear"></div>
+</div>
+<script>
+    function exportLog(type,id) {
+        window.location.href ="index.php?app=tixian&act=export&id="+id+"&type="+type;
+    }
+</script>
+{include file="footer.html"}

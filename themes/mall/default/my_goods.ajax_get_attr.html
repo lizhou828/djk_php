@@ -1,0 +1,80 @@
+<!--{if !$pageType}-->
+<div class="assort">
+    <p class="txt">{$lang.brand}: </p>
+    <div>
+        <select name="brand_id" id="sel_brand" onchange="javascript:brandchange()">
+            <option value="" selected="selected">{$lang.select_pls}</option>
+            <!--{foreach from=$brands item=br}-->
+            <option value="{$br.brand_id}" <!--{if $goods.brand_id eq $brand.brand_id}--> selected="true" <!--{/if}-->>{$br.brand_name}</option>
+            <!--{/foreach}-->
+        </select>
+        <input type="checkbox" id="checkbox"  onclick="chec()"> (注：如果没有所选的品牌，请手动输入)
+        <input type="text" id="brand_name" readonly="readonly" name="brand" value="{$brand.brand}">
+        <script>
+            $(function(){
+                $('input[type=checkbox]').click(function(){
+                    if($("#checkbox").attr("checked")==true) {
+                        $("#sel_brand").attr('readonly',"readonly");
+                        $('#brand_name').removeAttr("readonly");
+                    } else {
+                        $('#sel_brand').removeAttr("readonly");
+                        $("#brand_name").attr('readonly',"readonly");
+                    }
+                })
+            });
+        </script>
+    </div>
+    <br>
+    <BR>
+<!--{if $attrs}-->
+ <table width="100%">
+ <Tr><Td  style="color: #646665">商品属性: &nbsp;&nbsp;</Td>
+<!--{foreach from=$attrs item=ar name=my_attr}-->
+     <!--{if $smarty.foreach.my_attr.index>0}-->
+     <td>&nbsp;</td>
+     <!--{/if}-->
+<td>
+<input type="hidden" value="{$ar.attr_id}" name="attr_id[]">
+<input type="hidden" value="{$ar.attr_name}" name="attr_name[]">{$ar.attr_name}:
+ </td>
+ <td><input type='radio' value="" name="attr_value_{$ar.attr_id}" >不限</td>
+<!--{foreach from=$ar.def_value item=def name=my_value}-->
+     <!--{if $smarty.foreach.my_value.index % 5 == 0 && $smarty.foreach.my_value.index > 0}-->
+     <td></td><td></td><td></td>
+     <!--{/if}-->
+ <td style="line-height:25px;"><input type='radio' value="{$def}" name="attr_value_{$ar.attr_id}" >{$def}</td>
+<!--{if ($smarty.foreach.my_value.index + 1) % 5 == 0}-->
+ </tr>
+<!--{/if}-->
+ <!--{/foreach}-->
+</tr>
+<!--{/foreach}-->
+    </table>
+ <!--{/if}-->
+
+</div>
+<!--{else}-->
+
+<select name="brand_id" id="sel_brand" onchange="javascript:brandchange()">
+    <option value="" selected="selected">{$lang.select_pls}</option>
+    <!--{foreach from=$brands item=br}-->
+    <option value="{$br.brand_id}" >{$br.brand_name}</option>
+    <!--{/foreach}-->
+</select>
+
+<input type="checkbox" id="checkbox"  onclick="chec()"> (注：如果没有所选的品牌，请手动输入)
+<input type="text" id="brand_name" readonly="readonly" name="brand" value="{$brand.brand}">
+<script>
+    $(function(){
+        $('input[type=checkbox]').click(function(){
+            if($("#checkbox").attr("checked")==true) {
+                $("#sel_brand").attr('readonly',"readonly");
+                $('#brand_name').removeAttr("readonly");
+            } else {
+                $('#sel_brand').removeAttr("readonly");
+                $("#brand_name").attr('readonly',"readonly");
+            }
+        })
+    });
+</script>
+<!--{/if}-->

@@ -1,0 +1,82 @@
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_goods_manage
+2014-05-23 11:11:32  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM ecm_vshop_recom_goods vg LEFT JOIN ecm_goods g ON vg.goods_id=g.goods_id GR' at line 2
+MySQL Query:SELECT g.goods_id ,g.goods_name,g.org_price,g.price,g.default_image,vg.update_time,vg.region_id,vg.region_name,vg.status,
+               FROM ecm_vshop_recom_goods vg LEFT JOIN ecm_goods g ON vg.goods_id=g.goods_id GROUP BY vg.goods_id  limit 0, 20
+Wrong File:  D:\wamp\www\includes\models\vshopRecommend.model.php[34]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_goods_manage
+2014-05-23 11:12:41  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM ecm_vshop_recom_goods vg LEFT JOIN ecm_goods g ON vg.goods_id=g.goods_id GR' at line 2
+MySQL Query:SELECT g.goods_id ,g.goods_name,g.org_price,g.price,g.default_image,vg.update_time,vg.region_id,vg.region_name,vg.status,
+               FROM ecm_vshop_recom_goods vg LEFT JOIN ecm_goods g ON vg.goods_id=g.goods_id GROUP BY vg.goods_id  limit 0, 20
+Wrong File:  D:\wamp\www\includes\models\vshopRecommend.model.php[34]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_goods_manage
+2014-05-23 11:12:54  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM ecm_vshop_recom_goods vg LEFT JOIN ecm_goods g ON vg.goods_id=g.goods_id GR' at line 2
+MySQL Query:SELECT g.goods_id ,g.goods_name,g.org_price,g.price,g.default_image,vg.update_time,vg.region_id,vg.region_name,vg.status,
+               FROM ecm_vshop_recom_goods vg LEFT JOIN ecm_goods g ON vg.goods_id=g.goods_id GROUP BY vg.goods_id  limit 0, 20
+Wrong File:  D:\wamp\www\includes\models\vshopRecommend.model.php[34]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_goods_manage
+2014-05-23 15:38:17  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT region_id,region_name FROM ecm_vshop_recom_goods GROUP BY region_id' at line 1
+MySQL Query:SELECT *,vshop_recom_goods.id FROM ecm_vshop_recom_goods vshop_recom_goods WHERE SELECT region_id,region_name FROM ecm_vshop_recom_goods GROUP BY region_id
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_goods_manage
+2014-05-23 15:38:49  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT region_id,region_name FROM ecm_vshop_recom_goods GROUP BY region_id' at line 1
+MySQL Query:SELECT *,vshop_recom_goods.id FROM ecm_vshop_recom_goods vshop_recom_goods WHERE SELECT region_id,region_name FROM ecm_vshop_recom_goods GROUP BY region_id
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_goods_manage
+2014-05-23 15:40:09  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT region_id,region_name FROM ecm_vshop_recom_goods GROUP BY region_id' at line 1
+MySQL Query:SELECT *,vshop_recom_goods.id FROM ecm_vshop_recom_goods vshop_recom_goods WHERE SELECT region_id,region_name FROM ecm_vshop_recom_goods GROUP BY region_id
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_goods_manage
+2014-05-23 15:42:44  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT region_id,region_name FROM ecm_vshop_recom_goods GROUP BY region_id' at line 1
+MySQL Query:SELECT *,vshop_recom_goods.id FROM ecm_vshop_recom_goods vshop_recom_goods WHERE SELECT region_id,region_name FROM ecm_vshop_recom_goods GROUP BY region_id
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_goods_manage
+2014-05-23 15:43:35  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT region_id,region_name FROM ecm_vshop_recom_goods GROUP BY region_id' at line 1
+MySQL Query:SELECT *,vshop_recom_goods.id FROM ecm_vshop_recom_goods vshop_recom_goods WHERE SELECT region_id,region_name FROM ecm_vshop_recom_goods GROUP BY region_id
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_goods_manage
+2014-05-23 15:44:20  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT region_id,region_name FROM ecm_vshop_recom_goods GROUP BY region_id' at line 1
+MySQL Query:SELECT *,vshop_recom_goods.id FROM ecm_vshop_recom_goods vshop_recom_goods WHERE SELECT region_id,region_name FROM ecm_vshop_recom_goods GROUP BY region_id
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_goods_manage
+2014-05-23 15:44:24  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT region_id,region_name FROM ecm_vshop_recom_goods GROUP BY region_id' at line 1
+MySQL Query:SELECT *,vshop_recom_goods.id FROM ecm_vshop_recom_goods vshop_recom_goods WHERE SELECT region_id,region_name FROM ecm_vshop_recom_goods GROUP BY region_id
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_goods_manage
+2014-05-23 15:45:41  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'GROUP BY region_id' at line 1
+MySQL Query:SELECT *,vshop_recom_goods.id FROM ecm_vshop_recom_goods vshop_recom_goods WHERE  GROUP BY region_id
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_goods_manage
+2014-05-23 15:46:08  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'GROUP BY region_id' at line 1
+MySQL Query: GROUP BY region_id
+Wrong File:  D:\wamp\www\app\service.app.php[5155]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_goods_manage
+2014-05-23 15:49:54  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'GROUP BY region_id' at line 1
+MySQL Query:SELECT region_id,region_name FROM ecm_vshop_recom_goods order by region_id  GROUP BY region_id
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[532]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_goods_manage&goods_name=dddd&create_time_from=&create_time_to=&cate_id=0&region_id=-1&status=0&position=-1
+2014-05-23 17:32:42  	[256]MySQL Error[1054]: Unknown column 'g.good_name' in 'where clause'
+MySQL Query:SELECT g.goods_id ,g.goods_name,g.org_price,g.price,g.default_image,g.ticheng,g.cate_name,vg.id,vg.update_time,vg.region_id,vg.region_name,vg.status
+               FROM ecm_vshop_recom_goods vg LEFT JOIN ecm_goods g ON vg.goods_id=g.goods_id
+               where g.if_show=1 and g.closed=0 and dropState=1  and g.good_name like'%dddd%' GROUP BY vg.goods_id  limit 0, 20
+Wrong File:  D:\wamp\www\includes\models\vshopRecommend.model.php[34]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_goods_manage&goods_name=dddd&create_time_from=&create_time_to=&cate_id=0&region_id=-1&status=0&position=-1
+2014-05-23 17:33:33  	[256]MySQL Error[1054]: Unknown column 'g.good_names' in 'where clause'
+MySQL Query:SELECT g.goods_id ,g.goods_name,g.org_price,g.price,g.default_image,g.ticheng,g.cate_name,vg.id,vg.update_time,vg.region_id,vg.region_name,vg.status
+               FROM ecm_vshop_recom_goods vg LEFT JOIN ecm_goods g ON vg.goods_id=g.goods_id
+               where g.if_show=1 and g.closed=0 and dropState=1  and g.good_names like'%dddd%' GROUP BY vg.goods_id  limit 0, 20
+Wrong File:  D:\wamp\www\includes\models\vshopRecommend.model.php[34]	\eccore\model\mysql.php	310

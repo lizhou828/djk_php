@@ -1,0 +1,167 @@
+
+<link href="{res file=css/else.css}" rel="stylesheet" type="text/css">
+<style>
+.fw_tc table { margin-top:15px; margin-left:15px}
+
+.txt{ width:80px}
+
+.region_next{ display:none}
+</style>
+<script type="text/javascript" src="{res file=js/jquery.js}" charset="utf-8"></script>
+<script type="text/javascript" src="{res file=js/common.js}" charset="utf-8"></script>
+
+<script type="text/javascript">
+$(function(){
+    $('#cancel_button').click(function(){
+        DialogManager.close('seller_order_confirm_order');
+    });
+});
+
+
+</script>
+
+
+
+
+<div class="eject_con">
+    <div class="info_table_wrap">
+
+<!--{if $peisong}-->
+        <form method="post" action="index.php?app=service&amp;act=yunfei" id="yunfeiForm" target="my_shipping">
+<!--{else}-->
+        <form method="post" action="index.php?app=my_shipping&amp;act=yunfei" id="yunfeiForm" target="my_shipping">
+<!--{/if}-->
+  <input type="hidden" name="shipping_id" value="{$shipping_id}" />
+
+
+
+
+
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="bol">
+
+
+
+            	<tr>
+
+                    <!--{if $diqu}-->
+                    <!--{foreach from=$diqu item=qu name=idx}-->
+                    <!--{if $smarty.foreach.idx.index %2 == 0}-->
+                	<td colspan="2">
+                    	<table>
+                        	<tr id="p_1"  style="width:200px; line-height:25px">
+                            	<td>
+                                <input name="diqu[]" type="hidden"  value="{$qu.region_name}"/>
+                                <input name="region_ids[]" type="hidden"  value="{$qu.region_id}"/>
+                                <img id="treet11" class="parimg" region_id="{$qu.region_id}" style="cursor:pointer" src="{$site_url}/themes/mall/default/styles/default/images/member/<!--{if $qu.region_next}-->tv-expandable-last.gif<!--{else}-->tv-collapsable.gif<!--{/if}-->"/>
+                        		{$qu.region_name}: <input name="jiage[]" pregion_id="{$qu.region_id}" class="txt pregion_id" value="" /><br/>
+                                </td>
+                            </tr>
+                            <!--{foreach from=$qu.region_next item=next name=idx2 key=k2}-->
+                            <tr class="tr_{$qu.region_id} region_next">
+                            	<td>
+                        			<input name="diqu[]" type="hidden"  value="{$next}"/>
+                                    <input name="region_ids[]" type="hidden"  value="{$k2}"/>
+                                	<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> {$next}: <input name="jiage[]" pregion_id="{$k2}" class="txt pregion_id" value="" /><br/>
+                                </td>
+                            </tr>
+                            <!--{/foreach}-->
+                        </table>
+                    </td>
+
+                      <!--{else}-->
+                    <td colspan="2">
+                    	<table>
+                        	<tr id="p_1" style="width:200px;line-height:25px">
+                            	<td>
+                                <input name="diqu[]" type="hidden"  value="{$qu.region_name}"/>
+                                <input name="region_ids[]" type="hidden"  value="{$qu.region_id}"/>
+                                <img id="treet11" class="parimg" region_id="{$qu.region_id}" style="cursor:pointer" src="{$site_url}/themes/mall/default/styles/default/images/member/<!--{if $qu.region_next}-->tv-expandable-last.gif<!--{else}-->tv-collapsable.gif<!--{/if}-->"/>
+                        		{$qu.region_name}: <input name="jiage[]" pregion_id="{$qu.region_id}" class="txt pregion_id" value="" /><br/>
+                                </td>
+                            </tr>
+                             <!--{foreach from=$qu.region_next item=next name=idx2 key=k2}-->
+                            <tr class="tr_{$qu.region_id} region_next">
+                            	<td>
+                        			<input name="diqu[]" type="hidden"  value="{$next}"/>
+                                    <input name="region_ids[]" type="hidden"  value="{$k2}"/>
+                                	<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> {$next}: <input name="jiage[]" pregion_id="{$k2}"  class="txt pregion_id" value="" /><br/>
+                                </td>
+                            </tr>
+                            <!--{/foreach}-->
+                        </table>
+                    </td>
+
+                </tr>
+                <!--{/if}-->
+
+
+                    <!--{/foreach}-->
+                    <!--{/if}-->
+                </tr>
+            </table>
+
+            <!--{if $diqu_detail}-->
+            <script>
+            var values=[];
+            <!--{foreach from=$diqu_detail item=detail name=idx}-->
+            values[{$smarty.foreach.idx.index}]=new Array('{$detail.diqu}', {$detail.jiage}, {$detail.region_id});
+            <!--{/foreach}-->
+
+            var str="";
+            if(values.length>0){
+                for(var i=0;i<values.length;i++){
+                    $("input[pregion_id="+values[i][2]+"]").val(values[i][1]);
+                }
+            }
+            </script>
+            <!--{/if}-->
+
+<br>
+ <font siz='-1' color="red">请注意，如果运费不填则表示该地区无法配送，如果设置为0则表示卖家包邮费</font>
+
+<script>
+
+var tmp="";
+$(".parimg").bind("click",function(){
+	if($(".tr_"+$(this).attr("region_id")).css("display")=="block"){
+		$(this).attr("src","{$site_url}/themes/mall/default/styles/default/images/member/tv-expandable-last.gif");
+		$(".tr_"+$(this).attr("region_id")).css("display","none");
+	}else{
+		if(tmp!=""){
+			$(".tr_"+tmp).css("display","none");
+		}
+		$(".tr_"+$(this).attr("region_id")).css("display","block");
+		$(this).attr("src","{$site_url}/themes/mall/default/styles/default/images/member/tv-collapsable.gif");
+		tmp=$(this).attr("region_id");
+	}
+})
+$("input[name='jiage[]']").blur(function(){
+    var jiage_val = $(this).val();
+    if(jiage_val != ""){
+        var digit = /^-?\d+(\.\d+)?$/;
+        if (!digit.test(jiage_val))
+        {
+            alert("只能输入数字");
+            $(this).val("");
+        }
+        if (jiage_val < 0)
+        {
+            alert("运费不能为负数！");
+            $(this).val("");
+        }
+    }
+})
+
+    function submit_ok() {
+        document.getElementById("yunfeiForm").submit();
+        DialogManager.close('yunfeiForm');
+    }
+</script>
+
+<!--{if !$type}-->
+<div class="submit"><input type="button" class="btn" value="{$lang.submit}" onclick="submit_ok()" /></div>
+<!--{/if}-->
+
+</form>
+</div>
+</div>

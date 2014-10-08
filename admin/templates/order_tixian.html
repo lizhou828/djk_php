@@ -1,0 +1,170 @@
+{include file="header.html"}
+<script>
+
+
+    $(function(){
+        $('#begin_time').datepicker({dateFormat: 'yy-mm-dd'});
+        $('#end_time').datepicker({dateFormat: 'yy-mm-dd'});
+
+    });
+
+
+
+</script>
+<div id="rightTop">
+    <ul class="subnav">
+        <li><span>{$fwzx}服务中心  &nbsp;</span></li>
+    </ul>
+
+</div>
+<div class="mrightTop">
+    <div class="fontl">
+        <form method="get" name="form1" id="form1">
+            <div class="left">
+                <input type="hidden" name="app" value="order" />
+                <input type="hidden" name="act" value="tixian" />
+                <input type="hidden" id="type" name="type" value="" />
+                <input type="hidden"  name="id" value="{$id}" />
+                <span class="title">时间从:</span>&nbsp;&nbsp;&nbsp;
+                <input type="text" value="{$add_time_from}" style="width: 100px" id="begin_time" name="add_time_from" class="pick_date" />至
+                <input type="text" value="{$add_time_to}" style="width: 100px" id="end_time" name="add_time_to" class="pick_date" />
+                <input type="submit" class="formbtn" value="{$lang.query}" />
+            </div>
+        </form>
+    </div>
+
+    <div class="fontr">
+        {if $data}{include file=page.top.html}{/if}
+    </div>
+</div>
+<div class="tdare" >
+    <table width="100%" cellspacing="0" class="dataTable" id="yueTable">
+        <!--{if $data}-->
+        <tr class="tatr1">
+            <td width="10%" ><span ectype="order_by" fieldname="addTime">真实姓名</span></td>
+            <td width="10%"><span ectype="order_by" >金额</span></td>
+            <td width="10%"><span ectype="order_by" fieldname="amount">银行名称</span></td>
+            <td width="20%"><span ectype="order_by" >银行卡号</span></td>
+            <td width="10%"><span ectype="order_by" >时间</span></td>
+            <td width="10%"><span ectype="order_by" >类型</span></td>
+            <td width="10%"><span ectype="order_by" >身份证号</span></td>
+            <td width="10%"><span ectype="order_by" >状态</span></td>
+
+        <!--{/if}-->
+        <!--{foreach from=$data item=tixian}-->
+        <tr class="tatr2">
+        <td>{$tixian.user_name|escape}</td>
+        <td>{$tixian.jine|price}</td>
+        <td>{$tixian.channel_name}</td>
+        <td>{$tixian.channel_card|escape}</td>
+        <td>{$tixian.add_time}</td>
+        <td>
+            <!--{if $tixian.type eq 0}-->免税
+            <!--{elseif $tixian.type eq 1}--><font color='red'>缴税|{$tixian.jine|myeval:"value*0.8"}</font>
+            <!--{/if}-->
+        </td>
+        <td>{$tixian.shenfenzheng}</td>
+        <td>
+            <!--{if $tixian.status eq 0}-->未处理
+            <!--{elseif $tixian.status eq 1}-->处理中
+            <!--{elseif $tixian.status eq 2}-->已完成
+            <!--{elseif $tixian.status eq 3}-->失败
+            <!--{elseif $tixian.status eq 4}-->已取消
+            <!--{/if}-->
+        </td>
+        </tr>
+        <!--{foreachelse}-->
+        <tr class="no_data">
+            <td colspan="8">没有提现记录</td>
+        </tr>
+        <!--{/foreach}-->
+    </table>
+
+    <div id="dataFuncs">
+        <div class="pageLinks">
+            {if $data}{include file=page.bottom.html}{/if}
+        </div>
+    </div>
+    <bR>
+
+    <!--{if $member_bank}-->
+    <div style="padding-left: 20px;">账户余额：{$koushui_yue}</div>
+    <table  style="padding-left: 20px;">
+        <tr>
+           <TD colspan="8">
+               <form method="post" id="tixian">
+                   <input type="hidden"  name="user_id" value="{$id}"/>
+                    <table width="100%" cellspacing="5" class="dataTable">
+                        <tr>
+                            <Td style="width: 100px;">提现金额：</Td>
+                            <Td><input name="jine" value="{$koushui_yue}" id="jine"></Td></tr>
+                        <tr>
+                            <Td>登录用户名：</Td>
+                            <Td><span>{$member.user_name}</span></Td>
+                        </tr>
+                        <tr>
+                            <Td>银行名称：</Td>
+                            <Td><span><input name="bank_name" value="{$member_bank.bank_name}"></span></Td>
+                        </tr>
+                        <tr>
+                            <Td>开户行：</Td>
+                            <Td><span><input name="kaihuhang" value="{$member_bank.kaihuhang}"></span></Td>
+                        </tr>
+                        <tr>
+                            <Td>开户人姓名：</Td>
+                            <Td><span><input name="user_name" value="{$member_bank.user_name}"></span></Td>
+                        </tr>
+
+                        <tr>
+                            <Td>银行卡号：</Td>
+                            <Td><input name="bank_kahao" value="{$member_bank.kahao}" id="kahao"></Td>
+                        </tr>
+                        <tr>
+                            <Td>身份证号：</Td>
+                            <Td><span><input name="card_id" value=""></span></Td>
+                        </tr>
+                        <tr>
+                            <Td>联系电话：</Td>
+                            <Td><span><input name="phone_mob" value=""></span></Td>
+                        </tr>
+                    </table>
+                   <input type="submit" class="formbtn" id="submitbtn"  value="代为提现">
+               </form>
+           </TD>
+        </tr>
+    </table>
+    <!--{else}-->
+    <div style="float: left">
+        <div class="pageLinks" >
+            您的账户没有绑定银行卡
+        </div>
+    </div>
+    <bR>
+    <!--{/if}-->
+    <div class="clear"></div>
+</div>
+<script>
+    $("#submitbtn").bind("click",function(){
+        var myyue = parseInt($("#jine").val());
+        var kahao = $("#kahao").val()
+        if(myyue=="" || myyue==0){
+            //js_fail("myyue","您的余额为0不能提现");
+            alert("您的余额为0不能提现");
+            return;
+        }
+        if(myyue=="" || myyue< 100){
+            //js_fail("myyue","您的余额为0不能提现");
+            alert("您的余额少于100元不能提现");
+            return;
+        }
+        if(kahao=="" || kahao==0){
+            //js_fail("channel_card","请输入卡号");
+            alert("请输入卡号");
+            return;
+        }
+
+        document.getElementById("tixian").submit();
+
+    })
+</script>
+{include file="footer.html"}

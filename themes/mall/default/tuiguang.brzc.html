@@ -1,0 +1,371 @@
+{include file=member.header.html}
+<style>
+.borline td { padding:10px 0px; }
+.ware_list th { text-align:left; }
+</style>
+<script type="text/javascript">
+$(function(){
+    $("#profile_form").validate({
+        errorPlacement: function(error, element){
+            var error_td = element.parents('td').next('td');
+            error_td.find('.field_notice').hide();
+            error_td.find('.fontColor3').hide();
+            error_td.append(error);
+        },
+        success: function(label){
+            //$("#warning").css("display","none");
+            label.addClass('validate_right').text('OK!');
+        },
+        submitHandler : function(form) {
+            var bank_card_start = $.trim($("#bank_card_start").val());
+            var bank_card_end = $.trim($("#bank_card_end").val());
+            var strText=$("#select_id").find("option:selected").text();
+            var bank_code=$("#bank_name").find("option:selected").attr("channel_code");
+            var m_phone=$("#m_phone").val();
+            if(bank_code != null && typeof(bank_code) !="undefined" && bank_code !=""){
+               $("#bank_code").val(bank_code);
+            }
+            if ( (bank_card_start !="" && bank_card_end == "" ) || (bank_card_start =="" && bank_card_end != "" )) {
+                alert("请输入银行卡前六位和后四位");
+            } else {
+                var flag = "Y";
+                if (m_phone != null && m_phone != "" && typeof(m_phone) != "undefined") {
+                    if(!checkMobile(m_phone)) {
+                        flag = "N";
+                        alert("手机号码格式错误");
+                    }
+                }
+                if (flag == "Y"){
+                    $("#bank_card").val(bank_card_start + "****" + bank_card_end);
+                    form.submit();
+                }
+            }
+        },
+        onkeyup: false,
+        rules : {
+            user_name : {
+                required: true,
+                byteRange: [3,25,'utf-8'],
+                djkValidate : [],
+                userNameValidate : [],
+                emailValidate : [],
+                numberValidate : [],
+                    remote   : {
+                        url :'index.php?app=member&act=check_user_or_phone_mob&ajax=1',
+                        type:'get',
+                        data:{
+                            user_name : function(){
+                                return $('#user_name').val();
+                            }
+                        },
+                        beforeSend:function(){
+                        	var txt = $('#user_name').val().substring(0,3).toUpperCase();
+							var reg = /DJK/;
+							if(reg.test(txt))
+							{
+                              js_fail("用户名不能以 DJK 或者 djk 开头");
+							  $('#user_name').val("");
+							  return;
+							}
+                            var _checking = $('#checking_user_name');
+                            _checking.prev('.field_notice').hide();
+                            _checking.next('label').hide();
+                            $(_checking).show();
+                        },
+                        complete :function(){
+                            $('#checking_user_name').hide();
+                        }
+                    }
+            },
+			password : {
+                required: true,
+                minlength: 6,
+                maxlength:20
+            },
+			confirm_password : {
+                required: true,
+                equalTo  : '#password'
+            },
+            real_name2 : {
+                required: true
+            },
+            phone_mob : {
+                required: true,
+                checkTel:true,
+                minlength:6
+                ,  remote   : {
+                    url :'index.php?app=member&act=check_phone_mob&ajax=1',
+                    type:'get',
+                    data:{
+                        phone_mob : function(){
+                            return $('#phone_mob').val();
+                        }
+                    },
+                    beforeSend:function(){
+                        var _checking = $('#checking_phone_mob');
+                        _checking.prev('.field_notice').hide();
+                        _checking.next('label').hide();
+                        $(_checking).show();
+                    },
+                    complete :function(){
+                        $('#checking_phone_mob').hide();
+                    }
+                }
+            },
+            code: {
+                required: true
+                ,  remote   : {
+                    url :'index.php?app=member&act=check_code&ajax=1',
+                    type:'get',
+                    data:{
+                        code : function(){
+                            return $('#code').val();
+                        }
+                    },
+                    beforeSend:function(){
+                        var _checking = $('#checking_code');
+                        _checking.prev('.field_notice').hide();
+                        _checking.next('label').hide();
+                        $(_checking).show();
+                    },
+                    complete :function(){
+                        $('#checking_code').hide();
+                    }
+                }
+            }
+        },
+        messages : {
+            user_name  : {
+                required   : '用户名必填',
+				remote   : '您提供的用户名已存在',
+                byteRange : '用户名长度在3到30之间'
+            },
+			password  : {
+                required   : '密码必填',
+                minlength: '密码长度必须在6-20个字符之间',
+                maxlength: '密码长度必须在6-20个字符之间'
+            },
+			confirm_password  : {
+                required   : '确认密码必填',
+                equalTo     : '二次密码不一致'
+            },
+            real_name2  : {
+                required   : '请输入真实姓名'
+            },
+            phone_mob  : {
+                required   : '请输入手机',
+                checkTel: '请输入正确格式的手机号码',
+                minlength: '{$lang.phone_tel_error}',
+                remote  :'手机号码已经存在'
+            },
+            code  : {
+                required   : '请输入验证码',
+                remote  :'验证码错误'
+            }
+        }
+    });
+});
+
+
+jQuery.validator.addMethod("userNameValidate", function(value, element) {
+
+    if($.trim(value) == '' || $.trim(value) == '邮箱/手机号'){
+        return false;
+    }
+    return true;
+}, "邮箱/手机号");
+jQuery.validator.addMethod("djkValidate", function(value, element) {
+    var txt = value.substring(0,3).toUpperCase();
+    var reg = /DJK/;
+    if(reg.test(txt)) {
+        return false;
+    }
+    return true;
+}, "用户名已存在");
+
+jQuery.validator.addMethod("emailValidate", function(value, element) {
+    if((value.indexOf("@") == -1 && (!checkEmail(value))) && (!checkMobile(value)) ) {
+        return false;
+    }
+    return true;
+//        alert(value);
+}, "帐号只能为正确的手机和邮箱");
+
+jQuery.validator.addMethod("numberValidate", function(value, element) {
+    if (!checkMobile(value) && /^[0-9]+$/.test(value)) {
+        return false;
+    }
+    return true;
+}, "用户名不能是纯数字");
+
+
+function send_code(){
+    var email = document.getElementById('email').value;
+    $('#c_email').html('');
+    if (!checkEmail(email)){
+        $('#c_email').html('邮箱格式不正确！请填写正确邮箱格式！')
+    }else{
+        $.post("index.php?app=tuiguang&act=sendEmail",{email:email},function(rs){
+               rs = trim(rs);
+               if(rs == 'ERROR'){
+                   $('#c_email').html('邮箱格式不正确！请填写正确邮箱格式！')
+               }else{
+                   $('#sEmail').show();
+               }
+        });
+    }
+}
+
+function showFocus(obj){
+    if(obj.value=="邮箱/手机号"){
+        obj.style.color='#000';
+        obj.value="";
+    }
+}
+
+function showBlur(obj) {
+    if(obj.value==""){
+        obj.style.color = '#ccc';
+        $('#emails_ul').css('display','none');
+        obj.value="邮箱/手机号";
+    }
+}
+
+</script>
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right">
+            <ul class="tab">
+                                    <li class="active">帮人注册</li>
+                                </ul>  
+            <div class="wrap">
+                <div class="public">
+                <form method="post" id="profile_form" name="profile_form">
+                    <div class="information">
+                        <div class="info individual">
+                            <img src="{$site_url}/themes/mall/default/styles/default/images/gantanhao.gif" title="特别说明：请在提前告知对方的前提下，帮助对方免费注册成为大集客的会员，相关纠纷均与大集客网站无涉！" />
+                            <span style="color: red;">特别说明：注册成功后，系统会自动发送信息到对方的手机或邮箱，请在提前告知对方的前提下，帮助对方免费注册成为大集客的会员，相关纠纷均与大集客网站无涉！</span>
+                            <center><div id="warning" name="warning" style="width:92%;"></div></center>
+                            <table>
+                                <tr>
+                                    <th style="width: 150px;">用户名:</th>
+                                    <td><input type="text" class="text width_normal" name="user_name" id="user_name" value="邮箱/手机号" style="color: #ccc" onblur="showBlur(this)"
+                                               onfocus="showFocus(this)" autocomplete="off" /></td>
+                                    <td class="padding3"><span class="fontColor3">*</span><span class="field_notice">请输入用户名</span><label></label></td>
+                                </tr>
+                            
+                                <tr>
+                                    <th>密码: </th>
+                                    <td><input type='password' class="text width_normal" name="password" autocomplete="off" id="password" value="" /></td>
+                                    <td class="padding3"><span class="fontColor3">*</span><span class="field_notice">请输入密码</span><label></label></td>
+                                    
+                                </tr>
+                                <tr>
+                                    <th>确认密码: </th>
+                                    <td><input type="password" class="text width_normal" autocomplete="off" name="confirm_password" id="confirm_password" value="" /></td>
+                                    <td class="padding3"><span class="fontColor3">*</span><span class="field_notice">请输入确认密码</span> <label></label></td>
+                                </tr>
+                                <tr>
+                                    <th>真实姓名: </th>
+                                    <td><input type="text" class="text width_normal" autocomplete="off" name="real_name2" id="real_name2" value="" /></td>
+                                    <td class="padding3"><span class="fontColor3">*</span><span class="field_notice">请输入真实姓名</span> <label></label></td>
+                                </tr>
+                                <!--{if $flag == 1}-->
+
+                                <tr>
+                                    <td colspan="3"><hr style="color: #FFFFFF; margin-top: 20px; margin-bottom: 20px"></td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="3"><strong>POS机消费绑定</strong></td>
+                                </tr>
+
+                                <tr>
+                                    <th style="width: 100px">POS机消费银行卡绑定:</th>
+                                    <td>
+                                        <input type="hidden" name="bank_code" id="bank_code"/>
+                                        <select name="bank_name" id="bank_name" class="input1">
+                                            <!--{if $channels}-->
+                                            <!--{foreach from=$channels item=channel}-->
+                                            <option value="{$channel.channel_name}" channel_code='{$channel.channel_code}'>{$channel.channel_name}</option>
+                                            <!--{/foreach}-->
+                                            <!--{/if}-->
+                                        </select>
+                                    </td>
+                                    <td class="padding3"><span class="fontColor3">&nbsp;</span><span class="field_notice">请选择银行</span><label></label></td>
+                                </tr>
+
+                                <tr>
+                                    <th style="width: 100px">银行卡号:</th>
+                                    <td>
+                                        <input type="hidden" name="bank_card" id="bank_card"  />
+                                        <input type="text" name="bank_card_start" id="bank_card_start" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"  class="text width_normal" maxlength="6" style="width: 100px"/>
+                                        <label>****</label>
+                                        <input type="text" name="bank_card_end" id="bank_card_end" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"  class="text width_normal" maxlength="4" style="width: 59px" />
+                                    </td>
+                                    <td class="padding3"><span class="fontColor3">&nbsp;</span><span class="field_notice">请输入银行卡前六位和后四位</span><label></label></td>
+                                </tr>
+
+                                <tr>
+                                    <th>身份证号码: </th>
+                                    <td><input type='text' class="text width_normal" name="real_name" id="shengfenzheng" value="" /></td>
+                                    <td class="padding3"><span class="fontColor3">&nbsp;</span><span class="field_notice">请输入18位身份证号</span><label></label></td>
+
+                                </tr>
+                                <tr>
+                                    <th>手机号码: </th>
+                                    <td><input type="text" class="text width_normal" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="m_phone" id="m_phone" value="" /></td>
+                                    <td class="padding3"><span class="fontColor3">&nbsp;</span><span class="field_notice">请输入手机号码</span> <label></label></td>
+                                </tr>
+                                <!--{/if}-->
+
+
+                                <!--
+                                <tr>
+                                    <th>手机号码: </th>
+                                    <td><input type="txt" class="text width_normal" name="phone_mob" id="phone_mob" value="" /></td>
+                                    <td class="padding3"><span class="fontColor3">*</span><span class="field_notice">请输入手机号码</span> <label id="checking_phone_mob" name="checking_phone_mob"></label></td>
+
+                                </tr>
+                                <tr>
+                                    <th>您的邮箱: </th>
+                                    <td><input type="txt" class="text width_normal" name="" id="email" value="" />
+                                        &nbsp;&nbsp;<input type="button" value="发送验证码" onclick="send_code();"> </td>
+                                    <td class="padding3"><label id="checking_email" name="checking_email">
+                                        <span id = "c_email" style="color: red;">
+                                            此邮箱仅用于接收验证码，请确保是您自己的邮箱
+                                        </span></label></td>
+                                </tr>
+                                <tr id="sEmail" style="display: none;">
+                                    <th></th>
+                                    <td style="width: 400px;"><span style="color: green;">系统以向您的邮箱发送了一封验证邮件，请登录邮箱获取验证码。如果超过两分钟未收到邮件，请重新发送或修改邮箱。</span></td>
+                                </tr>
+                                <tr>
+                                    <th>验证码: </th>
+                                    <td><input type="text" class="text width_normal" name="code" id="code" value="请输入邮箱验证码" onfocus="showFocus(this);" style="color: #ccc;" onblur="showBlur(this);"/>
+                                       </td>
+                                    <td class="padding3"> <label id="checking_code" name="checking_code"></label></td>
+                                </tr>
+                                -->
+                                <tr>
+                                    <th></th>
+                                    <td><input type="submit" class="btn" value="注册" /></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+                </div>
+                <div class="wrap_bottom"></div>
+            </div>
+
+            <div class="clear"></div>
+            <div class="adorn_right1"></div>
+            <div class="adorn_right2"></div>
+            <div class="adorn_right3"></div>
+            <div class="adorn_right4"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+{include file=footer.html}

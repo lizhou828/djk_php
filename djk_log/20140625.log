@@ -1,0 +1,20 @@
+
+错误url=http:///
+2014-06-25 08:58:43  	[2]parse_url(http://) [<a href='function.parse-url'>function.parse-url</a>]: Unable to parse URL	\includes\subdomain.inc.php	50
+
+错误url=http://192.168.0.137/index.php?app=jkxd_portal&act=vshop&id=3
+2014-06-25 11:44:25  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'GROUP BY g.goods_id desc limit 0, 80' at line 1
+MySQL Query:select g.goods_id,g.goods_name,g.price,g.org_price,g.default_image,g.add_time from ecm_goods g left join ecm_recommended_goods rg on g.goods_id = rg.goods_id  where rg.recom_id = 56 and g.type='material' and g.closed = 0  and g.if_show = 1 and g.dropState=1 and g.if_jifen=0 AND  g.goods_id IS NOT NULL order by rg.id GROUP BY g.goods_id desc limit 0, 80
+Wrong File:  D:\wamp\www\includes\models\recommend.model.php[171]	\eccore\model\mysql.php	310
+
+错误url=http:///
+2014-06-25 16:43:35  	[2]parse_url(http://) [<a href='function.parse-url'>function.parse-url</a>]: Unable to parse URL	\includes\subdomain.inc.php	50
+
+错误url=http:///
+2014-06-25 16:50:30  	[2]parse_url(http://) [<a href='function.parse-url'>function.parse-url</a>]: Unable to parse URL	\includes\subdomain.inc.php	50
+
+错误url=http:///
+2014-06-25 17:19:37  	[2]parse_url(http://) [<a href='function.parse-url'>function.parse-url</a>]: Unable to parse URL	\includes\subdomain.inc.php	50
+
+错误url=http:///
+2014-06-25 17:30:50  	[2]parse_url(http://) [<a href='function.parse-url'>function.parse-url</a>]: Unable to parse URL	\includes\subdomain.inc.php	50

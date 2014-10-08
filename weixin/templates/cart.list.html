@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>购物车,大集客-移动商城</title>
+    <link href="{$site_url}/weixin/templates/style/public.css" rel="stylesheet" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+
+    <script type="text/javascript">
+         function aaa(){
+             var flag = $('#default').is(':checked');
+             if(flag == true){
+                 $("input[name='spec_ids[]']").attr("checked",true);
+                 $.post("index.php?app=cart&act=getSum",{spec_ids:""},function(data){
+                     var da = data.total.toFixed(2);
+                     $("#subTotol").html("总计：￥" + da);
+                 },'json');
+             }else{
+                 $("input[name='spec_ids[]']").attr("checked",false);
+                 $("#subTotol").html("总计：￥0.00");
+             }
+         }
+
+         function total2(){
+             var spec_ids="";
+             $("input[name='spec_ids[]']:checkbox").each(function(){
+                 if($(this).attr("checked")){
+                     spec_ids += $(this).val()+","
+                 }
+             });
+             if(spec_ids == ""){
+                 $("#subTotol").html("总计：￥0.00");
+             }else{
+                 $.post("index.php?app=cart&act=getSum",{spec_ids:spec_ids},function(data){
+                     var da = data.total.toFixed(2);
+                     $("#subTotol").html("总计：￥" + da);
+                 },'json')
+             }
+         }
+
+         function addNum(spec_id,quantity,flag){
+             var spec_ids="";
+             $("input[name='spec_ids[]']:checkbox").each(function(){
+                 if($(this).attr("checked")){
+                     spec_ids += $(this).val()+","
+                 }
+             });
+             $.post("index.php?app=cart&act=update",{spec_id:spec_id,quantity:quantity,spec_ids:spec_ids,flag:flag},function(data){
+                   if(data.flag == "error"){
+                       alert("错误！");
+                       updateNum(flag,spec_id);
+                   }
+                   if(data.flag == "not"){
+                       alert("商品不存在！");
+                       updateNum(flag,spec_id);
+                   }
+                   if(data.flag == "enough"){
+                       alert("库存不够！");
+                       updateNum(flag,spec_id);
+                   }
+                   if(data.flag == "ok"){
+                       if(data.totalprice == 0){
+                           $("#total_" + spec_id).html("￥" + data.total.toFixed(2));
+                       }else{
+                               $("#total_" + spec_id).html("￥" + data.total.toFixed(2));
+                               $("#subTotol").html("总计：￥" + data.totalprice.toFixed(2));
+                       }
+                   }
+             },'json');
+         }
+
+         function jia(spec_id){
+             var num = $("#num_" + spec_id).text();
+             num = parseInt(num) + 1;
+             $("#num_" + spec_id).text(num);
+             addNum(spec_id,num,"jia");
+         }
+
+         function jian(spec_id){
+             var num = $("#num_" + spec_id).text();
+             if(num > 1){
+                 num = parseInt(num) - 1;
+                 addNum(spec_id,num,'');
+             }
+             $("#num_" + spec_id).text(num);
+         }
+
+         function updateNum(flag,spec_id){
+             if(flag == "jia"){
+                 var num = $("#num_" + spec_id).text();
+                 num = parseInt(num) - 1;
+                 $("#num_" + spec_id).text(num);
+             }else{
+                 var num = $("#num_" + spec_id).text();
+                 num = parseInt(num) + 1;
+                 $("#num_" + spec_id).text(num);
+             }
+         }
+
+      function submit1(){
+          if($("input:checkbox[name='spec_ids[]']:checked").length > 0)
+          {
+              document.getElementById("form1").submit();
+          }
+          else
+          {
+              alert("请选择商品！");
+          }
+
+      }
+
+      function delete1(){
+          var spec_ids="";
+          $("input[name='spec_ids[]']:checkbox").each(function(){
+              if($(this).attr("checked")){
+                  spec_ids += $(this).val()+","
+              }
+          });
+          if(spec_ids == ""){
+              alert("请选择要删除的商品！")
+          }else{
+              if(confirm("确定要删除购物车中所选择的商品吗?"))
+              {
+                  $.post("index.php?app=cart&act=drop1",{spec_ids:spec_ids},function(){
+                      alert("删除成功！");
+                      location.href = "index.php?app=cart";
+                  })
+              }
+          }
+      }
+    </script>
+</head>
+
+<body>
+<div id="w_3202" style="min-height:500px;">
+    <div class="top">购物车<em class="em1"><a href="javascript:history.go(-1)">返回</a></em><em class="em2" style="background:none;">
+    <!--{if $flag != 1}-->  <a href="javascript:;" onclick="delete1()"><img src="{$site_url}/weixin/templates/images/ico19.png" width="19" height="25" /></a><!--{/if}-->
+    </em></div>
+    <!--{if $flag == 1}-->
+        <div class="gw_car"><img src="{$site_url}/weixin/templates/images/ico30.png" width="198" height="175" /></div>
+        <div class="gw_font">很抱歉，您的购物车中没有商品</div>
+        <div class="gw_anniu"><a href="index.php?app=goods&act=index1">去购物</a></div>
+    <!--{else}-->
+        <div class="buy"><input name="" type="checkbox" value="" class="ipnt" onchange="aaa()" id = "default"/>全选<span class="c_c40000">{$cart_goods_kinds}</span>件商品</div>
+        <div class="zyi">全场累计消费满500元即可获得一个抽奖权参与抽奖；每个抽奖权享有100次抽奖机会</div>
+        <div class="list_b">
+            <form action="index.php?app=order&act=phoneList"  method="post" id = "form1">
+                <!--{foreach from=$carts item=cart}-->
+                <div class="ff1" id = "goods_{$cart.spec_id}">
+                    <div class="gis1"><input name="spec_ids[]" type="checkbox" value="{$cart.spec_id}" class="ipnt" id = "ck_{$cart.spec_id}"  onchange="total2()"/></div>
+                    <div class="gis2"><a href="{$site_url}/weixin/goods/0/{$cart.goods_id}{if $member && $member.user_id > 0}/{$member.user_id}{/if}"><img src="{$img_url}/{$cart.default_image}" width="100" height="100" /></a></div>
+                    <div class="gis3">
+                        <h2 class="tit_f"><a href="{$site_url}/weixin/goods/0/{$cart.goods_id}{if $member && $member.user_id > 0}/{$member.user_id}{/if}" style="color: #000">{$cart.goods_name}</a></h2>
+                        <p class="jiag"><span id = "total_{$cart.spec_id}">{$cart.subtotal|price}</span></p>
+                        <div class="shul">
+                            <a href="javascript:jian('{$cart.spec_id}')" class="a1"></a>
+                            <span class="bg2" id = "num_{$cart.spec_id}">{$cart.quantity}</span>
+                            <a href="javascript:jia('{$cart.spec_id}')" class="a2"></a>
+                        </div>
+                    </div>
+                </div>
+                <!--{/foreach}-->
+                <input type="hidden" value="{$totalPrice}" id = "total">
+                <div class="zongj">
+                    <div class="jg">
+                        <div class="anniu"><a href="javascript:;" onclick="submit1()">去结算</a></div>
+                        <div class="shuz"><span id = "subTotol">总计：￥0.00</span><br /></div>
+                    </div>
+                    <p class="yunf">未含运费</p>
+                </div>
+            </form>
+        </div>
+    <!--{/if}-->
+    {include file=member.index_footer.html}
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+
+</div>
+</body>
+</html>

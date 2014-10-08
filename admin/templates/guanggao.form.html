@@ -1,0 +1,189 @@
+{include file="header.html"}
+<style type="text/css">
+	.suggestionList li:hover {
+		background-color: #659CD8;
+	}
+	.suggestionsBox {
+		position: relative;
+		left: 185px;
+		margin: 10px 0px 0px 0px;
+		width: 200px;
+		background-color: #212427;
+		-moz-border-radius: 7px;
+		-webkit-border-radius: 7px;
+		/*border: 2px solid #000;*/
+		color: #fff;
+	}
+
+	.suggestionList {
+		margin:  -10px 0px 3px 0px;
+		padding: 0px;
+		/*border: 2px solid #000;*/
+	}
+
+	.suggestionList li {
+
+		margin: 0px 0px 3px 0px;
+		padding: 3px;
+		cursor: pointer;
+	}
+</style>
+
+<script type="text/javascript" src="index.php?act=jslang"></script>
+<script type="text/javascript">
+//<!CDATA[
+$(function(){
+    regionInit("region");
+
+    $("#tr_close_reason").hide();
+<!--{if $smarty.get.act eq "edit"}-->
+    $(":radio[name='state']").click(function(){
+        if (this.value == 2)
+        {
+            $("#tr_close_reason").show();
+        }
+        else
+        {
+            $("#tr_close_reason").hide();
+        }
+    });
+    $(":radio[name='state']:checked").click();
+<!--{/if}-->
+
+    $('#store_form').validate({
+        errorPlacement: function(error, element){
+            $(element).next('.field_notice').hide();
+            $(element).after(error);
+        },
+        success       : function(label){
+            label.addClass('right').text('OK!');
+        },
+        onkeyup    : false,
+        rules : {
+            owner_name: {
+                required: true
+            },
+            store_name: {
+                required : true,
+                remote : {
+                    url  : 'index.php?app=store&act=check_name',
+                    type : 'get',
+                    data : {
+                        store_name : function(){
+                            return $('#store_name').val();
+                        },
+                        id : '{$store.store_id}'
+                    }
+                }
+            },
+            end_time : {
+                dateISO : true
+            }
+        },
+        messages : {
+            owner_name: {
+                required: '{$lang.owner_name_required}'
+            },
+            store_name: {
+                required: '{$lang.store_name_required}',
+                remote: '{$lang.name_exist}'
+            },
+            end_time : {
+                dateISO : '{$lang.note_for_end_time}'
+            }
+        }
+    });
+});
+
+
+	function lookup(inputString) {
+		if(inputString.length == 0) {
+
+			$('#suggestions').hide();
+		} else {
+			$.post("index.php?app=store&act=get_RPC_User", {queryString: ""+inputString+""}, function(data){
+				if(data.length >0) {
+					$('#suggestions').show();
+					$('#autoSuggestionsList').html(data);
+				}
+			});
+		}
+	} // lookup
+
+	function fill(thisValue) {
+		$('#t_id').val(thisValue);
+		setTimeout("$('#suggestions').hide();", 200);
+	}
+
+    function get_size(obj){
+        var sel= obj.value;
+        var gg ={$guanggao_position_json};
+        var le = gg[""+sel+""];
+        $("#size").html(gg[""+sel+""].chichun);
+    }
+//]]>
+</script>
+<div id="rightTop">
+    <p>广告管理</p>
+    <ul class="subnav">
+        <li><span><a href="index.php?app=guanggao&act=index" class="btn1">管理</a></span></li>
+        <li><span><a href="index.php?app=guanggao&act=add" class="btn1">新增</a></span></li>
+    </ul>
+</div>
+<div class="info">
+  <form method="post" enctype="multipart/form-data" id="store_form">   
+    <!--{if $guanggao.id}--><input class="infoTableInput" name="id" type="hidden" id="id" value="{$guanggao.id}" /><!--{/if}-->
+    <table class="infoTable">      
+      <tr>
+        <th class="paddingT15">标题:</th>
+        <td class="paddingT15 wordSpacing5"><input class="infoTableInput" name="title" type="text" id="title" value="{$guanggao.title|escape}" /></td>
+      </tr>
+      <tr>
+        <th class="paddingT15">描述:</th>
+        <td class="paddingT15 wordSpacing5"><input class="infoTableInput" name="des" type="text" id="des" value="{$guanggao.des|escape}" /></td>
+      </tr>
+      <tr>
+        <th class="paddingT15">链接:</th>
+        <td class="paddingT15 wordSpacing5"><input class="infoTableInput" name="link" type="text" id="link" value="{$guanggao.link|escape}"/>        </td>
+      </tr>      
+      <tr>
+        <th class="paddingT15">排序:</th>
+        <td class="paddingT15 wordSpacing5">
+        <input class="infoTableInput" name="sort" type="text" id="sort" value="<!--{if $guanggao.sort}-->{$guanggao.sort}<!--{else}-->0<!--{/if}-->"/><span>数字越大越靠前</span>
+        </td>
+      </tr>
+      
+      <tr>
+        <th class="paddingT15">位置:</th>
+        <td class="paddingT15 wordSpacing5">
+        <select id="position" name="position" onchange="javascript:get_size(this)">
+            <!--{if $guanggao_position}-->
+            <!--{foreach from=$guanggao_position item=gg key=gg_key}-->
+            <option value="{$gg_key}" <!--{if $gg_key ==$guanggao.position}-->selected="selected"<!--{/if}--> >{$gg.position}</option>
+            <!--{/foreach}-->
+            <!--{/if}-->
+        </select>
+        </td>
+      </tr>
+      
+      <tr>
+        <th class="paddingT15">图片:</th>
+
+
+        <td class="paddingT15 wordSpacing5">
+        <input class="infoTableInput" name="img" type="file" id="img" />
+        <!--{if $guanggao.img}-->
+        <a href="{$site_url}/{$guanggao.img}" target="_blank">查看</a>
+        <!--{/if}-->
+        </td>
+      </tr>
+      <tr>
+        <th></th>
+        <td class="ptb20"><input class="formbtn" type="submit" name="Submit" value="{$lang.submit}" />
+          <input class="formbtn" type="reset" name="Reset" value="{$lang.reset}" /></td>
+      </tr>
+      <tr><td colspan="2" style="padding-left: 180px;">该位置的图片尺寸应为：<span id="size" style="color: red"><!--{if $guanggao.position}-->  <!--{foreach from=$guanggao_position item=gg key=gg_key}--><!--{if $gg_key ==$guanggao.position}-->{$gg.chichun} <!--{/if}--> <!--{/foreach}--><!--{else}-->750X347<!--{/if}--></span></td></tr>
+    </table>
+  </form>
+</div>
+{include file="footer.html"}

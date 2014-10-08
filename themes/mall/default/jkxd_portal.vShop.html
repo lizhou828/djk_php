@@ -1,0 +1,240 @@
+{include file=header.html}
+
+
+<!--logo部分(集客小店搜索框)-->
+{include file=jkxd_portal.vShop_head.html}
+
+<!--全部内容-->
+<div id="center_w1200">
+    <!--精品集客小店——本地特卖商品——开始-->
+    {if $bendi_temai && $bendi_temai.goodsList && count($bendi_temai.goodsList) > 0 }
+        <div class="xiaod">
+            <div class="top">
+                <div style="float: left; height:40px;width:1030px;margin: 16px 0 0 18px;background: url('{$site_url}/themes/mall/default/styles/default/images/shop_pic14.jpg') no-repeat">
+                    <span style="color: #27A196;float: right;height:40px;padding-top: 9px;">
+                        {foreach from=$bendi_temai.cates item=category namd=cate_index}
+                            {if $smarty.foreach.cate_index.iteration <= 5}
+                                <a href="{$site_url}/index.php?app=jkxd_portal&act=vshop_list&type=localHot&id={$shopOwner.user_id}&goodCateId={$category.cate_id}">
+                                    {$category.cate_name|myeval:"substr(value, strpos(value,'	'))"}&nbsp;&nbsp;
+                                </a>
+                            {/if}
+                        {/foreach}
+                    </span>
+                </div>
+
+
+                <div class="duo">
+                    <a>共 <span> {$bendi_temai.item_count}</span> 件商品</a>
+                    <a href="{$site_url}/index.php?app=jkxd_portal&act=vshop_list&type=localHot&id={$shopOwner.user_id}" style=" padding-left:10px;">
+                        更多<img src="{res file=images/shop_ico.png}" width="7" height="7" style="margin-left:5px;" />
+                    </a>
+                </div>
+            </div>
+            <div class="vshop">
+                <ul>
+                    {if $bendi_temai && $bendi_temai.goodsList && count($bendi_temai.goodsList) > 0 }
+                        {foreach from=$bendi_temai.goodsList item=goods name=goods_index}
+                            <li {if $smarty.foreach.goods_index.iteration%5 eq 0 } class="laaa" style="padding-right:0px; margin-right:0px;"{/if}>
+                                <div class="pic" style="position: relative;">
+                                    <a href="index.php?app=goods&id={$goods.goods_id}&shop_id={$shopOwner.user_id}&vshop=1" title="{$goods.goods_name}" target="_blank">
+                                        <img src="{img_url $img_url/$goods.default_image/220X220}" width="220" height="220" alt="{$goods.goods_name}" />
+                                    </a>
+                                    <em style="position: absolute;left: 5px;top: 10px; "><img src="{$site_url}/themes/mall/default/styles/default/images/ico_18.png" alt="精品集客小店-本地特卖商品"/></em>
+                                </div>
+                                <div class="text">
+                                    <a href="index.php?app=goods&id={$goods.goods_id}&shop_id={$shopOwner.user_id}&vshop=1" title="{$goods.goods_name}" target="_blank">
+                                        {$goods.goods_name|truncate:60}
+                                    </a>
+                                </div>
+                                <div class="jiage">￥<span>{$goods.price}</span>
+                                    {if  $user.user_id eq $shopOwner.user_id}
+                                    <em class="em1">奖励：￥{$goods.yongjin|number2}</em>
+                                    {/if}
+                                </div>
+                            </li>
+                        {/foreach}
+                    {else}
+                        <div style="text-align: center;padding-top: 50px;padding-bottom: 50px;">没有相关商品!</div>
+                    {/if}
+
+                </ul>
+            </div>
+        </div>
+    {/if}
+    <!--精品集客小店——本地特卖商品——结束-->
+    <div class="clear"></div>
+
+
+
+
+
+    <!--精品集客小店——大集客精品——开始-->
+    <div class="shangc">
+        <div class="ttp">
+            <div class="left">
+                <a id="dajike_tab" href="{$site_url}/index.php?app=jkxd_portal&act=vshop_list&type=jingpin&id={$shopOwner.user_id}"
+                   class="dq" style="background: none repeat scroll 0 0 #B10000;">
+                    大集客精品
+                </a>
+            </div>
+            <div class="duo">
+                <a>共 <span id="dajike_count">{$djk_jingpin.item_count}</span>件商品</a>
+                <a id="more" href="{$site_url}/index.php?app=jkxd_portal&act=vshop_list&type=jingpin&id={$shopOwner.user_id}" style=" padding-left:10px;">更多<img src="{res file=images/shop_ico.png}" width="7" height="7" style="margin-left:5px;" /></a>
+            </div>
+        </div>
+
+        <div id="dajike" class="bottom">
+            <ul>
+                {if $djk_jingpin && $djk_jingpin.goodsList && count($djk_jingpin.goodsList) > 0 }
+                    {foreach from=$djk_jingpin.goodsList item=goods name=goods_index}
+                        <li {if $smarty.foreach.goods_index.iteration%5 eq 0 } style="padding-right:0px;margin-right:0px;"{/if}>
+                            <div class="pic">
+                                <a href="index.php?app=goods&id={$goods.goods_id}&shop_id={$shopOwner.user_id}&vshop=1" title="{$goods.goods_name}">
+                                    <img src="{img_url $img_url/$goods.default_image/220X220}" alt="{$goods.goods_name}" width="220" height="220" />
+                                </a>
+
+                            </div>
+                            <div class="text">
+                                <a href="index.php?app=goods&id={$goods.goods_id}&shop_id={$shopOwner.user_id}&vshop=1" title="{$goods.goods_name}">
+                                    {$goods.goods_name|truncate:60}
+                                </a>
+                            </div>
+                            <div class="jiage">￥<span>{$goods.price}</span>
+                                {if  $user.user_id eq $shopOwner.user_id}
+                                    <em class="em1">奖励：￥{$goods.yongjin|number2}</em>
+                                {/if}
+                            </div>
+                        </li>
+                    {/foreach}
+                {else}
+                    <div style="text-align: center;padding-top: 50px;padding-bottom: 50px;">没有相关商品!</div>
+                {/if}
+
+
+            </ul>
+        </div>
+    </div>
+    <!--精品集客小店——大集客精品——结束-->
+
+
+
+</div>
+
+
+<!--js全屏悬浮广告开始-->
+{if $user && $user.spreader_type==1 && $user.shop_name!=null && $user.shop_name!=''}
+{else}
+<script>
+    (function($){
+        $.fn.floatAd = function(options){
+            var defaults = {
+                imgSrc : "{res file=images/shop_ico6.png}", //漂浮图片路径
+                url : "{$site_url}/index.php?app=jkxd_portal&act=apply_jkxd", //图片点击跳转页
+                openStyle : 0, //跳转页打开方式 1为新页面打开  0为当前页打开
+                speed : 10 //漂浮速度 单位毫秒
+            };
+            var options = $.extend(defaults,options);
+            var _target = options.openStyle == 1 ?  "target='_blank'" : '' ;
+            var html = "<div id='float_ad' style='position:absolute;left:0px;top:0px;z-index:1000000;cleat:both;'>";
+            html += "  <a href='javascript:void(0)'" + _target + " onclick=apply_jkxd(" +
+                    ")>" +
+                    "<img src='" + options.imgSrc + "' border='0' class='float_ad_img'/>" +
+                    "</a> " +
+                    "<a href='javascript:;' id='close_float_ad' style=''>X</a>";
+            html += "</div>";
+            $('body').append(html);
+            function init(){
+                var x = 0,y = 0
+                var xin = true, yin = true
+                var step = 1
+                var delay = 10
+                var obj=$("#float_ad")
+                obj.find('img.float_ad_img').load(function(){
+                    var float = function(){
+                        var L = T = 0;
+                        var OW = obj.width();//当前广告的宽
+                        var OH = obj.height();//高
+                        var DW = $(document).width(); //浏览器窗口的宽
+                        var DH =  window.screen.availHeight-50;
+                        x = x + step *( xin ? 1 : -1 );
+                        if (x < L) {
+                            xin = true; x = L
+                        }
+                        if (x > DW-OW-1){//-1为了ie
+                            xin = false; x = DW-OW-1
+                        }
+                        y = y + step * ( yin ? 1 : -1 );
+                        if (y > DH-OH-1) {
+                            yin = false; y = DH-OH-1 ;
+                        }
+                        if (y < T) {
+                            yin = true; y = T
+                        }
+                        var left = x ;
+                        var top = y;
+                        obj.css({'top':top,'left':left});
+                    }
+                    var itl = setInterval(float,options.speed);
+                    $('#float_ad').mouseover(function(){clearInterval(itl)});
+                    $('#float_ad').mouseout(function(){itl=setInterval(float, options.speed)} )
+                });
+                // 点击关闭
+                $('#close_float_ad').live('click',function(){
+                    $('#float_ad').hide();
+                });
+            }
+            init();
+        }; //floatAd
+    })(jQuery);
+    $(function(){
+        //调用漂浮插件
+        $("body").floatAd({
+            imgSrc : '{res file=images/shop_ico6.png}',
+            url : "{$site_url}/index.php?app=jkxd_portal&act=apply_jkxd"
+        });
+    })
+</script>
+{/if}
+<!--js全屏悬浮广告结束-->
+
+
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.plugins/jquery.validate.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/dialog/dialog.js" id="dialog_js"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js" ></script>
+<script type="text/javascript">
+    function apply_jkxd(){
+        var uri =encodeURI("index.php?app=jkxd_portal&act=apply_jkxd&id={$shopOwner.user_id}");
+        var id = 'apply_jkxd_page';
+        var title = "申请开通集客小店";
+        var width = '755';
+        ajax_form(id, title, uri, width);
+    }
+    function qq_setPassword(){
+        var uri =encodeURI("index.php?app=jkxd_portal&act=qq_setPasswordPage&id={$shopOwner.user_id}&type={$type}");
+        var id = 'qq_setPassword';
+        var title = "设置集客小店登录密码";
+        var width = '780';
+        ajax_form(id, title, uri, width);
+    }
+</script>
+
+
+{if $user && ($user.user_id==$shopOwner.user_id)}
+<!--qq登录的用户,弹窗设置登录密码   开始-->
+{if $user.im_qq != null && $user.im_qq != ''&& $user.password == ''}
+<script type="text/javascript">
+    $(function(){
+        qq_setPassword();
+    });
+</script>
+{/if}
+<!--qq登录的用户,弹窗设置登录密码   结束-->
+
+
+{/if}
+
+
+<!--底部横banner-->
+
+{include file=footer.html}

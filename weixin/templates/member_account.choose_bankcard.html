@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>结算中心</title>
+    <link href="{$site_url}/weixin/templates/style/binding.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        function choose(id){
+            $.get("index.php?app=member_account&act=setJiesuanCard",{"id":id},function(result){
+                var result = eval("("+result+")");
+                alert(result.msg);
+                window.location.reload();
+            })
+        }
+
+    </script>
+</head>
+<body>
+
+<div  style="padding-bottom: 20px;">
+    <div class="card-1">
+        <div class="card-1-c">
+            {foreach from=$bankCards item=bankCard}
+                <div class="card-1-c1" style="border-bottom:0px;">
+                    <input class="radio-1" name="kahao" type="radio" onclick="choose(this.value)" value="{$bankCard.id}" />
+                    <span style="padding-top:5px;">{$bankCard.bank_name}</span>
+                </div>
+            {/foreach}
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

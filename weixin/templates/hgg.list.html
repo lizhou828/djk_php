@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{$title},大集客-移动商城</title>
+    <link href="{$site_url}/weixin/templates/style/public.css" rel="stylesheet" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+</head>
+
+<body>
+<div id="w_3202" style="min-height:500px;">
+    <div class="top">{$title}<em class="em1"><a href="{$site_url}/weixin/index.php?app=goods&act=index1">返回</a></em><em class="em2"><a href="index.php?app=goods&act=index1">首页</a></em></div>
+    <div class="hg_fo1">
+        <h2>精彩分会场</h2>
+        <div class="vest">
+            <!--{foreach from=$hgg item=hg name=hg key=ky}-->
+                <!--{if $smarty.foreach.hg.index % 4 == 0}-->
+                    <a href="index.php?app=goods&act=goodsList&r_id={$ky}" style="background:#92bd49">{$hg.name}</a>
+                <!--{/if}-->
+                <!--{if $smarty.foreach.hg.index % 4 == 1}-->
+                    <a href="index.php?app=goods&act=goodsList&r_id={$ky}" style="background:#1d5b9f">{$hg.name}</a>
+                <!--{/if}-->
+                <!--{if $smarty.foreach.hg.index % 4 == 2}-->
+                     <a href="index.php?app=goods&act=goodsList&r_id={$ky}" style="background:#eaac44">{$hg.name}</a>
+                <!--{/if}-->
+                <!--{if $smarty.foreach.hg.index % 4 == 3}-->
+                    <a href="index.php?app=goods&act=goodsList&r_id={$ky}" style="background:#27a196">{$hg.name}</a>
+                <!--{/if}-->
+            <!--{/foreach}-->
+        </div>
+    </div>
+    <div class="clear"></div>
+    <!--{foreach from=$hgg item=gg name=gg key=ky}-->
+    <div class="hg_fo2">
+        <!--{if $smarty.foreach.gg.index % 4 == 0}-->
+            <h2 class="titl">{$gg.name}</h2>
+        <!--{/if}-->
+        <!--{if $smarty.foreach.gg.index % 4 == 1}-->
+            <h2 class="titl" style="background:#1d5b9f;">{$gg.name}</h2>
+        <!--{/if}-->
+        <!--{if $smarty.foreach.gg.index % 4 == 2}-->
+            <h2 class="titl" style="background:#eaac44;">{$gg.name}</h2>
+        <!--{/if}-->
+        <!--{if $smarty.foreach.gg.index % 4 == 3}-->
+            <h2 class="titl" style="background:#27a196;">{$gg.name}</h2>
+        <!--{/if}-->
+        <div class="centent">
+            <!--{foreach from=$gg.goods item=god}-->
+            <dl class="dls">
+                <dd class="pic">
+                    <a href="{$site_url}/weixin/goods/0/{$god.goods_id}{if $member && $member.user_id > 0}/{$member.user_id}{/if}" style="color: #333"><img src="{$img_url}/{$god.default_image}" width="100" height="100" /></a>
+                </dd>
+                <dt class="font">
+                <div class="text">  <a href="{$site_url}/weixin/goods/0/{$god.goods_id}{if $member && $member.user_id > 0}/{$member.user_id}{/if}" style="color: #333"> {$god.goods_name}</a></div>
+                <div class="jiage">{$god.price|price}</div>
+                </dt>
+            </dl>
+            <!--{/foreach}-->
+        </div>
+        <a href="index.php?app=goods&act=goodsList&r_id={$ky}" style="color: red">
+        <div class="more">点击查看更多商品>></div>
+        </a>
+    </div>
+    <!--{/foreach}-->
+    {include file=member.index_footer.html}
+</div>
+</body>
+</html>

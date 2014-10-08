@@ -1,0 +1,50 @@
+{include file=member.header.html}
+<style type="text/css">
+.bgwhite { background: #FFFFFF; }
+
+  	.top_bs{ width:789px; margin:0px auto; margin-top:55px; margin-left:55px;height:120px;}
+    .top_bs dl{}
+    .top_bs dl dd{ width:68px; height:63px; float:left; margin-right:20px;}
+    .top_bs dl dt{ float:left;}
+    .top_bs dl dt h5{ color:#5e8f0a; font-size:18px; font-weight:normal; font-family:"微软雅黑"; line-height:40px;}
+    .top_bs dl dt p{ color:#666;}
+    .top_bs dl dt p span{ color:#d0281e; font-family:Verdana, Geneva, sans-serif;}
+    .top_bs dl dt p a{ color:#1d5b9f; text-decoration:none; font-size: 14px}
+    .top_bs dl dt .bot{ color:#4f4f4f; font-size:14px; width:102px; height:32px; border:1px solid #d2d2d2; background:#ededed; line-height:32px; text-align:center; margin-top:12px;		}
+    .top_bs dl dt .bot a{color:#4f4f4f; }
+	
+</style>
+</script>
+<style>
+.borline td { padding:10px 0px; }
+.ware_list th { text-align:left; }
+</style>
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right" >
+        <ul class="tab">
+            <li class="active" >售后管理</li>
+		</ul>
+
+        <div class="eject_con bgwhite" style="padding: 30px 0 50px">        
+        <center><div id="warning" name="warning" style="width:92%;"></div></center>
+        
+        
+        
+    <div class="top_bs">
+    <dl>
+        <dd><img src="{$site_url}/themes/mall/default/styles/default/images/gou.png" width="68" height="63" /></dd>
+        <dt>
+        <h5>恭喜！{$msg}</h5>      
+        </dt>
+    </dl>
+</div>
+        
+       
+      
+      </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+{include file=footer.html}

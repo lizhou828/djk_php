@@ -1,0 +1,149 @@
+{include file=tuiguang_header.html}
+<!--面包屑-->
+<div id="mianb"><a href="index.php?app=tuiguang&act=view">首页</a> > <span>获取代码</span></div>
+
+<!--正文-->
+<div id="fon_con">
+  <div class="left">
+      <div class="pic"><img src="{$site_url}/themes/mall/default/styles/default/images/lianmengke/pic8.png" width="663" height="145" /></div> 
+    <strong>怎样获取代码？</strong>
+    <h2 class="h2">方式一：通过链接分享</h2>
+    <p class="p1">（ 下面是您的专属连接，请点击复制或直接分享 ）</p>
+    <div class="clear"></div>
+      <div class="kk">
+         <div class="o1"><input id="t_url" type="text" value="{$site_url}{$tuiguangURL}.html" class="txt1" />
+         
+         <div id="d_clip_button" class="scarch_order" style="display: inline"><input name="" type="button" value="点击复制"  class="txt2"/>
+         </div></div>
+         
+         <div class="o2">
+         <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare" data="{'url':'{$site_url}{$tuiguangURL}.html'" style="float: right;margin-right: 350px">
+                            <span class="bds_more">分享到：</span>
+                            <a class="bds_qzone" style="color:#999999">QQ空间</a>
+                            <a class="bds_tsina" style="color:#999999">新浪微博</a>
+                            <a class="bds_tqq" style="color:#999999">腾讯微博</a>
+                        </div>         
+         </div>
+      </div>
+      <h2 class="h2">方式二：通过专属二维码分享</h2>
+    	<p class="p1">① 下载并保存下面二维码发到自己的空间、博客或对方邮箱</p>
+        <div class="clear"></div>
+        <dl>
+        <dd><img src="{$site_url}/index.php?app=tuiguang&act=generateCode" width="220" height="220" /></dd>
+        <dt style="width:220px;"><a href="index.php?app=tuiguang&act=down_img&code={$tuiguangURL}"  target="_blank">点击下载二维码</a></dt>
+        </dl>
+        
+        <p class="p1">② 直接打开个人微信扫一扫您的专属二维码，点击继续访问进入注册页面，点击手机右上角分享到朋友圈（如下图所示）</p>
+        <div class="clear"></div>
+        <p style="padding-top:8px; padding-bottom:15px; width:560px; margin:0px auto;"><img src="{$site_url}/themes/mall/default/styles/default/images/lianmengke/wx.png" width="560" height="695" /></p>
+       
+        <p class="p1" style="padding-left:17px">用户点击页面或扫描该二维码，注册成大集客会员或成为大集客入驻商家，您即可享受其会员消费额或商家营业额的积分奖励</p>
+       
+<div class="clear"></div>
+      
+  </div>
+   <!--<div class="right">-->
+     <!--<div class="on1">-->
+       <!--<h2>新晋业务员</h2>-->
+       <!--<ul>-->
+            <!--<li>- djkzhuce***</li>-->
+            <!--<li>- djk5615***</li>-->
+            <!--<li>- djk15***</li>-->
+            <!--<li>- sdf***</li>-->
+            <!--<li>- djkzhuce***</li>-->
+            <!--<li>- djk5615***</li>-->
+            <!--<li>- djk15***</li>-->
+            <!--<li>- sdf***</li>-->
+            <!--<li>- djkzhuce***</li>-->
+            <!--<li>- djk5615***</li>-->
+          <!--</ul>-->
+     <!--</div>-->
+     <!--<div class="on2">-->
+           <!--<h2>常见问题</h2>-->
+           <!--<ul>-->
+             <!--<li><a href="javascript:;">·如何才能申请成为大集客的签约业务员？</a></li>-->
+             <!--<li><a href="javascript:;">·网站在线申请签约业务员后多久可以知道审核结果？</a></li>-->
+             <!--<li><a href="javascript:;">·申请成为签约业务员需要提交哪些资料？</a></li>-->
+             <!--<li><a href="javascript:;">·普通业务员和签约业务员有什么区别？</a></li>-->
+           <!--</ul>-->
+        <!--</div>-->
+        <!--<div class="on3" style="border-bottom:none;">-->
+           <!--<h2>月收入排行榜</h2>-->
+           <!--<ul>-->
+            <!--<li style=" color:#d8271c">djkzhuce***</li>-->
+            <!--<li>djk5615***</li>-->
+            <!--<li style=" color:#eaac44">djk15***</li>-->
+            <!--<li>sdf***</li>-->
+            <!--<li style=" color:#1d5b9f">djkzhuce***</li>-->
+            <!--<li>djk5615***</li>-->
+            <!--<li>djk15***</li>-->
+            <!--<li>sdf***</li>-->
+            <!--<li>djkzhuce***</li>-->
+            <!--<li>djk5615***</li>-->
+          <!--</ul>-->
+        <!--</div>-->
+   <!--</div>-->
+</div>
+
+<!--底部-->
+<div class="clear"></div>
+
+<script type="text/javascript" src="{res file=js/jquery.js}" charset="utf-8"></script>
+<script type="text/javascript" src="{$site_url}/includes/libraries/javascript/ZeroClipboard.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var clip = null;
+    function $(id) { return document.getElementById(id); }
+    window.onload=function(){init();}
+    function init() {
+        clip = new ZeroClipboard.Client();
+        clip.setHandCursor( true );
+        clip.addEventListener('load', my_load);
+        clip.addEventListener('mouseOver', my_mouse_over);
+        clip.addEventListener('complete', my_complete);
+        clip.glue( 'd_clip_button' );
+    }
+
+    function my_load(client) {
+        debugstr("Flash movie loaded and ready.");
+    }
+
+    function my_mouse_over(client) {
+         clip.setText( $('t_url').value );
+    }
+
+    function my_complete(client, text) {
+
+        alert("复制成功!\n"+text);
+    }
+
+    function debugstr(msg) {
+
+    }
+    //下载二维码
+    function down_file(){
+       var obj = document.getElementById("erweima");
+       var url = SITE_URL+"/index.php?app=tuiguang&act=get_erweima";
+        alert(url);
+        alert(obj.src);
+       var parm = obj.src;
+
+    }
+</script>
+
+
+<!-- Baidu Button BEGIN -->
+<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6765728" ></script>
+<script type="text/javascript" id="bdshell_js"></script>
+<script type="text/javascript">
+    var bds_config = {
+        'snsKey':{'tsina':'http://t.qq.com/'}		//'请参考自定义分享到平台的appkey'
+    }
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000);
+</script>
+<!-- Baidu Button END -->
+
+<!--底部-->
+<div class="clear"></div>
+{include file=tuiguang_footer.html}
+</body>
+</html>

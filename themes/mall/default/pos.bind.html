@@ -1,0 +1,393 @@
+{include file=pos.header.html}
+
+<script type="text/javascript" src="index.php?act=jslang"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.plugins/jquery.validate.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{lib file=mlselection.js}" ></script>
+<script type="text/javascript" src="{res file=js/jquery.showLoading.js}" charset="utf-8"></script>
+<link href="{res file=css/showLoading.css}" rel="stylesheet" type="text/css">
+
+<script>
+    var InterValObj=null;
+    var show_type =1;
+    $(function(){
+        var userId = {$visitor.user_id};
+        if(userId > 0) {
+            $('#user_name').attr('readonly',true);
+        }
+        regionInit("region");
+            $("#bindform").validate({
+            errorPlacement: function(error, element){
+                var error_td = element.parents('td').next('td');
+                error_td.find('.field_notice').hide();
+                error_td.find('.fontColor3').hide();
+                error_td.append(error);
+            },
+            success: function(label){
+                label.remove();
+            },
+            submitHandler : function(form) {
+                $('.sava_tr').showLoading({'addClass': 'loading-indicator-bars'});
+                $("#bank_card").val($("#bank_card_start").val() + "****" + $("#bank_card_end").val());
+                var bank_code=$("#bank_name").find("option:selected").attr("channel_code");
+                if(bank_code != null && typeof(bank_code) !="undefined" && bank_code !=""){
+                    $("#bank_code").val(bank_code);
+                }
+                form.submit();
+            },
+            onkeyup: false,
+            rules: {
+                user_name: {
+                    required: true,
+                    user_name_validate : []
+                },
+                password: {
+                    required: true
+                },
+                confirm_password: {
+                    confirm_password_validate : [],
+                    confirm_password_validate2 : []
+                },
+                bank_card_start: {
+                    required: true
+                },
+                bank_card_end: {
+                    required: true
+                },
+                real_name : {
+                    required : true
+                },
+                id_card_number: {
+                    required: true
+                },
+                mobile_phone_number: {
+                    required: true,
+                    checkTel:true
+                },
+                yanzhengma: {
+                    required: true
+                    ,remote   : {
+                        url :'index.php?app=sendcode&act=checkCode&ajax=1',
+                        type:'get',
+                        data:{
+                            yanzhengma : function(){
+                                return $('#yanzhengma').val();
+                            }
+                        },
+                        beforeSend : function(){
+                            $('.yanzhengma_label').html("");
+                            $('.mobile_phone_number_label').html("");
+                        },
+                        complete :function(rs){
+                        }
+                    }
+                }
+            },
+            messages: {
+                user_name :{
+                    required : '&nbsp;请输入用户名'
+                },
+                password : {
+                    required : '请输入密码'
+                },
+                bank_card_start : {
+                    required : '请输入卡号前六位'
+                },
+                bank_card_end : {
+                    required : '卡号后四位'
+                },
+                real_name : {
+                    required : '请输入真实姓名'
+                },
+                id_card_number : {
+                    required : '请输入身份证号'
+                },
+                mobile_phone_number : {
+                    required : '&nbsp;请输入手机号码',
+                    checkTel  : '&nbsp;手机号码不正确'
+                } ,
+                yanzhengma : {
+                    required : '请输入验证码',
+                    remote    : '验证码错误'
+                }
+            }
+        });
+    });
+
+    jQuery.validator.addMethod("confirm_password_validate", function(value, element) {
+        if(show_type ==2 && value ==""){
+            return false;
+        }
+        return true;
+    }, "请输入确认密码");
+
+    jQuery.validator.addMethod("confirm_password_validate2", function(value, element) {
+        var password =$("#password").val();
+        if(show_type ==2 && value !="" && password != "" && password !=value){
+            return false;
+        }
+        return true;
+    }, "二次密码不一致");
+
+    jQuery.validator.addMethod("user_name_validate", function(value, element) {
+        var txt = value.substring(0,3).toUpperCase();
+        var reg = /DJK/;
+        if(reg.test(txt)) {
+            return false;
+        }
+        return true;
+    }, "&nbsp;该用户名错误，请重新输入。");
+
+    function callback_bind(rs){
+        if(rs.flag == "error"){
+            alert(rs.error_msg);
+        }else if(rs.flag == "ok"){
+            $('.sava_tr').success_Loading({'div_title':'提交资料成功','hide_div':"sava_tr",'div_content':"恭喜您，绑定成功！",'location_url':"index.php?app=member&act=pos_bind&p=userInfo"});
+            return;
+        }else{
+            alert("服务器繁忙，请稍后重试！");
+        }
+        $('.sava_tr').hideLoading();
+    }
+
+</script>
+
+<!--面包屑-->
+<div id="mianb"><a href="index.php?app=pos">首页</a> > <a href="index.php?app=pos&act=bind">POS机刷卡绑定</a> > <span><a href="index.php?app=pos&act=bind">在线绑定</a></span></div>
+<!--正文-->
+<div class="sqgout">
+    <h2>POS机在线绑定</h2>
+
+
+    <!--{if $smarty.get.success}-->
+    <div style="width:500px; text-align:center; padding:10px; padding-left:200px; size:+2; color:#000; padding-top: 100px; padding-bottom: 100px ">恭喜您绑定成功！</div>
+    <!--{else}-->
+    <p class="show_p">
+        <a href="javascript:;" show_type="1" class="a1">我已经是会员</a>
+        <a href="javascript:;" show_type="2" class="a2">我不是会员</a>
+    </p>
+    <div class="nei">
+        <form method="post" id="bindform" name="bindform" target="bind_iframe">
+            <input id="show_type" type="hidden" name="show_type" value="1"  />
+            <table width="980" border="0" cellspacing="0" cellpadding="0" class="txt">
+                <tr>
+                    <td width="187" height="45">&nbsp;</td>
+                    <td width="142" align="right" style=" font-size:14px; font-weight:bold; color:#333;" class="show_lbl">会员登录</td>
+                    <td width="268"></td>
+                    <td width="237"></td>
+                    <td width="196">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td height="45">&nbsp;</td>
+                    <td align="right">会员账号：</td>
+                    <td><input type="text" name="user_name" id="user_name" <!--{if $visitor.user_name !="游客"}-->value="{$visitor.user_name}"<!--{/if}-->  class="input1"/></td>
+                    <td class="user_name_label"></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr class="password_tr">
+                    <td height="45">&nbsp;</td>
+                    <td align="right">密码：</td>
+                    <td><input type="password" name="password" id="password"   class="input1"/></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr class="confirm_password_tr" style="display: none">
+                    <td height="45">&nbsp;</td>
+                    <td align="right">确认密码：</td>
+                    <td><input type="password" name="confirm_password" id="confirm_password"  class="input1"/></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td width="137" height="45">&nbsp;</td>
+                    <td width="142" align="right" style=" font-size:14px; font-weight:bold; color:#333;">POS机刷卡绑定</td>
+                    <td width="268"></td>
+                    <td width="237">&nbsp;</td>
+                    <td width="196">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td height="45">&nbsp;</td>
+                    <td align="right">刷卡银行：</td>
+                    <td><label for="select"></label>
+                        <select name="bank_name" id="bank_name" class="input1">
+                            <option value="">请选择</option>
+                            <!--{if $channels}-->
+                            <!--{foreach from=$channels item=channel}-->
+                                    <!--{if $channel.channel_name != '财付通' && $channel.channel_name != '支付宝'}-->
+                            <option value="{$channel.channel_name}" channel_code='{$channel.channel_code}'>{$channel.channel_name}</option>
+                                    <!--{/if}-->
+                            <!--{/foreach}-->
+                            <!--{/if}-->
+                        </select>
+                        <input name="bank_code" id="bank_code" type="hidden"  value=""/>
+                    </td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td height="45">&nbsp;</td>
+                    <td align="right">银行卡号：</td>
+
+                    <td>
+                        <input type="hidden" name="bank_card" id="bank_card"  class="input1"/>
+                        <input type="text" name="bank_card_start" id="bank_card_start" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"  class="input1" maxlength="6" style="width: 100px"/>
+                        <label>****</label>
+                        <input type="text" name="bank_card_end" id="bank_card_end" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"  class="input1" maxlength="4" style="width: 100px" />
+                    </td>
+                    <td><label class="error">请输入银行卡前六位和后四位</label></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td height="45">&nbsp;</td>
+                    <td align="right">真实姓名：</td>
+                    <td><input type="text" name="real_name" id="real_name"  class="input1"/></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td height="45">&nbsp;</td>
+                    <td align="right">身份证号：</td>
+                    <td><input type="text" name="shenfenzheng" id="id_card_number"  class="input1"/></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td height="45">&nbsp;</td>
+                    <td align="right">手机号码：</td>
+                    <td>
+                        <input type="text" name="m_phone" id="mobile_phone_number"  class="input2" style=" vertical-align:middle"/>
+                        <span style="padding-left: 10px;">
+                        <!--{if $IF_DUANXING neq 0}-->
+                        <input name="btnSendCode" type="button" id="btnSendCode" onclick="sendMessage();" value="获得手机验证码" style="float: left;height: 34px;margin-left: 150px;margin-top: -35px;"/>
+                        <!--{/if}-->
+                        </span>
+                    <td class="mobile_phone_number_label"></td>
+                    <td>&nbsp;</td>
+                </tr>
+
+                <!--{if $IF_DUANXING neq 0}-->
+                <tr>
+                    <td height="45">&nbsp;</td>
+                    <td align="right">短信验证码：</td>
+                    <td>
+                        <input type="text" name="yanzhengma" id="yanzhengma"  class="input1"/>
+                    </td>
+                    <td class="yanzhengma_label">&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <!--{/if}-->
+                <tr class="sava_tr">
+                    <td height="45">&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td><input type="submit" style="width:100px; height:32px; background:#d0281e; color:#fff; line-height:32px; text-align:center; font-weight:bold; cursor: pointer;border: 0" value="立即绑定" /></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div style="width:600px; margin:0px auto; padding-bottom:25px;">
+        <strong style=" line-height:22px; font-weight:normal;">温馨提示：</strong><br />
+      <span style=" line-height:22px; color:#999;">1. 如果您还未绑定大集客会员，请输入以上信息进行绑定。绑定后所有刷卡金额可累计积分，还可免费抽奖；<br />
+         2. 如果您已经绑定大集客会员，请至会员中心查询您的详细交易记录和积分累计情况。</span>
+    </div>
+    <!--{/if}-->
+
+</div>
+<iframe name="bind_iframe" id="bind_iframe" style="display:none" ></iframe>
+<script>
+    var im_qq = "{$user.im_qq}";
+    if (im_qq != null && im_qq != "" ) {
+        $(".password_tr").css("display","none");
+        $("#password").val("1");
+    }
+    $(".show_p a").bind("click",function(){
+        if($(this).attr("class") == "a2"){
+            $(".show_p a").attr("class","a2");
+            $(this).attr("class","a1");
+        }else{
+            $(".show_p a").attr("class","a1");
+            $(this).attr("class","a2");
+        }
+        show_type = $(".show_p a[class='a1']").attr("show_type");
+        $("#show_type").val(show_type);
+        if(show_type == 1){
+            $(".show_lbl").html("会员登入");
+            $("#user_name").val("<!--{if $visitor.user_name !="游客"}-->{$visitor.user_name}<!--{/if}-->");
+        }else{
+            $(".show_lbl").html("会员注册");
+            $("#user_name").val("");
+        }
+        if(show_type == 1 ){
+            $(".confirm_password_tr").css("display","none");
+            if (im_qq != null && im_qq != "" ) {
+                $(".password_tr").css("display","none");
+                $("#password").val("1");
+            }
+        }else{
+            $("#password").val("");
+            $(".password_tr").css("display","");
+            $(".confirm_password_tr").css("display","");
+        }
+
+    })
+
+
+    var curCount;
+    function sendMessage() {
+        curCount = 120;
+        if($.trim($("#user_name").val()) == "" ){
+            $(".user_name_label").html("<font color='red'>请输入用户名</font>");
+            return;
+        }
+        if($.trim($("#mobile_phone_number").val()) == "" ){
+            $(".mobile_phone_number_label").html("<font color='red'>请输入手机号码</font>");
+            return;
+        }
+        var mobile_phone_number=$.trim($("#mobile_phone_number").val());
+        var phone_reg = /^([0-9]{11})?$/;
+        var falg=mobile_phone_number.search(phone_reg);
+        if (falg==-1){
+            $(".mobile_phone_number_label").html("<font color='red'>手机号码格式错误</font>");
+            return;
+        }
+
+        $('.yanzhengma_label').html("");
+        $('.mobile_phone_number_label').html("");
+
+        $(".yanzhengma_label").val("<img src=\"{$site_url}/themes/mall/default/styles/default/images/loading.gif\" style=\"width: 18px; height: 18px\"/>发送中......");
+        $.get("index.php?app=sendcode&act=send&type=bind_pos",{phone_or_tel:$("#mobile_phone_number").val()},function(rs){
+            $(".yanzhengma_label").html(rs);
+            $("#btnSendCode").attr("disabled","disabled");
+            SetRemainTime();
+            $("#mobile_phone_number").attr("readonly","readonly");
+        })
+
+    }
+
+    <!--{if $t_time && $t_time >0 }-->
+    curCount = {$t_time};
+    $("#btnSendCode").attr("disabled", "true");
+    $("#btnSendCode").val("请在" + curCount + "秒内输入验证码");
+    InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+    <!--{/if}-->
+
+    //timer处理函数
+    function SetRemainTime() {
+
+        if(InterValObj !=null){
+            window.clearInterval(InterValObj);//停止计时器
+        }
+
+        if (curCount < 1) {
+            $("#btnSendCode").removeAttr("disabled");
+            $("#btnSendCode").val("重新发送验证码");
+        } else {
+            $("#btnSendCode").val("请在" + curCount + "秒后发送验证码");
+            curCount--;
+            setTimeout(SetRemainTime, 1000);
+        }
+    }
+
+</script>
+
+{include file=pos.footer.html}

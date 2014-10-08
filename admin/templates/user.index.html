@@ -1,0 +1,160 @@
+{include file="header.html"}
+<script charset="utf-8" type="text/javascript" src="{lib file=mlselection.js}" ></script>
+<div id="rightTop">
+  <p>
+  <!--{if $smarty.get.type =='01'}-->
+  {$lang.user}</p>
+  <!-- {elseif $smarty.get.type =='02' } -->
+  服务中心</p>
+  <!-- {elseif $smarty.get.type =='04' } -->
+  采购中心</p>
+  <!--{/if}-->
+  <ul class="subnav">
+    <li><span>{$lang.manage}</span></li>
+    <li><a class="btn1" href="index.php?app={$smarty.get.app}&type={$smarty.get.type}&amp;act=add">{$lang.add}</a></li>
+  </ul>
+</div>
+
+<div class="mrightTop">
+  <div class="fontl">
+    <form method="get">
+       <div class="left">
+          <input type="hidden" name="app" value="{$smarty.get.app}" />
+          <input type="hidden" name="act" value="index" />
+          <input type="hidden" name="type" value="{$smarty.get.type}" />
+          <select class="querySelect" name="field_name">{html_options options=$query_fields selected=$smarty.get.field_name}
+          </select>
+          <input class="queryInput" type="text" name="field_value" value="{$smarty.get.field_value|escape}" />
+
+
+		  <!--{if $member_type =='02'}-->
+               所在地区:
+                   <div id="region" style=" display:inline">
+                       <input type="hidden" name="region_id" value="{$store.region_id}" class="mls_id" />
+                       <input type="hidden" name="region_name" value="{$store.region_name|escape}" class="mls_names" />
+                       <select>
+                           <option>{$lang.select_pls}</option>
+                           {html_options options=$regions}
+                       </select>
+                   </div>&nbsp;
+           <label style='color:#666666'>{$smarty.get.region_name}&nbsp;&nbsp;</label>
+
+           &nbsp;&nbsp;&nbsp;&nbsp;
+
+           账号状态:
+           <select name="status">
+               <option value="-1" selected="selected">全部</option>
+               <option value="2" <!--{if $status=='2'}-->selected="selected"<!--{/if}--> >正常账号</option>
+               <option value="0" <!--{if $status=='0'}-->selected="selected"<!--{/if}-->>待激活</option>
+               <option value="1" <!--{if $status=='1'}-->selected="selected"<!--{/if}--> >待审核</option>
+               <option value="3" <!--{if $status=='3'}-->selected="selected"<!--{/if}-->>冻结</option>
+           </select>&nbsp;&nbsp;&nbsp;&nbsp;
+           <!--{else}-->
+           {$lang.sort_order}:
+           <select class="querySelect" name="sort">{html_options options=$sort_options selected=$smarty.get.sort}
+           </select>
+		  <!-- {/if} -->
+          <input type="submit" class="formbtn" value="{$lang.query}" />
+      </div>
+      <!--{if $filtered}-->
+      <!--<a class="left formbtn1" href="index.php?app=user&type={$member_type}">{$lang.cancel_query}</a>-->
+      <!--{/if}-->
+    </form>
+  </div>
+  <!--<div class="fontr">{include file=page.top.html}</div>-->
+</div>
+<div class="tdare">
+  <table width="100%" cellspacing="0" class="dataTable">
+    <!--{if $users}-->
+    <tr class="tatr1">
+      <td width="20" class="firstCell"><input type="checkbox" class="checkall" /></td>
+      <td>{$lang.user_name} | {$lang.real_name}</td>
+      <td><span ectype="order_by" fieldname="email">{$lang.email}</span></td>
+      <td>
+      <!--{if $member_type =='02'}-->
+          年费
+      <!--{else}-->
+          {$lang.im}
+      <!--{/if}-->
+      </td>
+      <td><span ectype="order_by" fieldname="reg_time">{$lang.reg_time}</span></td>
+      <td><span ectype="order_by" fieldname="last_login">{$lang.last_login}</span></td>
+      <td><span ectype="order_by" fieldname="logins">{$lang.logins}</span></td>
+      <td><span ectype="order_by" fieldname="logins">推荐人</span></td>
+      <td>
+      <!--{if $member_type =='01'}-->
+      {$lang.if_admin}
+      <!-- {else} -->
+      所在地
+      <!-- {/if} -->
+      </td>
+      <td class="handler">{$lang.handler}</td>
+    </tr>
+    <!--{/if}-->
+    <!--{foreach from=$users item=user}-->
+    <tr class="tatr2">
+      <td class="firstCell"><input type="checkbox" class="checkitem" value="{$user.user_id}" /></td>
+      <td>{$user.user_name|escape} | {$user.real_name|escape}</td>
+      <td>{$user.email|escape}</td>
+      <td>
+
+        <!--{if $member_type =='02'}-->
+          {$user.service_jibie|escape}
+        <!--{else}-->
+          <!--{if $user.im_qq}-->{$lang.im_qq}: {$user.im_qq|escape}<br />
+          <!--{/if}-->
+          {if $user.im_msn}{$lang.im_msn}: {$user.im_msn|escape}<br />
+          <!--{/if}-->
+        <!--{/if}-->
+
+
+
+      </td>
+      <td>{$user.reg_time|date}</td>
+      <td><!--{if $user.last_login}-->{$user.last_login|date}<!--{/if}--><br />
+        {$user.last_ip}</td>
+      <td>{$user.logins}</td>
+      <td><!--{if $user.member_type == '01'}-->{$user.tuserName}<!--{/if}--></td>
+      <td>
+
+      <!--{if $member_type =='01'}-->
+      <!--{if $user.if_admin}-->  {$lang.yes}
+      <!--{else}--><a href="index.php?app=admin&type={$smarty.get.type}&amp;act=add&amp;id={$user.user_id}" onclick="parent.openItem('admin_manage', 'user');">{$lang.admin}</a><!--{/if}-->
+      <!-- {else} -->
+      {$user.region_name}
+      <!-- {/if} -->
+
+
+
+
+      </td>
+      <td class="handler">
+      <span style="width: 100px">
+      <a href="index.php?app={$smarty.get.app}&type={$smarty.get.type}&amp;act=edit&amp;id={$user.user_id}&jiaose={$jiaose}">{$lang.edit}</a> | <a href="javascript:drop_confirm('{$lang.drop_confirm}', 'index.php?app=user&type={$smarty.get.type}&amp;act=drop&amp;id={$user.user_id}');">{$lang.drop}</a>
+        <!-- {if $user.store_id} -->
+        | <a href="index.php?app=store&type={$member_type}&amp;act=edit&amp;id={$user.store_id}&type={$smarty.get.type}" onclick="parent.openItem('store_manage', 'store');">{$lang.store}</a>
+        <!-- {/if} -->
+        <!--{if $member_type =='02' && ($user.status==0 || $user.status==1) }-->
+        <a href="index.php?app={$smarty.get.app}&act=shenhefwzx&user_name={$user.user_name|escape}" onclick="parent.openItem('shenhefwzx', 'service');">{$lang.shenhe}</a>
+        <!-- {/if} -->
+      </span>
+      </td>
+    </tr>
+    <!--{foreachelse}-->
+    <tr class="no_data">
+      <td colspan="10">{$lang.no_data}</td>
+    </tr>
+    <!--{/foreach}-->
+  </table>
+  <!--{if $users}-->
+  <div id="dataFuncs">
+    <div id="batchAction" class="left paddingT15"> &nbsp;&nbsp;
+      <input class="formbtn batchButton" type="button" value="{$lang.drop}" name="id" uri="index.php?app={$smarty.get.app}&act=drop&type={$smarty.get.type}&" presubmit="confirm('{$lang.drop_confirm}');" />
+    </div>
+    <div class="pageLinks">{include file=page.bottom.html}</div>
+    <div class="clear"></div>
+  </div>
+  <!--{/if}-->
+</div>
+<script>regionInit("region");</script>
+{include file="footer.html"}

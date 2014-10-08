@@ -1,0 +1,81 @@
+{include file=member.header.html}
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js"></script>
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js"></script>
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+<script type="text/javascript">
+    $(function(){
+        $('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+        $('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+    });
+</script>
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right">
+        <ul class="tab">
+            <li class="<!--{if $smarty.get.act=='pos_bind'}-->active<!--{else}-->normal<!--{/if}-->"><a href="index.php?app=member&act=pos_bind&p=userInfo">刷POS机的银行卡</a></li>
+            <li class="<!--{if $smarty.get.act=='pos_view'}-->active<!--{else}-->normal<!--{/if}-->"><a href="index.php?app=member&act=pos_view&p=userInfo">POS机刷卡记录</a></li>
+        </ul>
+        <script type="text/javascript" src="{lib file=jquery.plugins/jquery.validate.js}" charset="{$charset}"></script>
+        <div class="wrap">
+            <div class="public table">
+
+                <div class="user_search">
+                    <form method="get">
+
+                        <span>消费时间: </span>
+                        <input type="text" class="text1 width2" name="add_time_from" id="add_time_from" value="{$smarty.get.add_time_from}"/> &#8211;
+                        <input type="text" class="text1 width2" name="add_time_to" id="add_time_to" value="{$smarty.get.add_time_to}"/>
+                        <span>银行卡号:</span>
+                        <input type="text" class="text1 width_normal" name="card_num" value="{$smarty.get.card_num|escape}">
+                        <input type="hidden" name="app" value="member" />
+                        <input type="hidden" name="act" value="pos_view" />
+                        &nbsp;&nbsp;&nbsp;
+                        <input type="submit" class="btn" value="搜索" />
+                    </form>
+                </div>
+
+            <table class="table_head_line">
+             
+                <tr class="line_bold">
+                    <th class="" colspan="6">
+                    </th>
+                </tr>
+                
+                <tr class="gray">
+                    <th class="width13">银行名称</th>
+                    <th class="width4">银行卡卡号</th>
+                    <th class="width4">商家名称</th>
+                    <th class="width13">刷卡金额</th>
+                    <th class="width13">交易所在地</th>
+                    <th class="width13">刷卡时间</th>
+                </tr>
+             
+                <!-- {foreach from=$data item=view name=v} -->
+                <tr <!--{if $smarty.foreach.v.last}-->class="line_bold"<!--{else}-->class="line"<!--{/if}-->>
+                    <td><span class="padding1">{$view.bind_bank_name|escape}</span></td>
+                    <td>{$view.bank_card|escape}</td>
+                    <td class="align2">{$view.store_name|escape}</td>
+                    <td class="width13">{$view.jine|price}</th>
+                    <td class="width13">{$view.region_name|escape}</th>
+                    <td class="width13">{$view.xiaofei_time|escape}</th>
+                </tr>
+                <!-- {foreachelse} -->
+                <tr>
+                    <td colspan="6" class="member_no_records padding6">
+                     没找到刷卡记录！
+                    </td>
+                </tr>
+                <!--{/foreach}-->
+            </table>
+
+           <!--{if $data}-->
+                <div class="kandan_foot">
+                    <div class="pageLinks">{include file=member.page.bottom.html}</div>
+                </div>
+            <div class="clear"></div>
+            <!--{/if}-->
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+{include file=footer.html}

@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>订单详细</title>
+    <link href="{res file=common.css}" rel="stylesheet" type="text/css" />
+    <link href="{res file=order-inquiry.css}" rel="stylesheet" type="text/css" />
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+
+</head>
+<body>
+
+<div style="width: 320px;margin: 0px auto">
+    <div >
+
+        <div class="ord-t">
+            <div class="ord-l"><a href="javascript:history.go(-1)">返回</a></div>
+            <div class="ord-c2">订单详情</div>
+            <div class="ord-r1">
+                  <!-- status==20: 买家已付款，等待卖家发货-->
+
+                  {if $type && $type=='seller' && $order.status && ($order.status==20||$order.status==10)}
+                    <a href="{$SITE_URL}/weixin/index.php?app=member_order&act=sendGoodsPage&type={$type}&order_id={$order.order_id}">
+                        发货
+                    </a>
+                  {else}
+                    <a href="{$SITE_URL}/weixin/index.php?app=member_order&act=all&user_id={$user.user_id}&type=seller&status=11">订单列表</a>
+                  {/if}
+            </div>
+        </div>
+
+        <div class="Safety-cen-1" style="padding-top:55px;">
+            <div class="cancel">
+                订单状态：<strong>{$order.status|modifier:order_status}</strong>
+            </div>
+            <div class="shou-h">
+                <p>收货人：{$order_extm.consignee}</p>
+                <p>电话：{$order_extm.phone_mob}</p>
+                <p style="border:0px;line-height:20px;margin-top: 3px;">收货地址：{$order_extm.region_name}{$order_extm.address}</p>
+            </div>
+            <div class="image-text">
+                {foreach from=$goods item=good name=_goods}
+                <dl {if $smarty.foreach._goods.last} style="margin:0px;"{/if}>
+                    <dt>
+                        <img src="{if !$good.goods_image}{$site_url}/data/system/default_goods_image.gif {else}{$site_url}/{$good.goods_image}{/if}" width="100" height="100" alt="{$good.goods_name|truncate:30:...}"/>
+                    </dt>
+                    <dd>
+                        <h3>{$good.goods_name}</h3>
+                        <p>{$good.specification}</p>
+                        <strong>￥{$good.price|number2}×{$good.quantity}</strong>
+                    </dd>
+                </dl>
+                {/foreach}
+            </div>
+            <div class="list">
+                <div class="list1">
+                    <dl>
+                        <dt>商品总额</dt>
+                        <dd>￥{$order.goods_amount|number2}</dd>
+                    </dl>
+                    <dl>
+                        <dt>运费</dt>
+                        <dd>￥{$order_extm.shipping_fee}</dd>
+                    </dl>
+                </div>
+                <p><strong>订单金额</strong><span>￥{$order.order_amount|number2}</span></p>
+            </div>
+            <div class="list2">
+                <div class="list2-t">
+                    订单信息
+                </div>
+                <div class="list2-c">
+                    <table width="307" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td width="75" height="30" align="center" style="border-right:1px solid #e5e5e5;"><p>订单编号</p></td>
+                            <td width="13" height="30"><p>&nbsp;</p></td>
+                            <td>{$order.order_sn}</td>
+                        </tr>
+
+                        <!--下单成功-->
+                        <tr>
+                            <td height="30" align="center" style="border-right:1px solid #e5e5e5;"><p>下单时间</p></td>
+                            <td height="30" ><p>&nbsp;</p></td>
+                            <td >{$order.add_time|date:Y-m-d H:i:s}</td>
+                        </tr>
+
+                        <!--交易成功：-->
+
+                        {if $order.status ==40 && $order.pay_time}
+                        <tr>
+                            <td width="75" height="30" align="center" style="border-right:1px solid #e5e5e5;"><p>付款时间</p></td>
+                            <td width="13" height="30"><p>&nbsp;</p></td>
+                            <td>{$order.pay_time|date:Y-m-d H:i:s}</td>
+                        </tr>
+                        {/if}
+
+                        <!--发货成功-->
+                        {if $order.status ==30 && $order.ship_time}
+                        <tr>
+                            <td width="75" height="30" align="center" style="border-right:1px solid #e5e5e5;"><p>付款时间</p></td>
+                            <td width="13" height="30"><p>&nbsp;</p></td>
+                            <td>{$order.pay_time|date:Y-m-d H:i:s}</td>
+                        </tr>
+                        <tr>
+                            <td width="75" height="30" align="center" style="border-right:1px solid #e5e5e5;"><p>物流公司</p></td>
+                            <td width="13" height="30"><p>&nbsp;</p></td>
+                            <td>{$kuaidigongsi}</td>
+                        </tr>
+                        <tr>
+                            <td width="75" height="30" align="center" style="border-right:1px solid #e5e5e5;"><p>物流单号</p></td>
+                            <td width="13" height="30"><p>&nbsp;</p></td>
+                            <td>{$invoice_no}</td>
+                        </tr>
+                        <tr>
+                            <td width="75" height="30" align="center" style="border-right:1px solid #e5e5e5;"><p>发货时间</p></td>
+                            <td width="13" height="30"><p>&nbsp;</p></td>
+                            <td>{$order.ship_time|date:Y-m-d H:i:s}</td>
+                        </tr>
+
+                        {/if}
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>
+{include file=cnzz.html}
+</body>
+</html>

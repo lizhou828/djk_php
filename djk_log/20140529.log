@@ -1,0 +1,39 @@
+
+错误url=http://192.168.0.137/index.php?app=jkxd_portal&act=vshop&id=3
+2014-05-29 15:46:33  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'region_id=2717' at line 1
+MySQL Query:select count(*) from ecm_vshop_recom_goods where position=1 region_id=2717
+Wrong File:  D:\wamp\www\app\jkxd_portal.app.php[66]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=jkxd_portal&act=vshop&id=3
+2014-05-29 15:47:52  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select count(*) from ecm_vshop_recom_goods where status=1 and position=1 and reg' at line 1
+MySQL Query:SELECT *,vshop_recom_goods.id FROM ecm_vshop_recom_goods vshop_recom_goods WHERE select count(*) from ecm_vshop_recom_goods where status=1 and position=1 and region_id=2717
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=jkxd_portal&act=vshop&id=3
+2014-05-29 15:47:59  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select count(*) from ecm_vshop_recom_goods where status=1 and position=1 and reg' at line 1
+MySQL Query:SELECT *,vshop_recom_goods.id FROM ecm_vshop_recom_goods vshop_recom_goods WHERE select count(*) from ecm_vshop_recom_goods where status=1 and position=1 and region_id=2717
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=jkxd_portal&act=my_jkxd
+2014-05-29 16:54:32  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+MySQL Query:SELECT *,member.user_id FROM ecm_member member WHERE user_id=
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=jkxd_portal&act=my_jkxd&u_id=3
+2014-05-29 16:54:32  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+MySQL Query:SELECT *,member.user_id FROM ecm_member member WHERE user_id=
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=jkxd_portal&act=vshop_list&id=3&type=localHot&topCateId=1234&goodCateId=1236&view=&order_by=rg.id&desc_asc=desc
+2014-05-29 17:22:04  	[256]MySQL Error[1054]: Unknown column 'rg.id' in 'order clause'
+MySQL Query:SELECT g.goods_id ,g.goods_name,g.org_price,g.price,g.default_image,vg.update_time,vg.region_id,vg.region_name,vg.create_time
+               FROM ecm_vshop_recom_goods vg LEFT JOIN ecm_goods g ON vg.goods_id=g.goods_id
+               WHERE vg.region_id=2717 AND vg.STATUS=1  and vg.position=1 and g.cate_id=1236 GROUP BY vg.goods_id  order by rg.id desc limit 0, 30
+Wrong File:  D:\wamp\www\includes\models\vshopRecommend.model.php[34]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=jkxd_portal&act=vshop_list&id=3&type=localHot&topCateId=1234&goodCateId=1236&view=&order_by=rg.id&desc_asc=desc&u_id=3
+2014-05-29 17:22:04  	[256]MySQL Error[1054]: Unknown column 'rg.id' in 'order clause'
+MySQL Query:SELECT g.goods_id ,g.goods_name,g.org_price,g.price,g.default_image,vg.update_time,vg.region_id,vg.region_name,vg.create_time
+               FROM ecm_vshop_recom_goods vg LEFT JOIN ecm_goods g ON vg.goods_id=g.goods_id
+               WHERE vg.region_id=2717 AND vg.STATUS=1  and vg.position=1 and g.cate_id=1236 GROUP BY vg.goods_id  order by rg.id desc limit 0, 30
+Wrong File:  D:\wamp\www\includes\models\vshopRecommend.model.php[34]	\eccore\model\mysql.php	310

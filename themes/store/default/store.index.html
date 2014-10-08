@@ -1,0 +1,153 @@
+{include file=header.html}
+
+{include file=common.html}
+<link href="{res file=base.css}" rel="stylesheet" type="text/css">
+<link href="{res file=chaoshi.css}" rel="stylesheet" type="text/css">
+<link href="{res file=djk.css}" rel="stylesheet" type="text/css">
+<link href="{res file=shop.css}" rel="stylesheet" type="text/css">
+<link href="{res file=home_login.css}" rel="stylesheet" type="text/css">
+<link href="{res file=style.css}" rel="stylesheet" type="text/css">
+<link href="{res file=index.css}" rel="stylesheet" type="text/css">
+<link href="{res file=shop_2.css}" rel="stylesheet" type="text/css">
+<link href="{res file=home_tg.css}" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+    $(function(){
+        $('a[nctype="search_in_store"]').click(function(){
+            $('#search_act').val('show_store');
+            $('<input type="hidden" value="" name="id" /> <input type="hidden" name="op" value="goods_all" />').appendTo("#formSearch");
+            $('#formSearch').submit();
+        });
+        $('a[nctype="search_in_shop"]').click(function(){
+            $('#formSearch').submit();
+        });
+
+
+    });
+</script>
+
+
+<div class="background clearfix">
+    <div class="ncsl-nav">
+        <div class="banner">
+            <div class="ncs-default-banner pngFix">
+                <!--{if $store.store_banner}-->
+                <a href="{r_url app=store&id=$store.store_id}" class="img"> <img src="{$img_url}/{$store.store_banner}" width="1200" height="325" />  </a>
+                <!--{else}-->
+                <a href="{url app=article&act=view&article_id=28}" class="img"> <img src="{res file=images/default.jpg}" width="1200" height="325" /></a>
+                <!--{/if}-->
+            </div>
+      </div>
+        <nav id="nav" class="pngFix">
+            <ul class="pngFix">
+                <li><a class="active" href="{r_url app=store&id=$store.store_id}"><span>{$lang.store_index}</span></a></li>
+                <!--<li><a class="active" href="{r_url app=store&act=groupbuy&id=$store.store_id}"><span>{$lang.nav_groupbuy}</span></a></li>-->
+                <li><a class="active" href="{r_url app=store&act=article&id=$store.store_id}"><span>店铺详情</span></a></li>
+                <li><a class="active" href="{r_url app=store&act=credit&id=$store.store_id}"><span>{$lang.credit_evaluation}</span></a></li>
+
+            </ul>
+
+        </nav>
+    </div>
+
+<article id="content">
+<section class="layout expanded mt10" >
+<article class="nc-goods-main">
+<!--<div class="flexslider">-->
+    <!--<ul class="slides">-->
+        <!--<li><a ><img src="{res file=images/a7b1814bd822c9d1da4b7fd62a6f18ec.jpg}"></a></li>-->
+        <!--<li><a ><img src="{res file=images/94124773209321661d87bf9cf4ecc620.jpg}"></a></li>-->
+        <!--<li><a ><img src="{res file=images/711dc7021c01b69d41c1b2ad5457403b.jpg}"></a></li>-->
+    <!--</ul>-->
+<!--</div>-->
+<div class="nc-s-c-s3 ncg-list mt10">
+    <div class="title pngFix"> <!--<span><a href="index.php?act=show_store&op=goods_all&id=8" class="more">更多</a></span>-->
+        <h4 style="font-size: 1em;"> 店铺商品</h4>
+        <a name="module" style=""></a>
+    </div>
+    <div class="content pt20">
+        <ul>
+            <!--{foreach from=$store_goods item=rgoods}-->
+            <li>
+                <dl>
+                    <dt><a href="{url app=goods&id=$rgoods.goods_id}" target="_blank">{$rgoods.goods_name|escape}</a></dt>
+                    <dd class="ncg-pic pngFix"><a href="{url app=goods&id=$rgoods.goods_id}" target="_blank" class="thumb"><i></i><img src="{$img_url}/{$rgoods.default_image}" onload="javascript:DrawImage(this,160,160);" title="{$rgoods.goods_name|escape}" alt="{$rgoods.goods_name|escape}" /></a></dd>
+                    <dd class="ncg-price"><em class="price" style="font-size: 1em;">
+                        {$rgoods.price|price}                                      </em></dd>
+                    <!--<dd class="ncg-sold">已销售：<strong>12</strong> 件</dd>-->
+                </dl>
+            </li>
+            <!-- {/foreach} -->
+       </ul>
+    </div>
+    <div class="clear"></div>
+    <div class="pagination">
+        {include file=page.bottom.html}
+    </div>
+</div>
+
+<!--<div class="nc-s-c-s3 ncg-list mt10">-->
+    <!--<div class="title pngFix">&lt;!&ndash;<span><a href="index.php?act=show_store&op=goods_all&id=8" class="more">更多</a></span>&ndash;&gt;-->
+        <!--<h4>新品</h4>-->
+    <!--</div>-->
+    <!--<div class="content pt20">-->
+        <!--<ul>-->
+            <!--&lt;!&ndash;{foreach from=$new_goods item=ngoods}&ndash;&gt;-->
+            <!--<li>-->
+                <!--<dl>-->
+                    <!--<dt><a href="{url app=goods&id=$ngoods.goods_id}" target="_blank">{$ngoods.goods_name|escape}</a></dt>-->
+                    <!--<dd class="ncg-pic pngFix"><a href="{url app=goods&id=$ngoods.goods_id}" target="_blank" class="thumb"><i></i><img src="{$img_url}/{$ngoods.default_image}" onload="javascript:DrawImage(this,160,160);" title="{$ngoods.goods_name|escape}" alt="{$ngoods.goods_name|escape}" /></a></dd>-->
+                    <!--<dd class="ncg-price"><em class="price">-->
+                        <!--{$ngoods.price|price}                                        </em></dd>-->
+                    <!--&lt;!&ndash;<dd class="ncg-sold">已销售：<strong>12</strong> 件</dd>&ndash;&gt;-->
+                <!--</dl>-->
+            <!--</li>-->
+            <!--&lt;!&ndash; {/foreach} &ndash;&gt;-->
+        <!--</ul>-->
+    <!--</div>-->
+<!--</div>-->
+</article>
+<aside class="nc-sidebar">
+    <!--店铺基本信息 S-->
+    <div>
+        <div class="ncs-info clearfix">
+            <div class="shop-card">
+                <h4 style="font-size: 1em;">{$store.store_name|escape}</h4>
+                <dl>
+                    <dt><a href="{r_url app=store&id=$store.store_id}"><img src="{$img_url}/{$store.store_logo}" class="size60"
+                                                                          title="{$store.store_owner.user_name|escape}" alt="{$store.store_owner.user_name|escape}"/></a></dt>
+                    <dd><a href="" class="shopkeeper">{$store.store_owner.user_name|escape}</a> <a href="{r_url app=message&act=send&to_id=$store.store_owner.user_id|escape}"
+                                                                                                   class="message text-hidden" title="发站内信">发站内信</a></dd>
+                    <dd><span>好评率：</span>{$store.praise_rate}%</dd>
+                </dl>
+            </div>
+
+            <div class="shop-detail">
+                <h4 style="font-size: 1em;">店铺信息</h4>
+                <!-- 店铺信息 -->
+                <dl>
+                    <dt>{$lang.store_add_time}：</dt>
+                    <dd>{$store.add_time|date}</dd>
+                    <dt>{$lang.region}：</dt>
+                    <dd>{$store.region_name|escape}&nbsp;</dd>
+                    <dt>{$lang.goods_count}：</dt>
+                    <dd><strong style="font-size: 1em;">{$store.goods_count}</strong>件商品</dd>
+                    <dt>{$lang.credit_value}：</dt>
+                    <dd>{$store.credit_value}</dd>
+
+                </dl>
+            </div>
+
+        </div>
+    </div>
+    <div class="clear"></div>
+    {include file=left1.html}
+</aside>
+</section>
+</article>
+<script type="text/javascript">
+    $(window).load(function() {
+        $('.flexslider').flexslider();
+    });
+</script>
+    <div class="clear"></div>
+{include file=footer.html}

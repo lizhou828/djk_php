@@ -1,0 +1,105 @@
+{include file="member.header.html"}
+<div class="content">
+    <div class="particular">
+        <div class="particular_wrap"><h2>签约业务员申请明细</h2>
+        <style type="text/css">
+        .log_list { color:#666666; list-style:none; padding:5px 10px;  }
+         .log_list li { margin:8px 0px; }
+        .log_list li .operator { font-weight:bold; color:#FE5400; margin-right:5px; }
+        .log_list li .log_time { font-style:italic; margin:0px 5px; font-weight:bold; }
+        .log_list li .order_status { font-style:italic; margin:0px 5px; font-weight:bold; }
+        .log_list li .reason { font-style:italic; margin:0px 5px; font-weight:bold; }
+        </style>
+            <div class="box">
+                <div class="state">申请状态&nbsp;:&nbsp;<strong><!--{if $data.status eq 0}-->未审核<!--{elseif $data.status eq 1}-->审核成功<!--{else}-->审核失败<!--{/if}--></strong></div>
+                <div class="time">申请时间&nbsp;:&nbsp;{$data.add_time}</div>
+            </div>
+            <h3>申请人信息</h3>
+            <dl class="info">             
+                 <dd>申请人姓名&nbsp;:&nbsp;{$data.user_name|escape}</dd>
+                 <dd>申请人手机&nbsp;:&nbsp;{$data.phone_mob|default:-}</dd>
+                 <dd>申请人邮箱&nbsp;:&nbsp;{$data.email|default:-}</dd> 
+                 <dd>身份证号码&nbsp;:&nbsp;{$data.shenfenzheng|default:-}</dd>   
+                 <dd>业务员类型&nbsp;:&nbsp;<!--{if $data.account_type eq 0}-->个人<!--{else}-->公司<!--{/if}--></dd>
+                 <!--{if $data.account_type eq 1}-->
+                 <dd>公司名称&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;{$data.company_name|escape|default:-}</dd>  
+                 <dd>公司地址&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;{$data.company_address|escape|default:-}</dd>             
+                 <!--{/if}-->
+             </dl>
+      
+       <h3>合同信息</h3>
+          <div class="goods" id="hetong_div">
+         
+          
+                  
+                 <dd>合同信息&nbsp;：&nbsp;
+                 <!--{if $data.hetong && $data.hetong!= ""}--> 
+                 <a href="{$site_url}/{$data.hetong}" target="_blank">查看</a>         
+                 <!--{else}-->
+                 <font>没有找到合同信息</font><br><br>
+                 
+               
+                &nbsp;&nbsp;&nbsp;&nbsp;<div class="fileInputContainer5">
+                <form id="saveImg" enctype="multipart/form-data" action="index.php?app=service&act=qianyue_upload" method="post" target="saveImg_iframe" name="saveImg">
+                <input id="hetong" class="fileInput" type="file" name="hetong">
+                <input id="uid" type="hidden" value="{$data.user_id}" name="uid">
+                <input type="button" id="submit_btn" name="submit_btn" value="提交" style="width:100px; height:32px; background:#d0281e; color:#fff; line-height:32px; text-align:center; border:0px; cursor:pointer; margin-left:200px"/>
+                </form>
+                </div>
+                 
+                 
+                 <!--{/if}-->
+                 </dd>
+               
+                 
+           
+         
+         
+          <div class="particular_bottom"></div>
+        </div>
+
+        <div class="clear"></div>
+        <div class="adorn_right1"></div>
+        <div class="adorn_right2"></div>
+        <div class="adorn_right3"></div>
+        <div class="adorn_right4"></div>
+    </div>
+
+    <div class="clear"></div>
+</div>
+</div>
+
+<script>
+function callback_saveimg(rs){
+	if(rs.flag == "error"){				   
+	   $("#"+rs.error_lbl+"_lbl").html("<font color='red' >"+rs.error_msg+"</font>");
+	   alert(rs.error_msg);	
+	}else if(rs.flag == "ok"){		 
+	   alert("上传合同成功");		
+	   location = location ; 
+	}else{
+		alert("服务器繁忙，请稍后重试！");	
+	}
+	$("#submit_btn").removeAttr("disabled");
+	$('#hetong_div').hideLoading();
+}
+$("#submit_btn").bind("click",function(){
+	var uid = $("#uid").val();
+	var hetong = $("#hetong").val();
+	
+	if( uid == "" ||  uid<1 ){
+		alert("没有找到签约申请信息!");
+	}else if (hetong == "" ){
+		alert("请选择合同!");
+	}else{
+		
+		$("#submit_btn").attr("disabled","disabled");		
+		$('#hetong_div').showLoading({'addClass': 'loading-indicator-bars'});	
+		$("#saveImg").submit();
+	}
+	
+})
+</script>
+<iframe name="saveImg_iframe" id="saveImg_iframe" style="display:none" ></iframe>
+
+{include file="footer.html"}

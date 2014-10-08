@@ -1,0 +1,56 @@
+<div class="list_l">
+    <div class="lieb_n1">
+        <div class="lieb_f1" style="padding-bottom: 15px;">
+            <h2>客服中心</h2>
+
+            <dl style=" width: 208px;float: left; margin-top: 10px;">
+                <dd style="float: left; width: 19px; height: 19px; margin-right: 5px; vertical-align: middle">
+                    <img src="{res file=images/message.png}" />
+                </dd>
+                <dt style="float: left; height: 19px; line-height: 19px;">
+                    <!-- Live800在线客服图标:dajike-link[文本图标] 开始-->
+                    <div style='display:none;'><a href='http://www.live800.com'>在线客服</a></div><script language="javascript" src="http://chat10.live800.com/live800/chatClient/textButton.js?jid=6251139253&companyID=385228&configID=190636&codeType=custom"></script><script id='write' language="javascript">function writehtml(){var temptext=text_generate();document.getElementById('live190636').innerHTML=temptext;setTimeout('write.src',9000);}writehtml();</script><div style='display:none;'><a href='http://en.live800.com'>live chat</a></div>
+                    <!-- 在线客服图标:dajike-link 结束-->
+                </dt>
+            </dl>
+
+            <!---{if $receive_data && false}-->
+            <!--{foreach from=$receive_data item=data name=receive key=key }-->
+            <dl style=" width: 208px;float: left; margin-top: 10px;">
+                <dd style="float: left; width: 19px; height: 19px; margin-right: 5px; vertical-align: middle">
+                    <a href="javascript:addOtherContector('{$key}','{$data.user_name}','{$data.nick_name}');" id="im_chat" style="color: #666666;">
+                <img src="{res file=images/message.png}" alt="即时聊天{$smarty.foreach.receive.index}"/></a></dd>
+
+                <dt style="float: left; height: 19px; line-height: 19px;" title="<!--{if $data.nick_name}-->{$data.nick_name}<!--{else}-->{$data.user_name}<!--{/if}-->">
+                    <a href="javascript:addOtherContector('{$key}','{$data.user_name}','{$data.nick_name}');" id="im_chat" style="color: #666666;">
+                    <!--{if $data.djk}-->
+                        {$data.nick_name}
+                    <!--{else}-->
+                        在线客服{$smarty.foreach.receive.index|myeval:"ceil(value+1)"}(<!--{if $data.nick_name}-->{$data.nick_name|truncate:8:"……"}<!--{else}-->{$data.user_name|truncate:8:"……"}<!--{/if}-->)
+                    <!--{/if}-->
+                    </a></dt>
+
+            </dl>
+            <div class="clear"></div>
+            <!--{/foreach}-->
+            <!--{/if}-->
+        </div>
+        <div class="lieb_f2">
+            <dl><dd>店铺名称</dd><dt>{$store.store_name|escape}</dt></dl>
+        </div>
+        <div class="lieb_f3"><a href="{r_url app=store&id=$store.store_id}">进入卖家店铺</a></div>
+    </div>
+    <div class="lieb_n2">
+        <h2>相关分类</h2>
+        <div class="xg">
+            <ul>
+                <!--{foreach from=$store.store_gcates item=gcategory name=gcategory}-->
+                <li><a href="{r_url app=store&id=$store.store_id&act=search&cate_id=$gcategory.id}">{$gcategory.value|escape}</a></li>
+                <!--{/foreach}-->
+            </ul>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+
+

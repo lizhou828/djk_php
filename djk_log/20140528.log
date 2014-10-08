@@ -1,0 +1,5 @@
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_goods
+2014-05-28 16:58:48  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+MySQL Query:SELECT user_id,user_name,member.user_id FROM ecm_member member WHERE member_type='03' and region_id=
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310

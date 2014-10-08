@@ -1,0 +1,422 @@
+{include file=member.header.html}
+<script type="text/javascript">
+$(function(){
+    $('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+    $('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+    var t = new EditableTable($('#my_goods'));
+    $('#truncate').click(function(){
+        var goods_ids = '{$goods_ids}';
+        if(goods_ids && confirm('{sprintf lang=truncate_confirm var1=page_info.item_count}')){
+            $('#truncate_form').append('<input type="hidden" name="act" value="truncate" />');
+            $('#truncate_form').append('<input type="hidden" name="goods_ids" value="' + goods_ids + '" />');
+            $('#truncate_form').submit();
+            return false;
+        }
+    });
+});
+function shenhe(id,type){
+    var url =SITE_URL+"/index.php?app=service&act=goods_shenhe&id="+id+"&p=service&pageNo={$pageNo}&type="+type;
+    $.get(url,function(data){
+       if(data==1) {
+           if (type == "1") {
+               alert("审核通过");
+           } else {
+               alert("审核不通过！");
+           }
+       } else if (data==0){
+           alert("审核失败，请重新审核!");
+       } else {
+           alert("操作失败");
+       }
+        location.reload();
+    });
+}
+
+function shenhe_hanguo(id,type){
+    var url =SITE_URL+"/index.php?app=service&act=goods_hanguo_shenhe&id="+id+"&p=service&pageNo={$pageNo}&type="+type;
+    $.get(url,function(data){
+        if(data==1) {
+            alert("操作成功");
+            location.reload();
+        } else if (data==0){
+            alert("审核不通过！");
+        } else {
+            alert("操作失败");
+        }
+    });
+}
+
+
+function goods_batch_shenhe(type){
+    var items = '';
+    $('.checkitem:checked').each(function(){
+        items += this.value + ',';
+    });
+    var url =SITE_URL+"/index.php?app=service&act=goods_batch_shenhe&ids="+items+"&p=service&pageNo=$pageNo&type="+type;
+    $.get(url,function(data){
+        if(data==1) {
+            if (type == "1") {
+                alert("审核通过");
+            } else {
+                alert("审核不通过！");
+            }
+            location.reload();
+        } else if (data==0){
+            alert("审核不通过！");
+        } else {
+            alert("操作失败");
+        }
+    });
+}
+
+</script>
+<style>
+.member_no_records {border-top: 0px !important;}
+.table td{ padding-left: 5px; }
+.table .ware_text { width: 155px; }
+</style>
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js"></script>
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js"></script>
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+<div class="content">
+{include file=member.menu.html}
+
+
+
+  <div id="right">
+    <ul class="tab">
+        <!--{if $visitor.member_type == '04' && $visitor.user_name == 'djk11002'}-->
+                <li class="active">
+                <a href="index.php?app=service&act=my_goods&p=service" title="托管商品指商家委托服务中心全权对自己在大集客平台上发布的商品进行管理维护。">托管商品管理</a>
+                </li>
+        <!--{else}-->
+                <li <!--{if $smarty.get.li=="tg" || (!$smarty.get.li && $smarty.get.act!="brand_list" &&$smarty.get.act!="all_goods" && $smarty.get.type !="no_tuoguan") }-->class="active"<!--{else}-->class="normal"<!--{/if}-->>
+                <a href="index.php?app=service&act=my_goods&li=tg&p=service" title="托管商品指商家委托服务中心全权对自己在大集客平台上发布的商品进行管理维护。">托管商品管理</a>
+                </li>
+                <!--{if !$hanguo_flag}-->
+                <li <!--{if $smarty.get.li=="bq" }-->class="active"<!--{else}-->class="normal"<!--{/if}-->>
+                <a href="index.php?app=service&act=my_goods&li=bq&p=service" title="本区商品指服务中心所在区域内所有商家的商品，包括托管商家商品和非托管商家商品。">本区商品预览</a>
+                </li>
+                <!--{/if}-->
+
+                <!--{if $visitor.member_type == '04'}-->
+                <li <!--{if $smarty.get.li=="shenhe" && $smarty.get.type=="tuoguan" }-->class="active"<!--{else}-->class="normal"<!--{/if}-->>
+                <a href="index.php?app=service&act=my_goods&li=shenhe&p=service&type=tuoguan">托管待审核商品</a>
+                </li>
+                <li <!--{if $smarty.get.li=="shenhe" && $smarty.get.type=="no_tuoguan" }-->class="active"<!--{else}-->class="normal"<!--{/if}-->>
+                <a href="index.php?app=service&act=my_goods&li=shenhe&p=service&type=no_tuoguan">非托管待审核商品</a>
+                </li>
+                <!--{/if}-->
+
+                <!--{if $visitor.member_type == '04' || $hanguo_flag}-->
+                <li <!--{if $smarty.get.li == "shenhe_hanguo" }-->class="active"<!--{else}-->class="normal"<!--{/if}-->>
+                <a href="index.php?app=service&act=my_goods&li=shenhe_hanguo&p=service">申请入驻国际馆商品</a>
+                </li>
+                <!--{/if}-->
+
+                <!--{if $visitor.user_name=='djk'}-->
+                <li <!--{if $smarty.get.act=="all_goods" }-->class="active"<!--{else}-->class="normal"<!--{/if}-->>
+                <a href="index.php?app=service&act=all_goods&p=service">编辑采购商品</a>
+                </li>
+                <!--{/if}-->
+        <!--{/if}-->
+        </ul>
+        <div class="wrap">
+            <!--{if $smarty.get.li=="tg" || !$smarty.get.li }-->
+            <div class="eject_btn_two eject_pos2" title="{$lang.goods_add}"><b class="ico2" onclick="go('index.php?app=service&amp;act=add&p=service');">{$lang.goods_add}</b></div>
+            <div class="eject_btn_two eject_pos1" title="{$lang.import_taobao}"><b class="ico1" onclick="go('index.php?app=service&amp;act=import_taobao');">{$lang.import_taobao}</b></div>
+            <!--{/if}-->
+                <div class="public_select table">
+                <table id="my_goods" class="table" server="{$site_url}/index.php?app=my_goods&amp;act=ajax_col" >
+					<tr>
+                    <th colspan="12">
+                        <div class="scarch_order">
+                            <form id="truncate_form" method="post">
+                            </form>
+
+                            <form id="my_goods_form" method="get"> 
+                            <input type="hidden" name="app" value="service">
+                            <input type="hidden" name="act" value="my_goods">
+                                <!--{if !$smarty.get.li }-->
+                            <input type="hidden" name="li" value="tg">
+                                <!--{else}-->
+                                <input type="hidden" name="li" value="{$smarty.get.li}">
+                                <!--{/if}-->
+                            <input type="hidden" name="p" value="service">
+                            <input type="hidden" name="view" value="goods">        
+                            <input type="hidden" name="addType" value="{$addType}">
+                                <!--{if $smarty.get.type == "tuoguan" }-->
+                                <input type="hidden" name="type" value="tuoguan">
+                                <!--{else}-->
+                                <input type="hidden" name="type" value="no_tuoguan">
+                                <!--{/if}-->
+
+                            商品名
+                            <input type="text" class="text_normal" name="keyword" value="{$smarty.get.keyword|escape}"/>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                            新增时间
+                            <input class="text_normal width2" type="text" name="add_time_from" id="add_time_from" value="{$smarty.get.add_time_from|escape}" /> &#8211;
+                            <input class="text_normal width2" id="add_time_to" type="text" name="add_time_to" value="{$smarty.get.add_time_to|escape}" />&nbsp;&nbsp;&nbsp;&nbsp;
+
+                           <!--{if $smarty.get.li=="tg" || !$smarty.get.li || $smarty.get.li =="shenhe" }-->
+                            &nbsp;&nbsp;&nbsp;&nbsp;按商家
+                            <select name="store_id" class="sgcategory">
+                                    <!--{if $stores}-->
+                                    <option value="-1">全部</option>
+                                    <!--{foreach from=$stores item=store}-->
+                                    <option value="{$store.store_id}" <!--{if $smarty.get.store_id == $store.store_id}-->selected="selected"<!--{/if}--> >{$store.store_name}</option>
+                                    <!-- {/foreach} -->
+                                    <!--{else}-->
+                                    <option value="">没有找到商家</option>
+                                    <!--{/if}-->
+                            </select>
+                            
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <select name="if_show" class="sgcategory">
+                                    <option value="1" <!--{if $smarty.get.if_show eq 1}-->selected="selected"<!--{/if}-->  >&nbsp;&nbsp;上架</option>
+                                    <option value="0" <!--{if $smarty.get.if_show eq 2}-->selected="selected"<!--{/if}--> >&nbsp;&nbsp;下架</option>
+                                    <option value=""  <!--{if !$smarty.get.if_show || $smarty.get.if_show== '' }-->selected="selected"<!--{/if}-->  >&nbsp;&nbsp;全部</option>
+                            </select>
+
+                                <!--{/if}-->
+                                <br><br>
+
+                                分类&nbsp;&nbsp;&nbsp;&nbsp;
+                                <select name="cate_id" id="cate_id">
+                                    <option value="0">{$lang.select_pls}</option>
+                                    {html_options options=$scategories selected=$smarty.get.cate_id}
+                                </select>
+
+                                <!-- {if $visitor.member_type == '02' && $smarty.get.li != 'bq' }-->
+                                &nbsp;&nbsp;&nbsp;&nbsp;按子账号
+                                <select name="users" class="sgcategory">
+                                    <option value="-1">全部</option>
+                                    <!--{if $users}-->
+                                    <!--{foreach from=$users item=user}-->
+                                    <option value="{$user.user_id}" <!--{if $smarty.get.users == $user.user_id}-->selected="selected"<!--{/if}--> >{$user.user_name}</option>
+                                    <!-- {/foreach} -->
+                                    <!--{/if}-->
+                                  </select>
+                                 <!--{/if}-->
+
+                            <input type="submit" class="btn" value="{$lang.soso}" />
+                            </form>
+                            </div>
+                    </th>
+                    </tr>
+                    <tr class="line_bold"><th colspan="13">&nbsp;</th></tr>
+                    <!--{if $smarty.get.li=="tg" || !$smarty.get.li }-->
+                    <tr class="line_bold">
+                        <th class="width1"><input type="checkbox" id="all" class="checkall"/></th>
+                        <th colspan="6">
+                            <span class="all"><label for="all">{$lang.checkall}</label></span>
+                            <a href="javascript:void(0);" class="edit" ectype="batchbutton" uri="index.php?app=service&amp;act=goods_batch_edit&ret_page={$page_info.curr_page}&p=service" name="id">{$lang.edit}</a>
+                            <a href="javascript:void(0);" class="delete" uri="index.php?app=service&act=drop" name="id" presubmit="confirm('{$lang.drop_confirm}')" ectype="batchbutton">{$lang.drop}</a>
+
+                        </th>
+                        <th colspan="6">&nbsp;</th>
+                    </tr>
+                    <!--{/if}-->
+                    <tr class="gray"  ectype="table_header">
+                        <th width="25"></th>
+                        <th width="40"  style="padding-left: 5px;">缩略图</th>
+                        <th width="150" colspan="2" coltype="editable" column="goods_name" checker="check_required" inputwidth="90%" title="{$lang.sort_order}"  class="cursor_pointer" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span ectype="order_by">{$lang.goods_name}</span></th>
+                        <th width="70" column="cate_id" title="{$lang.sort_order}"  class="cursor_pointer"><span ectype="order_by">{$lang.gcategory}</span></th>
+                        <!--<th width="55" coltype="editable" column="brand" checker="check_required" inputwidth="55px" title="{$lang.sort_order}"  class="cursor_pointer"><span ectype="order_by">{$lang.brand}</span></th>-->
+                        <th width="55" coltype="editable" column="brand" checker="check_required" inputwidth="55px" title="{$lang.sort_order}"  class="cursor_pointer"><span ectype="order_by">状态</span></th>
+                        <th width="50" class="cursor_pointer" coltype="editable" column="price" checker="check_number" inputwidth="50px" title="{$lang.sort_order}"><span ectype="order_by">{$lang.price}</span></th>
+                        <th width="50" class="cursor_pointer" coltype="editable" column="stock" checker="check_pint" inputwidth="50px" title="{$lang.sort_order}"><span ectype="order_by">{$lang.stock}</span></th>
+                        <th width="60" coltype="switchable" column="recommended" onclass="right_ico" offclass="wrong_ico" title="{$lang.sort_order}"  class="cursor_pointer">
+                        &nbsp;&nbsp;&nbsp;<span ectype="order_by">店铺名</span></th>
+                        <th width="30" coltype="switchable" column="if_show" onclass="right_ico" offclass="wrong_ico" title="{$lang.sort_order}"  class="cursor_pointer">
+                            <!--{if $smarty.get.li=="tg" || !$smarty.get.li }-->
+                            <span ectype="order_by">{$lang.if_show}</span>
+                            <!--{/if}-->
+                        </th>
+                        <th width="100">
+                            <!--{if $smarty.get.li=="tg" || !$smarty.get.li || $smarty.get.li=="shenhe"}-->
+                            &nbsp;&nbsp;&nbsp;{$lang.handle}
+                            <!--{/if}-->
+                        </th>
+
+                    </tr>
+
+                    <!--{foreach from=$goods_list item=goods name=_goods_f}-->
+
+                    <!--{if $smarty.get.li=="tg" || !$smarty.get.li }-->
+                    <tr class="line<!--{if $smarty.foreach._goods_f.last}--> last_line<!--{/if}-->" ectype="table_item" idvalue="{$goods.goods_id}">
+                        <td width="25" class="align2"><input type="checkbox" class="checkitem" value="{$goods.goods_id}"/></td>
+                        <td width="40" class="align2"><!--{if $goods.pd_id ==5 }--> <a href="{url app=bdsh&act=goods_detail&id=$goods.goods_id}" target="_blank"><!--{else}--><a href="{url app=goods&id=$goods.goods_id}" target="_blank"><!--{/if}--> <img src="{$site_url}/{$goods.default_image}" width="50" height="50"  /></a></td>
+                        <td width="150" align="align2" colspan="2">
+                          <p class="ware_text" style="width: 220px"><span class="color2" ectype="editobj">{$goods.goods_name|truncate:60:"…"}</span></p>
+                        </td>
+                        <td width="65"><span class="color2">{$goods.cate_name|nl2br}</span></td>
+                        <!--<td width="50" class="align2"><span class="color2" ectype="editobj">{$goods.brand|escape}</span></td>-->
+                        <td width="50" class="align2"><span class="color2" >
+                            <!--{if $goods.dropState eq 1 }-->正常
+                            <!--{elseif $goods.dropState eq 2 }-->待审核
+                            <!--{elseif $goods.dropState eq 3}-->审核不通过
+                            <!--{elseif $goods.dropState eq 4}-->
+                            <label style="color: red;cursor: pointer" title="韩国馆一审通过，请耐心等待最终审核">一审通过</label>
+                            <!--{/if}-->
+                        </span></td>
+                        <td width="50" class="align2"><!--{if $goods.spec_qty}--><span class="cursor_pointer"><!--{else}--><span class="color2" ectype="editobj"><!--{/if}-->{$goods.price}</span></td>
+                        <td width="50" class="align2"><!--{if $goods.spec_qty}--><span class="cursor_pointer">
+                        <!--{else}--><span class="color2" ectype="editobj"><!--{/if}-->{$goods.stock}</span></td>
+                        <td width="50" class="align2"><span style="margin:0px 5px;"><span class="color2">{$goods.store_name}</span></td>
+                        <td width="30" class="align2">
+                            <!--{if $smarty.get.li=="tg" || !$smarty.get.li }-->
+                            <span style="margin:0px 5px;" ectype="editobj" <!--{if $goods.if_show}-->class="right_ico" status="on"<!--{else}-->class="wrong_ico" stauts="off"<!--{/if}-->></span>
+                            <!--{/if}-->
+                        </td>
+                        <td width="100">
+                          <div style="float: left"><a href="{url app=service&act=edit&id=$goods.goods_id&p=service&pageNo=$pageNo}" class="edit">{$lang.edit}</a>
+                          <a href="javascript:drop_confirm('{$lang.drop_confirm}', 'index.php?app=service&amp;act=drop&id={$goods.goods_id}');" class="delete">{$lang.drop}</a>
+                          </div>
+                        </td>
+                    </tr>
+                    <!--{else}-->
+                    <tr class="line<!--{if $smarty.foreach._goods_f.last}--> last_line<!--{/if}-->" ectype="table_item" idvalue="{$goods.goods_id}">
+                        <td width="25" class="align2"><input type="checkbox" class="checkitem" value="{$goods.goods_id}"/></td>
+                        <td width="40" class="align2"><!--{if $smarty.get.li=="shenhe"}--> <a href="{url app=goods&id=$goods.goods_id&readonly=true}" target="_blank"> <!--{else}--><a href="{url app=goods&id=$goods.goods_id}" target="_blank"> <!--{/if}--><img src="{$site_url}/{$goods.default_image}" width="50" height="50"  /></a></td>
+                        <td width="150" align="align2" colspan="2">
+                            <p class="ware_text" style="width: 220px">{$goods.goods_name|truncate:60:"…"}</p>
+                        </td>
+                        <td width="65"><span class="color2">{$goods.cate_name|nl2br}</span></td>
+                        <td width="50" class="align2">
+                            <!--{if $goods.dropState eq 1 }-->正常
+                            <!--{elseif $goods.dropState eq 2 }-->待审核
+                            <!--{elseif $goods.dropState eq 3}-->审核不通过
+                            <!--{elseif $goods.dropState eq 4}-->
+                            <label style="color: red;cursor: pointer" title="韩国馆一审通过，请耐心等待最终审核">一审通过</label>
+                            <!--{/if}-->
+                        </td>
+                        <td width="50" class="align2">{$goods.price}</td>
+                        <td width="50" class="align2">{$goods.stock}</td>
+                        <td width="30" class="align2"><span style="margin:0px 5px;"><span class="color2">{$goods.store_name}</span></td>
+                        <td width="30" class="align2">
+
+                        </td>
+                        <td width="120">
+                            <!--{if $smarty.get.li=="shenhe"}-->
+                            <a href="/index.php?app=service&act=goods_view&id={$goods.goods_id}&p=service&pageNo=">查看</a>&nbsp;
+                            <a href="javascript:shenhe('{$goods.goods_id}','1')">通过</a>&nbsp;
+                            <a href="javascript:shenhe('{$goods.goods_id}','2')">不通过</a>
+                            <!--{/if}-->
+
+                            <!--{if ($visitor.member_type == '04' || $hanguo_flag) && $smarty.get.li == "shenhe_hanguo" }-->
+                            <a href="/index.php?app=service&act=goods_view&id={$goods.goods_id}&p=service&pageNo=">查看</a>&nbsp;
+                            <a href="javascript:shenhe_hanguo('{$goods.goods_id}','1')">通过</a>&nbsp;
+                            <a href="javascript:shenhe_hanguo('{$goods.goods_id}','2')">不通过</a>
+                            <!--{/if}-->
+                        </td>
+                    </tr>
+                    <!--{/if}-->
+
+                    <!--{foreachelse}-->
+                    <tr>
+                        <td class="align2 member_no_records padding6" colspan="10">{$lang.$smarty.get.act}{$lang.no_records}</td>
+                    </tr>
+                    <!--{/foreach}-->
+                    <!--{if $goods_list}-->
+                    <tr class="line_bold line_bold_bottom">
+                        <td colspan="13"> </td>
+                    </tr>
+
+
+                    <!--{if ($visitor.member_type == '04' || $hanguo_flag) && $smarty.get.li == "shenhe_hanguo" }-->
+                    <tr>
+                        <th><input type="checkbox" id="all2" class="checkall"/>&nbsp;</th>
+                        <th class="align1" colspan="3">
+                            <span class="all"><label for="all">{$lang.checkall}</label></span>
+                            <a href="javascript:goods_batch_shenhe('1');">&nbsp;&nbsp;审核通过</a>&nbsp;&nbsp;
+                            <a href="javascript:goods_batch_shenhe('2');">&nbsp;&nbsp;审核不通过</a>
+                        </th>
+                        <th colspan="8">{include file=member.page.bottom.html}</th>
+                    </tr>
+                    <!--{else}-->
+                    <tr>
+                        <th><!--{if $smarty.get.li=="tg" || $smarty.get.li=="shenhe" }--><input type="checkbox" id="all2" class="checkall"/><!--{/if}-->&nbsp;</th>
+                        <th class="align1" colspan="3">
+                            <span class="all"><!--{if $smarty.get.li=="tg" || $smarty.get.li=="shenhe" }--><label for="all">{$lang.checkall}</label><!--{/if}--></span>
+                            <!--{if $smarty.get.li=="shenhe"}-->
+                            <a href="javascript:goods_batch_shenhe('1');">&nbsp;&nbsp;审核通过</a>&nbsp;&nbsp;
+                            <a href="javascript:goods_batch_shenhe('2');">&nbsp;&nbsp;审核不通过</a>
+                            <!--{else}-->
+                            <!--{if $smarty.get.li=="tg"}-->
+                            <a href="javascript:void(0);" class="edit" ectype="batchbutton" uri="index.php?app=service&amp;act=goods_batch_edit&ret_page={$page_info.curr_page}&p=service" name="id">{$lang.edit}</a>
+                            <!--{/if}-->
+                            <!--{/if}-->
+                        </th>
+                        <th colspan="8">{include file=member.page.bottom.html}</th>
+                    </tr>
+                    <!--{/if}-->
+
+                    <!--{/if}-->
+                </table>
+                <!-- {if $visitor.user_name == 'djkhanguo'} -->
+                    <br/>
+                    <form id="recommend_form" target="recommend_iframe" action="index.php?app=hgg&act=recommend" method="post">
+                        推荐到：
+                        <select name="rid">
+                            <option value="33">韩国馆-首页-缤纷热销</option>
+                            <option value="27">韩国馆-首页-楼层1</option>
+                            <option value="28">韩国馆-首页-楼层2</option>
+                            <option value="29">韩国馆-首页-楼层3</option>
+                            <option value="30">韩国馆-首页-楼层4</option>
+                            <option value="31">韩国馆-首页-楼层5</option>
+                            <option value="32">韩国馆-首页-楼层6</option>
+
+                            <option value="34">韩国馆-首尔超市-最新商品</option>
+                            <option value="35">韩国馆-跟上韩流-最新商品</option>
+                            <option value="36">韩国馆-生活家园-最新商品</option>
+                            <option value="37">韩国馆-美丽世界-最新商品</option>
+                            <option value="38">韩国馆-母婴天地-最新商品</option>
+                            <option value="39">韩国馆-快快直购-最新商品</option>
+                            <option value="50">韩国馆-韩国特展-楼层1</option>
+                        </select>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="button" onclick="toRecommend();" value="确定">
+                        <input id="goods_ids" name="goods_ids" type="hidden" value="">
+                        <script>
+                            function toRecommend() {
+                                var goods_ids = "";
+                                $(".checkitem").each(function(index){
+                                    if ($(this).attr("checked")) {
+                                        goods_ids += $(this).attr("value") + ",";
+                                    }
+                                });
+                                $("#goods_ids").val(goods_ids);
+                                $("#recommend_form").action = $("recommend_iframe").attr("src");
+                                $("#recommend_form").submit();
+                                $(".checkitem").each(function(index){
+                                    $(this).attr("checked", false);
+                                });
+                            }
+                        </script>
+                    </form>
+                <br/>
+                <iframe id="recommend_iframe" name="recommend_iframe" width="800" height="300" src="index.php?app=hgg&act=recommend"></iframe>
+                <!-- {/if} -->
+                </div>
+            <div class="wrap_bottom"></div>
+        </div>
+        <div class="clear"></div>
+        <div class="adorn_right1"></div>
+        <div class="adorn_right2"></div>
+        <div class="adorn_right3"></div>
+        <div class="adorn_right4"></div>
+
+  </div>
+        <div class="clear"></div>
+</div>
+
+
+<iframe name="iframe_post" id="iframe_post" width="0" height="0"></iframe>
+{include file=footer.html}
+{if $store.enable_radar}
+<input type="hidden" id="radar_lincense_id" value="" />
+<input type="hidden" id="radar_product_key" value="ecmall" />
+<input type="hidden" id="radar_sign_key" value="" />
+
+{/if}

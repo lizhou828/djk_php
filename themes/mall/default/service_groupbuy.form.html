@@ -1,0 +1,380 @@
+{include file=member.header.html}
+
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/dialog/dialog.js" id="dialog_js"></script>
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.plugins/jquery.validate.js" ></script>
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+
+<style>
+.txt { margin-right:20px}
+.spec ul { width: 530px; overflow: hidden; }
+.spec .td { padding-bottom: 10px; }
+.spec li { float: left; margin-left: 6px; display: inline; }
+.spec li input { text-align: center; }
+.spec .th { padding: 3px 0; margin-bottom: 10px; border-top: 2px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; background: #f8f8f8; }
+
+.show_alert{
+    line-height: 11px;
+    padding: 5px;
+    width: 730px;
+    margin-bottom: 10px;
+   /*float: right;*/
+    margin-left: 50px;
+    margin-top: -30px;
+    color: #9C9C9C;
+}
+.show_alert div{
+    line-height: 15px;
+    margin-top: -23px;
+    margin-left: 30px;
+    color: #9D9D9D;
+
+}
+.show_alert img{
+    cursor: pointer;
+}
+
+</style>
+<script type="text/javascript">
+//<!CDATA[
+
+jQuery.validator.addMethod("group_desc_check", function(value, element) {
+    if (value == "1.购买须知：例如 - 预约提醒，商品使用规则。\n2.配送说明：例如 - 配送范围：江浙沪地区；发货时间：1个工作日内发货，发货后1-5天左右到货。\n3.退换货须知：例如 - 如产品存在质量问题或发错情况，您可在货物签收日起1天之内联系客服申请退/换货服务，客服确认符合退换货条件，则可根据退换货流程操作。") {
+        return false;
+    }
+    return true;
+}, "请输入团购描述");
+
+$(function(){
+    $('#start_time input').datepicker({dateFormat: 'yy-mm-dd'});
+    $('#end_time input').datepicker({dateFormat: 'yy-mm-dd'});
+    if_show();
+    //check_spec();
+    $('input[name="if_publish"]').click(function(){
+        if_show();
+    });
+
+
+    $('#group_form').validate({
+        errorPlacement: function(error, element){
+            $(element).next('.field_notice').hide();
+            $(element).after(error);
+        },
+        success       : function(label){
+            label.addClass('validate_right').text('OK!');
+        },
+        onkeyup : false,
+        rules : {
+            group_name : {
+                required   : true
+            },
+            group_desc : {
+				required   : true,
+                maxlength   : 255,
+                group_desc_check:[]
+            },
+            end_time      : {
+                required     : true
+            },
+            goods_id      : {
+                required   :true,
+                min    : 1
+            },
+            min_quantity :{
+                required   :true,
+                min    :1
+            }
+        },
+        messages : {
+            group_name  : {
+                required   : '{$lang.fill_group_name}'
+            },
+            group_desc  : {
+				required	:  '请输入团购说明',	
+                maxlength   : '{$lang.fill_max_group_desc}'
+            },
+            end_time       : {
+                required     : '{$lang.fill_end_time}'
+            },
+            goods_id      : {
+                required:  '{$lang.fill_goods}',
+                min   : '{$lang.fill_goods}'
+            },
+            min_quantity: {
+                required : '{$lang.fill_min_quantity}',
+                min   : '{$lang.fill_min_quantity}'
+            }
+        }
+    });
+});
+
+function gs_callback(){
+	
+    query_spec($('#goods_id').val());
+}
+function if_show(){
+    if($('input[name="if_publish"]:checked').val() == 1){
+            $('#start_time').hide();
+        }else{
+            $('#start_time').show();
+    }
+}
+
+function check_spec(){
+    $('input[name="spec_id[]"]').click(function(){
+        var obj_group_price = $(this).parent().parent().find('input[name="group_price[]"]')
+        if($(this).attr('checked') == true){
+            obj_group_price.show();
+            obj_group_price.attr('disabled', false);
+        }else{
+            obj_group_price.hide();
+            obj_group_price.attr('disabled', true);
+            obj_group_price.val('');
+            $('label.error').remove();
+        }
+    });
+
+    $('#submit_group').unbind('click');
+    $('#submit_group').click(function(){
+        $('label.error').remove();
+        var qty = 0;
+        var error = false;
+        var price_empty = false;
+
+        $('*[ectype="spec_item"]').each(function(){
+            var obj_group_price = $(this).find('input[name="group_price[]"]');
+            var group_price = obj_group_price.val();
+            var if_checked = $(this).find('input[name="spec_id[]"]').attr('checked');
+            if_checked && qty++;
+            if(group_price != '' && (group_price < 0 || isNaN(group_price))){
+                error = obj_group_price;
+            }
+            if(if_checked && group_price == ''){
+                price_empty = obj_group_price;
+            return false;
+            }
+        })
+        if(qty == 0){
+            alert('{$lang.fill_spec}');
+            return false;
+        }
+        if(error != false){
+            error.focus();
+            error.addClass('error');
+            error.after('<label class="error" for="group_price[]" generated="true">{$lang.invalid_group_price}</label>');
+            return false;
+        }
+        if(price_empty != false){
+            price_empty.focus();
+            price_empty.addClass('error');
+            price_empty.after('<label class="error" for="group_price[]" generated="true">{$lang.fill_group_price}</label>');
+            return false;
+        }
+
+    });
+}
+
+function query_spec(goods_id){
+    $.getJSON('index.php?app=seller_groupbuy&act=query_goods_info',{
+        'goods_id':goods_id
+        },
+        function(data){
+            if(data.done){
+                var goods = data.retval;
+                $('#spec_name').html(goods.spec_name);
+                $('ul[ectype="spec_item"]').remove();
+                    $.each(goods._specs,function(i,item){
+                        /*$('#group_spec').append('<ul ectype="spec_item" class="td"><li class="distance2"><input name="spec_id[]" value="'+ item.spec_id +'" type="checkbox" checked="checked" />'+ item.spec +'</li><li class="distance1">' + item.stock + '</li><li class="distance1">'+ item.price +'</li><li><input name="group_price[]" type="text" class="text width2" /></li></ul>');*/
+						
+						
+						
+						var str='<div class="assort"><input name="spec_id[]" style="display:none" value="'+ item.spec_id +'" type="checkbox" checked="checked" /><p class="txt">团购价格:<input type="text" name="group_price[]"  class="text width2" /><span class="field_notice">元</span></p></div><div class="assort"><p class="txt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;原价:<input type="text" name="price_tmp" value="'+item.price+'" id="price_tmp"  disabled="disabled" class="text width2" /><span class="field_notice">元</span></p></div><div class="assort"><p class="txt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;库存:<input type="text" name="stock_tmp" id="stock_tmp" disabled="disabled" value="'+item.stock+'"  class="text width2" /><span class="field_notice">件</span></p></div>';
+						
+						$('#gou_div').append(str); 
+						
+                });
+                check_spec();
+            }
+        });
+}
+//]]>
+</script>
+
+
+
+<div class="content">
+  <div class="totline"></div>
+  <div class="botline"></div>
+  {include file=member.menu.html}
+  <div id="right">
+      <ul class="tab">
+          <li <!--{if $smarty.get.li=="active1"  }-->class="active"<!--{else}-->class="normal"<!--{/if}--> ><a href="index.php?app=service&act=tuangou&li=active1&p=service">团购列表</a></li>
+          <li <!--{if $smarty.get.li=="active2" || !$smarty.get.li}-->class="active"<!--{else}-->class="normal"<!--{/if}--> ><a href="index.php?app=service&act=tuangou_add&li=active2&p=service">新增团购</a></li>
+      </ul>
+
+        <div id="seller_groupbuy_form" class="wrap">
+
+            <div class="public">
+                <form method="post" id="group_form">
+                    <div class="information_index">
+                        <strong>{$lang.groupbuy_basic_info}</strong><br><br>
+                        <div class="add_wrap">
+                            <div class="assort">
+                                <p class="txt">{$lang.group_name}:
+                                <input type="text" name="group_name" value="{$group.group_name|escape}" class="text width7" /> <span class="red">*</span></p>
+                            </div>
+                            <div class="assort">
+                                <p class="txt">
+                                    {$lang.if_publish}:
+                                    <span class="distance">
+                                        <label for="publish"><input id="publish" name="if_publish" value="1" type="radio" {if !$group.group_id}checked="checked" {/if}/> {$lang.yes}</label>
+                                        <label for="not_publish"><input id="not_publish" name="if_publish" value="0" type="radio" {if $group.group_id}checked="checked" {/if}/> {$lang.no}</label> <span class="red">*</span>
+                                        <span class="field_notice">{$lang.note_if_publish}</span>
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="assort">
+                                <p class="txt" id="start_time">
+                                    {$lang.start_time}:
+                                    <input name="start_time" value="{$group.start_time|date:Y-m-d}" type="text" class="text width2" />
+                                </p>
+                                <p class="txt" id="end_time">
+                                    {$lang.end_time}:
+                                    <input name="end_time" value="{$group.end_time|date:Y-m-d}" type="text" class="text width2" /> <span class="red">*</span>
+                                </p>
+                            </div>
+                            <div class="assort">
+                                <p class="txt" id="start_time">
+                                    {$lang.group_desc}:
+                                    <textarea onblur="showBlur(this)"
+                                              onfocus="showFocus(this)" style="height: 150px; overflow-y: auto; width: 550px; vertical-align: top;" id="group_desc" name="group_desc" class="text">{$group.group_desc|escape}</textarea>
+                                </p>
+                                <script>
+                                <!--{if !$group.group_desc}-->
+                                $("#group_desc").css("color","#ccc") ;
+								$("#group_desc").html("1.购买须知：例如 - 预约提醒，商品使用规则。\n2.配送说明：例如 - 配送范围：江浙沪地区；发货时间：1个工作日内发货，发货后1-5天左右到货。\n3.退换货须知：例如 - 如产品存在质量问题或发错情况，您可在货物签收日起1天之内联系客服申请退/换货服务，客服确认符合退换货条件，则可根据退换货流程操作。");
+								<!--{/if}-->
+                                </script>
+                            </div>
+                            <div class="show_alert">
+                                <br><br>可根据模版填写，也可以自己任意发挥 范例提供
+                                <img src="{$site_url}/themes/mall/default/styles/default/images/help-round.png"  title=" 1.购买须知：例如 - 预约提醒，商品使用规则。2.配送说明：例如 - 配送范围：江浙沪地区；发货时间：1个工作日内发货，发货后1-5天左右到货。3.退换货须知：例如 - 如产品存在质量问题或发错情况，您可在货物签收日起1天之内联系客服申请退/换货服务，客服确认符合退换货条件，则可根据退换货流程操作。"/>
+                            </div>
+                        </div>
+
+                        <strong>{$lang.groupbuy_goods_info}</strong>
+                        <br><br>
+                        <div class="add_wrap">
+                        
+							 <div class="assort">
+                                <p class="txt">选择店铺:
+                                <!--{if $stores}-->
+                                <select name="store_id" id='store_id' class="sgcategory" onchange="changeStore(this.value)">
+                                    <!--{foreach from=$stores item=store}-->
+                                    <option value="{$store.store_id}" <!--{if $sid == $store.store_id}-->selected="selected"<!--{/if}--> >{$store.store_name}</option>
+                                    <!-- {/foreach} -->
+                            	</select>
+                                <!--{else}-->
+                                <select name="store_id" disabled="disabled" class="sgcategory" onchange="changeStore(this.value)">
+                                <option>没有找到商家</option>
+                                </select>
+                                    &nbsp;&nbsp;&nbsp;<a href="index.php?app=service&act=uploadStore2&tuoguan=1&p=service" style='color:green' target="_blank">没有店铺？点击去新增店铺</a>
+
+                                    <!--{/if}-->
+                            </p>
+                            </div>
+
+
+                            
+                            <div class="assort">
+                                <p class="txt">{$lang.select_goods}:
+                                {if !$goods}
+                                    <input gs_id="goods_id" gs_name="goods_name" gs_callback="gs_callback" gs_title="gselector" gs_width="480" gs_type="store" gs_store_id="{$store_id}" ectype="gselector_service" type="text" name="goods_name" id="goods_name" value="{$group.goods_name|escape}" class="text" /> <span class="red">*</span>
+                                {else}
+                                    {$goods.goods_name|escape}
+                                {/if}
+                                <input type="hidden" id="goods_id" name="goods_id" value="{$group.goods_id}" />
+                                <script>
+
+                                <!--{if $stores}-->
+                                var store_ids=document.getElementById("store_id");
+                                if(store_ids.options.length>0)
+                                {
+                                    $("#goods_name").attr("gs_store_id",store_ids.options[0].value);
+                                }
+                                <!--{/if}-->
+                                function changeStore(storeId)
+                                {
+                                   $('ul[ectype="spec_item"]').remove();
+								   $("#goods_name").attr("gs_store_id",storeId);
+								}
+                                </script>
+                                </p>
+                            </div>
+
+                            <div class="assort">
+                                <p class="txt">是否定制<img title="定制类团购即团体采购定制，多人一起购买东西以求得最优价格的一种购物方式。用户可以获得低于零售价格的团购折扣和单独购买得不到的优质服务。
+" src="{$site_url}/themes/mall/default/styles/default/images/help-round.png" style="cursor:pointer; ">:
+                                    <input type="radio" name="if_dingzhi" value="2" />是 <input type="radio" name="if_dingzhi" value="1" checked="true" />否 <span class="field_notice">如果为定制类团购请选择是</span></p>
+                            </div>
+
+                            <div class="assort">
+                                <p class="txt">{$lang.group_min_quantity}:
+                                <input type="text" name="min_quantity" value="{$group.min_quantity}" class="text width2" /> <span class="red">*</span><span class="field_notice">{$lang.note_group_min_quantity}</span></p>
+                            </div>
+                            <div class="assort">
+                                <p class="txt">{$lang.max_per_user}:
+                                <input type="text" name="max_per_user" value="{$group.max_per_user}" class="text width2" /><span class="field_notice">{$lang.note_max_per_user}</span></p>
+                            </div>
+
+							<div id="gou_div" ectype="spec_item">
+                            
+                            
+                            
+                            </div>
+                            
+                            
+                            
+                            <!--{if $stores}-->
+                            <div class="issuance"><input id="submit_group" type="submit" class="btn" value="立刻发布" /></div>
+                            <!--{else}-->
+                            <div class="issuance"><input id="submit_group" type="submit" disabled="disabled" class="btn" value="立刻发布" /></div>
+                            <!--{/if}-->
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="wrap_bottom"></div>
+        </div>
+
+        <div class="clear"></div>
+        <div class="adorn_right1"></div>
+        <div class="adorn_right2"></div>
+        <div class="adorn_right3"></div>
+        <div class="adorn_right4"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<script>
+    function showFocus(obj)
+    {
+        if(obj.value=="1.购买须知：例如 - 预约提醒，商品使用规则。\n2.配送说明：例如 - 配送范围：江浙沪地区；发货时间：1个工作日内发货，发货后1-5天左右到货。\n3.退换货须知：例如 - 如产品存在质量问题或发错情况，您可在货物签收日起1天之内联系客服申请退/换货服务，客服确认符合退换货条件，则可根据退换货流程操作。")
+        {
+            obj.style.color='#000';
+            obj.value="";
+        }
+    }
+
+    function showBlur(obj)
+    {
+        if(obj.value=="")
+        {
+            obj.style.color = '#ccc';
+            $('#emails_ul').css('display','none');
+            obj.value="1.购买须知：例如 - 预约提醒，商品使用规则。\n2.配送说明：例如 - 配送范围：江浙沪地区；发货时间：1个工作日内发货，发货后1-5天左右到货。\n3.退换货须知：例如 - 如产品存在质量问题或发错情况，您可在货物签收日起1天之内联系客服申请退/换货服务，客服确认符合退换货条件，则可根据退换货流程操作。";
+        }
+    }
+</script>
+
+{include file=footer.html}

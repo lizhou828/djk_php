@@ -1,0 +1,1136 @@
+{include file=member.header.html}
+<style>
+.btn3{width: 106px; height: 29px; border: 0; background: url({$site_url}/themes/mall/default/styles/default/images/btn11.gif); color: #c73702; font-weight: bold;cursor: pointer; font-size: 14px;}
+</style>
+
+<script type="text/javascript" charset="utf-8" src="{$site_url}/includes/libraries/javascript/swfupload/swfupload.js"></script>
+<script type="text/javascript" charset="utf-8" src="{$site_url}/includes/libraries/javascript/swfupload/js/handlers.js"></script>
+<link type="text/css" rel="stylesheet" href="{$site_url}/includes/libraries/javascript/swfupload/css/default.css"/>
+<script type="text/javascript">
+
+    function add_uploadedfile2(file_data){
+        $('#desc_images2').append('<li file_name="'+ file_data.file_name +'" file_path="'+ file_data.file_path +'" ectype="handle_pic" file_id="'+ file_data.file_id +'">' +
+                '<input type="hidden" name="store_uploaded_file[]" value="'+ file_data.file_path +'"><div class="pic" style="z-index: 2;"><img src="{$site_url}/'+ file_data.file_path +'" width="50" height="50" alt="'+ file_data.file_name +'" /></div><div ectype="handler" class="bg" style="z-index: 3;display:none;width: 80px;"><img src="{$site_url}/'+ file_data.file_path +'" width="50" height="50" alt="'+ file_data.file_name +'" />' +
+                '<p class="operation" style="width: 110px;height: 15px"><input type="radio" name="if_default" value="'+file_data.file_path+'" />设为默认<span class="delete" ecm_title="删除"  ectype="drop_image2"></span></p><p class="name">'+ file_data.file_name +'</p></div></li>');
+        trigger_uploader();
+        if(EDITOR_SWFU.getStats().files_queued == 0){
+            window.setTimeout(function(){
+                $('#editor_uploader').hide();
+            },5000);
+        }
+    }
+    var SWFUp=null;
+    $(function(){
+        SWFUp=new SWFUpload({
+                    upload_url: "index.php?app=swfupload&act=upload_store_image&up_type=1",  //taobao_image
+                    flash_url: "{$site_url}/includes/libraries/javascript/swfupload/swfupload.swf",
+                    post_params: {
+                        "ECM_ID": "{$ECM_ID}",
+                        "HTTP_USER_AGENT":"{$HTTP_USER_AGENT}",
+                        'belong': 2,
+                        'item_id': 0,
+                        'ajax': 1,
+                        'up_store_id':1
+                },
+                file_size_limit: "8 MB",
+                file_types: "*.gif;*.jpg;*.jpeg;*.png;*.tbi",
+                custom_settings: {
+            upload_target: "divFileProgressContainer",
+                    if_multirow: 0
+        },
+
+        // Button Settings
+        button_image_url: "{$site_url}/includes/libraries/javascript/swfupload/images/SmallSpyGlassWithTransperancy_17x18.png",
+                button_width: 86,
+                button_height: 18,
+                button_text: '<span class="button">批量上传</span>',
+                button_text_style: '.button {font-family: Helvetica, Arial, sans-serif; font-size: 12pt; font-weight: bold; color: #3F3D3E;} .buttonSmall {font-size: 10pt;}',
+                button_text_top_padding: 0,
+                button_text_left_padding: 18,
+                button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
+                button_cursor: SWFUpload.CURSOR.HAND,
+
+            // The event handler functions are defined in handlers.js
+                file_queue_error_handler: fileQueueError,
+                file_dialog_complete_handler: fileDialogComplete,
+                upload_progress_handler: uploadProgress,
+                upload_error_handler: uploadError,
+                upload_success_handler: uploadSuccess2,
+                upload_complete_handler: uploadComplete,
+                button_placeholder_id: "spanButtonPlaceholder",
+                file_queued_handler : fileQueued
+    });
+    });
+
+</script>
+
+
+<style>
+    .show_alert{
+        background-color: #F5F5F5;
+        border: 1px solid #D8D8D8;
+        margin-top: 20px;
+        margin-left: 2px;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        color: #919191;
+        line-height: 20px;
+        display: block;
+    }	
+	.pdl{ padding-left:30px; padding-right:30px; text-align:right;}
+	
+	.ico_div{
+		  float:right; cursor:pointer; vertical-align:middle;
+	}
+	
+
+</style>
+
+<div class="content">
+
+{include file=member.menu.html}
+
+
+
+    <div id="right">
+	<ul class="tab">
+                 <li class="active">
+                 <!--{if $smarty.get.tuoguan==1}-->
+                     <!--{if $smarty.get.act == 'service_edit' }-->修改<!--{else}-->新增<!--{/if}-->托管商家
+                 <!--{else}-->
+                     <!--{if $smarty.get.act == 'service_edit' }-->修改<!--{else}-->新增<!--{/if}-->本区商家
+                 <!--{/if}-->
+                 </li>
+                 </ul>				
+        <div class="wrap">
+            <div class="public">
+                <div class="information_index">
+                    <div class="info">
+					<!-- 服务中心 对应的 店铺 列表 -->
+				   <div class="public table">
+
+
+
+
+
+
+<script type="text/javascript">
+$(function(){
+    regionInit("region");
+	regionInit2("channel_region");
+	
+
+	
+    $("#apply_form").validate({
+        errorPlacement: function(error, element){
+            var error_td = element.parents('td').next('td');
+            error_td.find('.field_notice').hide();
+            error_td.find('.fontColor3').hide();
+            error_td.append(error);
+        },
+		submitHandler : function(form) {
+			$(".padding3").html("");
+			$("#submit_btn").attr("disabled","disabled");		
+			$('#sava_tr').showLoading({'addClass': 'loading-indicator-bars'});
+			form.submit();
+		 }, 
+        success: function(label){
+            //label.addClass('validate_right').text('OK!');
+			label.remove();
+        },
+        onkeyup: false,		 
+        rules: {			 	
+		   	 user_name_new : {
+                    required : true,
+                    //byteRange: [3,15,'utf-8'],
+					minlength: 3,
+					maxlength: 20,
+                    remote   : {
+                        url :'index.php?app=member&act=check_user_or_phone_mob&ajax=1&user_type=<!--{if !$smarty.get.user_type || $smarty.get.user_type ==1}-->1<!--{elseif $smarty.get.user_type ==2}-->2<!--{/if}-->',
+                        type:'get',
+                        data:{
+                            user_name : function(){
+                                return $('#user_name_new').val();
+                            }
+                        },
+                        beforeSend:function(){
+
+                        	var txt = $('#user_name_new').val().substring(0,3).toUpperCase();
+							var reg = /DJK/;
+							if(reg.test(txt))
+							{
+							  alert("用户名不能以 DJK 或者 djk 开头");
+							  $('#user_name_new').val("");
+							  return;
+							}
+                            var _checking = $('#checking_user_new');
+                            _checking.prev('.field_notice').hide();
+                            _checking.next('label').hide();
+                            $(_checking).show();
+                        },
+                        complete :function(){
+                            $('#checking_user_new').hide();
+                        }
+                    }
+                },
+                password : {
+                    required : true,
+                    minlength: 6
+                },
+                password_confirm : {
+                    required : true,
+                    equalTo  : '#password'
+                },
+                email : {
+                    required : true,
+                    email    : true,
+                    remote   : {
+                        url :'index.php?app=member&act=check_user_or_phone_mob&ajax=1',
+                        type:'get',
+                        data:{
+                            user_name : function(){
+                                return $('#email').val();
+                            }
+                        },
+                        beforeSend:function(){
+                            var _checking = $('#checking_email');
+                            _checking.prev('.field_notice').hide();
+                            _checking.next('label').hide();
+                            $(_checking).show();
+                        },
+                        complete :function(){
+                            $('#checking_email').hide();
+                        }
+                    }
+                },
+
+            owner_name: {
+                required: true
+            },
+            store_name: {
+                required: true,
+                remote : {
+                    url  : 'index.php?app=apply&act=check_name&ajax=1',
+                    type : 'get',
+                    data : {
+                        store_name : function(){
+                            return $('#store_name').val();
+                        },
+                        store_id : ''
+                    }
+                },
+                maxlength: 20
+            },
+            tel: {
+                required: true,
+                minlength:6,
+                checkTel:true
+            },
+            image_1: {
+                accept: "jpg|jpeg|png|gif|bmp"
+            },
+            image_2: {
+                accept: "jpg|jpeg|png|gif|bmp"
+            },
+            image_3: {
+                accept: "jpg|jpeg|png|gif|bmp"
+            },
+            notice: {
+                required : true
+            },
+            owner_card :{
+                required : true,
+                owner_card_Validate : [],
+                owner_card_Validate2 :[]
+            },
+            address : {
+                required : true
+            },
+            zipcode : {
+
+            }
+			
+			<!--{if $visitor.member_type != '04' }-->
+			,
+            image_1 : {
+                required : true
+            },
+            image_2 : {
+                required : true
+            },
+            yyzz : {
+                required : true
+            }
+			<!--{/if}-->	
+					
+			,
+            cate_id :{
+                required : true,
+                cateValidate : []
+            },
+            region_id :{
+                required : true
+				/*remote   : {
+                        url :'index.php?app=member&act=check_region&ajax=1',
+                        type:'get',
+                        data:{
+                            region_id : function(){
+                                return $('#region_id').val();
+                            }
+                        }
+                    }*/
+            },
+			shangjialeixing :{
+				required : true
+			},
+			channel_id :{
+				//required : true
+			},
+			channel_user_name :{
+				//required : true
+				channel_user_name1Validate :[],
+				channel_user_name2Validate :[]
+			},
+			channel_kahao :{
+				//required : true
+				channel_kahao1Validate :[],
+				channel_kahao2Validate :[]
+			},
+			channel_name2 :{
+				//required : true
+				channel_name2Validate :[]
+			}, 
+			channel_region_id :{
+				//required : true,
+				channel_regionValidate :[],
+				remote   : {
+                        url :'index.php?app=member&act=check_region&ajax=1',
+                        type:'get',
+                        data:{
+                            region_id : function(){
+                                return $('#channel_region_id').val();
+                            }
+                        }
+                    }
+			},
+			ticheng :{
+                required : true,
+                tichengValidate : []
+            },
+            description2: {
+                required: true
+            },
+            shitidian_img: {
+			  shitidianImgValidate : [],
+			  accept: "jpg|jpeg|png|gif|bmp"
+			}
+        },
+        messages: {
+
+		    user_name_new: {
+                	required : '您必须提供一个用户名',
+                    remote   : '<!--{if !$smarty.get.user_type || $smarty.get.user_type ==1}-->用户名已经存在，请更换!<!--{elseif $smarty.get.user_type ==2}-->用户名不存在，请更换!<!--{/if}-->',
+					minlength: '用户名长度最少是3位',
+					maxlength: '用户名长度最大是20位'
+
+            },
+			password  : {
+                    required : '您必须提供一个密码',
+                    minlength: '密码长度应在6-20个字符之间'
+            },
+            password_confirm : {
+                    required : '您必须再次确认您的密码',
+                    equalTo  : '两次输入的密码不一致'
+            },
+            email : {
+                    required : '您必须提供您的电子邮箱',
+                    email    : '这不是一个有效的电子邮箱',
+                    remote    : '邮箱已存在'
+            },
+
+            owner_name: {
+                required: '您还未填写店主姓名'
+            },
+			owner_card: {
+                required: '您还未填写店主身份证号',
+				minlength: '请输入正确的身份证号码！居民身份证号码为15或18位',
+				maxlength: '请输入正确的身份证号码！居民身份证号码为15或18位'		
+            },
+            store_name: {
+                required: '您还未填写商铺名称',
+                remote: '该店铺名称已存在，请您换一个',
+                maxlength: '请控制在20个字以内'
+            },
+            tel: {
+                required: '您还未填写商家联系电话',
+                minlength: '电话号码由数字、加号、减号、空格、括号组成,并不能少于6位',
+                checkTel: '电话号码由数字、加号、减号、空格、括号组成,并不能少于6位'
+            },
+            image_1: {
+                required: '请上传手持个人身份证正面照（扫描件或彩照）',
+                accept: '请上传格式为 jpg,jpeg,png,gif 的文件'
+            },
+            image_2: {
+                required: '请上传已加盖公章的营业执照复印件',
+                accept: '请上传格式为 jpg,jpeg,png,gif 的文件'
+            },
+            image_3: {
+                accept: '请上传格式为 jpg,jpeg,png,gif 的文件'
+            },
+            notice: {
+                required: '请阅读并同意开店协议'
+            },            
+            address: {
+                required: '您还未填写商家详细地址'
+            },
+            zipcode :{
+                required: '您还未填写邮政编码'
+            },
+            yyzz :{
+                required: '您还未填写营业执照名称（4-20位）'
+            },
+            region_id: {
+                required: '您还未填写商家所在地区',
+				remote	: '您还未填写商家所在地区到最后1级'
+            },
+			shangjialeixing: {
+                required: '商家类型必选'
+            },
+			channel_id :{
+				required: '请选择开户银行名称'
+			},
+			channel_user_name :{
+				required: '请输入银行开户名'
+			},
+			channel_kahao :{
+				required: '请输入银行卡卡号'
+			},
+			channel_name2 :{
+				required: '请输入开户银行支行名称'
+			}, 
+			channel_region_id :{
+				required: '请选择开户银行所在地',
+				remote	: '您还未填写商家所在地区到最后1级'
+			},
+			ticheng: {
+                required: '请选择平台使用费'
+            },
+            description2: {
+                required: '请输入店铺简短描述'
+            },
+            shitidian_img: {
+                required: "请上传店铺实体照片",
+                accept: '请上传格式为 jpg,jpeg,png,gif 的文件'
+            }
+
+        }
+    });
+});
+
+/***/
+jQuery.validator.addMethod("channel_user_name1Validate", function(value, element) {
+	var channel_code=typeof($("#channel_id").find("option:selected").attr("channel_code"));
+
+    if(channel_code == ""){
+        return true;
+    }
+
+    if (channel_code != "undefined" && channel_code != "alipay" && value=="") {
+        return false;
+    }
+    return true;
+}, "请输入银行开户名");
+
+jQuery.validator.addMethod("owner_card_Validate", function(value, element) {
+    if ($.trim(value) == "") {
+        return false;
+    }
+    return true;
+}, "请输入身份证号");
+
+jQuery.validator.addMethod("owner_card_Validate2", function(value, element) {
+    var idType =$("#idType").find("option:selected").val();
+    if (!checkID($.trim(value), idType)) {
+        return false;
+    }
+    return true;
+}, "请输入正确格式的身份证号");
+
+jQuery.validator.addMethod("channel_user_name2Validate", function(value, element) {
+    var channel_code=typeof($("#channel_id").find("option:selected").attr("channel_code"));
+
+    if(channel_code == ""){
+        return true;
+    }
+
+    if (channel_code != "undefined" && channel_code == "alipay" && value=="") {
+        return false;
+    }
+    return true;
+}, "请输入支付宝帐号真实姓名");
+
+jQuery.validator.addMethod("channel_kahao1Validate", function(value, element) {
+    var channel_code=typeof($("#channel_id").find("option:selected").attr("channel_code"));
+
+    if(channel_code == ""){
+        return true;
+    }
+
+    if (channel_code != "undefined" && channel_code != "alipay" && value=="") {
+        return false;
+    }
+    return true;
+}, "请输入银行卡卡号");
+
+jQuery.validator.addMethod("channel_kahao2Validate", function(value, element) {
+    var channel_code=typeof($("#channel_id").find("option:selected").attr("channel_code"));
+
+    if(channel_code == ""){
+        return true;
+    }
+
+    if (channel_code != "undefined" && channel_code == "alipay" && value=="") {
+        return false;
+    }
+    return true;
+}, "请输入支付宝帐号");
+
+jQuery.validator.addMethod("channel_name2Validate", function(value, element) {
+    var channel_code=typeof($("#channel_id").find("option:selected").attr("channel_code"));
+
+    if(channel_code == ""){
+        return true;
+    }
+
+    if (channel_code != "undefined" && channel_code != "alipay" && value=="") {
+        return false;
+    }
+    return true;
+}, "请输入开户银行支行名称");
+
+jQuery.validator.addMethod("channel_regionValidate", function(value, element) {
+    var channel_code=typeof($("#channel_id").find("option:selected").attr("channel_code"));
+
+    if(channel_code == ""){
+        return true;
+    }
+
+    if ( channel_code != "undefined" && channel_code != "alipay" && value=="") {
+        return false;
+    }
+    return true;
+}, "请选择开户银行所在地");
+/**/
+			
+
+jQuery.validator.addMethod("cateValidate", function(value, element) {
+    if (value == 0) {
+        return false;
+    }
+    return true;
+}, "请选择分类");
+
+jQuery.validator.addMethod("tichengValidate", function(value, element) {
+    if (value == 0 || value == "") {
+        return false;
+    }
+    return true;
+}, "请选择平台使用费");
+
+jQuery.validator.addMethod("shitidianImgValidate", function(value, element) {
+	var seller_type = $("input[name=seller_type]:checked").val();
+    if (value == "" && seller_type ==3) {
+        return false;
+    }
+    return true;
+}, "实体店类型的商家必须上传实体店照片");
+
+function callback_uploadStore(rs){
+	if(rs.flag == "error"){				   
+	   $("#"+rs.error_lbl+"_lbl").html("<font color='red' >"+rs.error_msg+"</font>");
+	   alert(rs.error_msg);	
+	}else if(rs.flag == "ok"){	
+	   <!--{if $smarty.get.act != "service_edit" }-->
+	   document.getElementById("apply_form").reset();
+	   alert("提交商家资料成功");	
+	   <!--{else}-->
+	   alert("修改商家资料成功,请耐心等待审核");	
+	   <!--{/if}-->
+       location = 'index.php?app=service&act=service&p=service';
+	}else{
+		alert("服务器繁忙，请稍后重试！");	
+	}
+	$("#submit_btn").removeAttr("disabled");
+	$('#sava_tr').hideLoading();
+}
+
+function add_uploadedfile(file_data)
+{
+    $('#desc_images').append('<li file_name="'+ file_data.file_name +'" file_path="'+ file_data.file_path +'" ectype="handle_pic" file_id="'+ file_data.file_id +'"><input type="hidden" name="desc_file_id[]" value="'+ file_data.file_id +'"><div class="pic" style="z-index: 2;"><img src="{$site_url}/'+ file_data.file_path +'" width="50" height="50" alt="'+ file_data.file_name +'" /></div><div ectype="handler" class="bg" style="z-index: 3;display:none"><img src="{$site_url}/'+ file_data.file_path +'" width="50" height="50" alt="'+ file_data.file_name +'" /><p class="operation"><a href="javascript:void(0);" class="cut_in" ectype="insert_editor" ecm_title="{$lang.insert_editor}"></a><span class="delete" ectype="drop_image" ecm_title="{$lang.drop}"></span></p><p class="name">'+ file_data.file_name +'</p></div></li>');
+    trigger_uploader();
+    if(EDITOR_SWFU.getStats().files_queued == 0){
+        window.setTimeout(function(){
+            $('#editor_uploader').hide();
+        },5000);
+    }
+}
+function drop_image(file_id)
+{
+    if (confirm(lang.uploadedfile_drop_confirm))
+    {
+        var url = SITE_URL + '/index.php?app=my_store&act=drop_uploadedfile';
+        $.getJSON(url, {'file_id':file_id}, function(data){
+            if (data.done)
+            {
+                $('*[file_id="' + file_id + '"]').remove();
+            }
+            else
+            {
+                alert(data.msg);
+            }
+        });
+    }
+}
+
+//]]>
+</script>
+
+
+            <div style="margin-top:-30px">
+                        <form method="post" enctype="multipart/form-data" id="apply_form" target="uploadStore_iframe">
+                        <input type="hidden" name="if_default"/>
+                        <input type="hidden" name="init_region_name"  value="{$init_user.region_name}"/>
+                        <input type="hidden" name="store_id" id="store_id"  value="{$smarty.get.id}"/>
+                        <table>
+                        	<!--{if $smarty.get.act != 'service_edit' }-->
+                            
+                            <tr>
+                                <th colspan="3"><strong>商家登录信息</strong></th>                               
+                            </tr>
+
+                            <tr>
+                                <th width="95px" class="pdl">用户类型: </th>
+                                <td class="width7">
+                                    <input type="radio" value="1" name="user_type" <!--{if $smarty.get.user_type neq 2}-->checked="checked"<!--{/if}--> checked="checked" onclick="show_input(1)" />还不是会员
+                                    <input type="radio" value="2" name="user_type" <!--{if $smarty.get.user_type eq 2}-->checked="checked"<!--{/if}--> onclick="show_input(2)" />已经是会员
+                                </td>
+                                <td class="padding3"></td>
+                            </tr>
+
+                            <tr>
+                                <th width="80px"  class="pdl">用户名: </th>
+                                <td class="width7"><input type="text" class="text width7 userName" name="user_name_new" autocomplete="off" id="user_name_new" value=""/></td>
+                                <td class="padding3" id="userName_lbl"><span class="fontColor3">*</span> <span class="field_notice">请输入用户名</span></label></td>
+                            </tr>
+
+                            <!--{if $smarty.get.user_type neq 2}-->
+                            <tr>
+                                <th width="80px"  class="pdl">密码: </th>
+                                <td class="width7"><input type="password" class="text width7" name="password" autocomplete="off" id="password" value=""/></td>
+                                <td class="padding3"><span class="fontColor3">*</span> <span class="field_notice">请输入密码</span> <label></label></td>
+                            </tr>
+                            <tr>
+                                <th width="80px" class="pdl">确认密码: </th>
+                                <td class="width7"><input type="password" class="text width7" name="password_confirm" autocomplete="off" id="password_confirm" value=""/></td>
+                                <td class="padding3"><span class="fontColor3">*</span> <span class="field_notice">请输入确认密码</span> <label></label></td>
+                            </tr>
+
+                            <tr>
+                                <th width="95px" class="pdl">邮箱: </th>
+                                <td class="width7"><input type="text" class="text width7" name="email" id="email" value=""/></td>
+                                <td class="padding3"><span class="fontColor3">*</span> <span class="field_notice">请输入邮箱</span> <label></label></td>
+                            </tr>
+                            <!--{/if}-->
+
+                            <tr>
+                                <th  colspan="3"><div style="border-bottom: 1px solid #D8D8D8;">&nbsp;</div></td>
+                            </tr>
+                            
+                            <!--{/if}-->    
+                            
+                            <tr>
+                                <th colspan="3"><strong>商家经营信息</strong></th>                               
+                            </tr> 
+                                                	
+                            <tr>
+                                <th width="95px" class="pdl">商家姓名: </th>
+                                <td class="width7"><input type="text" class="text width7" name="owner_name" value="{$store_info.owner_name}"/></td>
+                                <td class="padding3" id="owner_name_lbl"><span class="fontColor3">*</span> <span class="field_notice">请填写商家的真实姓名。真实姓名不能修改</span></td>
+                            </tr>
+                            <tr>
+                                <th width="95px" class="pdl">身份证号: </th>
+                                <td>
+                                    <select id="idType" name="idType" class="text width7" onchange="showTip(this.value)" style="width: 100px">
+                                        <option value="C">大陆</option>
+                                        <option value="X">香港</option>
+                                        <option value="A">澳门</option>
+                                        <option value="T">台湾</option>
+                                    </select>&nbsp;&nbsp;&nbsp;
+                                    <input type="text" class="text width7" name="owner_card" value="{$store_info.owner_card}" style="width: 187px" />
+                                </td>
+                                <td class="padding3" id="owner_card_lbl"><span class="fontColor3">*</span> <span class="field_notice" id="idTypeLbl">请输入商家的真实身份证号。身份证号为15或18位数</span></td>
+                            </tr>
+                            <tr>
+                                <th width="95px" class="pdl">商家名称: </th>
+                                <td>
+                                    <!--{if $store_info.store_name}-->
+                                    {$store_info.store_name}
+                                    <!--{else}-->
+                                    <input type="text" class="text width7" name="store_name" id="store_name" value="{$store_info.store_name}"/>
+                                    <!--{/if}-->
+
+                                </td>
+                                <td class="padding3" id="store_name_lbl"><span class="fontColor3">*</span> <span class="field_notice">请填写您的店铺名称，此名称将显示给用户</span></td>
+                            </tr>
+                            
+                            
+                              <tr>
+                                <th width="95px" class="pdl">商家类型: </th>
+                                <td>
+                                    <div class='ico_div'>
+                                        <img title="如果是本地生活类请选择：超市、餐饮美食、休闲娱乐、文化生活、丽人、美食特产、家具建材、办公文体、礼品首饰、服饰皮包、中介家政、汽车摩托车
+" src="{$site_url}/themes/mall/default/styles/default/images/help-round.png">
+                                    </div>
+
+                                <input type="radio" name="seller_type" onclick="update_ticheng(0)" value="0" />厂商 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                                <input type="radio" name="seller_type" onclick="update_ticheng(1)" value="1" />代理商 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                                <input type="radio" name="seller_type" onclick="update_ticheng(2)" value="2" />零售商 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                                <input type="radio" name="seller_type" onclick="update_ticheng(3)" value="3" />实体店 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                                </td>
+                                <td class="padding3" id="seller_type_lbl"><span class="fontColor3">*</span >
+                                    <span class="field_notice"></span>
+                                    <span>
+                                        <!--<a href="http://www.dajike.com/index.php?app=article&act=view&article_id=91" target="_blank">《大集客网站入驻佣金比例规则》</a>
+                                        -->
+                                        </span>
+                                </td>
+                            </tr>
+                            
+
+                            <tr class="if_shitidian" style="display:none">
+                                <th class="pdl">实体店内照片：</th>
+                                <td>
+                                    <div id="divSwfuploadContainer" style="width:120px;">
+                                    <div id="divButtonContainer">
+                                        <span id="spanButtonPlaceholder"></span>
+                                    </div>
+                                    <div id="divFileProgressContainer"></div>
+                                    </div>
+                                </td>
+
+                            <td class="padding3" id="shitidian_img_lbl"><span class="fontColor3">*</span ><span class="field_notice">请上传实体店内照片</span></td>
+                            </tr>
+
+                            <tr class="if_shitidian" style="display:none">
+                                <th class="pdl"></th>
+                                <td colspan="2" style="background-color: #F7F7F7;">
+                                    <div class="editor" style="background:none">
+                                        <ul id="desc_images2" class="preview">
+                                            <!--{if !$storeuploadedfile}-->
+                                            <!--{foreach from=$files_store item=file}-->
+                                            <li ectype="handle_pic"  file_path="{$file}" >
+                                                <input type="hidden" name="file_id[]" value="{$file.file_id}">
+                                                <div class="pic">
+                                                    <img src="{$site_url}/{$file}" width="50" height="50" /></div>
+                                                <div ectype="handler" class="bg" style="width: 80px;">
+                                                    <img src="{$site_url}/{$file}" width="50" height="50" />
+                                                    <p class="operation" style="width: 110px;height: 15px">
+                                                    <input type="hidden" name="store_uploaded_file[]" value="{$file}">
+                                                    <input type="radio" name="if_default" value="{$file}" />设为默认
+                                                    <span class="delete" ecm_title="删除"  ectype="drop_image2"></span></p>
+                                                    </p>
+                                                    <p title="{$file|escape}" class="name">{$file|escape}</p>
+                                                </div>
+                                            </li>
+                                            <!--{/foreach}-->
+                                            <!--{else}-->
+                                            <!--{foreach from=$storeuploadedfile item=file}-->
+                                            <li ectype="handle_pic" file_id="{$file.file_id}"  file_path="{$file.file_path}" >
+                                                <input type="hidden" name="file_id[]" value="{$file.file_id}">
+                                                <div class="pic">
+                                                    <img src="{$site_url}/{$file.file_path}" width="50" height="50" /></div>
+                                                <div ectype="handler" class="bg" style="width: 80px;">
+                                                    <img src="{$site_url}/{$file.file_path}" width="50" height="50" />
+                                                    <p class="operation" style="width: 110px;height: 15px">
+                                                        <input type="radio" name="if_default" value="{$file.file_path}" <!--{if $file.if_default eq 1}-->checked="checked"<!--{/if}--> />设为默认
+                                                        <span class="delete" ecm_title="删除"  ectype="drop_image3"></span></p>
+                                                    </p>
+                                                </div>
+                                            </li>
+                                            <!--{/foreach}-->
+                                            <!--{/if}-->
+                                        </ul>
+                                   </div>
+
+                                    <!--{if $store_info.seller_type || $store_info.seller_type eq 0}-->
+                                    <script>
+                                        $(":radio[name='seller_type'][value='{$store_info.seller_type}']").attr("checked",true);
+                                        <!--{if $store_info.seller_type eq 3}-->
+                                        $(".if_shitidian").css("display","");
+                                        <!--{/if}-->
+                                    </script>
+                                    <!--{/if}-->
+
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <th width="95px" class="pdl">所属分类: </th>
+                                <td>
+                                     <div class="select_add">
+                                     <select name="cate_id" id="cate_id" onchange="update_scategory_id(this.value)">
+                                    <option value="0">{$lang.select_pls}</option>
+                                    {html_options2 options=$scategories  selected=$store_info.cate_id}
+                                    </select>
+                                    
+                                    <select name="cate_id_tmp" id="cate_id_tmp" style="display:none">
+                                    <option value="0">{$lang.select_pls}</option>
+                                    {html_options2 options=$scategories selected=$scategory.cate_id}
+                                    </select>
+                                    </div>
+
+                                </td>
+                                <td class="padding3" id="cate_id_lbl"><span class="fontColor3">*</span> <span class="field_notice">请选择所属分类，商家所属分类不同，其比例相应变化</span></td>
+                            </tr>
+                            
+                            <tr id="ticheng_show" <!--{if $store.seller_type != 3 }--> style="display:none" <!--{/if}-->>
+                                <th width="95px" class="pdl">平台使用费
+                                : </th>
+                                <td>
+                                	<div class='ico_div'><img src="{$site_url}/themes/mall/default/styles/default/images/help-round.png" title="指大集客网上商城的销售所应得到的，并按照相应比例获得的费用提成。比例为35%以上的服务中心方可享受开单权！" /></div>
+                                    <select name="ticheng" id="ticheng">
+
+                                        <!--{if $store_info.ticheng2}-->
+                                        <option value="{$store_info.ticheng2}"selected="selected">{$store_info.ticheng2}%</option>
+                                        <!--{else}-->
+                                            <!--{if $init_tichengs2}-->
+                                            <!--{foreach from=$init_tichengs2 item=tichengs key=tichengKey}-->
+                                            <!--{foreach from=$tichengs item=ticheng2 key=tichengKey2}-->
+                                            <option value="{$ticheng2}"
+                                            <!--{if $ticheng2==$store_info.ticheng2}-->selected="selected"<!--{/if}-->
+                                            >{$ticheng2}%</option>
+                                            <!--{/foreach}-->
+                                            <!--{/foreach}-->
+                                            <!--{/if}-->
+                                        <!--{/if}-->
+
+
+                                    </select>
+                                </td>
+                                <td class="padding3" id="ticheng_lbl"><span class="fontColor3">*</span> <span class="field_notice">请先选择所属分类。比例越高商品排名越靠前</span></td>
+                            </tr>
+                            
+                            <tr>
+                                <th width="95px" class="pdl">所在地区:</th>
+                                <td>
+
+                                	   <!--{if !$init_user.region_name}-->	
+                                       		      <div class="select_add" id="region" style="width:360px; display: inline">
+                                                    <input type="hidden" id="region_id" name="region_id" value="{$store_info.region_id}" class="mls_id" />
+                                                    <input type="hidden" id="region_name" name="region_name" value="{$store_info.region_name}" class="mls_names" />
+                                                    {if $store_info.region_name}
+                                                    <span>{$store_info.region_name|escape}</span>
+                                                    <input type="button" value="{$lang.edit}" class="edit_region" />
+                                                    {/if}
+                                                    <select class="d_inline"{if $store_info.region_name} style="display:none;"{/if}>
+                                                    <option value="0">--选择地区--</option>
+                                                    {html_options options=$regions}
+                                                    </select>
+                                                </div>                                           
+                                       <!--{else}-->
+                                        <div class="select_add" id="region" style="width:360px;border:1px solide red;">
+                                            {$user.region_name}
+                                            <input name="region_name"    value="{$user.region_name}" type="hidden" />
+                                            <input name="region_id"    value="{$user.region_id}"      type="hidden" />
+                                        </div>
+                                       <!--{/if}-->  
+                                </td>
+                                <td class="padding3"><span class="fontColor3">*</span> <span class="field_notice">请选择商家所在地区必须选到最后一级</span></td>
+                            </tr>
+                            <tr>
+                                <th width="95px" class="pdl">详细地址: </th>
+                                <td><input type="text" class="text width7" name="address" value="{$store_info.address}"/></td>
+                                <td class="padding3" id="address_lbl"><span class="fontColor3">*</span><span class="field_notice">请填写详细路名及门牌号</span></td>
+                            </tr>
+                            <tr>
+                                <th width="95px" class="pdl">邮政编码: </th>
+                                <td><input type="text" class="text width7" name="zipcode" value="{$store_info.zipcode}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" /></td>
+                                <td class="padding3" id="zipcode_lbl"><span class="fontColor3"></span><span class="field_notice">请填写商家所在地区的邮政编码</span></td>
+                            </tr>
+                            <tr>
+                                <th width="95px" class="pdl">联系电话: </th>
+                                <td>
+                                    <input type="text" class="text width7" name="tel"  value="{$store_info.tel}"/>
+                                </td>
+                                <td class="padding3" id="tel_lbl"><span class="fontColor3">*</span> <span class="field_notice">请填写该商家联系方式，固定电话或手机号码</span></td>
+                            </tr>
+
+                            <tr>
+                                <th width="95px" class="pdl">营业执照全称: </th>
+                                <td>
+                                    <input type="text" class="text width7" name="yyzz" id="yyzz"  value="{$store_info.yyzz}"/>
+                                </td>
+                                <td class="padding3" id="yyzz_lbl"><span class="fontColor3">*</span> <span class="field_notice">请输入营业执照企业名称，个体工商户请输入字号名称（4-20位）</span></td>
+                            </tr>
+
+                            <!--{if !$store_info}-->
+                            <tr>
+                                <th width="95px" class="pdl">上传手持身份证扫描: </th>
+                                <td>
+                                <div class='ico_div'>
+<img title="支持格式jpg,jpeg,png,gif，请保证图片清晰且文件大小不超过400KB
+" src="{$site_url}/themes/mall/default/styles/default/images/help-round.png">
+</div>
+                                <input type="file" name="image_1" />&nbsp;&nbsp;<a href="{$site_url}/themes/mall/default/styles/default/images/scshenfenzheng.jpg" target="_blank">扫描模板</a>
+                                
+                                </td>
+                                <td class="padding3" id="image_1_lbl"><span class="fontColor3">*</span><span class="field_notice">请上传手持个人身份证正面照（扫描件或彩照）</span></td>
+                            </tr>
+                            <tr>
+                                <th width="95px" class="pdl">上传营业执照: </th>
+                                <td>
+                                <div class='ico_div'>
+<img title="支持格式jpg,jpeg,png,gif，请保证图片清晰且文件大小不超过400KB
+" src="{$site_url}/themes/mall/default/styles/default/images/help-round.png"/></div>
+                                <input type="file" name="image_2" />                                
+                                </td>
+                                <td class="padding3" id="image_2_lbl"><span class="fontColor3">*</span><span class="field_notice">请上传已加盖公章的营业执照复印件</span></td>
+                            </tr>
+
+                            <!--{/if}-->
+                            <!--{if $tuoguan}-->
+                            <input type="hidden" name="tuoguan" value="1"/>
+                            <!--{/if}-->
+
+
+
+                            <tr>
+                                <th class="pdl">店铺简短描述：</th>
+                                <td width="272"><textarea id="description2" name="description2" style="width:310px; height:100px" maxlength="150" >{$store_info.description2}</textarea></td>
+                                <td class="padding3" id="description2_lbl"><span class="fontColor3">*</span><span class="field_notice">最多只能输入150个字符
+</span></td>
+                            </tr>
+                            
+                            
+                     		<!--{if $smarty.get.act != 'service_edit' }-->
+                            <!--{if $smarty.get.tuoguan eq 1}-->
+                            
+                            <tr>
+                                <th  colspan="3"><div style="border-bottom: 1px solid #D8D8D8;">&nbsp;</div></td>
+                            </tr>
+                            
+                            <tr>
+                                <th colspan="3"><strong>商家结算信息</strong></th>                               
+                            </tr> 
+                                   
+                          	
+                            
+                            <tr>
+                                <th  colspan="3">
+                                <div class="show_alert" style="color:#FF0000">
+                            		<img src="{$site_url}/themes/mall/default/styles/default/images/alert-round.png">注：以下信息皆为商家结算信息，请确保填入信息为商家所有，否则影响商家资金结算(非必填)。
+                        		</div>
+                                </td>
+                            </tr>  
+                            <tr>
+                                <th width="95px" class="pdl">开户银行名称: </th>
+                                <td>
+                                	<select name="channel_id" id="channel_id" onchange="showbank(this)">
+                                    <option value="">请选择开户行名称</option>
+                                    <!--{if $channels}-->
+                                    <!--{foreach from=$channels item=channel}-->  
+                                    <option value="{$channel.channel_id}" channel_code='{$channel.channel_code}'>{$channel.channel_name}</option>
+                                    <!--{/foreach}-->
+                                    <!--{else}-->
+                                    <option value="">没有找到银行信息</option>
+                                    <!--{/if}-->
+                                    </select>
+                                </td>
+                                <td class="padding3" id="channel_id_lbl"><span class="fontColor3">*</span> <span class="field_notice">请选择商家的开户银行名称</span></td>
+                            </tr>
+                            <tr>
+                                <th width="95px" class="pdl bank_name_lbl">银行开户名: </th>
+                                <td>
+                                    <input type="text" class="text width7" name="channel_user_name" id="channel_user_name"  />
+                                </td>
+                                <td class="padding3" id="channel_user_name_lbl"><span class="fontColor3">*</span> <span class="field_notice">请填写商家的银行开户名。银行开户名必须与营业执照上公司名称相同</span></td>
+                            </tr>
+                            <tr>
+                                <th width="95px" class="pdl channel_kahao_lbl">银行卡卡号: </th>
+                                <td>
+                                    <input type="text" class="text width7" name="channel_kahao" id="channel_kahao"  />
+                                </td>
+                                <td class="padding3" id="channel_kahao_lbl"><span class="fontColor3">*</span> <span class="field_notice">请填写以商家自己真实姓名开户的银行卡卡号</span></td>
+                            </tr>
+                            <tr class="bank_tr">
+                                <th width="95px" class="pdl">开户银行支行名称: </th>
+                                <td>
+                                    <input type="text" class="text width7" name="channel_name2" id="channel_name2"  />
+                                </td>
+                                <td class="padding3" id="channel_name2_lbl"><span class="fontColor3">*</span> <span class="field_notice">请填写商家的开户银行支行名称</span></td>
+                            </tr>
+                            <tr class="bank_tr">
+                                <th width="95px" class="pdl">开户银行所在地: </th>
+                                <td>
+                               <div class="select_add" id="channel_region" style="width:360px; display: inline">
+                                                    <input type="hidden" name="channel_region_id" id="channel_region_id"   />
+                                                    <input type="hidden" name="channel_region_name" id="channel_region_name"  />
+                                                    {if $store_info.region_name}
+                                                    <span>{$store_info.region_name|escape}</span>
+                                                    <input type="button" value="{$lang.edit}" class="edit_region" />
+                                                    {/if}
+                                                    <select class="d_inline"{if $store_info.region_name} style="display:none;"{/if}>
+                                                    <option value="0">--选择地区--</option>
+                                                    {html_options options=$regions}
+                                                    </select>
+                                                </div>     
+                                </td>
+                                <td class="padding3" id="channel_region_lbl"><span class="fontColor3">*</span> <span class="field_notice"></span></td>
+                            </tr>
+                            <!--{/if}-->
+                            <!--{/if}-->
+                            
+                            <tr id="sava_tr">
+                                <td colspan="3">
+                                    <p class="padding4">
+                                    <!--{if $smarty.get.tuoguan==1}-->
+                                    <!--{if $smarty.get.act == 'service_edit' }-->
+                                    <div style="color: red;margin-left: 153px;">提示：服务中心修改商家资料以后需要重新审核</div><br>
+                                    <!--{/if}-->
+                                    <!--{/if}-->
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="submit_btn" name="submit_btn" class="btn3" style="margin-left: 130px;" type="submit" value="<!--{if $smarty.get.tuoguan==1}--><!--{if $smarty.get.act == 'service_edit' }-->修改<!--{else}-->新增<!--{/if}-->托管商家<!--{else}--><!--{if $smarty.get.act == 'service_edit' }-->修改<!--{else}-->新增<!--{/if}-->本区商家<!--{/if}-->" />
+                                    </p></td>
+                            </tr>
+                        </table>
+                        </form>
+                </div>
+
+
+					</div>
+				  <!-- 服务中心 对应的 店铺 列表 结束 -->
+                </div>
+                </div>
+
+            </div>
+            <div class="wrap_bottom"></div>
+        </div>
+
+        <div class="clear"></div>
+
+    </div>
+    <div class="clear"></div>
+</div>
+<iframe name="uploadStore_iframe" id="uploadStore_iframe" style="display:none" ></iframe>
+<script>
+
+    function showTip (idType) {
+        getTips(idType,"idTypeLbl");
+    }
+    showTip ("C");
+
+ <!--{if $scategories_ticheng}-->
+        var ticheng = Array();
+        <!--{foreach from=$scategories_ticheng item=scate key=scatekey}-->
+        //ticheng[{$scatekey}]="{$scate.min_ticheng}";
+		ticheng[{$scatekey}]=Array('{$scate.changshang_ticheng|number2}','{$scate.dailishang_ticheng|number2}','{$scate.lingshoushang_ticheng|number2}','{$scate.shitidian_ticheng|number2}');
+        <!--{/foreach}-->
+        <!--{/if}-->
+		
+		
+		var ticheng_type = "changshang_ticheng";
+		var ticheng_state = 0;
+		var scategory_id=0;
+		function update_scategory_id(id){
+			$("#cate_id_lbl").html("");
+			if(id>0){
+				var min_ticheng=ticheng[id][ticheng_state]*100;				
+				document.getElementById("ticheng").options.length=0; 
+				var child_length = $("#cate_id").find("option[parent_id="+id+"]").length;
+				if(child_length >0 ){
+					scategory_id = "";
+                    document.getElementById("cate_id").options.length=1;
+                    $("input[name='seller_type']").attr("checked",false);
+					$("#cate_lbl").html("<font color='red' >所属分类必须选择到子分类</font>");
+				}else{				
+					var tmp_ticheng = 5;
+					if(min_ticheng<tmp_ticheng){
+						min_ticheng=	tmp_ticheng;
+					}
+					
+					for(var i=min_ticheng;i<=85;i++){
+							document.getElementById("ticheng").options.add(new Option(i.toPrecision(2)+"%",i.toPrecision(2)));
+					}
+				}
+			}
+			
+		}
+
+        function update_ticheng(val){
+            var cate_id_tmp = $("#cate_id_tmp").find("option");
+			$(".if_shitidian").css("display","none");
+			ticheng_state = val;
+            $("#cate_id").html($("#cate_id_tmp").html());            
+			if(val == "0" ){
+				ticheng_type = "changshang_ticheng";
+                $("#ticheng_show").hide();
+			} 
+			else if(val == "1" ){
+				ticheng_type = "dailishang_ticheng";
+                $("#ticheng_show").hide();
+			}
+			else if(val == "2" ){
+				ticheng_type = "lingshoushang_ticheng";
+                $("#ticheng_show").hide();
+			}
+			else if(val == "3" ){
+				ticheng_type = "shitidian_ticheng";
+				$(".if_shitidian").css("display","");
+                $("#ticheng_show").show();
+			}
+
+			$("#cate_id option").each(function() {
+                var child_length1 = $("#cate_id_tmp").find("option[parent_id="+$(this).attr("value")+"]").length;
+                var child_length2 = $("#cate_id").find("option[parent_id="+$(this).attr("value")+"]").length;
+                if ((child_length1 == 0 && $(this).attr(ticheng_type) == 0.00 ) || (child_length2 == 0 && child_length1 > 0)) {
+                    $(this).remove();
+                }
+			});
+
+            $("#cate_id option").each(function() {
+                var child_length1 = $("#cate_id_tmp").find("option[parent_id="+$(this).attr("value")+"]").length;
+                var child_length2 = $("#cate_id").find("option[parent_id="+$(this).attr("value")+"]").length;
+                if ((child_length1 == 0 && $(this).attr(ticheng_type) == 0.00 ) || (child_length2 == 0 && child_length1 > 0)) {
+                    $(this).remove();
+                }
+            });
+
+        }
+		function showbank(obj){
+		   if(obj==""){
+		   	 return;
+		   }
+		   var channel_code=$("#channel_id").find("option:selected").attr("channel_code"); 
+		   if(channel_code =="alipay"){
+		   	  $(".bank_tr").css("display","none");
+			  $(".bank_name_lbl").html("支付宝帐号真实姓名");
+			  $(".channel_kahao_lbl").html("支付宝帐号");
+		   }else{
+		      $(".bank_tr").css("display","");
+			  $(".bank_name_lbl").html("银行开户名");
+			  $(".channel_kahao_lbl").html("银行卡卡号");
+		   }
+		}
+
+     function show_input(val){
+         if(val == ""){
+             return;
+         }
+         location = "index.php?app=service&act=uploadStore&tuoguan=1&user_type="+val;
+     }
+
+</script>
+<div id="msg2"></div>
+{include file=footer.html}

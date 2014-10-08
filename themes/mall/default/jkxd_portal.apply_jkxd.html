@@ -1,0 +1,186 @@
+<script type="text/javascript" src="{res file=js/jquery-1.6.2.min.js}"></script>
+<script type="text/javascript">
+    function apply(user_id){
+        var user_name = $("#user_name").val();
+        var shop_name = $("#shop_name").val();
+        var password= $("#password").val();
+
+        //未登录的用户，判断是否输入用户名和密码
+        if(!user_id || user_id == "" || typeof user_id =="undefined"){
+            //判断是否填了用户名
+            if(user_name ==null || user_name == ''){
+                alert("请输入会员账号！");
+                return;
+            }
+            //判断是否填了密码
+            if(password == null || password == ""){
+                alert("请输入登录密码!");
+                return;
+            }else if(trim(password) == ""){
+                alert("登录密码不能为空!");
+                return;
+            }
+            //判断是否填写好店铺名称
+            if(shop_name == null || shop_name == ""){
+                alert("请输入你的集客小店店铺名称!");
+                return;
+            }
+            //判断是否填写好店铺名称
+            if(!document.getElementById("protocol_form").checked){
+                alert("您必须阅读并同意该协议,否则无法申请");
+                return;
+            }
+            //检测用户名是否存在
+//            $.get('index.php?app=jkxd_portal&act=checkUserName&user_name='+user_name,function(data){
+//                data = eval("("+data+")");
+//                if(data.retval != 'ok'){
+//                    alert(data.retval);
+//                }
+//            });
+        }
+        //判断是否填写好店铺名称
+        if(shop_name == null || shop_name == ""){
+            alert("请输入你的集客小店店铺名称!");
+            return;
+        }else{
+            //是否勾选集客小店协议
+            if(!document.getElementById("protocol_form").checked){
+                alert("您必须阅读并同意该协议,否则无法申请");
+                return;
+            }else{
+                $.get('index.php?app=jkxd_portal&act=checkShopName&shop_name='+shop_name,function(data){
+                    data = parseInt(data)
+                    if(data > 0){
+                        alert("该集客小店店铺名已被使用");
+                        $("#shop_name").val("");
+                    }
+                });
+            }
+
+        }
+
+        //申请集客小店
+        if(user_name != ''&& user_name != null && shop_name !='' && shop_name !=null){
+            $.post('index.php?app=jkxd_portal&act=apply',
+                    {user_name:user_name,password:password,shop_name:shop_name},
+                    function(data){
+                        data= eval("("+data+")");
+                        if( data.retval > 0){
+                            //该账号已经开通过集客小店
+                            if(parseInt(data.msg)==1){
+                                alert('该账号已经申请过集客小店!');
+                                window.location="index.php?app=jkxd_portal&act=my_jkxd&id="+data.retval;
+                            }else{
+                                DialogManager.close('apply_jkxd_page');
+                                apply_success(data.retval);
+                            }
+                        }else{
+                            alert(data.msg);
+                        }
+                    }
+            );
+        }else{
+            alert("会员账号和集客小店店铺名不能为空!");
+        }
+    }
+
+</script>
+<div class="danchu">
+    <h2>申请开通集客小店</h2>
+    <div class="lst">
+        {if !$user}
+        <div class="left">
+            <script type="text/javascript">
+                function qq_apply(){
+                    if(document.getElementById('protocol').checked){
+                        window.location.href='{$site_url}/index.php?app=jkxd_portal&act=qq_apply&shopOwnerId={$shopOwnerId}';
+                    }else{
+                        alert("您必须阅读并同意该协议,否则无法申请");
+                        return;
+                    }
+                }
+            </script>
+            <div class="fl1">申请方式一：QQ一键登录</div>
+            <div class="fl2" style="width: 220px;">
+                <input type="checkbox" id="protocol">
+                我已阅读并同意<a href="http://www.dajike.com/index.php?app=article&act=view&article_id=89" target="_blank" style="color: #1d5b9f;">《集客小店协议》</a>
+            </div>
+            <div class="fl2">
+                <a href="javascript:qq_apply()">
+                <img src="{res file=images/shop_pic10_1.jpg}" width="170" height="32" />
+                </a>
+            </div>
+            <div class="fl3">您的QQ昵称即您的集客小店的店铺名称。</div>
+        </div>
+        {else}
+            <script type="text/javascript">
+                $(".danchu .lst").css({"width":548});
+                $(".right .fl2").css({"width":548});
+            </script>
+        {/if}
+
+        <div class="right">
+            <div class="fl1">{if !$user}申请方式二：会员登录{/if}</div>
+            <div class="fl2">
+                <form id="apply_jkxd" method="post" action="index.php?app=jkxd_portal&act=apply">
+                    <input type="hidden" name="shopOwnerId" value="{$shopOwnerId}"/>
+                <ul>
+                    {if $user }
+                        <li style="display:none">
+                            <span class="sp1">邮箱/手机/用户名：</span>
+                            <span class="sp2"><input name="user_name" id="user_name" readonly="readonly" value="{$user.user_name}"  type="text" class="ipp"/></span>
+                        </li>
+                    {else}
+                        <li>
+                            <span class="sp1">邮箱/手机/用户名：</span>
+                            <span class="sp2"><input name="user_name" id="user_name" type="text" class="ipp" /></span>
+                        </li>
+                        <li>
+                            <span class="sp1">密&nbsp;&nbsp;&nbsp;&nbsp;码：</span>
+                            <span class="sp2"><input name="password" id="password" type="password" class="ipp"/></span>
+                        </li>
+                    {/if}
+                    <li>
+                        <span class="sp1" {if $user} style="font-size:20px;width:250px;"{/if}>集客小店店铺名：</span>
+                        <span class="sp2" {if $user} style="font-size:20px;width:250px;"{/if}><input name="shop_name" id="shop_name" type="text" class="ipp"/></span>
+                    </li>
+                    <li>
+                        <div class="fl2" {if $user} style="text-align:center;padding-top:20px;"{else}style="width: 220px;margin-left:auto;margin-right:auto"{/if}>
+                            <input type="checkbox" id="protocol_form" checked="checked">
+                            我已阅读并同意<a href="http://www.dajike.com/index.php?app=article&act=view&article_id=89" target="_blank" style="color: #1d5b9f;">《集客小店协议》</a>
+                        </div>
+                    </li>
+                    <li style=" margin-top:10px;">
+                        <span class="sp1"></span>
+                        <span class="sp2" {if $user}style="text-align:center;width:548px;padding-top:20px;"{/if}>
+                            <input name="" id="submit" type="button" value="申请开通" class="btt" onclick="apply('{$user.user_id}')" {if $user}style="height:45px;width:115px;font-size:18px;"{/if} />
+                        </span>
+                    </li>
+                    {if !$user}
+                        <li style="height: 10px;width:300px;padding-top: 50px;text-align: center">
+                                <span  style="margin-right: auto;margin-left: auto;padding-left: 10px;padding-top: 10px;font-size:20px;font-weight:bolder">
+                                    <a href="/index.php?app=member&act=register">还不是会员?点击注册!</a>
+                                </span>
+                            <span class="sp2"></span>
+                        </li>
+                    {/if}
+                </ul>
+                </form>
+            </div>
+            {if $user}
+            <div class="fl3"></div>
+            {/if}
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function apply_success(user_id){
+        var uri =encodeURI("index.php?app=jkxd_portal&act=apply_success&id="+user_id);
+        var id = 'apply_success_page';
+        var title = "成功开通集客小店";
+        var width = '755';
+        ajax_form(id, title, uri, width);
+    }
+</script>

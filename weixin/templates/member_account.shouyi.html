@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>收益查询</title>
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/binding.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{$SITE_URL}/weixin/templates/js/jquery-1.6.2.min.js"></script>
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            var type= "{$type}";
+//            alert(type+"_"+typeof type+"_length:"+type.length);
+            if(type=='income'){
+                $(".Integra2-4").css({"background":"none repeat scroll 0 0 #ECECEC","color":"#333333"});
+                $(".Integra2-5").css({"background":"none repeat scroll 0 0 #FFFFFF","color":"#C40000"});
+                $(".Integra2-6").css({"background":"none repeat scroll 0 0 #ECECEC","color":"#333333"});
+            }else if(type=='pay'){
+                $(".Integra2-4").css({"background":"none repeat scroll 0 0 #ECECEC","color":"#333333"});
+                $(".Integra2-5").css({"background":"none repeat scroll 0 0 #ECECEC","color":"#333333"});
+                $(".Integra2-6").css({"background":"none repeat scroll 0 0 #FFFFFF","color":"#C40000"});
+            }else{
+                $(".Integra2-4").css({"background":"none repeat scroll 0 0 #FFFFFF","color":"#C40000"});
+                $(".Integra2-5").css({"background":"none repeat scroll 0 0 #ECECEC","color":"#333333"});
+                $(".Integra2-6").css({"background":"none repeat scroll 0 0 #ECECEC","color":"#333333"});
+            }
+        });
+        function tixian(shouyi){
+            if(!shouyi || shouyi==null || shouyi=="" || typeof shouyi =="undefined" ||shouyi < 100){
+                alert("收益不足100，不能提现!");
+            }else{
+                window.location='{$site_url}/weixin/index.php?app=member_account&act=tixianPage&type=1';
+            }
+        }
+    </script>
+</head>
+<body>
+<div style="width: 320px;margin: 0px auto">
+    <div style="padding-top: 50px;">
+
+<div class="address-t">
+    <div class="address-l"><a href="javascript:history.go(-1)">返回</a></div>
+    <div class="address-c2" style="padding-left: 55px;">收益查询</div>
+    {include file=member.index_header.html}
+</div>
+<div class="binding-cen">
+
+        <div class="earnings">
+            <div class="earnings-l">
+                <p>总收益额：<strong>￥{if !$userFinance.koushui_yue|number2}0{else}{$userFinance.koushui_yue|number2}{/if}</strong></p>
+            </div>
+            {if $flag}
+                <div class="earnings-r"><a href="javascript:void(0)" onclick="tixian('{$userFinance.koushui_yue}')">我要提现</a></div>
+            {/if}
+        </div>
+    <div class="Integra2">
+        <!--<a href="{$site_url}/weixin/index.php?app=member_account&act=shouyi&status=1"><div class="Integra2-1">近一个月的收益</div></a>-->
+        <!--<a href="{$site_url}/weixin/index.php?app=member_account&act=shouyi&status=2"><div class="Integra2-2">一个月前的收益</div></a>-->
+        <div class="Integra2-4"><a href="{$site_url}/weixin/index.php?app=member_account&act=shouyi&shop_type={$shop_type}">全部</a></div>
+        <div class="Integra2-5"><a href="{$site_url}/weixin/index.php?app=member_account&act=shouyi&shop_type={$shop_type}&type=income">获取</a></div>
+        <div class="Integra2-6"><a href="{$site_url}/weixin/index.php?app=member_account&act=shouyi&shop_type={$shop_type}&type=pay">支出</a></div>
+    </div>
+    <div class="Integra3-t">
+        {if $shouyi && count($shouyi) > 0}
+        {foreach from=$shouyi item=sy}
+            <!--<div class="Integra3-1">-->
+                <!--<div class="Integra3-11">￥{$sy.jine|number2}</div>-->
+                <!--<div class="Integra3-22">-->
+                    <!--<p>订单编号</p>-->
+                    <!--<p>{$sy.order_sn}</p>-->
+                <!--</div>-->
+                <!--<div class="Integra3-33">-->
+                    <!--<p>订单金额</p>-->
+                    <!--<p>￥{$sy.order_info.order_amount|number2}</p>-->
+                <!--</div>-->
+                <!--<div class="Integra3-44">-->
+                    <!--<p></p>-->
+                    <!--<p>{$sy.create_time}</p>-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <div class="Integra3-1">
+                <div class="Integra3-11">￥{$sy.jine|number2}</div>
+                <div style="padding-top: 5px;">
+                    订单编号:&nbsp;&nbsp;{$sy.order_sn}
+                </div>
+                <div style="padding-top: 5px;">
+                    订单金额:&nbsp;&nbsp;￥{$sy.order_info.order_amount|number2}
+                </div>
+                <div style="padding-top: 5px;" >
+                    下单时间:&nbsp;&nbsp;{$sy.create_time}
+                </div>
+            </div>
+        {/foreach}
+        {else}
+        <div class="Integra3-1" style="text-align: center;line-height: 80px;">没有查询到相关数据！</div>
+
+        {/if}
+    </div>
+</div>
+    </div>
+</div>
+{include file=cnzz.html}
+</body>
+</html>

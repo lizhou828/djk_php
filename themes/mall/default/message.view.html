@@ -1,0 +1,58 @@
+{include file=member.header.html}
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right">
+        {include file=member.submenu.html}
+        <div class="wrap">
+            <div class="public">
+                
+               	    <h2>
+                     
+                        <a style="color:#FF6600; font-size:13px; float:right" href="javascript:drop_confirm('您确定要删除它吗？', 'index.php?app=message&amp;act=drop_relate&amp;back=systempm&amp;msg_id=452');">删除</a>    				
+                    </h2>
+                
+                  <div class="message_con">
+                        <div class="user">
+                            <p><img src="{$message.portrait}" width="50" height="50" alt="" /></p>
+                            <h3><span>{$message.user_name|escape}</span><br />{$message.add_time|date:Y-m-d H:i}</h3>
+                        </div>
+                        <div class="txt">{$message.content|modifier:short_msg_filter}</div>
+                    </div>
+                
+                   
+                   <!--{if $box eq 'privatepm'}-->
+                    <!--{foreach from=$replies item=reply}-->
+                    <div class="message_con">
+                        <div class="user">
+                            <p><img src="{$reply.portrait}" width="50" height="50" alt="" /></p>
+                            <h3><span>{$reply.user_name|escape}</span><br />{$reply.add_time|date:Y-m-d H:i}</h3>
+                        </div>
+                        <div class="txt">{$reply.content|modifier:short_msg_filter}</div>
+                    </div>
+                    <!--{/foreach}-->
+                    <!--{/if}-->
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </div>
+            
+        </div>
+        <div class="clear"></div>
+        <div class="adorn_right1"></div>
+        <div class="adorn_right2"></div>
+        <div class="adorn_right3"></div>
+        <div class="adorn_right4"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+{include file=footer.html}

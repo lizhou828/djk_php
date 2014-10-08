@@ -1,0 +1,34 @@
+{include file="header.html"}
+{include file="common.html"}
+<script type="text/javascript" src="{lib file=red_aa.js}"></script>
+<script type="text/javascript">
+    var pageSize = 10;
+    var k = 0;
+    function replace1(){
+        var start = $('#start').val();
+        var end = $('#end').val();
+        var size = end - start;
+        var page = size/pageSize;
+        if(size%pageSize != 0){
+            page = page + 1;
+        }
+        setInterval( function post(){
+            if(k >= page){return;}
+            var start1 = parseInt(start) + parseInt((k * pageSize));
+            $.post("index.php?app=goods&act=replace_goods_desImg", {start:start1,end:pageSize});
+            k++;
+        }, 10 * 6000);
+    }
+
+</script>
+商品描述图片抓取<br><br><br>
+
+第<input type="text" name="start" id="start">条开始;
+替换<input type="text" name="end" id="end">条;(总共{$count}条)
+<input type="button" value="替换" onclick="replace1();">
+
+<!--<form action="index.php?app=goods&act=replace_goods_desImg" method="post">-->
+    <!--第<input type="text" name="start">条开始;-->
+    <!--压缩<input type="text" name="end">条;-->
+    <!--<input type="submit" value="确定">-->
+<!--</form>-->

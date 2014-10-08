@@ -1,0 +1,75 @@
+{include file=member.header.html}
+<script type="text/javascript">
+$(function(){
+    $('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+    $('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+});
+</script>
+<style type="text/css">
+.float_right {float: right;}
+</style>
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right">
+         <ul class="tab">
+            <li class="active" >售后管理</li>
+		</ul>
+        <div class="wrap">
+            <div class="public">
+            
+                <center><div id="warning" name="warning" style="margin-top: 10px; margin-bottom: 10px"></div></center>
+                <div class="dp">店铺名：<a href="#">{$order.store_name|escape}</a></div>
+                                <div class="ble"><table width="766" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="108" align="center" bgcolor="#f3f3f3" style="color:#333;">订单号</td>
+                    <td width="475" height="30" align="center" bgcolor="#f3f3f3" style="color:#333;">订单商品</td>
+                    <td width="87" align="center" bgcolor="#f3f3f3" style="color:#333;">&nbsp;</td>
+                    <td width="96" align="center" bgcolor="#f3f3f3" style="color:#333;">时间</td>
+                  </tr>
+                  <tr>
+                    <td align="center" style=" padding-left:8px;"><a href="#" style="font-weight:bold; color:#666">{$order.order_sn}</a></td>
+                    <td height="90">
+                    
+                    <!--{foreach from=$goods_list item=goods}-->
+                    <dl class="sp1">
+                    <dd>
+                    <a href="index.php?app=goods&id={$goods.goods_id}" target="_blank" title="{$goods.goods_name|escape}">
+<img width="60px" height="60px" title="1223" style="border: 0px" src="{$site_url}/{$goods.goods_image}">
+</a>
+                    </dd>
+                    <dt>
+                    <!--{if $goods.shouhouFlg && $goods.shouhou_id}-->
+                    <a href="index.php?app={$smarty.get.app}&act=shouhou&order_id={$order.order_id}&goods_id={$goods.goods_id}&shouhou_id={$goods.shouhou_id}" style="color:#000099">售后处理中</a></dt>
+                    <!--{else}-->
+                    <a href="index.php?app={$smarty.get.app}&act=shouhou&order_id={$order.order_id}&goods_id={$goods.goods_id}">申请退换货</a></dt>
+                    <!--{/if}-->  
+                    </dl>
+                    <!--{/foreach}-->
+                   
+                    </td>
+                    <td align="center" style="font-weight:bold; color:#333">&nbsp;</td>
+                    <td align="center"><span style="color:#999">{$order.order_add_time|date:complete}</span></td>
+                  </tr>
+                </table>
+                </div>
+                
+             
+           
+           
+
+            <div class="wrap_bottom"></div>
+        </div>
+        <div class="clear"></div>
+        <div class="adorn_right1"></div>
+        <div class="adorn_right2"></div>
+        <div class="adorn_right3"></div>
+        <div class="adorn_right4"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+
+
+
+<iframe id='iframe_post' name="iframe_post" src="about:blank" frameborder="0" width="0" height="0"></iframe>
+{include file=footer.html}

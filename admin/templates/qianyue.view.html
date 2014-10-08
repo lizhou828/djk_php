@@ -1,0 +1,93 @@
+{include file="header.html"}
+<style>
+.formbtn{ cursor:pointer}
+</style>
+<div id="rightTop"> 
+  <ul class="subnav">
+    <li><a class="btn1" href="javascript:history.go(-1)">返回上页</a></li>   
+  </ul>
+</div>
+<div class="info">
+  <form method="post" enctype="multipart/form-data">
+    <table class="infoTable">      
+      </tr>
+      <tr>
+        <th class="paddingT15">申请时间:</th>
+        <td class="paddingT15 wordSpacing5">{$data.add_time}</td>
+      </tr>
+      <tr>
+        <th class="paddingT15">申请人姓名:</th>
+        <td class="paddingT15 wordSpacing5">{$data.user_name|escape}</td>
+      </tr>
+      <tr>
+        <th class="paddingT15">申请人手机:</th>
+        <td class="paddingT15 wordSpacing5" >{$data.phone_mob|default:-}</td>
+      </tr>
+      <tr>
+        <th class="paddingT15">申请人地区:</th>
+        <td class="paddingT15 wordSpacing5" >{$data.region_name|escape}</td>
+      </tr>
+      <tr>
+        <th class="paddingT15">申请人邮箱:</th>
+        <td class="paddingT15 wordSpacing5">{$data.email|default:-}</td>
+      </tr>
+      <tr>
+        <th class="paddingT15">身份证号码:</th>
+        <td class="paddingT15 wordSpacing5">{$data.shenfenzheng|default:-}</td>
+      </tr>
+      <tr>
+        <th class="paddingT15">业务员类型:</th>
+        <td class="paddingT15 wordSpacing5"><!--{if $data.account_type eq 0}-->个人<!--{else}-->公司<!--{/if}--></td>
+      </tr>
+      
+      <!--{if $data.account_type eq 1}-->
+       <tr>
+        <th class="paddingT15">公司名称:</th>
+        <td class="paddingT15 wordSpacing5">{$data.company_name|escape|default:-}</td>
+      </tr>
+       <tr>
+        <th class="paddingT15">公司地址:</th>
+        <td class="paddingT15 wordSpacing5">{$data.company_address|escape|default:-}</td>
+      </tr>
+      <!--{/if}-->
+      
+      <tr>
+        <th class="paddingT15">合同信息:</th>
+        <td class="paddingT15 wordSpacing5"> 
+        <!--{if $data.hetong && $data.hetong!= ""}--> 
+                 <a href="{$site_url}/{$data.hetong}" target="_blank">查看</a>         
+                 <!--{else}-->
+                 <font color="#FF0000">没有找到合同信息</font>
+       <!--{/if}-->
+       </td>
+      </tr>
+      
+      <tr>
+        <th class="paddingT15">申请状态:</th>
+        <td class="paddingT15 wordSpacing5"><strong style="color:#0099CC"><!--{if $data.status eq 0}-->未审核<!--{elseif $data.status eq 1}-->审核成功<!--{else}-->审核失败<!--{/if}-->			</td>
+      
+      <tr>
+        <th></th>
+        <td class="ptb20">
+          <input class="formbtn" type="button" onclick="if_pass(1)" value="通过" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <input class="formbtn" type="button" onclick="if_pass(2)" value="不通过" />
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
+
+<script type="text/javascript">
+function if_pass(val){
+	var str = "确定审核【通过】吗？";
+	if( val == 0 ){
+		str = "确定审核【不通过】吗？";
+	}
+	
+	if(confirm(str)){
+	   location = "index.php?app=qianyue&act=shenhe&id={$smarty.get.id}&status="+val;	
+	}
+}
+</script>
+
+{include file="footer.html"} 

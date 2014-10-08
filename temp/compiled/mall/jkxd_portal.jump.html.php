@@ -1,0 +1,74 @@
+
+<div class="buttom123" id="DialogDiv" style="display:none;">
+    <div>
+        <div id="div_shop" class="buttom123_div" >
+            <a id="div_shop_a" href="<?php echo $this->_var['site_url']; ?>/weixin/my_jkxd/<?php echo $this->_var['member']['user_id']; ?>"style="color:#666;">
+               <div class="buttom123_div_adiv">集客小店</div>
+            </a>
+        </div>
+        <?php if ($this->_var['vshop'] && $this->_var['vshop']['user_id'] > 0): ?>
+        <div id="div_vshop" class="buttom123_div">
+            <a id="div_vshop_a" href="<?php echo $this->_var['site_url']; ?>/weixin/vshop/<?php echo $this->_var['vshop']['user_id']; ?>" style="color:#666;">
+                <div class="buttom123_div_adiv">精品集客小店</div>
+            </a>
+        </div>
+        <?php endif; ?>
+        <?php if ($this->_var['member'] && $this->_var['member']['user_id'] > 0 && $this->_var['shopOwner'] && $this->_var['shopOwner']['user_id'] > 0 && $this->_var['member']['user_id'] == $this->_var['shopOwner']['user_id']): ?>
+            <div id="div_shop_info" class="buttom123_div" >
+                <a id="div_shop_info_a" href="javascript:shop_info()"  style="color:#666;">
+                    <div class="buttom123_div_adiv">小店信息</div>
+                </a>
+            </div>
+        <?php endif; ?>
+
+        <div class="buttom123_div">
+            <a href="javascript:closeDiv('DialogDiv')" style="color:#666;display:block;">
+                <div class="buttom123_div_adiv">取消</div>
+            </a>
+        </div>
+    </div>
+</div>
+<div id="BgDiv"></div>
+<style type="text/css">
+    .buttom123 {width:320px; text-align:center; font-size:14px; font-weight:bold; color:#fff; position:relative;position:fixed!important; position:absolute;bottom:0px!important; top:auto; top: expression(eval(document.compatMode && document.compatMode=='CSS1Compat') ? documentElement.scrollTop+(documentElement.clientHeight - this.clientHeight):document.body.scrollTop+(document.body.clientHeight - this.clientHeight)); z-index:99999;}
+    .buttom123 .buttom123_div{background:#fff;border:1px solid #666;margin-bottom:5px;padding:5px;width:308px;height:25px;text-align:center;}
+    .buttom123 .buttom123_div .buttom123_div_adiv{width:300px;height:25px;line-height:25px;}
+    #BgDiv {background-color: #E3E3E3;display: none;height: 1000px;left: 0;opacity: 0.5;position: absolute;top: 0;width: 100%;z-index: 99;}
+</style>
+<script type="text/javascript" src="<?php echo $this->_var['site_url']; ?>/weixin/templates/js/jquery.js" charset="utf-8"></script>
+<script type="text/javascript">
+    function ShowDIV(thisObjID,shopId,userId) {
+//        alert("shopId="+shopId+",userId="+userId);
+        if( shopId =="" && userId !=""){
+            $("#div_shop_info").css({display: "block"});
+            $("#div_shop_a").attr("href","<?php echo $this->_var['site_url']; ?>/weixin/my_jkxd/"+userId);
+        }else if( shopId != "" &&  userId=="" ){
+            $("#div_shop_a").attr("href","<?php echo $this->_var['site_url']; ?>/weixin/my_jkxd/"+shopId);
+            var vshop_id = '<?php echo $this->_var['vshop']['user_id']; ?>';
+//            alert("vshop_id="+vshop_id+",type="+typeof vshop_id+",length="+vshop_id.length);
+            if( vshop_id != "" && parseInt(vshop_id) > 0 ){
+                $("#div_vshop").css({display: "block"});
+                $("#div_vshop_a").attr("href","<?php echo $this->_var['site_url']; ?>/weixin/vshop/"+vshop_id);
+            }else{
+                $("#div_vshop").css({display: "none"});
+            }
+        }else{
+            $("#div_shop_info").css({display: "none"});
+        }
+        $("#div_shop").css({display: "block"});
+
+
+        $("#BgDiv").css({display: "block", height: $(document).height()});
+        document.getElementById("switch_img").src="<?php echo $this->_var['site_url']; ?>/weixin/templates/images/switch2.png";
+        $("#" + thisObjID ).css("display", "block");
+        document.documentElement.scrollTop = 0;
+    }
+    function closeDiv(thisObjID) {
+        $("#BgDiv").css("display", "none");
+        document.getElementById("switch_img").src="<?php echo $this->_var['site_url']; ?>/weixin/templates/images/switch.png";
+        $("#" + thisObjID).css("display", "none");
+    }
+    function shop_info(){
+        window.location='<?php echo $this->_var['site_url']; ?>/weixin/index.php?app=jkxd_portal&act=shop_info&id=<?php echo $this->_var['member']['user_id']; ?>';
+    }
+</script>

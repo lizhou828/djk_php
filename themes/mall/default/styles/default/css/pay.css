@@ -1,0 +1,95 @@
+.mpart{
+    margin-bottom: 60px;
+}
+.pay_main {
+    border: medium none;
+    margin-bottom: 16px;
+}
+.tabs, .tabs .mc, .main {
+    overflow: visible;
+}
+.w {
+    width: 930px;
+    margin: 0px auto;
+}
+
+
+.bank-info, #qpay13 .bank-logo {
+    float: left;
+    border: 1px solid rgb(198, 198, 198);
+    background-color: rgb(255, 255, 255);
+    height: 27px;
+    width: 162px;
+    padding: 6px 10px;
+}
+ol, ul {
+    list-style: none outside none;
+}
+
+.tab-t, .mp-t, #qpay13 .i-tab-t {
+    color: rgb(153, 153, 153);
+    margin-bottom: 7px;
+}
+
+.tab-t, .mp-t, #qpay13 .i-tab-t {
+    color: rgb(153, 153, 153);
+    margin-bottom: 7px;
+}
+
+.pay_tab li strong {
+    font-weight: normal;
+}
+.tab li.curr, .tab li.curr a:link, .tab li.curr a:visited {
+    color: rgb(255, 102, 0);
+}
+.bank-list .radio {
+    float: left;
+    position: relative;
+    top: 10px;
+}
+ol, ul {
+    list-style: none outside none;
+}
+}
+.bank-list li {
+    float: left;
+    position: relative;
+    padding-left: 10px;
+    height: 71px;
+}
+ol, ul {
+    list-style: none outside none;
+}
+}
+.bank-list {
+    display: inline-block;
+}
+.bank-list {
+    padding-top: 18px;
+    margin-left: -15px;
+}
+ol, ul {
+    list-style: none outside none;
+}
+.tabcon {
+    background-color: rgb(255, 253, 238);
+    padding: 30px;
+    border: 2px solid rgb(237, 210, 139);
+}
+
+}
+.btn-surepay:hover {
+    background-position: 0px -38px;
+}
+.btn-surepay {
+    display: inline-block;
+    background: url("i/btn-04.png") no-repeat scroll 0% 0% transparent;
+    line-height: 100px;
+    overflow: hidden;
+    vertical-align: middle;
+    font-size: 0px;
+    border: medium none;
+    cursor: pointer;
+    width: 155px;
+    height: 38px;
+}

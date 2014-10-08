@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{$shop_type}收益</title>
+    <link href="{$site_url}/weixin/templates/style/com.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/hone.css" rel="stylesheet" type="text/css" />
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+
+    <script type="text/javascript">
+        function tixian(shouyi){
+            if(!shouyi || shouyi==null || shouyi=="" || typeof shouyi =="undefined" ||shouyi < 100){
+                alert("收益不足100，不能提现!");
+            }else{
+                window.location='index.php?app=member_account&act=tixianPage&type=1';
+            }
+        }
+
+    </script>
+</head>
+<body>
+<div style=" width:320px; margin:0px auto;padding-top: 50px;">
+<div class="enter-t">
+    <a href="javascript:history.go(-1)"><div class="enter-t1">返回</div></a>
+    <div class="enter-t222">{$shop_type}收益</div>
+    <a href="index.php?app=member_account&act=shouyi&shop_type=jkxd"><div class="enter-t333">查看明细</div></a>
+</div>
+<div class="earn">
+    <div class="earn1"><img src="{$site_url}/weixin/templates/style/img/gggg.jpg" width="115" height="23" /> </div>
+    <div class="earn2">{if !$yesterdayShouyi}0{else}{$yesterdayShouyi|number2}{/if}</div>
+</div>
+<div class="enter-bg">
+    <div class="earn3">
+        <table width="309" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="198" height="30">{$shop_type}累计收益(元)</td>
+                <td width="1" height="30">&nbsp;</td>
+                <td width="110" height="30">近一月收益(元)</td>
+            </tr>
+            <tr>
+                <td class="earn33" height="30">{if !$allShouyi}0{else}{$allShouyi|number2}{/if}</td>
+                <td width="105" height="30">&nbsp;</td>
+                <td class="earn44" height="30">{if !$recentShouyi}0{else}{$recentShouyi|number2}{/if}</td>
+            </tr>
+        </table>
+    </div>
+    <a href="javascript:void(0)" onclick="tixian('{$allShouyi}')"><div class="mmore23" style="margin-bottom:80px;">我要提现</div> </a>
+    {include file=jkxd_portal.footer.html}
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+</div>
+</div>
+</body>
+</html>

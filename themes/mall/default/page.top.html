@@ -1,0 +1,14 @@
+<!--{if $page_info.page_count gt 0}-->
+<div class="fenye">
+    <!--{if $page_info.prev_link}-->
+    <a class="a3" href="{$page_info.prev_link}">上一页<span></span></a>
+    <!--{else}-->
+    <a class="a1" style="color:#c9c9c9;">上一页<span></span></a>
+    <!--{/if}-->
+    <!--{if $page_info.next_link}-->
+    <a class="a2" href="{$page_info.next_link}">{$lang.next_page}<span></span></a>
+    <!--{else}-->
+    <a class="a1" style="color:#c9c9c9;">下一页<span></span></a>
+    <!--{/if}-->
+</div>
+<!--{/if}-->

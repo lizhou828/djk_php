@@ -1,0 +1,237 @@
+{include file=member.header.html}
+<style type="text/css">
+.bgwhite { background: #FFFFFF; }
+</style>
+<script type="text/javascript">
+$(function(){
+   /* $('#password_form').validate({
+        errorPlacement: function(error, element){
+            $(element).next('.field_notice').hide();
+            $(element).after(error);
+        },
+        success       : function(label){
+            label.addClass('validate_right').text('OK!');
+        },
+        rules : {
+            orig_password : {
+                required : true
+            },
+            new_password : {
+                required   : true,
+                minlength  : 6,
+                maxlength  : 20
+            },
+            confirm_password : {
+                required   : true,
+                equalTo    : '#new_password'
+            },
+            phone_mob : {
+                remote   : {
+                    url : 'index.php?app=captcha&act=check_captcha',
+                    type: 'get',
+                    data:{
+                        phone_mob : function(){
+                            return $('#phone_mob').val();
+                        }
+                    }
+                }
+            },
+            verifyCode : {
+                required   : true
+            }
+        },
+        submitHandler : function(form) {
+            if(check_phone_or_tel()){
+                $("#msg").html("");
+                alert("aaa");
+                $.get("index.php?app=sendcode&act=checkCode",{yanzhengma:$("#verifyCode").val()},function(rs){
+                    alert(rs);
+                    if(rs!=1){
+                        $("#msg").html("验证码验证错误");
+                        $("#verifyCode").val("");
+                        return;
+                    } else {
+                        //alert("验证成功，开始提交表单");
+                        form.submit();
+                    }
+                })
+            }
+        },
+        messages : {
+            orig_password : {
+                required : '请输入登入密码'
+            },
+            new_password  : {
+                required   : '二级密码必填',
+                minlength  : '二级密码最低20位长度'
+            },
+            confirm_password : {
+                required   : '确认密码必填',
+                equalTo    : '二级密码和确认密码不一致'
+            },
+            phone_mob : {
+                remote   : '手机号码已经存在'
+            },
+            verifyCode : {
+                required   : '短信验证码必填'
+            }
+        }
+    });*/
+});
+
+
+
+
+
+
+
+</script>
+<style>
+.borline td { padding:10px 0px; }
+.ware_list th { text-align:left; }
+</style>
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right" >
+       <ul class="tab">
+           <li class="active" > <a href="index.php?app={$smarty.get.app}&act=aqzx&p={$smarty.get.p}">安全中心</a></li>
+        </ul>
+        <div class="eject_con bgwhite" style="padding: 30px 0 50px">
+        
+        
+          <div class="kuang1" >
+          <div class="k11">
+             <div class="f1">
+               <s class="ico_01"></s>
+               <strong>登录密码</strong>
+             </div>
+             <div class="f2" style="color:#cc0000;">互联网账号存在被盗风险，建议您定期更改密码以保护账户安全。</div>
+             <div class="f3"><a href="index.php?app={$smarty.get.app}&act=aqzx_manager&type=changerpassword" style="color: blue">修改密码</a></div>
+          </div>
+          <div class="k11">
+              <!--{if !$user.question}-->
+              <div class="f1">
+                  <s class="ico_02"></s>
+                  <strong>密保问题</strong>
+              </div>
+              <div class="f2">是找回登录密码的方法之一。建议您设置一个容易记住，且最不容易被他人获取的问题及答案，更有效保障您的密码安全。</div>
+              <div class="f3">
+                  <a href="index.php?app={$smarty.get.app}&act=aqzx_question&type=bank" class="pay_a" style="color: #e4a600;margin-left: 18px;*margin-left: 1px">立即设置</a>
+              </div>
+              <!--{else}-->
+              <div class="f1">
+                  <s class="ico_01"></s>
+                  <strong>密保问题</strong>
+              </div>
+              <div class="f2">是找回登录密码的方法之一。建议您设置一个容易记住，且最不容易被他人获取的问题及答案，更有效保障您的密码安全。</div>
+              <div class="f3">
+                  <a href="index.php?app={$smarty.get.app}&act=aqzx_question" style="color: blue">立即修改</a>
+              </div>
+              <!--{/if}-->
+            </div>
+         <div class="k11">
+             <!--{if !$user.email}-->
+               <div class="f1">
+               <s class="ico_02"></s>
+               <strong>安全邮箱</strong>
+               </div>
+               <div class="f2">验证后，可用于快速找回登录密码，接收账户余额变动提醒。</div>
+               <div class="f3">
+               <a href="index.php?app={$smarty.get.app}&act=aqzx_manager&type=changeremail" class="pay_a" style="color: #e4a600;margin-left: 18px;*margin-left: 1px">立即绑定</a>
+             </div>
+             <!--{else}-->
+
+              <!--{if $user.email_bind_status eq 0 }-->
+              <div class="f1">
+                  <s class="ico_02"></s>
+                  <strong>安全邮箱</strong>
+              </div>
+              <div class="f2">您已设置了邮箱 &nbsp;&nbsp;{$user.show_email}，但未验证，<a href="javascript:sendemail()">点击重新发送验证邮件。</a></div>
+              <div class="f3">
+                  <a href="index.php?app={$smarty.get.app}&act=aqzx_manager&type=changeremail" class="pay_a" style="color: #e4a600; margin-left: 18px;*margin-left: 1px">立即绑定</a>
+              </div>
+              <!--{else}-->
+              <div class="f1">
+                  <s class="ico_01"></s>
+                  <strong>安全邮箱</strong>
+              </div>
+              <div class="f2">您已绑定了安全邮箱 &nbsp;&nbsp;{$user.show_email}</div>
+              <div class="f3">
+                <a href="index.php?app={$smarty.get.app}&act=aqzx_manager&type=changeremail" style="color: blue">立即修改</a>
+              </div>
+              <!--{/if}-->
+             <!--{/if}--> 
+             
+          </div>
+
+
+          <div class="k11">
+          	
+             <!--{if $user.phone_mob}-->
+                  <!--{if $user.phone_mob_bind_status eq 0 }-->
+                  <div class="f1">
+                      <s class="ico_02"></s>
+                      <strong>安全手机</strong>
+                  </div>
+                  <div class="f2">您已设置了安全手机，但还未验证 &nbsp;&nbsp;{$user.phone_mob|hidden}</div>
+                  <div class="f3"><a href="index.php?app={$smarty.get.app}&act=aqzx_manager&type=changerphonemob" class="pay_a" style="color: #e4a600;; margin-left: 18px; *margin-left: 1px">立即验证</a></div>
+                  <!--{else}-->
+                  <div class="f1">
+                      <s class="ico_01"></s>
+                      <strong>安全手机</strong>
+                  </div>
+                  <div class="f2">您已绑定了安全手机 &nbsp;&nbsp;{$user.phone_mob|hidden}</div>
+                  <div class="f3"><a href="index.php?app={$smarty.get.app}&act=aqzx_manager&type=changerphonemob" style="color: blue">立即修改</a></div>
+                  <!--{/if}-->
+             <!--{else}-->   
+             <div class="f1">
+             <s class="ico_02"></s>
+             <strong> 安全手机</strong>
+             </div>
+             <div class="f2">验证后，可用于快速找回登录密码及支付密码，接收账户余额变动提醒。</div>
+             <div class="f3"><a href="index.php?app={$smarty.get.app}&act=aqzx_manager&type=changerphonemob" class="pay_a" style="color: #e4a600;; margin-left: 18px; *margin-left: 1px">立即绑定</a></div>
+             <!--{/if}-->    
+          </div>
+          
+          
+          <div class="k11" style="border-bottom:none;">
+          <!--{if $user.password2}-->
+             <div class="f1">
+               <s class="ico_01"></s>
+               <strong>支付密码
+                   <div style="margin-top:-30px; margin-left:128px; float:left; cursor:pointer">
+                       <img title="当你使用帐号里的余额或提现的时候，需要使用的独立密码。启用支付密码，需先进行邮箱和手机验证" src="{$site_url}/themes/mall/default/styles/default/images/help-round.png">
+                   </div>
+               </strong>
+             </div>
+             <div class="f2">启用支付密码后，在使用账户中余额或积分等资产时，需输入支付密码。</div>
+             <div class="f3"><a href="index.php?app={$smarty.get.app}&act=aqzx_manager&type=changerpassword2" style="color: blue">立即修改</a></div>
+            </div>
+          <!--{else}-->
+            <div class="f1">
+               <s class="ico_02"></s>
+               <strong>支付密码
+                   <div style="margin-top:-30px; margin-left:128px; float:left; cursor:pointer">
+                       <img title="当你使用帐号里的余额或提现的时候，需要使用的独立密码。启用支付密码，需先进行邮箱和手机验证。
+" src="{$site_url}/themes/mall/default/styles/default/images/help-round.png">
+                   </div>
+               </strong>
+             </div>
+             <div class="f2">启用支付密码后，在使用账户中余额或积分等资产时，需输入支付密码。</div>
+             <div class="f3"><a href="index.php?app={$smarty.get.app}&act=aqzx_manager&type=changerpassword2" class="pay_a" style="color: #e4a600;; margin-left: 18px;*margin-left: 1px">立即开启</a></div>
+            </div>
+          <!--{/if}-->
+            </div>
+            
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<script>
+    function sendemail(){
+        $.get("index.php?app=member&act=resend",{},function(rs){
+            alert(rs);
+        });
+    }
+</script>
+{include file=footer.html}

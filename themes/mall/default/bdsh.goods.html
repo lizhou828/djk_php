@@ -1,0 +1,196 @@
+{include file=header.html}
+<link href="{res file=css/other.css}" rel="stylesheet" type="text/css" xmlns="http://www.w3.org/1999/html"/>
+<link href="{res file=css/bdsh.css}" rel="stylesheet" type="text/css" />
+<script src="{lib file=goodsinfo.js}" charset="UTF-8"></script>
+ <script>
+     $(function(){
+       if ($("#price").val() >0 && $("#market_price").val()>0) {
+           var account = ($("#price").val()/$("#market_price").val())*10;
+           $("#account").html(account.toFixed(2)+"折");
+       } else {
+           $("#account").html("");
+       }
+     });
+     function show_detail(){
+         $("#tuijian").attr("class", "crree");
+
+//        $("#tuijian").css("class","crree");
+         $("#all").attr("class","crreb");
+         $("#detail").show();
+         $("#all_goods").hide();
+     }
+     function show_all(){
+         $("#tuijian").attr("class", "crreb");
+//        $("#tuijian").css("class","crree");
+         $("#all").attr("class","crree");
+         $("#detail").hide();
+         $("#all_goods").show();
+     }
+ </script>
+<!--全部内容-->
+{include file=bdsh.common_search.html}
+<!--菜单-->
+{include file=bdsh.category_common.html}
+<!---------------内容一-------------->
+<div class="w-z">
+    <input type="hidden" id="price" value="{$goods.price}">
+    <input type="hidden" id="market_price" value="{$goods.market_price}">
+    <strong>我的位置：</strong>
+    <a href="{r_url app=bdsh&act=store&bdsh_reg_id=$filters.bdsh_reg_id}">商家</a>
+    <!--{foreach from=$curlStr item=text name=my_post}-->
+    <!--{if $smarty.foreach.my_post.index<2}-->
+    > <a href="{r_url app=bdsh&act=store&bdsh_reg_id=$filters.bdsh_reg_id}">{$text.region_name}</a>
+    <!--{else}-->
+    > <a href="{r_url app=bdsh&act=store&bdsh_reg_id=$filters.bdsh_reg_id&bdsh_class=$text.cate_id}">{$text.cate_name}</a>
+    <!--{/if}-->
+    <!--{/foreach}-->
+</div>
+
+        <div class="clear"></div>
+<div class="Main">
+    <div class="Main-left">
+        <div class="pro">
+            <div class="pro-l">
+                <dl>
+                    <dt><img src="{img_url $img_url/$goods._images.0.image_url/340X240}"  width="340" height="240" style="display: block;" /></dt>
+                    <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare" data="{'url':'{$site_url}{$tuiguangURL}'}" style="margin-left: 20px;">
+                        <span class="bds_more">分享：</span>
+                    </div>
+                    <dd>
+              <span>
+                   <a href="javascript:collect_goods('{$goods.goods_id}');" style="padding-top: 10px;">收藏商品</a>
+              </span>
+                    </dd>
+                </dl>
+            </div>
+            <div class="pro-r">
+                <div class="pro-r1">
+                    <h3><a>{$goods.goods_name}</a></h3>
+                    <p style="height: 65px;width: 500px;">{$goods.goods_desc}</p>
+                </div>
+
+                <div class="pro-r2">
+                    <div class="pro-r2-1">{$goods.price|price}</div>
+                    <div class="pro-r2-2" style="display : none">
+                        <!--<div class="pro-r2-2-1"><strong id="account"></strong></div>-->
+                        <!--<div class="pro-r2-2-2"><s>{$goods.price|price}</s></div>-->
+                    </div>
+                    <div class="pro-r2-3"><a href="javascript:add_to_cart_bdsh('{$goods._specs.0.spec_id}',1,'5','{$goods.store_id}')"><img src="{res file=images/bdsh/m-s.jpg}" width="117" height="41" alt="马上抢购" /></a></div>
+                </div>
+                <div class="pro-r3"><span>剩余时间{$dates}天</span><span>数量有限，赶快下单吧！</span><span><strong>{$goods.sales}</strong>人已购买</span></div>
+                <div class="clear"></div>
+            </div>
+
+        </div>
+        <div class="Main-left1">
+            <h3>该商家其他产品</h3>
+            <!--{foreach from=$goods_list item=gd name=my_goods}-->
+            <!--{if $smarty.foreach.my_goods.index<3}-->
+            <!--{if $gd.goods_id != $goods.goods_id}-->
+            <ul>
+                <li><strong>{$gd.price|price}</strong> <a href="{url app=bdsh&act=goods_detail&id=$gd.goods_id}">{$gd.goods_name}</a><span style="float: right;   ">{$gd.sales}人已购买</span></li>
+            </ul>
+            <!--{/if}-->
+            <!--{/if}-->
+            <!--{/foreach}-->
+            <ul>
+                <li><span style="float: right;"><a href="javascript:void (0)"> 更多>></a></span></li>
+            </ul>
+        </div>
+        <div id="shj_x">
+        <div class="left">
+        <div class="fi2">
+            <ul class="el1">
+                <li class="crree" id="tuijian"><a href="javascript:show_detail()">商品详情</a></li>
+                <li class="crreb" id="all"><a href="javascript:show_all()">会员评价</a></li>
+                <li class="crred"></li>
+            </ul>
+            <div class="biz_box" id="detail">
+                <div style="padding: 15px;width: 720px;overflow: hidden;margin: 0px auto;">{$goods.description|escape:editor}</div>
+            </div>
+            <div class="biz_box" id="all_goods" style="display: none">
+                <ul class="usl">
+                    <!--{if $goods_comments}-->
+                    <!--{foreach from=$goods_comments item=comment}-->
+                    <li class="lis">
+                        <a href="{url app=bdsh&act=goods_detail&id=$goods.goods_id}" target="_blank"><img src="{img_url $img_url/$goods.default_image/280X170}" width="280" height="170" /></a>
+                        <h4 class="font"><a href="{url app=bdsh&act=goods_detail&id=$goods.goods_id}" target="_blank"> {$goods.goods_name}</a></h4>
+                        <div class="jiage">
+                            <strong>{$goods.price|price}</strong>
+                            <label class="lable">{$goods.price|price}</label>
+                        </div>
+
+                    </li>
+                    <!--{/foreach}-->
+                    <!--{else}-->
+                     <div style="text-align: center;"> 暂无记录</div>
+                    <!--{/if}-->
+                </ul>
+            </div>
+        </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="Main-right">
+        <div class="Main-right-1">
+            <div class="Main-right-t">商家信息</div>
+            <div class="Main-right-c">
+                <p><strong><a href="{r_url app=bdsh&act=list_detail&id=$store.store_id&bdsh_area=$filters.bdsh_area&bdsh_reg_id=$filters.bdsh_reg_id}">进入商家</a></strong> <strong>商家名称：</strong>{$store.store_name}</p>
+                <p><strong>地址：</strong>{$store.address}</p>
+                <p><strong>营业时间：</strong>{$store.yye_time}</p>
+            </div>
+        </div>
+        <div class="Main-right-2">
+            <div class="Main-right-2-t">看过此商品的人也看了</div>
+            <div class="Main-right-2-c">
+                <!--{foreach from = $goods_see item=gs name=see_goods}-->
+                <!--{if $smarty.foreach.see_goods.index<2}-->
+                <p><a href="{r_url app=bdsh&act=goods_detail&id=$gs.goods_id}"><img src="{img_url $img_url/$gs.default_image/220X220}" width="220" height="220" /></a> </p>
+                <p><a href="{r_url app=bdsh&act=goods_detail&id=$gs.goods_id}">{$gs.goods_name}</a></p>
+                <p><strong>{$gs.price|price}</strong><span>{$gs.views}人看过</span></p>
+                <!--{/if}-->
+                <!--{/foreach}-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Baidu Button BEGIN -->
+<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6765728" ></script>
+<script type="text/javascript" id="bdshell_js"></script>
+<script type="text/javascript">
+    var bds_config = {
+        'snsKey':{'tsina':'http://t.qq.com/'}		//'请参考自定义分享到平台的appkey'
+    }
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000);
+</script>
+<!-- Baidu Button END -->
+<div class="clear"></div>
+{include file=footer.html}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

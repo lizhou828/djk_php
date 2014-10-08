@@ -1,0 +1,126 @@
+{include file=member.header.html}
+<script type="text/javascript">
+    $(function(){
+        $('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+        $('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+    })
+</script>
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right">
+    <ul class="tab">
+        <li class="active">pos机消费查询</li>
+    </ul>
+        <div class="wrap">
+            <div class="scarch_order">
+                <form method="get">
+                    <div style="float:left;">
+                        <span class="title">{$lang.order_sn}:</span>
+                        <input class="text_normal" type="text" name="order_sn" value="{$query.order_sn|escape}" />
+                        <span class="title">{$lang.add_time}:</span>
+                        <input class="text_normal width2" type="text" name="add_time_from" id="add_time_from" value="{$query.add_time_from}" /> &#8211; <input class="text_normal width2" id="add_time_to" type="text" name="add_time_to" value="{$query.add_time_to}" />
+                        <span class="title">{$lang.buyer_name}:</span>
+                        <input class="text_normal" type="text" name="buyer_name" value="{$query.buyer_name|escape}" />
+
+
+                        <input type="hidden" name="app" value="service" />
+                        <input type="hidden" name="act" value="{$smarty.get.act}" />
+
+                        <br><br>
+                        按商家:
+
+                        <select name="store_id" class="sgcategory">
+                            <option value="-1">全部</option>
+                            <!--{if stores}-->
+                            <!--{foreach from=$stores item=store}-->
+                            <option value="{$store.store_id}" <!--{if $smarty.get.store_id == $store.store_id}-->selected="selected"<!--{/if}--> >{$store.store_name}</option>
+                            <!-- {/foreach} -->
+                            <!--{/if}-->
+                        </select>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+                        <input type="hidden" name="shouhou" value="{$smarty.get.shouhou}" />
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        <input type="hidden" name="type" value="{$type}" />
+                        <input type="submit" class="btn" value="{$lang.search}" />
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="public">
+
+                <!--{if $orders}-->
+                <!--{foreach from=$orders item=order}-->
+                <div class="dp">买家用户：<a href="javascript:;">{$order.buyer_name|escape}</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收货人姓名：{$order.consignee|escape}
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收货人电话：<!--{ if $order.phone_mob neq ''}-->{$order.phone_mob}<!--{else}-->{$order.phone_tel}<!--{/if}-->
+                    <!--{if $order.status eq ORDER_PENDING && $order.yue_jine > 0 && $order.zhifu > 0}-->
+                    <span style="color:red">&nbsp;(余额已支付{$order.zhifu|number2}元，还剩{$order.yue_jine}元待支付！)</span>
+                    <!--{/if}-->
+                </div>
+                <div class="ble">
+                    <table width="766" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td class="align2" align="center" bgcolor="#f3f3f3" style="color:#333;" >&nbsp;&nbsp;&nbsp;</td>
+                            <td width="100" align="center" bgcolor="#f3f3f3" style="color:#333;">订单号</td>
+                            <td height="30" width="220" colspan="2" align="center" bgcolor="#f3f3f3" style="color:#333;">订单商品</td>
+                            <td width="17" align="center" bgcolor="#f3f3f3" style="color:#333;">&nbsp;</td>
+                            <td width="93" align="center" bgcolor="#f3f3f3" style="color:#333;">订单金额</td>
+                            <td width="108" align="center" bgcolor="#f3f3f3" style="color:#333;">时间</td>
+                            <td width="87" align="center" bgcolor="#f3f3f3" style="color:#333;">订单状态</td>
+                            <td width="96" align="center" bgcolor="#f3f3f3" style="color:#333;">操作</td>
+                        </tr>
+                        <tr>
+                            <td class="align2" align="center">&nbsp;</td>
+                            <td align="center" style=" padding-left:8px;"><a href="{url app=$smarty.get.app&act=view&order_id=$order.order_id}" target="_blank" style="font-weight:bold; color:#666">{$order.order_sn}{if $order.extension eq 'groupbuy'}<span class="color8">[{$lang.groupbuy}]</span>{/if}</a></td>
+                            <td height="80" colspan="2">
+                                <ul class="sp">
+                                    <!--{foreach from=$order.order_goods item=goods name=o_goods}-->
+                                    <!--{if $smarty.foreach.o_goods.index<=2}-->
+                                    <li>
+                                        <a href="index.php?app=goods&id={$goods.goods_id}" target="_blank"><img src="{$site_url}/{$goods.goods_image}" style="border: 1px solid #ddd" alt="{$goods.goods_name|escape}" width="60px" height="60px"/></a>
+                                    </li>
+                                    <!--{/if}-->
+                                    <!--{/foreach}-->
+                                </ul>
+                            </td>
+                            <td height="50">&nbsp;</td>
+                            <td align="center" style="font-weight:bold;">{$order.order_amount|price}</td>
+                            <td align="center" style="color:#999">{$order.add_time|date:Y-m-d H:i:s}</td>
+                            <td align="center" style="font-weight:bold; color:#333">{$order.status|modifier:order_status}<!--{if $order.evaluation_status}-->,&nbsp;{$lang.already_evaluate}<!--{/if}--></td>
+                            <td align="center">
+                                 <a class="btn1" href="{url app=service&act=view&order_id=$order.order_id&p=service}" target="_blank">{$lang.view_order}详情</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <!--{/foreach}-->
+                <!--{else}-->
+                <center>
+                    <table>
+                        <tr><td class="member_no_records" colspan="7" style="text-align:center">{$lang.no_records}</td></tr>
+                    </table>
+                </center>
+                <!--{/if}-->
+
+
+                <div class="order_form_page">
+                    <div class="page">
+                        {include file=member.page.bottom.html}
+                    </div>
+                </div>
+
+
+
+            </div>
+            <iframe name="seller_order" style="display:none;"></iframe>
+            <div class="wrap_bottom"></div>
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+</div>
+{include file=footer.html}

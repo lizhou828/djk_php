@@ -1,0 +1,339 @@
+{include file=member.header.html}
+<style>
+.borline td { padding:10px 0px; }
+.ware_list th { text-align:left; }
+</style>
+<script type="text/javascript">
+
+$(function(){
+    $('#profile_form').validate({
+        errorPlacement: function(error, element){
+            $(element).parent('span').parent('b').after(error);
+        },
+        rules : {
+            portrait : {
+                accept   : 'gif|jpe?g|png'
+            },
+            nick_name : {
+                required: true
+            },
+            card_id :{
+                required: true,
+                maxLength:18
+            }
+        },
+        messages : {
+            portrait  : {
+                accept   : '{$lang.avatar}'
+            },
+            nick_name : {
+                accept: "昵称不能为空"
+            },
+            card_id :{
+                required: '身份证号不能为空！',
+                maxLength:'身份证号必须为18位'
+            }
+        }
+    });
+    $('input[ectype="change_avatar"]').change(function(){
+
+        var src = getFullPath($(this)[0]);
+        $('img[ectype="avatar"]').attr('src', src);
+        $('input[ectype="change_avatar"]').removeAttr('name');
+        $(this).attr('name', 'portrait');
+    });
+});
+
+function submit_form(){
+    var birthday=document.getElementById("year").value+"-"+document.getElementById("month").value+"-"+document.getElementById("day").value;
+    //alert(birthday);
+
+    if($.trim($("#nick_name").val()) == "" ){
+        alert("昵称不能为空");
+        return;
+    }
+
+    document.getElementById("birthday").value=birthday;
+    document.profile_form.submit();
+}
+
+function show_photo_img(val){
+    if (val == "") {
+        alert("请上传图片");
+        return;
+    }
+    if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(val)) {
+        alert("图片类型必须是.gif,jpeg,jpg,png中的一种");
+        return;
+    }
+    $("#show_alert").val("1");
+    $("#profile_form").submit();
+}
+
+</script>
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right">
+            {include file=member.submenu.html}
+            <div class="wrap">
+                <div class="public">
+                <form method="post" enctype="multipart/form-data" id="profile_form" name="profile_form">
+                    <input type="hidden" name="show_alert" id="show_alert" value="0"/>
+                    <div class="information">
+                        <!--{if $smarty.get.act!='yinhangka' }-->
+                        <!--{if !$edit_avatar}-->
+                        <div class="photo width13">
+                            <p><img id="photo_img" src="<!--{if $profile.portrait}-->{img_url $img_url/$profile.portrait/130X130}<!--{else}-->{$site_url}/data/system/default_user_portrait.gif<!--{/if}-->" width="120" height="120" alt="" ectype="avatar" /></p>
+
+                            <div class="fileInputContainer4">
+                                <input class="fileInput" type="file" onchange="show_photo_img(this.value)" name="portrait" id="portrait" />
+                            </div>
+
+                        </div>
+                        <!--{/if}-->
+                        <div class="info2 individual">
+                            <table>
+                                <!--{if $profile.im_qq ==null || $profile.im_qq ==''}-->
+                                <tr>
+                                    <th class="width4">{$lang.user_name}: </th>
+                                    <td>{$profile.user_name|escape}</td>
+                                </tr>
+                                <!--{/if}-->
+                                <tr>
+                                    <th>昵称:</th>
+                                    <td><input type="text" class="text width_normal" name="nick_name" id="nick_name" value="{$profile.nick_name|escape}" />
+                                    <span class="field_notice">昵称长度不能超过40个字符</span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>{$lang.real_name}:</th>
+                                    <td><input type="text" class="text width_normal" name="real_name" value="{$profile.real_name|escape}" />
+                                    <span class="field_notice">请输入您的真实姓名(2-32个汉字或字母)！</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>{$lang.gender}: </th>
+                                    <td class="label">
+                                        <label>
+                                           <input type="radio" name="gender" value="0" {if $profile.gender eq 0}checked="checked"{/if} />{$lang.unknown}  </label>
+                                            <label>
+                                            <input type="radio" name="gender" value="1" {if $profile.gender eq 1}checked="checked"{/if} />{$lang.male}   </label>
+                                            <label>
+                                            <input type="radio" name="gender" value="2" {if $profile.gender eq 2}checked="checked"{/if} />{$lang.female} </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>{$lang.birthday}: </th>
+                                    <td>
+                                        <input type="hidden" id="birthday" name="birthday" value=""/>
+                                        <select   name="year"  id="year"  size="1"   onChange="return CheckDay();">
+                                            <script language="javascript">
+                                                var myDate = new Date();
+                                                var new_year=myDate.getFullYear();
+                                                for(i=new_year;i>=1940;i--){
+                                                    document.write('<option   value="'+i+'">'+i+'</option>')
+                                                }
+                                            </script>
+                                        </select>&nbsp;年
+                                        <select name="month" id="month"  size="1"   onChange="return CheckDay();">
+                                            <option   value="1">1</option>
+                                            <option   value="2">2</option>
+                                            <option   value="3">3</option>
+                                            <option   value="4">4</option>
+                                            <option   value="5">5</option>
+                                            <option   value="6">6</option>
+                                            <option   value="7">7</option>
+                                            <option   value="8">8</option>
+                                            <option   value="9">9</option>
+                                            <option   value="10">10</option>
+                                            <option   value="11">11</option>
+                                            <option   value="12">12</option>
+                                        </select>&nbsp;月
+                                        <select   name="day"  id="day"  size="1"></select>&nbsp;日  <span class="field_notice">生日关系到您的会员权益，请认真填写哦</span>
+                                        <script>
+                                            function CheckDay(){
+
+                                                var   YearNo,MonthNo,DayNo;
+                                                YearNo   =   document.profile_form.year.value;
+                                                MonthNo   =   document.profile_form.month.value;
+
+                                                var   i,j,DayCount;
+
+                                                if(MonthNo==1 || MonthNo==3 || MonthNo==5 || MonthNo==7 || MonthNo==8 || MonthNo==10 || MonthNo==12)
+                                                {DayCount = 31;}
+
+                                                if(MonthNo==4 || MonthNo==6 || MonthNo==9 || MonthNo==11 )
+                                                {DayCount = 30;}
+
+                                                if(MonthNo==2){
+                                                    if(IsRunY(YearNo)){
+                                                        DayCount = 29;
+                                                    }else{
+                                                        DayCount = 28;
+                                                    }
+                                                }
+
+                                                document.profile_form.day.length=DayCount;
+                                                for (i=0;i<=DayCount-1;i++)
+                                                {
+                                                    document.profile_form.day[i]=new Option(i+1);
+                                                    document.profile_form.day[i].value=i+1;
+                                                }
+                                            }
+
+                                            function IsRunY(YearNo)
+                                            {
+                                                // 能被4整除却不能被100整除 或能被400整除的年份
+                                                // 则是闰年
+                                                if ((YearNo % 4 == 0 && YearNo % 100 != 0) || YearNo % 400 == 0){
+                                                    return true;
+                                                }else{
+                                                    return false;
+                                                }
+
+                                            }
+                                            CheckDay();
+                                        </script>
+
+                                    </td>
+                                </tr>
+                                
+                                
+                                  <tr>
+                                    <th>手机号码: </th>
+                                    <td class="label">
+                                    <!--{if !$profile.phone_mob || $profile.phone_mob==''}-->
+                                    <input type="text" class="text width_normal" disabled="disabled" /> &nbsp;<a href="index.php?app=member&act=aqzx&p=userInfo" style="color:#0066FF">立刻绑定</a>		<span class="field_notice">未绑定</span>
+                                    <!--{else}-->
+                           				<!--{if $profile.phone_mob_bind_status eq 0 }-->
+                                       {$profile.phone_mob|hidden}  &nbsp;<a href="index.php?app=member&act=aqzx&p=userInfo" style="color:#0066FF">立刻验证</a>
+                                        <span class="field_notice">未验证</span>
+                                    	<!--{else}-->        
+                                        {$profile.phone_mob|hidden}  &nbsp;<a href="index.php?app=member&act=aqzx&p=userInfo" style="color:#0066FF">立刻修改</a>
+                                        <span class="field_notice">已绑定</span>
+                            			<!--{/if}-->
+                       				<!--{/if}-->
+                                    </td>
+                                </tr>
+                                
+                                  <tr>
+                                    <th>邮箱: </th>
+                                    <td class="label">
+                                    <!--{if !$profile.email || $profile.email==''}-->
+                                    <input type="text" class="text width_normal" disabled="disabled" /> &nbsp;<a href="index.php?app=member&act=aqzx&p=userInfo" style="color:#0066FF">立刻绑定</a><span class="field_notice">未绑定</span>
+                                    <!--{else}-->
+                           				<!--{if $profile.email_bind_status eq 0 }-->
+                                       {$profile.email|hidden}  &nbsp;<a href="index.php?app=member&act=aqzx&p=userInfo" style="color:#0066FF">立刻验证</a>
+                                       <span class="field_notice">未验证</span>
+                                    	<!--{else}-->        
+                                        {$profile.email|hidden}  &nbsp;<a href="index.php?app=member&act=aqzx&p=userInfo" style="color:#0066FF">立刻修改</a>
+                                        <span class="field_notice">已绑定</span>
+                            			<!--{/if}-->
+                       				<!--{/if}-->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="80">身份证号码: </th>
+                                    <td class="label">
+                                        <input type="text" class="text width_normal" value="{$profile.card_id}" name="card_id">
+                                    </td>
+                                </tr>
+
+                                <!--{if $edit_avatar}-->
+                                <tr>
+                                    <th>{$lang.portrait}:</th>
+                                    <td>{$edit_avatar}</td>
+                                </tr>
+                                <!--{/if}-->
+                                <tr>
+                                    <th></th>
+                                    <td><input type="button" onclick="submit_form()" class="btn" value="{$lang.save_edit}" /></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <!--{else}-->
+
+                        <div class="info individual">
+                            <table>
+                                <tr>
+                                    <th>{$lang.kahao}:</th>
+                                    <td><input type="text" class="text width_normal" name="kahao" value="{$profile.kahao|escape}" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <td><input type="button" onclick="submit_form()" class="btn" value="{$lang.save_edit}" /></td>
+                                </tr>
+                            </table>
+                        <!--{/if}-->
+
+                    </div>
+                </form>
+                </div>
+                <div class="wrap_bottom"></div>
+            </div>
+
+            <div class="clear"></div>
+            <div class="adorn_right1"></div>
+            <div class="adorn_right2"></div>
+            <div class="adorn_right3"></div>
+            <div class="adorn_right4"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<script>
+var old_birthday="{$profile.birthday}";
+
+if(old_birthday !="" ){
+
+  var tmp = old_birthday.split("-");	
+  var tmp_year=tmp[0];
+  var tmp_month=tmp[1];
+  var tmp_day=tmp[2];
+  
+ 
+  
+  var years = document.profile_form.year;
+  var months = document.profile_form.month;
+  var days = document.profile_form.day;
+  
+  for(var i=0;i<years.length;i++){
+  	if(years[i].value == tmp_year){
+		years[i].selected=true;
+		break;
+	}
+  }
+  
+
+  for(var j=0;j<months.length;j++){
+
+    var t_month = months[j].value;
+	
+  	if(t_month < 10){
+	   t_month = "0"+t_month;
+	}
+  	if(t_month == tmp_month){
+		months[j].selected=true;
+		break;
+	}
+  }
+  
+  for(var k=0;k<days.length;k++){  	
+  	var t_day = days[k].value;
+	
+	if(t_day<10){
+	   t_day = "0"+t_day;
+	}
+	
+  	if(t_day == tmp_day){
+		days[k].selected=true;
+		break;
+	}
+  }
+  
+}
+</script>
+
+{include file=footer.html}

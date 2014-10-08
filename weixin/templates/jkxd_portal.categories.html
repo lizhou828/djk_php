@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>大集客-移动商城-集客小店</title>
+    <link href="{$site_url}/weixin/templates/style/public.css" rel="stylesheet" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+</head>
+
+<body>
+<div id="w_3202" style="height: 600px;">
+    <div class="top">商品类别列表<em class="em1"><a href="javascript:history.go(-1)">返回</a></em></div>
+
+    <div class="list_list">
+        <ul class="uls">
+            <!--{foreach from=$goodsCategoryList item=gcate name=gcate}-->
+            <li>
+                <a href="{$site_url}/weixin/index.php?app=jkxd_portal&act=goodsList&id={$shopOwner.user_id}&type={$type}&category_id={$gcate.cate_id}">
+                    <strong>{$gcate.cate_name|truncate:26}<i>（{$gcate.c}）</i></strong>
+                    <span>></span>
+                </a>
+            </li>
+            <!--{/foreach}-->
+        </ul>
+    </div>
+    {include file=jkxd_portal.footer.html}
+</div>
+</body>
+</html>

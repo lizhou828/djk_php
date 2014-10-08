@@ -1,0 +1,1237 @@
+{include file=member.header.html}
+<!--{$images_upload}-->
+<!--{$editor_upload}-->
+<!--{$build_editor}-->
+
+<style xmlns="http://www.w3.org/1999/html">
+.box_arr .table_btn { width: 222px; }
+.box_arr .table_btn a { float: left; }
+.box_arr .table_btn a.disable_spec { background: url({res file=images/member/btn.gif}) repeat 0 -1018px; float: right; }
+.dialog_body{ border:0px; }
+.add_spec .add_link { color:#919191; }
+.add_spec .add_link:hover { color:red; }
+.add_spec h2 { padding-left: 10px; }
+.width7{ width: 250px;}
+.f_l{ float:left; }
+.mls_id { width: 0; filter: alpha(opacity=0);opacity: 0; }
+</style>
+<script type="text/javascript">
+
+//<!CDATA[
+var SPEC = {$goods.spec_json};
+
+//function get_bdsh(type,id){
+//  var url = "";
+//   if (type == 'add') {
+//       url = "index.php?app={$smarty.get.app}&act=bdsh_goods_add";
+//   } else {
+//       url = "index.php?app={$smarty.get.app}&act=bdsh_goods_edit&id="+id;
+//   }
+//    $.get(url,function(data){
+//        $("#pd_id").val(5);
+//        $("#show_bdsh").html(data)
+//    });
+//}
+
+function fuzhi(data)
+{
+    $("#brand_div").html("");
+    $("#attr_div").html("");
+    $("#cate_id").val(data.cate_id);
+    $("#sel_category").val(data.cate_name);
+    $("#sel_catename").val(data.cate_name);
+    $("#pd_id").val(data.pd_id);
+
+    yiban_ticheng=data.yiban_ticheng;
+    tuoguan_ticheng=data.tuoguan_ticheng;
+//    if(data.pd_id ==5) {
+//        if ($("#goods_id").val()>0) {
+//            get_bdsh('edit',$("#goods_id").val());
+//        } else {
+//            get_bdsh('add',0);
+//        }
+//    } else {
+//        $("#show_bdsh").html(data);
+        $("#brand_div").html("" +
+                "<p class='txt' style='width: 700px; height: 30px; line-height: 30px;'><input type='hidden' name='brand_id' value='"+data.brand_id+"'>品牌："+"<span style='color: #333'>"+data.brand_name+"</span><input type='hidden' name='brand' id='sel_brand' value=\"" + data.brand_name + "\">" +
+                "&nbsp;&nbsp;<input id='checkbox_brand' type='checkbox' onclick='javascript:check()' style='vertical-align: middle'>&nbsp;&nbsp;<span style='color: #333'>（如没有选择品牌,请勾选后在文本框中输入品牌）</span><input type='text' name='brand' id='brand_name'  style='height: 20px;line-height: 20px; vertical-align: middle' disabled='true' >" +
+                "</p>");
+
+        if (data.attr_ids != "" && data.attr_ids !=null) {
+            var attr_ids =  data.attr_ids;
+            var attr_names = data.attr_names;
+            var attr_values = data.attr_value;
+            var attr_str = null;
+            if (attr_ids.length >0 && attr_ids !=null) {
+                var atrs = attr_ids.split(',');
+                var atr_name = attr_names.split(',');
+                var atr_value = attr_values.split(',');
+
+                for (var i=0;i<atrs.length;i++) {
+                    if (attr_str ==null) {
+                        attr_str = "<input type='hidden' name='attr_id[]' value='"+atrs[i]+"'><i style='margin-right: 10px;'><input name='attr_name[]' type='hidden' value='"+atr_name[i]+"'>"+atr_name[i]+"："+atr_value[i]+"<input type='hidden' name='attr_value_"+atrs[i]+"' value='"+atr_value[i]+"'></i>";
+                    } else {
+                        attr_str += "<input type='hidden' name='attr_id[]' value='"+atrs[i]+"'><i style='margin-right: 10px;'><input name='attr_name[]' type='hidden' value='"+atr_name[i]+"'>"+atr_name[i]+"："+atr_value[i]+"<input type='hidden' name='attr_value_"+atrs[i]+"' value='"+atr_value[i]+"'></i>";
+                    }
+                }
+                $("#attr_div").html("<p class='txt' id='attr_ul'style='width: 700px;line-height: 30px;'>已选商品属性： <span style='color: #333'>"+attr_str+"</span></p>")
+            }
+        }
+//    }
+//     $("#brand_id").text(data.brand_id);
+
+}
+
+function check() {
+        if($("#checkbox_brand").attr("checked")==true) {
+            $("#sel_brand").attr("disabled",true);
+            $("#brand_name").removeAttr("disabled");
+        } else {
+            $("#brand_name").attr('disabled',true);
+        }
+}
+
+function calc_price() {
+    var price =  $("input[name='price']").val();
+    var org_price =  $("input[name='org_price']").val();
+    if (price !="" && price >= 0 && org_price != null && org_price >= 0) {
+        if (parseFloat(price) <= parseFloat(org_price) && (parseFloat(org_price) > 0 && parseFloat(org_price) > 0)) {
+            alert("销售价必须大于供货价");
+            $("#show_tc").html(0);
+        } else{
+            var bili = ((1-org_price/price)*100).toFixed(2);
+            $("#show_tc").html(bili+"%");
+        }
+    } else {
+        if($("input[name='goods_name']").val()!=""){
+            alert("请正确填写供货价和销售价");
+        }
+        $("#show_tc").html(0);
+    }
+}
+
+function add_uploadedfile(file_data)
+{
+    if(file_data.instance == 'goods_image'){
+        $('#goods_images').append('<li ectype="handle_pic" file_id="'+ file_data.file_id +'" thumbnail="{$img_url}/'+ file_data.thumbnail +'"><input type="hidden" value="'+ file_data.file_id +'" name="goods_file_id[]"/><div class="pic"><img src="{$img_url}/'+ file_data.thumbnail +'" width="55" height="55" alt="" /><div ectype="handler" class="bg"><p class="operation"><span class="cut_in" ectype="set_cover" ecm_title="{$lang.set_cover}"></span><span class="delete" ectype="drop_image" ecm_title="{$lang.drop}"></span></p></div></div></li>');
+                trigger_uploader();
+        if($('#big_goods_image').attr('src') == '{$goods.default_goods_image}'){
+            set_cover(file_data.file_id);
+        }
+        if(GOODS_SWFU.getStats().files_queued == 0){
+            window.setTimeout(function(){
+                $('#uploader').hide();
+                $('#open_uploader').find('.show').attr('class','hide');
+            },4000);
+        }
+    }else if(file_data.instance == 'desc_image'){
+        $('#desc_images').append('<li file_name="'+ file_data.file_name +'" file_path="'+ file_data.file_path +'" ectype="handle_pic" file_id="'+ file_data.file_id +'"><input type="hidden" name="desc_file_id[]" value="'+ file_data.file_id +'"><div class="pic" style="z-index: 2;"><img src="{$img_url}/'+ file_data.file_path +'" width="50" height="50" alt="'+ file_data.file_name +'" /></div><div ectype="handler" class="bg" style="z-index: 3;display:none"><img src="{$img_url}/'+ file_data.file_path +'" width="50" height="50" alt="'+ file_data.file_name +'" /><p class="operation"><a href="javascript:void(0);" class="cut_in" ectype="insert_editor" ecm_title="{$lang.insert_editor}"></a><span class="delete" ectype="drop_image" ecm_title="{$lang.drop}"></span></p><p class="name">'+ file_data.file_name +'</p></div></li>');
+                trigger_uploader();
+        if(EDITOR_SWFU.getStats().files_queued == 0){
+            window.setTimeout(function(){
+                $('#editor_uploader').hide();
+            },5000);
+        }
+    }
+}
+
+
+function set_cover(file_id){
+    if(typeof(file_id) == 'undefined'){
+        $('#big_goods_image').attr('src','{$goods.default_goods_image}');
+        return;
+    }
+    var obj = $('*[file_id="'+ file_id +'"]');
+    $('*[file_id="'+ file_id +'"]').clone(true).prependTo('#goods_images');
+    $('*[ectype="handler"]').hide();
+    $('#big_goods_image').attr('src',obj.attr('thumbnail'));
+    obj.remove();
+}
+
+//function check_ticheng() {
+//    if($("#checkbox_ticheng").attr("checked")==true) {
+//        $("#ticheng").removeAttr("disabled");
+//    } else {
+//        $("#ticheng").attr('disabled','disabled');
+//    }
+//}
+
+//]]>
+function submit_goods() {
+//    var scate = document.getElementsByName("sgcate_id[]");
+//    if (scate.length>0){
+//        for (var i=0;i<scate.length;i++) {
+//            if (scate[i].value==0) {
+//                alert("请选择本店分类！");
+//                return false;
+//            }
+//        }
+//    }
+
+    //if()
+
+    var cate_id  = $("input[name='cate_id']").val();
+    var store_id =$("#store_id ").val();
+    if(cate_id == 0 || cate_id == "" || cate_id ==null){
+        alert("请选择商品分类！");
+        return;
+    }
+    if(store_id == 0 || store_id == "" || store_id ==null){
+        alert("没有找到商家！");
+        return;
+    }
+    $.post("index.php?app=my_goods&act=check_ticheng_goods&"+new Date(),{cate_id:cate_id,store_id:store_id},function(rs){
+            if(rs.flag != "ok"){
+                alert(rs.msg);
+                return;
+            }
+
+            var ksgg =  $("input[name='ksgg']").val();
+            var spec_name_1 = $("input[name='spec_name_1']").val();
+            var spec_name_2 = $("input[name='spec_name_2']").val();
+            var check_flag = "true";
+            var hangye_ticheng = rs.ticheng;
+            if(typeof(ksgg) =="undefined"){
+                var price =  $("input[aname='price[]']");
+                var org_price =  $("input[aname='org_price[]']");
+
+                if(typeof(spec_name_1)!="undefined" && typeof(spec_name_2)!="undefined"){
+                    //2种规格
+                    var spec_data = $("input[aname='spec_1[]']");
+                    var spec2_data = $("input[aname='spec_2[]']");
+                    for(var i=0;i<spec_data.length;i++){
+                        var spec_1 = spec_data[i];
+                        var spec_2 = spec2_data[i];
+                        if(spec_1 && spec_2){
+                            var check_price =  price[i].value;
+                            var check_org_price =  org_price[i].value;
+                            var str_val =(1-check_org_price/check_price);       // check_flag
+                            if(str_val < rs.ticheng){
+                                check_flag = "false";
+
+                                break;
+                            }
+                        }
+                    }
+
+                }else if(typeof(spec_name_1)!="undefined" || typeof(spec_name_2)!="undefined"){
+                    //1种规格
+                    var spec_name_1_a = spec_name_1?spec_name_1:"";
+                    var spec_data = spec_name_1_a ? $("input[aname='spec_1[]']") :$("input[aname='spec_2[]']");
+                    for(var i=0;i<spec_data.length;i++){
+                        var spec_1 = spec_data[i];
+                        if(spec_1){
+                            var check_price =  price[i].value;
+                            var check_org_price =  org_price[i].value;
+                            var str_val =(1-check_org_price/check_price);       // check_flag
+                            if(str_val < rs.ticheng){
+                                check_flag = "false";
+                                break;
+                            }
+                        }
+                    }
+                }else{
+                    //没有开启规格
+                    var price =  $("input[name='price']").val();
+                    var org_price =  $("input[name='org_price']").val();
+                    var str_val =(1-org_price/price);       // check_flag
+                    if(str_val < rs.ticheng){
+                        check_flag = "false";
+                    }
+                }
+            }else{
+                var if_show = $("#spec_div").css("display");
+                if(if_show != "none"){
+                    var ksgg_price =  $("input[name='ksgg_price']").val();
+                    var ksgg_org_price =  $("input[name='ksgg_org_price']").val();
+
+                    if(ksgg_price == "" || ksgg_org_price ==""){
+                        alert("快速录入规格【供货价和价格不能为空！】");
+                        return;
+                    }
+
+                    ksgg_price = parseFloat(ksgg_price);
+                    ksgg_org_price = parseFloat(ksgg_org_price);
+                    if(ksgg_price < ksgg_org_price){
+                        alert("快速录入规格【价格必须大于供货价！】");
+                        return;
+                    }
+
+
+                    var str_val =(1-ksgg_org_price/ksgg_price);       // check_flag
+                    if(str_val < rs.ticheng){
+                        check_flag = "false";
+                    }
+                }
+            }
+            if(check_flag == "false"){
+                alert("佣金不能小于当前分类标准【"+hangye_ticheng*100+"%】");
+            }else{
+                $("#goods_form").submit();
+            }
+    },"json")
+
+}
+
+function showCountry(val){	
+	if(val==1){
+		$("#country_id").attr("disabled",'');
+	}else{
+		$("#country_id").attr("disabled",'disabled');
+	}
+}
+
+    function bith_cale_price(obj) {
+       var price = $(obj).parents('ul').find('li input[item="price"]').val();
+       var org_price=$(obj).parents('ul').find('li input[item="org_price"]').val();
+        if (price !=""&&price >=0 && org_price !=null && org_price>=0 && (price-org_price)>=0) {
+            var bili = ((1-org_price/price)*100).toFixed(2);
+            $(obj).parents('ul').find('li span[item="bili"]').html(bili+"%");
+        } else {
+            alert("请正确填写供货价和销售价");
+            $(obj).parents('ul').find('li span[item="bili"]').html(0+"%");
+            $(obj).parents('ul').find('li input[item="price"]').val("");
+        }
+    }
+
+    function show_yongjin(){
+        $(".yongjin_class").html("");
+        var ksgg_price =  $("input[name='ksgg_price']").val();
+        var ksgg_org_price =  $("input[name='ksgg_org_price']").val();
+
+        if(ksgg_price == "" || ksgg_org_price ==""){
+            return;
+        }
+        ksgg_price = parseFloat(ksgg_price);
+        ksgg_org_price = parseFloat(ksgg_org_price);
+        if(ksgg_price >=0 && ksgg_org_price >=0){
+            if(ksgg_price<ksgg_org_price){
+                alert("快速录入规格【价格必须大于供货价！】");
+                return;
+            }
+            var str_val =((1-ksgg_org_price/ksgg_price)*100).toFixed(2);;       // check_flag
+            $(".yongjin_class").html(str_val+"%");
+        }
+
+    }
+</script>
+<div class="content">
+
+ {include file=member.menu.html}
+
+
+  <div id="right" >
+     <!--{if $smarty.get.act!="goods_view"}-->
+      <!-- {if !$addType} -->
+      {include file=member.submenu.html}
+      <!-- {else} -->
+      <ul class="tab">
+         <li class="active"><!--{$formTitle}--></li>
+     </ul>
+         <!--{/if}-->
+     <!--{else}-->
+     <ul class="tab">
+         <li class="active">查看商品</li>
+     </ul>
+     <!-- {/if} -->
+        <div class="wrap">
+
+            <div class="public">
+                <form method="post" id="goods_form">
+                <input type="hidden" name="pd_id" id="pd_id" value="{$goods.pd_id}">
+                <input type="hidden" id="goods_pdid" value="{$goods.pd_id}">
+                <input type="hidden" id="goods_id" name="goods_id" value="{$id}">
+                <input type="hidden" id="default_ticheng" value="{$goods.ticheng|changerStr:100}%">
+
+                <!--{if $pageNo}-->
+                <input type="hidden" name="pageNo" value="{$pageNo}" />
+                <!--{/if}-->
+
+                <!--{if $addType}-->
+                <input type="hidden" name="addType" value="{$addType}" />
+                <!--{/if}-->
+                    <div class="information_index">
+
+                        <div class="add_spec" ectype="dialog_contents" style="display: none">
+                            <!--<form>-->
+                            <h2>{$lang.edit}{$lang.specification}</h2>
+                            <p>{$lang.note_for_add_spec_popup}</p>
+                            <div class="table" ectype="spec_editor">
+                                <ul class="th" style="width: 100%">
+                                    <li><input col="spec_name_1" type="text" class="text width4" /></li>
+                                    <li><input col="spec_name_2" type="text" class="text width4" /></li>
+                                    <li class="distance1">供货价</li>
+                                    <li class="distance1">{$lang.price}</li>
+                                    <li class="distance1">佣金</li>
+                                    <li class="distance1">{$lang.stock}</li>
+                                    <li class="distance2">{$lang.sku}</li>
+                                    <li class="distance3">{$lang.handle}</li>
+                                </ul>
+                                <ul class="td" ectype="spec_item" style="width: 100%">
+                                    <li><input item="spec_1" type="text" class="text width4" /></li>
+                                    <li><input item="spec_2" type="text" class="text width4" /></li>
+                                    <li><input item="org_price" type="text" class="text width4" /></li>
+                                    <li><input item="price" type="text" class="text width4" onblur="bith_cale_price(this)" /></li>
+                                    <li style="width: 60px;text-align: center;margin-top: 10px;"><span item="bili" /></span></li>
+                                    <li><input item="stock" type="text" class="text width4" /></li>
+                                    <li><input item="sku" type="text" class="text width8" /><input item="spec_id" type="hidden" /></li>
+                                    <li class="padding3">
+                                        <span ectype="up_spec_item" class="up_btn"></span>
+                                        <span ectype="down_spec_item" class="down_btn"></span>
+                                        <span ectype="drop_spec_item" class="delete_btn"></span>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="add"><a href="javascript:;" ectype="add_spec_item" class="add_link">{$lang.add_spec_item}</a></li>
+                                </ul>
+                            </div>
+                            <div class="btn_wrap"><input ectype="save_spec" type="submit" class="btn" value="{$lang.save_spec}" /></div>
+                            <!--</form>-->
+                            <div style="position:relative">
+                              <div class="add_spec_bottom"></div>
+                            </div>
+                        </div>
+
+                        <div class="add_wrap" style="margin-bottom: 8px;">
+                            <div class="assort">
+                                <p class="txt" style="padding-top: 8px; *padding-top: 10px; margin-top: 2px;">请选择分类: </p>
+                                <p class="select">
+                                    <input  readonly="readonly" name="sel_category" style="width: 200px;height: 25px;border: 2px solid #ddd; vertical-align: middle; line-height: 25px;"  id="sel_category" onclick="show_category_div()" value="{$goods.cate_name}" /><span class="red">*</span>
+                                     <script>
+                                         function show_category_div() {
+                                             var uri =encodeURI('index.php?app=datacache');
+                                             var id = 'categoryForm';
+                                             var title = "分类管理";
+                                             var width = '900';
+                                             ajax_form(id, title, uri, width);
+                                         }
+                                     </script>
+                                </p>
+                               <div id="brand_div">
+                                <p class="txt" style="width: 700px; height: 30px; line-height: 30px;"><input type="hidden" name="brand_id" value="{$goods.brand_id}">品牌：<span><input name="brand" type="hidden" value="{$goods.brand}">{$goods.brand}</span>&nbsp;&nbsp;<input id="checkbox_brand" type="checkbox" onclick="javascript:check()" style=" vertical-align: middle;"><span  style="color: #333">（如没有您想要的品牌，请勾选后在文本框中输入商品所属品牌）</span><input type='text' name='brand' id='brand_name' style="height: 20px;line-height: 20px; vertical-align: middle"  disabled='true'></p>
+                               </div>
+                               <div id="attr_div">
+                                    <!--{if $selectattrs }-->
+                                    <p class='txt' id='attr_ul'style='width: 700px;line-height: 30px;'>
+                                     商品属性：
+                                    <span style="color: #333">
+                                    <!--{foreach from=$selectattrs item=st name=my_value}-->
+                                    <input type='hidden' name='attr_id[]' value='{$st.attr_id}'><i style='margin-right: 10px;'><input name='attr_name[]' type='hidden' value='{$st.attr_name}'>{$st.attr_name}：{$st.attr_value}<input type='hidden' name='attr_value_{$st.attr_id}' value='{$st.attr_value}'></i>
+                                    <!--{/foreach}-->
+                                       </span> </p>
+                                    <!--{/if}-->
+                                </div>
+                                <input type="hidden" id="cate_id" name="cate_id" value="{$goods.cate_id}" />
+                                <input type="hidden" id="sel_catename" name="cate_name" value="{$goods.cate_name|escape}"  />
+                            </div>
+                        </div>
+                        <div class="add_wrap" style="margin-bottom: 10px;">
+                        <!-- {if !$addType} -->
+                        <div class="assort">
+                            <p class="txt">{$lang.sgcategory}: </p>
+                            <p class="select">
+                                <!--{if $goods._scates}-->
+                                <!--{foreach from=$goods._scates item=sgcate}-->
+                                <select name="sgcate_id[]" class="sgcategory">
+                                    <option value="0">{$lang.select_pls}</option>
+                                    {html_options options=$sgcategories selected=$sgcate.cate_id}
+                                </select>
+                                <!-- {/foreach} -->
+                                <!--{else}-->
+                                <select name="sgcate_id[]" class="sgcategory">
+                                    <option value="0">{$lang.select_pls}</option>
+                                    {html_options options=$sgcategories}
+                                </select>
+                                <!--{/if}-->
+
+                            </p>
+                            <p class="new_add">
+                                <a href="javascript:;" id="add_sgcategory" class="btn">{$lang.add_scategory}</a>
+                                <!--<span style="color: red;">*</span>-->
+                                <span style="color: #333">({$lang.note_for_sgcategory})</span><!--{if count($sgcategories) < 1}--><span style="color: red">&nbsp;&nbsp;您还没有添加本店分类，请先<a href="{$SITE_URL}/index.php?app=my_category&p=seller">添加</a></span><!--{/if}-->
+
+                            </p>
+                            <input type="hidden" id="store_id" name="store_id" value="{$visitor.user_id}" />
+                        </div>
+                        <!-- {else}-->
+                        <input type="hidden" name="addType" value="{$addType}" />
+                        <div class="assort">
+                            <p class="txt">请选择所属店铺: </p>
+                            <p class="select">
+                                <!--{if $stores}-->
+                                <select name="store_id" id="store_id" onchange="chsel();" class="sgcategory">
+                                    <!--{foreach from=$stores item=store}-->
+                                    <option value="{$store.store_id}" <!--{if $goods.store_id == $store.store_id}-->selected="selected"<!--{/if}--> >{$store.store_name}</option>
+                                    <!-- {/foreach} -->
+
+                                    <!--{else}-->
+                                    <select name="store_id" id="store_id" disabled="disabled" class="sgcategory">
+                                        <option value="" selected="selected" >没有找到商家</option>
+                                        <!--{/if}-->
+                                    </select>
+                                    <!--<span class="red">*</span>-->
+                                    &nbsp;&nbsp;&nbsp;<a href="index.php?app=service&act=uploadStore2&tuoguan=1&p=service" style='color:green' target="_blank">没有店铺？点击去新增店铺</a>
+                            </p>
+                        </div>
+                        <!-- {/if} -->
+                        </div>
+                        <div class="clear"></div>
+                        <div id="show_bdsh">
+                        <div class="add_wrap" style="margin-top: 5px;">
+                            <!--{if $visitor.member_type == '04'}-->
+                            <div class="assort">
+                                <p class="txt" style="*margin-top: 2px;">兑换此商品所需积分: </p>
+                                <p><span>&nbsp;&nbsp;<input type="checkbox" onclick="javascript:sel_jifen()" id="check_jifen" style="vertical-align: middle">&nbsp;&nbsp;(如果为积分商品，请勾选后请填写兑换此商品所需的积分)<input type="text" name="jifen" id="jifen"  style="height: 22px;line-height: 22px;vertical-align: middle" disabled="true" value="{$goods.if_jifen}"></span>
+                                    <script>
+                                        function sel_jifen() {
+                                            if($("#check_jifen").attr("checked")==true) {
+                                                $("#jifen").removeAttr('disabled');
+                                            } else {
+                                                $("#jifen").attr('disabled',true);
+                                            }
+                                        }
+                                    </script>
+                                </p>
+                            </div>
+                            <!--{/if}-->
+                        </div>
+
+                        <h4>{$lang.goods_base_info}</h4>
+                        <span style="color: red ;text-align:right;display:block;">填错商品信息，可能会引起商品下架，影响您的正常销售。请认真准确填写</span>
+                        <br>
+                        <div class="add_wrap">
+                        <div class="pic_list">
+                            <div class="big_pic"><img id="big_goods_image" src="{$goods.default_goods_image}" width="300" height="300" alt="" /></div>
+                            <div class="small_pic">
+                                <ul id="goods_images">
+                                    <!--{foreach from=$goods_images item=goods_iamge}-->
+                                    <li ectype="handle_pic" file_id="{$goods_iamge.file_id}" thumbnail="{$img_url}/{$goods_iamge.thumbnail}">
+                                        <input type="hidden" name="goods_file_id[]" value="{$goods_iamge.file_id}">
+                                        <div class="pic">
+                                            <img src="{$img_url}/{$goods_iamge.thumbnail}" width="55" height="55" />
+                                            <div ectype="handler" class="bg">
+                                                <p class="operation">
+                                                    <span class="cut_in" ectype="set_cover" ecm_title="{$lang.set_cover}"></span>
+                                                    <span class="delete" ectype="drop_image" ecm_title="{$lang.drop}"></span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <!--{/foreach}-->
+                                </ul>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="upload_btn">
+                                <div class="upload" id="open_uploader"><b class="hide">{$lang.upload_goods_image}</b></div>
+                                <div class="upload_con" id="uploader" style="display:none">
+                                    <div class="upload_con_top"></div>
+                                    <div class="upload_wrap">
+
+                                        <ul>
+                                            <li class="btn1">
+                                                <div id="divSwfuploadContainer">
+                                                    <div id="divButtonContainer">
+                                                        <span id="spanButtonPlaceholder"></span>
+                                                    </div>
+                                                </div>
+                                                <div id="divFileProgressContainer"></div>
+                                            </li>
+                                            <li><iframe src="index.php?app=comupload&act=view_iframe&id={$id}&belong={$belong}&pd_id={$pd_id}&instance=goods_image" width="86" height="30" scrolling="no" frameborder="0"></iframe></li>
+                                            <li id="open_remote" class="btn2">{$lang.rem_upload}</li>
+                                        </ul>
+                                        <div id="remote" class="upload_file" style="display:none">
+                                            <iframe src="index.php?app=comupload&act=view_remote&id={$id}&belong={$belong}&pd_id={$pd_id}&instance=goods_image" width="272" height="39" scrolling="no" frameborder="0"></iframe>
+                                        </div>
+                                        <div id="goods_upload_progress"></div>
+                                        <div class="upload_txt">
+                                            <span>{$lang.note_for_upload}</span>
+                                        </div>
+
+                                    </div>
+                                    <div class="upload_con_bottom"></div>
+                                </div>
+                                <a href="http://get.adobe.com/cn/flashplayer/" target="_blank" style='color:green'>无法上传图片？可能是您的浏览器不支持flash播放器，点击下载!</a>
+                            </div>
+                        </div>
+
+                        <div class="products">
+                        <ul>
+                        <li>
+                            <h2>{$lang.goods_name}: </h2>
+                            <div class="arrange"><input title="{$goods.goods_name|escape}" type="text" name="goods_name" value="{$goods.goods_name|escape}" class="text width_normal" /><span class="red">*</span></div>
+                        </li>
+
+                        <li>
+                            <h2>{$lang.tags}: </h2>
+                            <div class="arrange"><input type="text" name="tags" value="{$goods.tags|escape}" class="text width_normal" />
+                                <span class="gray">{$lang.goods_tags_note}</span></div>
+                        </li>
+                        <li>
+                            <h2>简短描述: </h2>
+                            <div class="arrange"><textarea cols="50" style="height: 50px;">{$goods.goods_desc|escape}</textarea>
+                                <span class="gray">（请对此商品进行简短描述）</span></div>
+                        </li>
+
+                        <!--{if $store.seller_type neq 3 }-->
+                        <li>
+                            <h2>是否进口: </h2>
+                            <div class="arrange" >
+                                <select id="if_jinkou" name="if_jinkou" onchange="showCountry(this.value)">
+                                    <option value="1" <!--{if $goods.if_jinkou eq 1}-->selected="selected"<!--{/if}--> >是</option>
+                                    <option value="2" <!--{if  !$goods.if_jinkou || $goods.if_jinkou eq 2}-->selected="selected"<!--{/if}-->>否</option>
+                                </select>
+                                &nbsp;&nbsp;&nbsp;  <img src="{$site_url}/themes/mall/default/styles/default/images/help-round.png" title="请如实填写商品是否进口。如勾选'是'则表示承诺该商品属于进口商品。" />
+                            </div>
+                        </li>
+                        <li>
+                            <h2>产地: </h2>
+                            <div class="arrange">
+
+                                <!-- {if !$countrys} -->
+                                <select id="country_id" name="country_id" disabled="disabled">
+                                    <option value="0" disabled="disabled">没有找到国家</option>
+                                </select>
+                                <!--{else}-->
+                                <select id="country_id" name="country_id" <!--{if  !$goods.if_jinkou || $goods.if_jinkou eq 2}-->disabled="disabled"<!--{/if}-->>
+                                <!--{foreach from=$countrys item=country name=sh}-->
+                                <option value="{$country.country_id}" <!--{if $goods.country_id eq $country.country_id}-->selected="selected"<!--{/if}--> >{$country.country_name}</option>
+                                <!-- {/foreach} -->
+                                </select>
+                                <!--{/if}-->
+                                <span style="color: #B9B9B9">&nbsp;&nbsp;目前只开放美国和韩国两个进口产地</span>
+                            </div>
+                        </li>
+                        <!--{/if}-->
+                        <!--{if $store.seller_type eq 3}-->
+                        <li>
+                            <h2>销售时间: </h2>
+                            <div class="arrange" >
+                            <input class="text width_normal" style="width: 100px;" type="text" name="start_time" id="start_time" value="<!--{if $goods.start_time gt 0}-->{$goods.start_time|date}<!--{/if}-->" /> &#8211;
+                            <input class="text width_normal" style="width: 100px;" id="end_time" type="text" name="end_time" value="<!--{if $goods.end_time gt 0}-->{$goods.end_time|date}<!--{/if}-->" />&nbsp;
+                            <span style="color: #B9B9B9">&nbsp;&nbsp;商品销售的起止时间</span>
+
+                        </li>
+                        <!--{/if}-->
+                        <li>
+                            <h2  ectype="no_spec">供货价: </h2>
+                            <div class="arrange"  ectype="no_spec"><input name="spec_id" value="{$goods._specs.0.spec_id}" type="hidden" />
+                                <input name="org_price" value="{$goods._specs.0.org_price}" type="text" class="text width_short" onblur="calc_price()" />
+                                <span class="red">*</span><span style="color: #B9B9B9">
+                                            &nbsp;&nbsp;<img src="{$site_url}/themes/mall/default/styles/default/images/help-round.png"
+                                                             title="请如实填写商品供货价，这将是大集客与商家进行结算的价格依据，例如商品出售价格为100元，给大集客的比例是10%，那么供货价则为90元 " />
+                                            </span></div>
+                        </li>
+                        <li>
+                            <h2  ectype="no_spec">{$lang.price}: </h2>
+                            <div class="arrange"  ectype="no_spec"><input name="spec_id" value="{$goods._specs.0.spec_id}" type="hidden" /><input name="price" value="{$goods._specs.0.price}" type="text" class="text width_short" onblur="calc_price()" /><span class="red">*</span><span style="color: #B9B9B9">&nbsp;&nbsp;请如实填写商品最终销售价格</span></div>
+                        </li>
+                        <li>
+                            <h2  ectype="no_spec">佣金: </h2>
+                            <div class="arrange"  ectype="no_spec"><span id="show_tc"></span><span style="color: #B9B9B9">&nbsp;&nbsp;佣金越高商品排名越靠前</span></div>
+                        </li>
+                        <!--{if $store.seller_type neq 3 }-->
+                        <li id="if_guojiguang">
+                            <h2>是否入驻国际馆: </h2>
+                            <div class="arrange" style="padding-top: 8px">
+                                            <span class="distance">
+                                                <label><input name="if_ruzhu" value="1" type="radio" {if $goods.if_ruzhu eq 1}checked="checked" {/if}/>{$lang.yes}</label>
+                                                <label><input name="if_ruzhu" value="2" type="radio" {if !$goods.if_ruzhu}checked="checked" {/if}/>{$lang.no}</label>
+                                            </span>
+                                <span class="gray"> <img src="{$site_url}/themes/mall/default/styles/default/images/help-round.png" title="选择 是 则该商品会在国际馆展示，如产地是韩国则该商品在韩国馆展示" /> </span>
+                            </div>
+                        </li>
+                        <!--{/if}-->
+                        <li ectype="no_spec">
+                            <h2>{$lang.stock}: </h2>
+                            <div class="arrange" ><input name="stock" value="{$goods._specs.0.stock}" type="text" class="text width_short" /><span class="red">*</span>
+                                &nbsp;&nbsp;&nbsp;
+                                <img src="{$site_url}/themes/mall/default/styles/default/images/gantanhao.gif" title="请如实填写商品库存数，买家付款后如72小时内还未发货则将可能影响到您的店铺信誉哦。" />
+                            </div>
+                        </li>
+                        <!--{if $store.seller_type neq 3 }-->
+                        <li>
+                            <h2>运费模板: </h2>
+                            <p class="new_add">
+
+
+                                <!-- {if !$addType} -->
+                                <!--{if  $shippings}-->
+                                <select name="shipping_id" id="shipping_id" class="selcategory" onchange="show_info(this.value)">
+                                    <option value="">--请选择运费模板--</option>
+                                    <!--{foreach from=$shippings item=shipping name=sh}-->
+                                    <option value="{$shipping.shipping_id}"
+
+                                    <!--{if $goods.shipping_id}-->
+                                    <!--{if $goods.shipping_id == $shipping.shipping_id}-->selected="selected"<!--{/if}-->
+                                    <!--{else}-->
+
+                                    <!--{if $smarty.foreach.sh.iteration==1}-->
+                                    selected="selected"
+                                    <!--{/if}-->
+
+                                    <!--{/if}-->
+
+
+                                    >{$shipping.shipping_name}</option>
+                                    <!-- {/foreach} -->
+
+                                    <!--{else}-->
+                                    <select name="shipping_id" id="shipping_id" disabled="disabled" class="selcategory">
+                                        <option value="" selected="selected" >没有运费模板</option>
+                                        <!--{/if}-->
+                                    </select>
+
+                                    <!--{else}-->
+
+                                    <!--{if $stores}-->
+                                    <select name="shipping_id" id="shipping_id" onchange="show_info(this.value)">
+                                        <option value="">--请选择运费模板--</option>
+                                    </select>
+                                    <!--{else}-->
+                                    <select name="shipping_id" disabled="disabled" id="shipping_id" onchange="show_info(this.value)">
+                                        <option value="0">没有任何可用模板</option>
+                                    </select>
+                                    <!--{/if}-->
+
+
+                                    <!--{/if}-->
+                                    <!--{if count(shippings > 0)}-->
+                                    &nbsp;&nbsp;<a href="javascript:showyunfei()">查看运费</a>&nbsp;&nbsp;
+                                    <a href="<!-- {if !$addType} -->index.php?app=my_shipping&p=seller<!--{else}-->index.php?app=service&act=peisong&p=service<!--{/if}-->" target="_blank">新增运费模板</a>
+                                    <br>
+                                    <div style="margin-left: 60px;color: #B9B9B9">使用运费模版后，系统会根据上架所在地，自动匹配运费模板，商家无需填写运费价格</div>
+                                    <br>
+                                    <!--{else}-->
+                                    &nbsp;&nbsp;您还没有创建任何模板，点击“新增运费模板”按钮创建
+                                    <!--{/if}-->
+                                    <div style="color: green; margin-left: 60px">如果没有选择运费模板，则默认为包邮</div><br>
+                                    <script>
+
+                                        var shippingId2="{$goods.shipping_id}";
+
+
+                                        /*ivar sp=document.getElementById("shipping_id");
+
+                                         f(sp.options.length>0)
+                                         {
+                                         for(var i=0;i<sp.options.length;i++)
+                                         {
+                                         if(sp.options[i].value!=0 && sp.options[i].value!="")
+                                         {
+                                         shippingId2=sp.options[i].value;
+                                         break;
+                                         }
+
+                                         }
+
+                                         }
+
+                                         var tmp_id="{$goods.shipping_id}";
+                                         if(tmp_id!="")
+                                         {
+                                         shippingId2=tmp_id;
+                                         }*/
+
+                                        function showyunfei()
+                                        {
+                                            if(shippingId2!="")
+                                            {
+
+                                                var uri =encodeURI("index.php?app=my_shipping&act=yunfei&type=1&shipping_id="+shippingId2);
+                                                var id = 'yunfeiForm';
+                                                var title = "运费管理";
+                                                var width = '700';
+                                                ajax_form(id, title, uri, width);
+                                            }else{
+                                                <!--{if !$stores}-->
+                                                alert("没有运费模板");
+                                                <!--{/if}-->
+                                            }
+
+                                        }
+                                        function show_info(shipping_id)
+                                        {
+                                            if(shipping_id!=0 && shipping_id!="")
+                                            {
+                                                shippingId2=shipping_id;
+                                            }
+
+                                        }
+                                    </script>
+                        </li>
+                        <li ectype="no_spec">
+                            <h2>{$lang.sku}: </h2>
+                            <div class="arrange"><input name="sku" value="{$goods._specs.0.sku}" type="text" class="text width_normal" />
+                                &nbsp;&nbsp;请填写商品编码
+                            </div>
+                        </li>
+                        <!--{/if}-->
+                        <!--{if $visitor.member_type !='01' }-->
+                        <li>
+                            <h2>快速录入规格：</h2>
+                            <div class="arrange"><input type="checkbox" id="ksgg" name="ksgg" onclick="show_spec()">快速录入规格(注：如果选择快速录入规格，在提交时请注意必须勾选上)</div>
+
+                            <script>
+                                function show_spec() {
+                                    if ($("#ksgg").attr("checked")) {
+                                        document.getElementById("spec_div").style.display="block";
+                                    } else {
+                                        document.getElementById("spec_div").style.display="none";
+                                    }
+                                }
+                                function closeDiv() {
+                                    document.getElementById("spec_div").style.display="none";
+                                }
+                            </script>
+
+                        </li>
+                        <!--{/if}-->
+                        <li>
+                            <h2>{$lang.spec}: </h2>
+                            <div class="arrange">
+                                <div class="box_arr" ectype="no_spec"  style="display: none;">
+                                    <p class="pos_btn"><a ectype="add_spec" href="javascript:;" class="add_btn">{$lang.enable_spec}</a></p>
+                                    <p class="pos_txt">{$lang.note_for_add_spec}</p>
+                                </div>
+                                <div class="box_arr" ectype="has_spec"  style="display: none;">
+                                    <table ectype="spec_result">
+                                        <tr>
+                                            <th col="spec_name_1">loading..</th>
+                                            <th col="spec_name_2">loading..</th>
+                                            <th col="org_price">供货价</th>
+                                            <th col="price">{$lang.price}</th>
+                                            <th col="bili">佣金</th>
+                                            <th col="stock">{$lang.stock}</th>
+                                            <th col="sku">{$lang.sku}</th>
+                                        </tr>
+                                        <tr ectype="spec_item" style="display:none">
+                                            <td item="spec_1"></td>
+                                            <td item="spec_2"></td>
+                                            <td item="org_price"></td>
+                                            <td item="price"></td>
+                                            <td item="bili"></td>
+                                            <td item="stock"></td>
+                                            <td item="sku"></td>
+                                        </tr>
+                                    </table>
+                                    <p class="table_btn">
+                                        <a ectype="edit_spec" href="javascript:;" class="add_btn edit_spec">{$lang.edit_spec}</a>
+                                        <a ectype="disable_spec" href="javascript:;" class="add_btn disable_spec">{$lang.disable_spec}</a>
+                                    </p>
+                                </div>
+                            </div>
+                            <div style="display: none;padding-left: 10px; position: absolute; left: 425px; background: #fff; z-index: 12; border: 1px solid #ff6600"  id="spec_div" >
+                                <table style="width: 500px; line-height: 20px;" >
+                                    <Tr>
+                                        <td colspan="2" style="color: #999">(注：规格名称可以自己编辑，规格的值如果有多个值请用英文逗号隔开，比如 颜色：红色,白色,绿色,黄色。且：如有两个规格，规格的值需要对应
+                                            如：颜色：黄色,白色,红色 尺寸：X,M,XL（规格值的个数必须一样如上事例中都为3个值）如需调整请在编辑商品的编辑规格中调整规格对应及价格
+                                            )</td>
+                                    </Tr>
+                                    <Tr style="height: 30px;">
+                                        <td ><input type="text" name="ksggk1" value="颜色" size="8"></td>
+                                        <Td><input type="text" name="ksggv1" size="50"></Td>
+                                    </Tr>
+                                    <tR  style="height: 30px;">
+                                        <td>
+                                            <input type="text" name="ksggk2" value="尺寸" size="8">
+                                        </td>
+                                        <td><input type="text" name="ksggv2" size="50"/></td>
+                                    </tR>
+                                    <tR style="height: 30px;">
+                                        <td><span style="width: 30px;">供货价</span></td>
+                                        <Td><input name="ksgg_org_price" onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"  onblur="show_yongjin()" type="text" size="50"/></Td>
+                                    </tR>
+                                    <tR style="height: 30px;">
+                                        <td ><span style="width: 30px;">价格</span></td>
+                                        <Td><input name="ksgg_price" onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"  onblur="show_yongjin()" type="text" size="50"/></Td>
+                                    </tR>
+                                    <tR style="height: 30px;">
+                                        <td ><span style="width: 30px;">库存</span></td>
+                                        <Td><input name="ksgg_kucun" type="text" size="50"/></Td>
+                                    </tR>
+                                    <tR style="height: 30px;">
+                                        <td ><span style="width: 30px;">货号</span></td><Td>
+                                        <input name="ksgg_huohao" type="text" size="50"/>
+                                    </Td>
+                                    <tR style="height: 30px;">
+                                        <td ><span style="width: 30px;cursor: pointer;color: orange" onclick="show_yongjin()">计算佣金</span></td><Td>
+                                         <label class="yongjin_class"></label>
+                                    </Td>
+                                    </tR>
+                                    <!--<tR>
+                                        <td colspan="2"><input type="button" value="确定" onclick="closeDiv()"></Td>
+                                    </tR>-->
+                                </table>
+                            </div>
+                        </li>
+                        <li>
+                            <h2>{$lang.if_show}: </h2>
+                            <div class="arrange" style="padding-top: 8px">
+                                            <span class="distance">
+                                                <label><input name="if_show" value="1" type="radio" {if $goods.if_show}checked="checked" {/if}/> {$lang.yes}</label>
+                                                <label><input name="if_show" value="0" type="radio" {if !$goods.if_show}checked="checked" {/if}/> {$lang.no}</label>
+                                            </span>
+                                <span class="gray">上架的商品将能被买家购买，下架商品买家无法购买</span>
+                            </div>
+                        </li>
+                        <li>
+                            <h2>{$lang.recommended}: </h2>
+                            <div class="arrange">
+                                            <span class="distance" style="padding-top: 8px">
+                                                <label><input name="recommended" value="1" {if $goods.recommended}checked="checked" {/if}type="radio" name="c2" /> {$lang.yes}</label>
+                                                <label><input name="recommended" value="0" {if !$goods.recommended}checked="checked" {/if}type="radio" name="c2" /> {$lang.no}</label>
+                                            </span>
+                                <span class="gray">{$lang.note_for_recommended}</span>
+                            </div>
+                        </li>
+
+                        <li>
+                            <h2>是否发货: </h2>
+                            <div class="arrange" style="padding-top: 8px">
+                                            <span class="distance">
+                                                <label><input name="is_send" value="0" type="radio" {if $goods.is_send eq 0}checked="checked" {/if}/> {$lang.yes}</label>
+                                                <label><input name="is_send" value="1" type="radio" {if $goods.is_send eq 1}checked="checked" {/if}/> {$lang.no}</label>
+                                            </span>
+                                <span class="gray">上门消费的商品在此选择否</span>
+                            </div>
+                        </li>
+                        <li>
+                            <h2>是否禁售: </h2>
+                            <div class="arrange" style="padding-top: 8px">
+                                            <span class="distance">
+                                                <label><input name="closed" value="1" {if $goods.closed}checked="checked" {/if}type="radio" name="c2" /> {$lang.yes}</label>
+                                                <label><input name="closed" value="0" {if !$goods.closed}checked="checked" {/if}type="radio" name="c2" /> {$lang.no}</label>
+                                            </span>
+                                <span class="gray">禁售的商品在商城中将不能购买</span>
+                            </div>
+                        </li>
+                        </ul>
+                        </div>
+                        <div class="clear"></div>
+                        </div>
+                        </div>
+                        <div class="add_bewrite">
+                            <h5>{$lang.description}</h5>
+                            <div class="add_wrap">
+                                <div class="editor">
+                                    <div>
+                                    <textarea name="description" id="description"  style="width:100%; height:400px;">
+                                    {$goods.description|escape}
+                                    </textarea>
+                                    </div>
+                                    <div style=" position: relative; top: 10px; z-index: 5;"><a class="btn3" id="open_editor_uploader">{$lang.uploadedfile}</a>
+                                        <div class="upload_con" id="editor_uploader" style="display:none">
+                                            <div class="upload_con_top"></div>
+                                            <div class="upload_wrap">
+
+                                                <ul>
+                                                    <li>
+                                                        <div id="divSwfuploadContainer">
+                                                            <div id="divButtonContainer">
+                                                                <span id="editor_upload_button"></span>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li><iframe src="index.php?app=comupload&act=view_iframe&id={$id}&belong={$belong}&instance=desc_image" width="86" height="30" scrolling="no" frameborder="0"></iframe></li>
+                                                    <li id="open_editor_remote" class="btn2">{$lang.rem_upload}</li>
+                                                </ul>
+                                                <div id="editor_remote" class="upload_file" style="display:none">
+                                                <iframe src="index.php?app=comupload&act=view_remote&id={$id}&belong={$belong}&instance=desc_image" width="272" height="39" scrolling="no" frameborder="0"></iframe>
+                                                </div>
+                                                <div id="editor_upload_progress"></div>
+                                                <div class="upload_txt">
+                                                    <span>{$lang.note_for_upload}</span>
+                                                </div>
+
+                                            </div>
+                                            <div class="upload_con_bottom"></div>
+                                        </div>
+                                    </div>
+                                    <ul id="desc_images" class="preview">
+                                        <!--{foreach from=$desc_images item=desc_image}-->
+                                        <li ectype="handle_pic" file_name="{$desc_image.file_name|escape}" file_path="{$desc_image.file_path}" file_id="{$desc_image.file_id}">
+                                        <input type="hidden" name="desc_file_id[]" value="{$desc_image.file_id}">
+                                            <div class="pic">
+                                            <img src="{$img_url}/{$desc_image.file_path}" width="50" height="50" alt="{$desc_image.file_name|escape}" title="{$desc_image.file_name|escape}" /></div>
+                                            <div ectype="handler" class="bg">
+                                            <img src="{$img_url}/{$desc_image.file_path}" width="50" height="50" alt="{$desc_image.file_name|escape}" title="{$desc_image.file_name|escape}" />
+                                                <p class="operation">
+                                                    <a class="cut_in" ectype="insert_editor" href="javascript:void(0);" ecm_title="{$lang.insert_editor}"></a>
+                                                    <span class="delete" ectype="drop_image" ecm_title="{$lang.drop}"></span>
+                                                </p>
+                                                <p title="{$desc_image.file_name|escape}" class="name">{$desc_image.file_name|escape}</p>
+                                            </div>
+                                        </li>
+                                        <!--{/foreach}-->
+                                    </ul>
+                                    <div class="clear"></div>
+                                </div>
+                                <!--{if $smarty.get.act!="goods_view"}-->
+                                <div class="issuance">
+                                    <!-- {if $addType} -->
+                                            <!--{if $stores}-->
+                                            <input type="button" onclick="submit_goods()" class="btn" value="{$lang.submit}" />
+                                            <!--{else}-->
+                                            <input type="submit" disabled="disabled" class="btn" value="{$lang.submit}" />
+                                            <!--{/if}-->
+                                    <!--{else}-->
+                                    <input type="button" onclick="submit_goods()" class="btn" value="{$lang.submit}"  />
+                                    <!--{/if}-->
+                                    <input type="button" onclick="views()" class="btn" value="预览"  />
+                             </div>
+                              <!--{/if}-->
+
+                        </div>
+                    </div>
+
+                </div>
+                </form>
+            </div>
+            <div class="wrap_bottom"></div>
+        </div>
+
+        <div class="clear"></div>
+        <div class="adorn_right1"></div>
+        <div class="adorn_right2"></div>
+        <div class="adorn_right3"></div>
+        <div class="adorn_right4"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+        
+
+<script type="text/javascript" src="{lib file=jike.js}" charset="utf-8"></script>
+<script type="text/javascript" src="{lib file=member.js}" charset="utf-8"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.plugins/jquery.validate.js" ></script>
+
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/dialog/dialog.js" id="dialog_js"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js" ></script>
+
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+
+<script>
+
+function views() {
+    document.getElementById("goods_form").action = "index.php?app=goods_view";
+    document.getElementById("goods_form").method = "post";
+    $("#goods_form").attr("target","blank");
+
+    document.getElementById("goods_form").submit();
+}
+
+<!--{if $stores}-->
+var selects=[];
+selects[0]=new Array(
+new Option('--请选择运费模板--','0'));
+
+  //初始化数据   运费模板
+  <!--{foreach from=$stores item=store key=storekey}-->
+
+  	selects['{$storekey}']=new Array(
+
+	<!--{foreach from=$shippingArray.$storekey name=yun_fei item=yunfei key=yunfeikey}-->
+    new Option('{$yunfei.shipping_name}','{$yunfei.shipping_id}')
+
+     <!--{if $smarty.foreach.yun_fei.last}-->
+
+     <!-- {else} -->
+     ,
+     <!--{/if}-->
+
+    <!--{/foreach}-->
+
+    );
+ <!--{/foreach}-->
+
+var store_id=document.getElementById("store_id");
+var shipping_id=document.getElementById("shipping_id");
+
+function chsel(){
+if(store_id.value) {
+   shipping_id.options.length=1;
+   for(var i=0;i<selects[store_id.value].length;i++){
+	   if(i==0)
+	   {
+		 shippingId2=selects[store_id.value][i].value;			 
+	   }
+   shipping_id.options.add(selects[store_id.value][i]);
+   }
+}
+//    get_yongjin();
+}
+
+window.onload=function(){chsel();
+
+
+<!-- {if $goods.shipping_id} -->
+//如果之前已经设置过值需要选择原始值
+for(var i=0;i<shipping_id.options.length;i++)
+{
+   if (shipping_id.options[i].value == "{$goods.shipping_id}")
+   {
+	 shipping_id.options[i].selected = true;
+	 shippingId2={$goods.shipping_id};	
+	 break;
+   }
+}
+<!-- {/if} -->
+}
+
+<!--{/if}-->
+
+
+$(function(){
+
+    calc_price();
+    $('#goods_form').validate({
+        errorPlacement: function(error, element){
+            $(element).next('.field_notice').hide();
+            $(element).after(error);
+        },
+//        submitHandler : function(form) {
+//            submit_goods();
+//        },
+        success       : function(label){
+            label.addClass('validate_right').text('OK!');
+        },
+        onkeyup : false,
+        rules : {
+            sel_category :{
+                required   : true
+            },
+            goods_name : {
+                required   : true
+            },
+            price      : {
+                number     : true,
+                required : true,
+                min : 0
+            },
+            org_price      : {
+                required : true,
+                number     : true,
+                min : 0
+            },
+            jifen     :{
+                required :true,
+                digits    : true,
+                min : 1
+            },
+            stock      : {
+                digits    : true
+            },
+            ticheng :{
+                yongjinValidate : []
+            },
+            market_price :{
+                number     : true,
+                required : true,
+                min : 0
+            },
+            start_time :{
+                required : true
+            },
+            end_time :{
+                required : true
+            }
+        },
+        messages : {
+            sel_category :{
+                required   : '请选择分类到最后1级'
+            },
+            goods_name  : {
+                required   : '{$lang.goods_name_empty}'
+            },
+            price       : {
+                number     : '{$lang.number_only}',
+                required : '{$lang.price_empty}',
+                min : '{$lang.price_ge_0}'
+            },
+            org_price       : {
+                number     : '{$lang.number_only}',
+                required : '供货价不能为空',
+                min : '{$lang.price_ge_0}'
+            },
+            jifen       : {
+                required : '积分不能为空',
+                digits  : '{$lang.number_only}',
+                min : '积分必须大于0'
+            },
+            stock       : {
+                digits  : '{$lang.number_only}'
+            },
+            start_time   : {
+                required : '商品销售开始时间不能为空！'
+            },
+            end_time   : {
+                required : '商品销售结束时间不能为空！'
+            },
+            market_price   : {
+                number     : '原价只能是数字',
+                required : '原价不能为空',
+                min : '原价必须大于0'
+            }
+        }
+    });
+    // init cover
+    set_cover($("#goods_images li:first-child").attr('file_id'));
+
+    // init spec
+    spec_update();
+//    get_yongjin();
+//    if ($("#goods_id").val()>0) {
+//        var goods_id = $("#goods_id").val();
+//        var pd_id = $("#goods_pdid").val();
+//        if(pd_id ==5) {
+//            get_bdsh('edit',goods_id);
+//        }
+//    }
+});
+
+jQuery.validator.addMethod("yongjinValidate", function(value, element) {
+    var t = parseFloat($("#ticheng").val())*100;
+    var m = parseFloat($("#yongjin").text());
+    if ($("#ticheng").attr("disabled") == false) {
+        if (t==""||t==null) {
+            alert("佣金不能为空！");
+            return false;
+        }
+    }
+    return true;
+}, "");
+
+var st= $('#start_time').val();
+$('#start_time').datepicker({dateFormat: 'yy-mm-dd', changeMonth: true,
+    changeYear: true,yearRange: '2013:2050',defaultDate:new Date()
+});
+$('#end_time').datepicker(
+        {dateFormat: 'yy-mm-dd', changeMonth: true,
+            changeYear: true,yearRange: '2013:2050',defaultDate:new Date(),minDate: st
+        });
+//
+// function get_yongjin() {
+//     var store_id=document.getElementById("store_id");
+//     var s_id = null;
+//     if (store_id!=null) {
+//         s_id = store_id.value;
+//     }
+//      $.getJSON("index.php?app=my_goods&act=get_ajax_yongjin",{'store_id':s_id},function(data){
+//          var default_tc =   $("#default_ticheng").val();
+//          var dt = default_tc.substr(0,default_tc.indexOf("%"));
+//          if (dt > 0){
+//              $("#yongjin").val($("#default_ticheng").val());
+//              $("#show_tc").html($("#default_ticheng").val());
+//          } else{
+//              var d = data;
+//              var str = d * 100;
+//             $("#yongjin").val(str+"%");
+//             $("#show_tc").html(str+"%");
+//           }
+//         });
+// }
+
+</script>
+
+{include file=footer.html}

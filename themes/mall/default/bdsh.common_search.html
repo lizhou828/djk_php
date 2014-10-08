@@ -1,0 +1,77 @@
+<!--logo部分-->
+<div class="logo1200">
+    <div class="logo">
+        <a href="/"><img src="{res file=images/bdsh.png}" width="279" height="55" ></a>
+    </div>
+    <div class="logo-dz">
+        <h2><a href="<!--{if $filters.bdsh_area}-->{url app=bdsh&pd_id=5&bdsh_reg_id=$filters.bdsh_reg_id}<!--{else}-->{url app=bdsh&pd_id=5&bdsh_reg_id=321}<!--{/if}-->" style="color: #333333;margin-left: 5px;" id="chengshi">&nbsp;<!--{if $filters.bdsh_area}-->{$filters.bdsh_area}<!--{else}-->上海<!--{/if}--></a></h2>
+        <span>&nbsp;&nbsp;<a href="{url app=bdsh&act=change_city}" style="color: #27A196">[切换城市]</a></span>
+    </div>
+    <div class="logo-search">
+            <form  name="form1" method="get" action="">
+                <input type="hidden" name="act" id="act" value=""/>
+                <input type="hidden" name="app" id="app" value=""/>
+                <input type="hidden" name="bdsh_reg_id" value="{$filters.bdsh_reg_id}"/>
+                <input type="text"  class="input_text" lang="zh-CN"  value="{$ky[0]}" onblur="searchBlur(this)" onfocus="searchFocus(this)" maxlength="60" x-webkit-speech="" onwebkitspeechchange="foo()" x-webkit-grammar="builtin:search" id="keyword" name="keyword" style="color: rgb(153, 153, 153);" /></span>
+                <input type="submit" name="Submit" value="搜本地生活" onclick="searchInput('bdsh');" class="input_submit"  <!--{if $kw }--> value="{$ky}"<!--{/if}-->/>
+                <input type="submit" name="Submit" value="搜全站" onclick="searchInput('index');" class="logo-ann" />
+            </form>
+        <div class="clear"></div>
+        <p> <!--{foreach from=$hot_keywords item=keyword name=my_kw}-->
+            <a href="{r_url app=search&keyword=$keyword}" {if $smarty.foreach.my_kw.index==0} class="cd0281e" {elseif $smarty.foreach.my_kw.index==1}class="c1d5b9f"{elseif $smarty.foreach.my_kw.index==2}class="ceaac44"{elseif $smarty.foreach.my_kw.index==3}class="c92bd49"{else}class="c27a196"{/if}>{$keyword}</a>
+            <!--{/foreach}--></p>
+        </div>
+</div>
+
+<script>
+    function searchInput(type) {
+        if($('#keyword').val()==searchTxt) {
+            $('#keyword').attr("value","");
+        }
+        if ($('#keyword').val()==""){
+            $('#keyword').attr("value",searchTxt);
+        }
+    if (type =='index') {
+        $('#app').val('search');
+        $("#act").val('index');
+    } else {
+        $('#app').val('bdsh');
+        $("#act").val('get_category_goods');
+    }
+        $("#searchForm").submit();
+    }
+</script>
+
+<!--全部内容-->
+<!--logo部分-->
+<!--<div class="login" style="margin: 0px auto;">-->
+    <!--<div class="logo">-->
+        <!--&lt;!&ndash;{if $smarty.get.app =='hgg'}&ndash;&gt;-->
+        <!--<a href="/"><img src="{res file=images/hg_logo.png}" width="269" height="47" /></a>-->
+        <!--&lt;!&ndash;{elseif $smarty.get.app =='bdsh'|| $smarty.get.act =='store'}&ndash;&gt;-->
+        <!--<a href="/"><img src="{res file=images/bdsh.png}" width="320" height="55" ></a>-->
+        <!--&lt;!&ndash;{elseif $smarty.get.app =='tese'}&ndash;&gt;-->
+        <!--<a href="/"><img src="{res file=images/tese.png}" width="320" height="55" ></a>-->
+        <!--&lt;!&ndash;{elseif $smarty.get.app =='gczg'}&ndash;&gt;-->
+        <!--<a href="/"><img src="{res file=images/gczg.png}" width="320" height="55" ></a>-->
+        <!--&lt;!&ndash;{elseif $smarty.get.app =='market'}&ndash;&gt;-->
+        <!--<a href="/"><img src="{res file=images/chaoshi.png}" width="289" height="55" ></a>-->
+        <!--&lt;!&ndash;{elseif $smarty.get.app =='lydj'}&ndash;&gt;-->
+        <!--<a href="/"><img src="{res file=images/lydj.png}" width="289" height="55" ></a>-->
+        <!--&lt;!&ndash;{else}&ndash;&gt;-->
+        <!--<a href="/"><img src="{res file=images/logo.png}" width="269" height="47" /></a>-->
+        <!--&lt;!&ndash;{/if}&ndash;&gt;-->
+    <!--</div>-->
+    <!--&lt;!&ndash;{if $smarty.get.app=='bdsh' || $smarty.get.act== 'store'}&ndash;&gt;-->
+
+    <!--&lt;!&ndash;{/if}&ndash;&gt;-->
+    <!--<div class="search" id="search">-->
+
+        <!--<div class="resou">热搜：-->
+            <!--&lt;!&ndash;{foreach from=$hot_keywords item=keyword name=my_kw}&ndash;&gt;-->
+            <!--<a href="{r_url app=search&keyword=$keyword}" {if $smarty.foreach.my_kw.index==0} class="cd0281e" {elseif $smarty.foreach.my_kw.index==1}class="c1d5b9f"{elseif $smarty.foreach.my_kw.index==2}class="ceaac44"{elseif $smarty.foreach.my_kw.index==3}class="c92bd49"{else}class="c27a196"{/if}>{$keyword}</a>-->
+            <!--&lt;!&ndash;{/foreach}&ndash;&gt;</div>-->
+    <!--</div>-->
+    <!--<div class="car"><a href="{url app=cart}"></a><span class="span01"><span>{$cart_goods_kinds}</span></span></div>-->
+<!--</div>-->
+

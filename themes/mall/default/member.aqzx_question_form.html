@@ -1,0 +1,108 @@
+{include file=member.header.html}
+<style type="text/css">
+.bgwhite { background: #FFFFFF; }
+</style>
+
+<style>
+.borline td { padding:10px 0px; }
+.ware_list th { text-align:left; }
+</style>
+
+<!--[if IE]><style type="text/css">
+    .content #right .kuang3 .item .f1 .a1{margin-left:5px}
+</style><![endif]-->
+
+<script>
+//    $(function(){
+//         var question = {$questions};
+//        var user ={$user};
+//        alert(question[user.user_id]);
+//
+//    });
+
+
+
+    function submit_form() {
+        if($("#qs1").val() ==""&& $("#qs2").val() ==""&&$("#qs3").val() =="") {
+            alert("请至少填写一个密保问题！");
+            return ;
+        }
+        if($("#qs1").val() !="") {
+            if ($("#as1").val()==""||$("#as1").val()==null) {
+                alert("答案不能为空！");
+                $("#as1").focus();
+                return;
+            }
+        }
+        if($("#qs2").val() !="") {
+            if ($("#as2").val()==""||$("#as2").val()==null) {
+                alert("答案不能为空！");
+                $("#as2").focus();
+                return;
+            }
+        }
+        if($("#qs3").val() !="") {
+            if ($("#as3").val()==""||$("#as3").val()==null) {
+                alert("答案不能为空！");
+                $("#as3").focus();
+                return;
+            }
+        }
+
+        $(".a1").attr("disabled","disabled");
+        $(".a1").css("background","");
+        $(".a1").val("处理中...");
+        document.getElementById('save_question').submit();
+    }
+</script>
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right" >
+        <ul class="tab">
+            <li class="active" > <a href="index.php?app={$smarty.get.app}&act=aqzx&p={$smarty.get.p}">密保问题设置</a></li>
+            </ul>
+        <div class="eject_con bgwhite" style="padding: 30px 0 50px">
+            <center><div id="warning" name="warning" style="width:92%;"></div></center>
+            <form method="post" id="save_question" name="save_question">
+            <table style="width: 270px;margin-left: 100px;">
+                <tr height="40"><td>问题一</td><td><select name="question[]" id="qs1" style="border: 1px solid #ddd;width: 200px;height: 22px;">
+                    <option value="">---请选择---</option>
+                    <!--{foreach from=$questions item=question}-->
+                    <option value="{$question}" <!--{foreach from=$qu item=v}--><!--{foreach from=$v.name item=qn name=ques_name}--><!--{if $question == $qn && $smarty.foreach.ques_name.index==0 }--> selected="selected" <!--{/if}--><!--{/foreach}--><!--{/foreach}-->>{$question}</option>
+                    <!--{/foreach}-->
+                </select></td></tr>
+                <tr height="40"><td>答案</td><td><input name="answer[]" id="as1" style="border: 1px solid #ddd;width: 200px;height: 22px;"></td></tr>
+                <tr height="40"><td>问题二</td><td><select name="question[]" id="qs2" style="border: 1px solid #ddd;width: 200px;height: 22px;">
+                    <option value="">---请选择---</option>
+                    <!--{foreach from=$questions item=question}-->
+                    <option value="{$question}" <!--{foreach from=$qu item=v}--><!--{foreach from=$v.name item=qn name=ques_name}--><!--{if $question == $qn && $smarty.foreach.ques_name.index==1 }--> selected="selected" <!--{/if}--><!--{/foreach}--><!--{/foreach}-->>{$question}</option>
+                    <!--{/foreach}-->
+                </select>
+                </td></tr>
+                <tr height="40"><td>答案</td><td><input name="answer[]" id="as2" style="border: 1px solid #ddd;width: 200px;height: 22px;"></td></tr>
+                <tr height="40"><td>问题三</td><td ><select name="question[]" id="qs3" style="border: 1px solid #ddd;width: 200px;height: 22px;">
+                    <option value="">---请选择---</option>
+                    <!--{foreach from=$questions item=question}-->
+                    <option value="{$question}" <!--{foreach from=$qu item=v}--><!--{foreach from=$v.name item=qn name=ques_name}--><!--{if $question == $qn && $smarty.foreach.ques_name.index==2 }--> selected="selected" <!--{/if}--><!--{/foreach}--><!--{/foreach}-->>{$question}</option>
+                    <!--{/foreach}-->
+                    </select></td></tr>
+                <tr height="40"><td>答案</td><td><input name="answer[]" id="as3" style="border: 1px solid #ddd;width: 200px;height: 22px;"></td></tr>
+            </table>
+
+                <div>
+                    <span class="label"></span>
+                    <div style="margin-left: 140px; margin-top: 5px; "><input value="提交" type="button" onclick="submit_form()" style=" cursor:pointer;  width: 80px;height: 30px; line-height: 30px; color: #666; border: 1px solid #ddd; text-align: center; font-weight: bold; background: #f1f1f1;" /></div>
+                </div>
+                <div style="margin-left: 100px; margin-top: 30px; color: #999; line-height: 22px;">
+                    <span style="color: #555;">说明：</span><br>
+                    1，请设置容易记忆的密保问题，并定期重新设置，避免遗忘<br>
+                    2，请不要向外人透露您的密保问题答案
+                </div>
+            </form>
+            </div>
+
+    </div>
+    <div class="clear"></div>
+</div>
+
+{include file=footer.html}

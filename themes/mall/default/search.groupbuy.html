@@ -1,0 +1,238 @@
+{include file=header1.html}
+{include file=curlocal.html}
+<div id="navBartg" class="mb10" >
+    <div class="content">
+        <div id="all-category">
+            <div class="title" style="background:#119f92">
+                <h2 title="商品全部分类"><a href="{r_url app=category}">商品全部分类</a></h2>
+                <i></i></div>
+            <div id="category" class="category pngFix">
+                <ul class="menu">
+                    <!--{foreach from=$gcategorys_left item=gcategory name=gcategory}-->
+                    <!-- {if $smarty.foreach.gcategory.index<7 }-->
+                    <!-- {if !empty($gcategory) }-->
+                    <li id="cat_{$smarty.foreach.gcategory.index}">
+                        <h3><span class="block"><a href="{r_url app=search&cate_id=$gcategory.id}" title="{$gcategory.value|escape}">{$gcategory.value|escape}</a>   </span>
+                         <span>
+                                <a href="{r_url app=search&cate_id=$gcategory.children[0].id}">{$gcategory.children[0].value}</a>
+                                <a href="{r_url app=search&cate_id=$gcategory.children[1].id}">{$gcategory.children[1].value}</a>
+                               <a href="{r_url app=search&cate_id=$gcategory.children[2].id}">{$gcategory.children[2].value}</a>
+                         </span>
+                        </h3>
+                        <div class="cat-menu" id="cat_{$smarty.foreach.gcategory.index}_menu">
+                            <dl>
+                                <dt> {$gcategory.value|escape} </dt>
+                                <dd><!--{foreach from=$gcategory.children item=child}--><a href="{r_url app=search&cate_id=$child.id}">{$child.value|escape}</a> <!--{/foreach}--> </dd>
+                            </dl>
+
+                        </div>
+                    </li>
+                    <!--{/if}-->
+                    <!--{/if}-->
+                    <!--{/foreach}-->
+                    <div class="clear"></div>
+                </ul>
+            </div>
+
+        </div>
+        <ul class="nc-nav-menu">
+            <li <!--{if  $smarty.get.app == 'search' && !$brand}-->class="current" <!--{else}--> class="link" <!--{/if}--> ><a href="{r_url app=search&act=groupbuy}"><span>首页</span></a></li>
+            <li <!--{if $filters.pd_id  eq 8 }-->class="current" <!--{else}--> class="link" <!--{/if}--> ><a href="{r_url app=groupbuy&act=get_pindao_goods&pd_id=8}"><span>家装集</span></a></li>
+            <li  <!--{if $filters.pd_id  eq 9 }-->class="current" <!--{else}--> class="link" <!--{/if}--> ><a class="pngFix" href="{r_url app=groupbuy&act=get_pindao_goods&pd_id=9}"><span class="pngFix">生活集</span></a></li>
+            <li <!--{if $smarty.get.act == 'get_pindao_goods' && !$filters.pd_id && !$brands }-->class="current" <!--{else}--> class="link" <!--{/if}--> ><a href="{r_url app=groupbuy&act=get_pindao_goods}"><span>定制集</span></a></li>
+            <li <!--{if $smarty.get.app == 'search' &&  $brand }-->class="current" <!--{else}--> class="link" <!--{/if}--> ><a href="{r_url app=search&act=groupbuy&groupbuy_brand_id=0}"><span>品牌集</span></a></li>
+            <li class="link"><a href="{url app=service&act=register_service}" target='_blank'><span>抢注服务中心</span></a><em class="em1"></em></li>
+        </ul>
+    </div>
+</div>
+<link href="{res file=css/home_tg.css}" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="{lib file=search_groupbuy.js}" charset="utf-8"></script>
+        <script>
+            $(document).ready(function () {
+                $("#list").hide();
+                $("#button_show").click(function () {
+                    $("#list").toggle();
+                });
+                $("#button_close").click(function () {
+                    $("#list").hide();
+                });
+                $('.group-list').children('ul').children('li').bind('mouseenter', function () {
+                    $('.group-list').children('ul').children('li').attr('class', 'c1');
+                    $(this).attr('class', 'c2');
+                });
+                $('.group-list').children('ul').children('li').bind('mouseleave', function () {
+                    $('.group-list').children('ul').children('li').attr('class', 'c1');
+                });
+                var area = $("#groupbuy_area").val();
+                if (area == null || area=="") {
+                    $("#show_area_name").html("全国");
+                    $("#groupbuy_area").val('');
+                }
+                else {
+                    $("#show_area_name").html(area);
+                    $("#groupbuy_area").val(area);
+                }
+            });
+
+            //提交查询
+            function submit_search() {
+                $('#search_form').attr('method', 'get');
+                $('#search_form').submit();
+            }
+            //团购地区筛选
+            function set_groupbuy_area(area) {
+                if (area == '') {
+                    $("#groupbuy_area").val('');
+                }
+                else {
+                    $("#groupbuy_area").val(area);
+
+                }
+                submit_search();
+            }
+            //子分类筛选
+            function groupbuy_sub_cateid(cate_id) {
+                if (cate_id == '') {
+                    $("#groupbuy_sub_cateid").val('');
+                }
+                else {
+                    $("#groupbuy_sub_cateid").val(cate_id);
+
+                }
+                submit_search();
+            }
+            //团购分类筛选
+            function set_groupbuy_class(class_id) {
+                $("#groupbuy_class").val(class_id);
+                submit_search();
+            }
+            //团购价格筛选
+
+            function set_groupbuy_brand(brand) {
+                $("#groupbuy_brand_id").val(class_id);
+                submit_search();
+            }
+            function set_groupbuy_price(price_range) {
+                $("#groupbuy_price").val(price_range);
+                submit_search();
+            }
+            //团购排序筛选
+            function set_groupbuy_order(order_key) {
+                if (order_key == $("#groupbuy_order_key").val()) {
+                    change_groupbuy_order();
+                }
+                else {
+                    $("#groupbuy_order").val('asc');
+                }
+                $("#groupbuy_order_key").val(order_key);
+                submit_search();
+            }
+            //团购排序筛选
+            function change_groupbuy_order() {
+                if ($("#order").val() == 'asc') {
+                    $("#order").val('desc');
+                }
+                else {
+                    $("#order").val('asc');
+                }
+            }
+</script>
+
+<div id="headRelative">
+    <div class="title">
+        <h1>团购</h1>
+        <div class="city"> <a href="javascript:void(0)" id="button_show">
+            <h2 id="show_area_name">切换</h2>
+        </a> </div>
+    </div>
+    <div id="list" class="list" style="display:none;"><a id="button_close" class="close" href="javascript:void(0)" >x</a>
+        <ul>
+            <li><a href="javascript:void(0)" onClick="set_groupbuy_area('')" >全国</a></li>
+            <!--{foreach from=$region item=reg key=key}-->
+            <li><a href="javascript:void(0)" onClick="set_groupbuy_area('{$reg}')" >{$reg}</a></li>
+            <!--{/foreach}-->
+        </ul>
+    </div>
+</div>
+<form id="search_form">
+    <input name="app" type="hidden" value="search" />
+    <input name="act" type="hidden" value="groupbuy" />
+    <input id="groupbuy_area" name="groupbuy_area" type="hidden" value="{$filters.groupbuy_area}"/>
+    <input id="groupbuy_class" name="groupbuy_class" type="hidden" value="{$filters.groupbuy_class}"/>
+    <input id="groupbuy_sub_cateid" name="groupbuy_sub_cateid" type="hidden" value="{$filters.groupbuy_sub_cateid}"/>
+    <input id="groupbuy_price" name="groupbuy_price" type="hidden" value="{$filters.price}"/>
+    <input id="groupbuy_brand_id" name="groupbuy_brand_id" type="hidden" value="{$filters.groupbuy_brand_id}"/>
+    <input id="order" name="order" type="hidden" value=""/>
+</form>
+<div class="mb10 warp-all">
+    <div class="group-screen">
+        <!--{if $brands}-->
+        <dl>
+            <dt>品牌:</dt>
+            <dd <!--{if !$filters.groupbuy_brand_id }--> class="nobg selected" <!--{/if}-->><a href="javascript:void(0)" onClick="set_groupbuy_brand('')">不限</a></dd>
+            <!--{foreach from=$brands item=brand  key=key }-->
+            <dd <!--{if $brand.brand_id eq $filters.groupbuy_brand_id}-->  class="nobg selected"   <!--{/if}-->> <a href="javascript:void(0)" onClick="set_groupbuy_brand('{$brand.brand_id}')"> {$brand.brand_name}</a> </dd>
+            <!--{/foreach}-->
+        </dl>
+       <!-- {/if}-->
+        <!--{if $gcategory_list}-->
+        <dl>
+            <dt>分类:</dt>
+
+            <dd <!--{if !$filters.groupbuy_sub_cateid }--> class="nobg selected" <!--{/if}-->><a href="javascript:void(0)" onClick="groupbuy_sub_cateid('')">不限</a></dd>
+            <!--{foreach from=$gcategory_list item=gcategory  key=key }-->
+            <dd <!--{if $gcategory.cate_id eq $filters.groupbuy_sub_cateid}-->  class="nobg selected"   <!--{/if}-->> <a href="javascript:void(0)" onClick="groupbuy_sub_cateid('{$gcategory.cate_id}')"> {$gcategory.cate_name}</a> </dd>
+
+            <!--{/foreach}-->
+        </dl>
+        <!--{/if}-->
+        <!-- 价格过滤列表 -->
+        <dl>
+            <dt>价格:</dt>
+            <dd <!--{if !$filters.groupbuy_price}--> class="nobg selected"<!--{/if}-->><a href="javascript:void(0)" onClick="set_groupbuy_price('')" >不限</a></dd>
+            <dd <!--{if $filters.groupbuy_price eq 1}--> class="nobg selected" <!--{/if}-->> <a href="javascript:void(0)" onClick="set_groupbuy_price('1')">500元以下</a> </dd>
+            <dd <!--{if $filters.groupbuy_price eq 2}--> class="nobg selected" <!--{/if}-->> <a href="javascript:void(0)" onClick="set_groupbuy_price('2')">501元-1000元</a> </dd>
+            <dd <!--{if $filters.groupbuy_price eq 3}--> class="nobg selected" <!--{/if}-->> <a href="javascript:void(0)" onClick="set_groupbuy_price('3')">1001元-2000元</a> </dd>
+            <dd <!--{if $filters.groupbuy_price eq 4}--> class="nobg selected" <!--{/if}-->> <a href="javascript:void(0)" onClick="set_groupbuy_price('4')">2001元-3000元</a> </dd>
+            <dd <!--{if $filters.groupbuy_price eq 5}--> class="nobg selected" <!--{/if}-->> <a href="javascript:void(0)" onClick="set_groupbuy_price('5')">3001元-5000元</a> </dd>
+        </dl>
+        <!-- 排序 -->
+    </div>
+    <ul class="group-sortord">
+        <!--排序-->
+        <li class="nobg selected"><a href="JavaScript:void(0);" onClick="set_groupbuy_order('')">默认</a></li>
+        <li ><a  href="javascript:void(0)" onClick="set_groupbuy_order('price')">价格</a></li>
+        <!--<li ><a  href="javascript:void(0)" onClick="set_groupbuy_order('rebate')">折扣</a></li>-->
+        <!--<li ><a  href="javascript:void(0)" onClick="set_groupbuy_order('sale')">销量</a></li>-->
+    </ul>
+    <div class="clear"></div>
+</div>
+<!-- 团购活动列表 -->
+<div class="mb10 warp-all group-list">
+    <ul>
+        <!-- {foreach from=$groupbuy_list item=group} -->
+        <li class="c1">
+            <div>
+                <h2><a title="{$group.group_name|escape}" href="{r_url app=groupbuy&id=$group.group_id}" target="_blank">{$group.group_name|escape}</a></h2>
+                <div class="box">
+                    <div class="pic size296x216"><span class="thumb size296x216"><i></i><a title="{$group.group_name|escape}" href="{r_url app=groupbuy&id=$group.group_id}" target="_blank"><img width="296" height="215" src="{img_url $img_url/$group.default_image/312X189}" alt="" onload="javascript:DrawImage(this,296,216);"></a></span></div>
+                    <div class="intro"><span class="l">市场价：{$group.price|price}</span><span class="r">折扣:&nbsp;{$group.discount}&nbsp;折</span></div>
+                    <div class="intro-bg"></div>
+                </div>
+                <div class="buy-now"> <span class="price">{$group.group_price|price}</span> <a href="{r_url app=groupbuy&id=$group.group_id}" style="cursor:pointer" target="_blank"><span>我要团</span></a> </div>
+                <div class="info"><span class="r">已购买<em><strong>{$group.quantity}</strong></em>件</span>剩余时间：{$group.lefttime}</div>
+            </div>
+        </li>
+        <!-- {foreachelse} -->
+        {$lang.no_groupbuy}
+       <!--{/foreach}-->
+    </ul>
+</div>
+
+<div class="mb10 warp-all">
+    {include file=page.bottom.html}
+</div>
+
+
+<div class="clear">&nbsp;</div>
+{include file=footer1.html}

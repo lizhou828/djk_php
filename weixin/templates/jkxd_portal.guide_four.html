@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>集客小店推广攻略</title>
+    <link href="{$site_url}/weixin/templates/style/com.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/hone.css" rel="stylesheet" type="text/css" />
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/show_share_button.js"></script>
+</head>
+<body>
+<div style=" width:320px; margin:0px auto;">
+<div class="enter-t">
+    <a href="index.php?app=jkxd_portal">
+        <div class="enter-t1">首页</div></a>
+    <div class="enter-t2">集客小店推广攻略</div>
+</div>
+<div class="clear"></div>
+<div class="enter-bg">
+    <div class="ess-bg1" style="margin:0px;"><img src="{$site_url}/weixin/templates/style/img/ess-bg9.jpg" width="309" height="193" /></div>
+    <div class="strategy">
+        <h3>利用微信推广自己的集客小店</h3>
+        <p>您可以将您的集客小店直接分享到朋友圈，他们来到您的店里消费购物，您就能获得奖励收入。另外，如果他们是通过您的集客小店注册为大集客会员或开通集客小店，那么他们以后在大集客网任何消费您都将获得现金奖励，而且是终身的哦！</p>
+    </div>
+    <div class="strategy">
+        <h3> 利用QQ推广自己的集客小店</h3>
+        <p>您可以将您的集客小店直接分享到空间，有人消费购物，您就能获得奖励收入。此外，您还可以多申请几个QQ，加一些群，到这些群里面推广您的集客小店，他们注册了，自然就终身被您锁定。当然，也可以下载个QQ群发软件群发。</p>
+    </div>
+    <div class="strategy">
+        <h3> 博客、论坛推广</h3>
+        <p>每天坚持写1篇博客，分享您经营集客小店的心得，把您集客小店的网址散布出去。网民通过博客看到您的成功分享，会被您感染，加盟创业，成为您的终身锁定会员。<br />
+            到大学生比较多的论坛，发言推广您的集客小店地址，只有吸引更多的人进入您的集客小店，您店里的商品才会销售得快，成为您终身锁定的会员才会多。</p>
+    </div>
+    <div class="strategy" style="border:0px;">
+        <h3>B2B平台推广</h3>
+        <p>类似于阿里巴巴、慧聪网这样的电子商务平台，注册后可以免费发布信息，推广您自己的集客小店。 这个得花点时间了，不过收获会是您意想不到的哦！</p>
+    </div>
+</div>
+<div class="essay2" style="margin-top:20px;">
+    <p><a href="index.php?app=jkxd_portal&act=guide_one">集客小店是什么</a></p>
+    <p><a href="index.php?app=jkxd_portal&act=guide_two">集客小店开通流程</a></p>
+    <p><a href="index.php?app=jkxd_portal&act=guide_three">集客小店三大收入来源</a></p>
+</div>
+<script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+<script type="text/javascript">
+    function apply_jkxd(){
+        $.get('index.php?app=jkxd_portal&act=apply_jkxd',function(data){
+            data = eval("("+data+")");
+            if(data.retval == 0){
+                alert(data.msg);
+            }else if(data.retval==1){
+                window.location='index.php?app=jkxd_portal&act=apply_jkxd_page';
+            }
+        })
+    }
+</script>
+<div class="essay3" style="cursor:pointer" onclick="apply_jkxd()">免费申请开通</div>
+{include file=cnzz.html}
+</div>
+</body>
+</html>

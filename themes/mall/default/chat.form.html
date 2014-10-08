@@ -1,0 +1,42 @@
+<html>
+<head></head>
+<script type="text/javascript" src="{res file=js/jquery.js}" charset="utf-8"></script>
+<script type="text/javascript" src="{res file=js/common.js}" charset="utf-8"></script>
+
+<script language="JavaScript" type="text/javascript">
+
+    function talk_mes() {
+
+        $("#mes_form").action = "index.php?app=zxkf&act=save_message";
+
+        $("#mes_form").submit();
+        alert("adf");
+    }
+</script>
+<body>
+<form  method="post" id="mes_form">
+<input name="store_id" type="hidden" value="{$store.store_id}">
+<div style="width: 500px;height: 400px;">
+    <div style="width: 500px;height: 30px;"> 正在与 <b><a>{$store.store_name}</a></b>  聊天中</div>
+    <div style="width:300px;border: 1;float: left" id="message_div">
+        <textarea disabled="disabled" style="width: 300px;" id="text_message" >
+        </textarea>
+        <br>
+        <a href="">聊天记录</a>
+        <br>
+            <textarea name="text_talk" id="message" style="width: 300px;"></textarea>
+            <input type="button" value="发送" onclick="javascript:talk_mes();">
+
+    </div>
+    <div style="width:199px;font-size: 12px; float: right;border-left: 1px solid #000000;height:370px; ">
+        {$store.store_name}
+        <br>
+        所在地:{$store.region_name}
+    </div>
+</div>
+
+</form>
+</body>
+</html>
+
+

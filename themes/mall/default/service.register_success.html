@@ -1,0 +1,131 @@
+{include file=header.html}
+<div id="center_w1200">
+{include file=common_search.html}
+{include file=common.html}
+
+<script type="text/javascript" src="{lib file=jquery.js}" charset="utf-8"></script>
+<script type="text/javascript" src="{lib file=jike.js}" charset="utf-8"></script>
+<script type="text/javascript" src="{lib file=member.js}" charset="utf-8"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.plugins/jquery.validate.js" ></script>
+
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/dialog/dialog.js" id="dialog_js"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js" ></script>
+
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+<link href="{res file=css/else.css}" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+
+	
+
+
+</script>
+
+<style type="text/css">
+.bgwhite { background: #FFFFFF; }
+  	.top_bs{ width:789px; margin:0px auto; margin-top:55px; margin-left:55px;height:120px;}
+    .top_bs dl{}
+    .top_bs dl dd{ width:68px; height:63px; float:left; margin-right:20px;}
+    .top_bs dl dt{ float:left;}
+    .top_bs dl dt h5{ color:#5e8f0a; font-size:18px; font-weight:normal; font-family:"微软雅黑"; line-height:40px;}
+    .top_bs dl dt p{ color:#666;}
+    .top_bs dl dt p span{ color:#d0281e; font-family:Verdana, Geneva, sans-serif;}
+    .top_bs dl dt p a{ color:#1d5b9f; text-decoration:none; font-size: 14px}
+    .top_bs dl dt .bot{ color:#4f4f4f; font-size:14px; width:102px; height:32px; border:1px solid #d2d2d2; background:#ededed; line-height:32px; text-align:center; margin-top:12px;		}
+    .top_bs dl dt .bot a{color:#4f4f4f; }
+	/*table{
+		line-height:2; border:1px solid #57DCF9;	
+	}*/
+	table td{
+	line-height:2; border:2px solid #eee;
+	}
+
+	
+</style>
+
+<link href="{res file=css/else.css}" rel="stylesheet" type="text/css">
+
+
+</head>
+<body>
+<!--<script type="text/javascript" src="http://www.multibuy.cn/resource/js/common2.2.js" charset="utf-8"></script>
+<link href="style/dialog2.2.css" rel="stylesheet" type="text/css">-->
+
+
+
+<link href="{res file=css/cityLayout.css}" type="text/css" rel="stylesheet">
+ 
+
+
+<!--<div class="keyword">
+<h4>当前位置：</h4>
+			    <a href="#">首页</a><span>&nbsp;</span>
+			    服务中心		
+</div>-->
+
+<!--中间部分-->
+
+
+<div class="fw_eh">
+  <div class="jd">
+      <ul>
+        <li class="lir1">填写注册信息</li>
+        <li class="lir2"></li>
+        <li class="lir3">支付</li>
+        <li class="lir2"></li>
+        <li class="lir4">等待审核</li>
+      </ul>
+   </div>
+
+   <!--{if $success}-->
+   <div class="jdb">   	 
+    <div class="top_bs">    
+    <dl>
+        <dd><img src="{$site_url}/themes/mall/default/styles/default/images/gou.png" width="68" height="63" /></dd>
+        <dt>
+        <h5>恭喜您！，抢注资料提交成功，请尽快付款！</h5>
+        </dt>
+    </dl>
+    </div>
+
+
+ <table width="80%" border="0" cellspacing="1" cellpadding="0">
+  <tr>
+    <td colspan="5">抢注信息</td>
+  </tr>
+  <tr>
+    <td style="border-bottom:0px; border-right:0px; border-top:0px;">姓名</td>
+    <td style="border-bottom:0px; border-right:0px; border-top:0px;">订金（元）</td>
+      <td style="border-bottom:0px; border-right:0px; border-top:0px;">技术开发费（元）</td>
+      <td style="border-bottom:0px; border-right:0px; border-top:0px;">技术服务费（元）</td>
+    <td style="border-bottom:0px; border-right:0px; border-top:0px;">联系电话</td>
+    <td style="border-bottom:0px; border-top:0px;">抢注时间</td>
+  </tr>
+  <tr >
+    <td class="inx_td" style="border-right:0px; " rowspan="1" >{$shenqing.service_user}</td>
+    <td class="mid_td" style="border-right:0px; " rowspan="1">{$shenqing.jine|number2}</td>
+      <td class="mid_td" style="border-right:0px; " rowspan="1">{$jibie}元</td>
+      <td class="mid_td" style="border-right:0px; " rowspan="1">{$nianfei}/年</td>
+    <td class="mid_td" style="border-right:0px; " rowspan="1">{$shenqing.service_tel}</td>
+    <td class="lst_td"  rowspan="1">{$shenqing.add_time|date:complete}</td>
+  </tr>
+ </table><br><br>
+       <a href="{$TO_QIANGZHU_URL}?qiangzhuId={$shenqing.id}&userId={$visitor.user_id}" name="1326988630" id="order483_action_pay" target="_blank" class="btn pay pay_a" style=" color: #e4a600;" >付款</a>
+  </div>
+
+
+    <!--{else}-->
+    <div style="width: 200px; margin-left: 400px; margin-top: 170px; font-size: 14px; color: red">抢注申请失败，请稍后重试！</div>
+    <!--{/if}-->
+
+
+</div>
+
+
+
+
+<div class="clear">&nbsp;</div>
+
+<script type="text/javascript" src="{res file=js/public.js}" charset="utf-8"></script>
+
+{include file=footer.html}

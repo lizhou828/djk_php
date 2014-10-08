@@ -1,0 +1,87 @@
+{include file=member.header.html}
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right">
+         <ul class="tab">
+                        <li class="active"><a href="index.php?app=service&act=zxkf">在线客服</a></li>        
+                    </ul>
+        <script type="text/javascript" src="{lib file=jquery.plugins/jquery.validate.js}" charset="{$charset}"></script>
+        <div class="wrap">
+
+            <div class="public table scarch_order">
+         
+            <table>  
+                <tr class="gray">
+                    <th width="80px">在线客服QQ1</th>
+                    <th><input type="text" class="text width_normal" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="zxkf" value="{$service.service_address}" /></th>
+                </tr>
+
+                 <tr class="gray">
+                    <th>在线客服QQ2</th>
+                    <th><input type="text" class="text width_normal" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="zxkf" value="{$service.service_address}" /></th>
+                </tr>
+
+                 <tr class="gray">
+                    <th>在线客服QQ3</th>
+                    <th><input type="text" class="text width_normal" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="zxkf" value="{$service.service_address}" /></th>
+                </tr>
+
+                 <tr class="gray">
+                    <th>在线客服QQ4</th>
+                    <th><input type="text" class="text width_normal" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="zxkf" value="{$service.service_address}" /></th>
+                </tr>
+
+                 <tr class="gray">
+                    <th>在线客服QQ5</th>
+                    <th><input type="text" class="text width_normal" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="zxkf" value="{$service.service_address}" /></th>
+                </tr>
+
+                 <tr class="gray">
+                    <th colspan="2"><input class="btn" id="sava" name="sava"  style="cursor: pointer" type="button" value="保存"></input><div id="msg" style="display:none"><font color="#FF3300">修改中.....</font></div></th>
+                </tr>
+
+                <tr class="gray">
+                    <th colspan="2"><br> <br> <br> <br> <br> <br></th>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+
+<script>
+$("#sava").bind("click",function(){
+var zxkfs= $("input[name=zxkf]");
+var val="";
+for(var i=0;i<zxkfs.length;i++){
+	if(zxkfs[i].value!=""){
+		if(val==""){
+			val=zxkfs[i].value;
+		}else{
+			val+="#"+zxkfs[i].value;
+		}
+	}
+}
+/*if(val==""){
+  alert("没有输入QQ号码");
+  return;
+}*/
+$("#msg").html("<font color='#FF3300'>修改中.....</font>");
+$("#msg").css("display","block");
+$.post("index.php?app=service&act=zxkf",{zxkfs:val},function(rs){
+
+  $("#msg").html("<font color='#FF3300'>"+rs+"</font>");
+
+})
+
+})
+
+<!--{if $QQKF}-->
+<!--{foreach from=$QQKF item=kf name=_kf}-->
+var zxkfs= $("input[name=zxkf]");
+zxkfs[{$smarty.foreach._kf.index}].value="{$kf}";
+<!--{/foreach}-->
+<!--{/if}-->
+
+</script>
+{include file=footer.html}

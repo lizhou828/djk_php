@@ -1,0 +1,247 @@
+{include file=header.html}
+<link href="{res file=css/chaoshi.css}" rel="stylesheet" type="text/css">
+<link href="{res file=css/other.css}" rel="stylesheet" type="text/css">
+<link href="{res file=css/home_tg.css}" rel="stylesheet" type="text/css">
+<div id="center_w1200">
+    {include file=common_search.html}
+    {include file=common.html}
+    <script language="JavaScript">
+        //鼠标触及更替li样式
+        $(document).ready(function () {
+            $("#list").hide();
+            $("#button_show").click(function () {
+                $("#list").toggle();
+            });
+            $("#button_close").click(function () {
+                $("#list").hide();
+            });
+            $('.group-list').children('ul').children('li').bind('mouseenter', function () {
+                $('.group-list').children('ul').children('li').attr('class', 'c1');
+                $(this).attr('class', 'c2');
+            });
+            $('.group-list').children('ul').children('li').bind('mouseleave', function () {
+                $('.group-list').children('ul').children('li').attr('class', 'c1');
+            });
+            var area = $("#market_area").val();
+            if (area == null || area == "") {
+                $("#show_area_name").html("全国");
+                $("#market_area").val('');
+            }
+            else {
+                $("#show_area_name").html(area);
+                $("#market_area").val(area);
+            }
+        });
+
+        //提交查询
+        function submit_search() {
+            $('#search_form').attr('method', 'get');
+            $('#search_form').submit();
+        }
+        //超市地区筛选
+        function set_market_area(area, reg_id) {
+            if (area == '') {
+                $("#market_area").val('');
+            }
+            else {
+                $("#market_area").val(area);
+                $("#market_reg_id").val(reg_id);
+                $("#market_city_id").val("");
+                $("#market_class").val("");
+                $("#market_diqu_id").val("");
+                $("#market_subcateid").val("");
+
+            }
+            submit_search();
+        }
+        //超市县级筛选
+        function set_market_city(reg_id) {
+            if (reg_id == '') {
+                $("#market_city_id").val('');
+                $("#market_diqu_id").val('');
+            }
+            else {
+                $("#market_city_id").val(reg_id);
+                $("#market_diqu_id").val("");
+                $("#market_reg_id").val({$filter.market_reg_id});
+        }
+        submit_search();
+        }
+        function set_diqu_id(reg_id) {
+            if (reg_id == '') {
+                $("#market_diqu_id").val('');
+            }
+            else {
+                $("#market_diqu_id").val(reg_id);
+            }
+            $("#market_reg_id").val({$filter.market_reg_id});
+            $("#market_city_id").val({$filter.market_city_id});
+        submit_search();
+        }
+        //超市分类筛选
+        function set_market_class(class_id) {
+            $("#market_class").val(class_id);
+            submit_search();
+        }
+
+        //超市子分类
+        function set_market_sub_class(class_id) {
+            $("#market_subcateid").val(class_id);
+            submit_search();
+        }
+        //超市价格筛选
+        function set_market_price(price_range) {
+            $("#market_price").val(price_range);
+            submit_search();
+        }
+        //超市价格筛选
+        function set_market_order(order_key) {
+            if (order_key == $("#market_order_key").val()) {
+                change_market_order();
+            }
+            else {
+                $("#market_order").val('asc');
+            }
+            $("#market_order_key").val(order_key);
+            submit_search();
+        }
+        //超市排序筛选
+        function change_market_order() {
+            if ($("#market_order").val() == 'asc') {
+                $("#market_order").val('desc');
+            }
+            else {
+                $("#market_order").val('asc');
+            }
+        }
+    </script>
+    <!--<div id="headRelative">-->
+        <!--<div class="title">-->
+            <!--<h1></h1>-->
+            <!--<div class="city"><a href="javascript:void(0)" id="button_show">-->
+                <!--<h2 id="show_area_name">切换</h2>-->
+            <!--</a></div>-->
+        <!--</div>-->
+        <!--<div id="list" class="list" style="display:none;"><a id="button_close" class="close"-->
+                                                             <!--href="javascript:void(0)">x</a>-->
+            <!--<ul>-->
+                <!--<li><a href="javascript:void(0)" onClick="set_market_area('')">全国</a></li>-->
+                <!--&lt;!&ndash;{foreach from=$region item=reg key=key}&ndash;&gt;-->
+                <!--<li><a href="javascript:void(0)" onClick="set_market_area('{$reg}','{$key}')">{$reg}</a></li>-->
+                <!--&lt;!&ndash;{/foreach}&ndash;&gt;-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</div>-->
+    <form id="search_form">
+        <input name="app" type="hidden" value="market">
+        <input name="act" type="hidden" value="get_market_sub">
+        <input id="market_area" name="market_area" type="hidden" value="{$filter.market_area}"/>
+        <input id="market_reg_id" name="market_reg_id" type="hidden" value="{$filter.market_reg_id}">
+        <input id="market_city_id" name="market_city_id" type="hidden" value="{$filter.market_city_id}">
+        <input id="market_class" name="market_class" type="hidden" value="{$filter.market_class}"/>
+        <input id="market_subcateid" name="market_subcateid" type="hidden" value="{$filter.market_subcateid}"/>
+        <input id="market_diqu_id" name="market_diqu_id" type="hidden" value="{$filter.market_diqu_id}">
+        <input id="market_order_key" name="market_order_key" type="hidden" value="{$filter.market_order_key}">
+        <input id="market_order" name="market_order" type="hidden" value="{$filter.market_order}">
+    </form>
+    <div id="filter">
+        <div class="fov1">
+            <!--{if $market_category}-->
+            <div class="txt1">分类:</div>
+            <ul class="inline">
+                <li class="item"><a href="javascript:void(0)" onClick="set_market_class('')"
+                    <!--{if !$filter.market_class}-->  style="background:#27a196;color:#ffffff" <!--{/if}-->>全部</a></li>
+                <!--{foreach from=$market_category item=category key=key}-->
+                <li class="item"><a href="javascript:void(0)" onClick="set_market_class('{$category.id}')"
+                    <!--{if $filter.market_class == $category.id}-->  style="background:#27a196;color:#ffffff"
+                    <!--{/if}-->>{$category.value}&nbsp;&nbsp;</a></li>
+                <!--{/foreach}-->
+            </ul>
+            <!--{/if}-->
+            <!--{if $son_category }-->
+            <div class="bghot">
+                <ul class="inline">
+                    <!--{foreach from=$son_category item=gcategory key=key}-->
+                    <li class="item"><a href="javascript:void(0)" onClick="set_market_sub_class('{$gcategory.cate_id}')"
+                        <!--{if $filter.market_subcateid == $gcategory.cate_id}-->
+                        style="background:#27a196;color:#ffffff" <!--{/if}--> >{$gcategory.cate_name}</a></li>
+                    <!--{/foreach}-->
+                </ul>
+            </div>
+            <!--{/if}-->
+            <div class="clear"></div>
+        </div>
+
+        <div class="fov1">
+            <div class="txt1" style=" background-position:0 -21px;">区域:</div>
+            <ul class="inline">
+                <li class="item"><a href="javascript:void(0)" onClick="set_market_city('')"
+                    <!--{if !$filter.market_city_id}--> style="background:#27a196;color:#ffffff" <!--{/if}-->>全部</a>
+                </li>
+                <!--{foreach from=$city item=item key=key}-->
+                <li class="item"><a href="javascript:void(0)" onClick="set_market_city('{$key}')"
+                    <!--{if $filter.market_city_id == $key}--> style="background:#27a196;color:#ffffff" <!--{/if}-->
+                    >{$item}</a></li>
+                <!--{/foreach}-->
+            </ul>
+            <!--{if $diqu}-->
+            <div class="bghot">
+                <ul class="inline">
+                    <!--{foreach from=$diqu item=item key=key}-->
+                    <li class="item"><a href="javascript:void(0)" onClick="set_diqu_id('{$key}')"
+                        <!--{if $filter.market_diqu_id == $key}-->  style="background:#27a196;color:#ffffff"
+                        <!--{/if}--> >{$item}</a></li>
+                    <!--{/foreach}-->
+                </ul>
+            </div>
+            <!--{/if}-->
+            <div class="clear"></div>
+        </div>
+
+    </div>
+
+
+    <div class="clear"></div>
+</div>
+
+<div class="clear"></div>
+<!--内容-->
+<div class="chaoshi">
+    <div class="biaoq">
+        <dl>
+            <dd>商品排序：</dd>
+            <dt><a <!--{if $order == 'views'}--> class="cur" <!--{/if}-->  href="javascript:void(0);"  onClick="set_market_order('views');" <!--{if $order == 'views'}--> class="selected" <!--{/if}--> >默认<span class="list_ico"></span></a>
+                <a <!--{if $order == 'sales'}--> class="cur" <!--{/if}-->  href="javascript:void(0);" onClick="set_market_order('sales');">销量<span <!--{if $order =='sales' && $filters.sort_order =='asc'}--> class="list_ico" <!--{else}-->class="list_ico2" <!--{/if}-->></span></a>
+                <a <!--{if $order == 'credit_value'}--> class="cur" <!--{/if}--> href="javascript:void(0);" onClick="set_market_order('credit_value');">信用<span <!--{if $order =='credit_value' && $filters.sort_order =='asc'}--> class="list_ico" <!--{else}--> class="list_ico2" <!--{/if}-->></span></a>
+                <a <!--{if $order == 'price'}--> class="cur" <!--{/if}--> href="javascript:void(0);" onClick="set_market_order('price');">价格<span <!--{if $order =='price' && $filters.sort_order =='asc'}--> class="list_ico" <!--{else}-->class="list_ico2" <!--{/if}-->></span></a>
+                <input type="hidden" value="{$filters.sort_order}" id="sort_order">
+            </dt>
+        </dl>
+        {include file=page.top.html}
+        <div class="shul">共 <span>{$page_info.item_count}</span> 个商品</div>
+    </div>
+    <div class="list_r">
+        <ul>
+            <!-- {if $goods_list} -->
+            <!--{foreach from=$goods_list item=goods name=my_goods}-->
+            <li
+            <!--{if $smarty.foreach.my_goods.iteration % 4 ==0 }--> style="padding-right:0px;"<!--{/if}-->>
+            <div class="pic"><a href="{r_url app=goods&id=$goods.goods_id}" title="{$goods.goods_name|escape}"><img
+                    src="{img_url $img_url/$goods.default_image/220X220}" width="220" height="220"/></a></div>
+            <div class="text"><a href="{r_url app=goods&id=$goods.goods_id}" title="{$goods.goods_name|escape}">{$goods.goods_name|truncate:35:"……"}</a>
+            </div>
+            <div class="jiage"><span>{$goods.price|price}</span><em><a
+                    href="{r_url app=goods&id=$goods.goods_id}">加入购物车</a></em></div>
+            <div class="text"><a href="{r_url app=goods&id=$goods.goods_id}" title="{$goods.goods_name|escape}">评论数:{$goods.comments|default:0}条</a>
+            </div>
+            </li>
+            <!--{/foreach}-->
+            <!--{/if}-->
+        </ul>
+    </div>
+    <div class="clear"></div>
+    {include file=page.bottom.html}
+</div>
+
+<div class="clear"></div>
+{include file=footer.html}

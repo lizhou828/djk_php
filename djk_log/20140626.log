@@ -1,0 +1,11 @@
+
+错误url=http:///
+2014-06-26 08:56:45  	[2]parse_url(http://) [<a href='function.parse-url'>function.parse-url</a>]: Unable to parse URL	\includes\subdomain.inc.php	50
+
+错误url=http://192.168.0.137/index.php?app=jkxd_portal&act=goodsList&id=3&type=search
+2014-06-26 15:56:20  	[256]MySQL Error[1305]: FUNCTION ecm.0AND does not exist
+MySQL Query:SELECT g.cate_id, g.cate_name, count(g.goods_id) as c
+                FROM ecm_goods g
+                LEFT JOIN ecm_recommended_goods rg ON rg.goods_id=g.goods_id
+                WHERE  g.dropstate=1  and g.type='material' AND g.if_show=1 AND g.closed=0AND ( g.store_id  IN ('77')  OR rg.recom_id =52 OR rg.recom_id=53 ) group by g.cate_id, g.cate_name
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[532]	\eccore\model\mysql.php	310

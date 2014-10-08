@@ -1,0 +1,48 @@
+<!--全部内容-->
+    <!--logo部分-->
+    <div class="login" style="margin: 0px auto;">
+        <div class="logo">
+            <!--{if $smarty.get.app =='hgg'}-->
+            <a href="/"><img src="{res file=images/hg_logo.png}" width="269" height="47" /></a>
+            <!--{elseif $smarty.get.app =='bdsh'|| $smarty.get.act =='store'}-->
+            <a href="/"><img src="{res file=images/bdsh.png}" width="320" height="55" ></a>
+            <!--{elseif $smarty.get.app =='tese'}-->
+            <a href="/"><img src="{res file=images/tese.png}" width="320" height="55" ></a>
+            <!--{elseif $smarty.get.app =='gczg'}-->
+            <a href="/"><img src="{res file=images/gczg.png}" width="320" height="55" ></a>
+            <!--{elseif $smarty.get.app =='market'}-->
+            <a href="/"><img src="{res file=images/chaoshi.png}" width="289" height="55" ></a>
+            <!--{elseif $smarty.get.app =='lydj'}-->
+            <a href="/"><img src="{res file=images/lydj.png}" width="289" height="55" ></a>
+            <!--{else}-->
+            <a href="/"><img src="{res file=images/logo.png}" width="269" height="47" /></a>
+            <!--{/if}-->
+        </div>
+        <!--{if $smarty.get.app=='bdsh' || $smarty.get.act== 'store'}-->
+        <div class="sh">
+            <h2><a href="<!--{if $filters.bdsh_area}-->{url app=bdsh&pd_id=5&bdsh_reg_id=$filters.bdsh_reg_id}<!--{else}-->{url app=bdsh&pd_id=5&bdsh_reg_id=321}<!--{/if}-->" style="color: #333333" id="chengshi">&nbsp;<!--{if $filters.bdsh_area}--> {$filters.bdsh_area}<!--{else}-->上海<!--{/if}--></a></h2>
+            <span><a href="{url app=bdsh&act=change_city}">[切换城市]</a></span>
+        </div>
+        <!--{/if}-->
+        <div class="search" id="search">
+
+            <div class="k1">
+                <form action=""  method="GET" id="searchForm">
+                    <input type="hidden" name="act" id="act" value="index"/>
+                    <input type="hidden" name="app" id="app" value="search"/>
+                    <input type="hidden" id="search_type" name="search_type" value="">
+                <span class="sp1"><input type="text"  class="text" lang="zh-CN"  value="{$ky[0]}" onblur="searchBlur(this)" onfocus="searchFocus(this)" maxlength="60" x-webkit-speech="" onwebkitspeechchange="foo()" x-webkit-grammar="builtin:search" id="keyword" name="keyword" style="color: rgb(153, 153, 153);" /></span>
+                <span class="sp2"><input type="submit" value="找商品" onclick="searchInput();" class="buttom"  <!--{if $kw }--> value="{$ky}"<!--{/if}-->/></span>
+                <!--<span class="sp3"><input type="submit" value="找商家" onclick="searchInput('store');" class="buttom" /></span>-->
+                </form>
+            </div>
+            <div class="resou">热搜：
+                <!--{foreach from=$hot_keywords item=keyword name=my_kw}-->
+                <a href="{r_url app=search&keyword=$keyword}" {if $smarty.foreach.my_kw.index==0} class="cd0281e" {elseif $smarty.foreach.my_kw.index==1}class="c1d5b9f"{elseif $smarty.foreach.my_kw.index==2}class="ceaac44"{elseif $smarty.foreach.my_kw.index==3}class="c92bd49"{else}class="c27a196"{/if}>{$keyword}</a>
+                <!--{/foreach}--></div>
+        </div>
+        <div class="car" style="float: left;"><a href="{url app=cart}"></a><span class="span01"><span>{$cart_goods_kinds}</span></span></div>
+        <div style=" width:153px; height:38px; background:url('{res file=images/pic/kf.jpg}') no-repeat; float:right; " ></div>
+
+    </div>
+

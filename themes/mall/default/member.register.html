@@ -1,0 +1,365 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" >
+<title>大集客-免费注册</title>
+
+{$page_seo}
+<link href="{res file=css/public.css}" rel="stylesheet" type="text/css" />
+<link href="{res file=css/login.css}" rel="stylesheet" type="text/css" />
+
+ 
+
+<script type="text/javascript" src="index.php?act=jslang"></script>
+<script type="text/javascript" src="{res file=js/jquery.js}" charset="utf-8"></script>
+<script type="text/javascript" src="{res file=js/common.js}" charset="utf-8"></script>
+<script type="text/javascript" src="{res file=js/poshytip.js}" charset="utf-8"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.plugins/jquery.validate.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/dialog/dialog.js" id="dialog_js"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js" ></script>
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+
+<script type="text/javascript">
+    var emails = ["qq.com", "163.com", "126.com", "sina.com", "gmail.com", "sohu.com", "188.com", "139.com", "vip.163.com", "vip.126.com", "yeah.net"];
+    //注册表单提示
+    $('.tip').poshytip({
+        className: 'tip-yellowsimple',
+        showOn: 'focus',
+        alignTo: 'target',
+        alignX: 'center',
+        alignY: 'top',
+        offsetX: 0,
+        offsetY: 5,
+        allowTipHover: false
+    });
+
+    jQuery.validator.addMethod("userNameValidate", function(value, element) {
+        if((value.indexOf("@") == -1 && (!checkEmail(value))) && (!checkMobile(value)) ) {
+            return false;
+        }
+        return true;
+//        alert(value);
+    }, "帐号只能为正确的手机和邮箱");
+    jQuery.validator.addMethod("djkValidate", function(value, element) {
+        var txt = value.substring(0,3).toUpperCase();
+        var reg = /DJK/;
+        if(reg.test(txt)) {
+            return false;
+        }
+        return true;
+    }, "该用户名已存在，请重新输入。");
+
+    jQuery.validator.addMethod("emailValidate", function(value, element) {
+        if (value.indexOf("@") != -1 && !checkEmail(value)) {
+            return false;
+        }
+        return true;
+    }, "请输入正确的邮箱");
+
+    jQuery.validator.addMethod("numberValidate", function(value, element) {
+        if (!checkMobile(value) && /^[0-9]+$/.test(value)) {
+            return true;
+        }
+        return true;
+    }, "用户名不能是纯数字");
+	jQuery.validator.addMethod("yanzhengmaValidate", function(value, element) {
+        if( $("#yanzhengma").css("display") == "block" && value == "" ){
+			return false;
+		}
+        return true;
+    }, "请输入验证码");
+
+    //注册表单验证
+    $(function(){
+        $("#register_form").validate({
+            errorPlacement: function(error, element){
+                var error_td = element.parent('div');
+                error_td.find('label').hide();
+                error_td.append(error);
+            },
+            success       : function(label){
+                label.remove();
+            },
+            submitHandler : function(form) {
+                $(".anniu").attr("disabled","disabled");
+                form.submit();
+            },
+            rules : {
+                user_name : {
+                    required : true,
+                    minlength: 6,
+                    maxlength:20,
+                    djkValidate : [],
+                    userNameValidate : [],
+                    emailValidate : [],
+                    numberValidate : [],
+                    remote   : {
+                        url :'index.php?app=member&act=check_user_or_phone_mob&ajax=1',
+                        type:'get',
+                        data:{
+                            user_name : function(){
+                                return $('#user_name').val();
+                            }
+                        },
+                        beforeSend : function(){
+                            var _checking = $('#checking_user');
+                            _checking.prev('.field_notice').hide();
+                            _checking.next('label').hide();
+                            $(_checking).show();
+                            <!--{if $IF_DUANXING neq 0}-->
+                            //$("#yanzhengma_div").css("display", "none");
+                            //$("#yanzhengma_div").attr("disable", "true");
+							//$("#yanzhengma").css("display", "none");
+                            //$("#yanzhengma").attr("disable", "true");
+                            //if (checkMobile($("#user_name").val())) {
+                            //    $("#yanzhengma_div").css("display", "block");
+                            //    $("#yanzhengma_div").attr("disable", "false");
+							//	$("#yanzhengma").css("display", "block");
+                            //	$("#yanzhengma").attr("disable", "false");
+                            //}
+                            <!--{/if}-->
+                        },
+                        complete :function(){
+                            $('#checking_user').hide();
+                        }
+                    }
+                },
+                password : {
+                    required : true,
+                    minlength: 6,
+                    maxlength:20
+                },
+                password_confirm : {
+                    required : true,
+                    equalTo  : '#password',
+					minlength: 6,
+                    maxlength:20
+                },
+                /*yanzhengma : {
+					yanzhengmaValidate : [],					
+                    remote   : {
+                        url :'index.php?app=sendcode&act=checkCode&ajax=1',
+                        type:'get',
+                        data:{
+                            yanzhengma : function(){
+                                return $('#yanzhengma').val();
+                            }
+                        },
+                        beforeSend : function(){
+                            $('#yanzhengma_label').html("");
+                            if (!checkMobile($("#user_name").val())) {
+                                return;
+                            }
+                        },
+                        complete :function(rs){
+
+                        }
+                    }
+                },*/
+                agree : {
+                    required : true
+                }
+            },
+            messages : {
+                user_name : {
+                    required : '{$lang.user_name_required}',
+                    byteRange: '{$lang.user_name_limit}',
+                    remote   : '{$lang.user_already_taken}',
+					minlength: '用户名必须在6-20个字符之间',
+                    maxlength: '用户名必须在6-20个字符之间'
+                },
+                password  : {
+                    required : '{$lang.password_required}',
+                    minlength: '密码长度必须在6-20个字符之间',
+                    maxlength: '密码长度必须在6-20个字符之间'
+                },
+                password_confirm : {
+                    required : '{$lang.password_confirm_please}',
+                    equalTo  : '{$lang.password_inconsistent}',
+					minlength: '确认密码长度必须在6-20个字符之间',
+                    maxlength: '确认密码长度必须在6-20个字符之间'
+                },
+                agree : {
+                    required : '{$lang.agree_required}'
+                },
+                yanzhengma:{
+                    remote : '验证码错误'					
+                }
+            }
+        });
+    });
+
+    function showEmails() {
+        $("#emails_ul").html("");
+        var _user_name = document.getElementById('user_name').value;
+        if (trim(_user_name) == '') return;
+        var li_html = "<li class = 'emails_li' onclick=\"document.getElementById('user_name').value = this.innerHTML;$('#emails_ul').css('display','none')\" class = 'emails_li'>%s</li>";
+        $("#emails_ul").append(li_html.replace("%s", _user_name));
+        for (var i = 0 ; i < emails.length; i++) {
+            if (_user_name.indexOf("@") == -1) $("#emails_ul").append(li_html.replace("%s", _user_name + "@" + emails[i]));
+        }
+        $("#emails_ul").css("display", "block");
+    }
+
+    function showFocus(obj){
+        if(obj.value=="邮箱/手机号"){
+            obj.style.color='#000';
+            obj.value="";
+        }
+    }
+
+    function showBlur(obj) {
+        if(obj.value==""){
+            obj.style.color = '#ccc';
+            $('#emails_ul').css('display','none');
+            obj.value="邮箱/手机号";
+        }
+    }
+</script>
+
+
+</head>
+
+<body style="background:#f2f2f2;">
+<div id="login_1000">
+   <a href="{$site_url}" title="进入首页"><div class="reglogo1"></div></a>
+   <div class="logo2">已有账户 <a href="index.php?app=member&act=login">立即登录</a></div>
+   <div class="logo3" style="height:365px;">
+      <div class="right_txt">
+      	 {$smarty.post.errorMsg}
+       <ul id = "emails_ul"></ul>	
+      	 <form method="post" id="register_form" name="register_form">
+
+         <!--{if $t_user}-->
+         <div class="go1" style="margin-top:25px;">
+             <div class="item_ifo" style="font-size: 14px">
+                 链接来源：
+                 <!--{if $t_user.im_qq!=null && $t_user.im_qq!=""}-->
+                     {$t_user.nick_name}
+                 <!--{else}-->
+                     {$t_user.user_name}
+                 <!--{/if}-->
+                 <input type="hidden" value="{$t_user.user_id}" name="t_id">
+                 <div class="ico1"></div>
+             </div>
+         </div>
+        <!--{/if}-->
+
+         <div class="go1" style="margin-top:25px;">
+            <div class="item_ifo">
+              <input  type="text" id="user_name" value="邮箱/手机号" onkeyup="showEmails()"
+                               style="color: #ccc" onblur="showBlur(this)"
+                               onfocus="showFocus(this)"
+                               name="user_name" class="text tip text_in" autocomplete="off" />
+              <div class="ico1"></div>
+              <label id="user_name_label"></label>
+            </div>
+         </div>
+         <div class="go1" style="line-height:20px;">
+         	密码：
+            <div class="item_ifo">
+              <input type="password" id="password" name="password" class="text tip text_in" />
+              <div class="ico2"></div>
+              <label></label>
+            </div>
+         </div>
+         <div class="go1" style="line-height:20px;">
+         	确认密码：
+            <div class="item_ifo">
+              <input type="password" id="password_confirm" name="password_confirm"  class="text tip text_in" />
+              <div class="ico2"></div>
+              <label></label>
+            </div>
+         </div>
+         <div class="go1" id="yanzhengma_div"  style="display:none">
+            验证码：
+            <div class="item_ifo">
+              <input name="yanzhengma" id="yanzhengma" type="text" title=""  class="text_in" style="width:100px;"/>
+              <span style="padding-left: 10px;"><input name="btnSendCode" type="button" id="btnSendCode" onclick="sendMessage();"
+                                                                 value="获得手机验证码" style="float: left;height: 34px;margin-left: 150px;margin-top: -35px;"/></span>
+              <label id="yanzhengma_label"></label>
+            </div>
+         </div>
+         <div class="go5">
+           <input name="agree" type="checkbox" value="1" />
+           <i style="font-style:normal;">我已阅读并同意 <a href="{url app=article&act=view&article_id=46}" target="_blank" class="agreement" title="阅读并同意"><span style="color:#1d5b9f">《大集客服务协议》</span></a></i><br />
+           <label></label>
+         </div>
+         <div class="go3"><input name="" type="submit" value="立即注册" class="anniu" /></div>
+         
+         
+         </form>
+
+          <div class="go4"><label style="line-height: 30px;">使用其他登录方式：</label><span><a href="javascript:location='{$site_url}/Connect2.0/example/oauth/index.php'"><img src="{res file=images/register.jpg}" alt=""></a></span></div>
+      </div>
+
+     <!--{if !$smarty.get.m}-->
+     <div class="rrt">
+        <div class="txt1"></div>
+       <dl class="txt2">
+         <dd><img src="{$site_url}/themes/mall/default/styles/default/images/member/login_pic2.png" width="174" height="174" /></dd>
+         <dt>微信扫一扫立即注册</dt>
+       </dl>
+      </div>
+     <!--{/if}-->
+   </div>
+</div>
+<div id="login_1000di">上海酷鸟网络科技有限公司 版权所有 沪ICP备13035566号 </div>
+</body>
+
+
+<script>
+ 	
+ var curCount;
+    function sendMessage() {
+        curCount = 120;
+		
+		if($("#user_name").val() == "用户名/邮箱/手机号" || $.trim($("#user_name").val()) == "" ){
+			$("#user_name").val("");
+			$("#user_name_label").css("display","block");
+			$("#user_name_label").html("<font color='red'>请输入用户名/邮箱/手机号</font>");
+		}else{
+			$("#yanzhengma_label").val("<img src=\"{$site_url}/themes/mall/default/styles/default/images/loading.gif\" style=\"width: 18px; height: 18px\"/>发送中......");
+       		$.get("index.php?app=sendcode&act=send",{phone_or_tel:$("#user_name").val()},function(rs){
+				$("#yanzhengma_label").html(rs);
+				$("#btnSendCode").attr("disabled","disabled");
+				SetRemainTime();
+      	  })
+		}
+    }
+    /*
+    $.get("index.php?app=sendcode&act=getoldtime",{}, function(rs) {
+        if (rs > 0) {
+            $("#btnSendCode").attr("disabled","disabled");
+            $("#btnSendCode").attr("disabled","disabled");
+            curCount = rs;
+            SetRemainTime();
+        }
+    });*/
+
+     <!--{if $t_time && $t_time >0 }-->
+     curCount = {$t_time};
+     $("#btnSendCode").attr("disabled", "true");
+     $("#btnSendCode").val("请在" + curCount + "秒内输入验证码");
+     InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+     <!--{/if}-->
+
+    //timer处理函数
+    function SetRemainTime() {
+        if (curCount < 1) {
+            $("#btnSendCode").removeAttr("disabled");
+            $("#btnSendCode").val("重新发送验证码");
+        } else {
+            $("#btnSendCode").val("请在" + curCount + "秒后发送验证码");
+            curCount--;
+            setTimeout(SetRemainTime, 1000);
+        }
+    }
+
+ $("body").bind("click",function(){
+       $('#emails_ul').css('display','none');
+    })
+</script>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{$title}</title>
+    <link href="{$site_url}/weixin/templates/style/com.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/hone.css" rel="stylesheet" type="text/css" />
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/show_share_button.js"></script>
+    <script type="text/javascript">
+        function apply_jkxd(){
+            $.get('index.php?app=jkxd_portal&act=apply_jkxd',function(data){
+                data = eval("("+data+")");
+                if(data.retval == 0){
+                    alert(data.msg);
+                }else if(data.retval==1){
+                    window.location='index.php?app=jkxd_portal&act=apply_jkxd_page';
+                }
+            })
+        }
+        function guide_one(){
+            window.location='index.php?app=jkxd_portal&act=guide_one';
+        }
+        function guide_two(){
+            window.location='index.php?app=jkxd_portal&act=guide_two';
+        }
+        function guide_three(){
+            window.location='index.php?app=jkxd_portal&act=guide_three';
+        }
+        function guide_four(){
+            window.location='index.php?app=jkxd_portal&act=guide_four';
+        }
+        function my_jkxd(){
+            var user_id='{$user.user_id}';
+            var spreader_type = '{$user.spreader_type}';
+            var shop_name =  '{$user.shop_name}';
+//            alert(spreader_type+","+typeof spreader_type);
+//            alert(shop_name+","+typeof shop_name+","+shop_name.length);
+            if(!user_id || user_id==null || user_id=='' || typeof user_id =="undefined" || user_id <= 0){
+                window.location='index.php?app=member&act=login&ret_url=%2Fweixin%2Findex.php%3Fapp%3Djkxd_portal%26act%3Dmy_jkxd';
+            }else if( spreader_type !='1' || shop_name == null || shop_name == ''){
+                window.location='index.php?app=jkxd_portal&act=apply_jkxd_page';
+            }else{
+                window.location='index.php?app=jkxd_portal&act=my_jkxd&id={$user.user_id}';
+            }
+        }
+        function login_jkxd(){
+            var user_id='{$user.user_id}';
+            var spreader_type = '{$user.spreader_type}';
+            var shop_name =  '{$user.shop_name}';
+            if(!user_id || user_id==null || user_id=='' || typeof user_id =="undefined" || user_id <= 0){
+                window.location='index.php?app=member&act=login&ret_url=%2Fweixin%2Findex.php%3Fapp%3Djkxd_portal%26act%3Dmy_jkxd';
+            }else if( spreader_type !='1' || shop_name == null || shop_name == ''){
+                window.location='index.php?app=jkxd_portal&act=apply_jkxd_page';
+            }else{
+                alert("您已登录，无需再次登录!");
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="home320">
+    <div class="home1"><img src="{$site_url}/weixin/templates/style/img/logo.jpg" width="135" height="60" alt="集客小店" /></div>
+    <div class="home2">
+        <a href="javascript:void(0)" onclick="my_jkxd()"><div class="home2-1">
+            <ul>
+                <li>我的集客小店<span>></span></li>
+            </ul>
+        </div></a>
+        <a href="javascript:void(0)" onclick="login_jkxd()"><div class="home2-2">
+            <ul>
+                <li>登录集客小店<span>></span></li>
+            </ul>
+        </div></a>
+        <a href="javascript:void(0)" onclick="apply_jkxd()"><div class="home2-3">
+            <ul>
+                <li>免费注册开通<span>></span></li>
+            </ul>
+        </div></a>
+        <a href="#" style="display: none">
+            <div class="home2-4">
+                <ul>
+                    <li>供应商进驻<span>></span></li>
+                </ul>
+            </div>
+        </a>
+    </div>
+    <div class="home3">
+        <div class="home3-1">
+            <ul style="cursor: pointer" onclick="guide_one()">
+                <li><strong>零成本开设的个人网店</strong><br />
+                    无需投入、无需库存、无需处理物流、无需客服即可获得丰厚收入的网上商城</li>
+            </ul>
+            <ul style="cursor: pointer" onclick="guide_two()">
+                <li><strong>集客小店三大收入来源</strong><br />
+                    一个只需一键分享就可以进行营销推广并获得源源不断收入的网上商城。</li>
+            </ul>
+            <ul style="cursor: pointer" onclick="guide_three()">
+                <li><strong>集客小店开通流程</strong><br />
+                    只需简单四步，就能即刻拥有。</li>
+            </ul>
+            <ul style="cursor: pointer" onclick="guide_four()">
+                <li style="border-bottom:0px;"><strong>集客小店推广攻略</strong><br />
+                    利用微信、QQ、微博、论坛等向上千朋友分享，便终身获利。</li>
+            </ul>
+        </div>
+    </div>
+    <div class="home-blank"></div>
+    <div class="home4">
+        <div class="home4-1"></div>
+        <div class="home4-2">
+            <a href="{$site_url}/index.php?app=jkxd_portal">电脑版</a> | <a href="{$site_url}/weixin/index.php?app=goods&act=index1">进入移动商城</a>
+        </div>
+        <p>大集客会员专享零成本开设的网上商城</p>
+    </div>
+</div>
+{include file=cnzz.html}
+</body>
+</html>

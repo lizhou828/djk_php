@@ -1,0 +1,78 @@
+<script type="text/javascript" src="{lib file=jquery.plugins/jquery.validate.js}" charset="utf-8"></script>
+<script type="text/javascript">
+    $(function () {
+//        qa();
+        $('#message').validate({
+            errorPlacement: function (error, element) {
+                var _message_box = $(element).parent().find('.field_message');
+                _message_box.find('.field_notice').hide();
+                _message_box.parent().append(error);
+            },
+            rules: {
+                content: {
+                    required: true,
+                    byteRange: [0, 255, '{$charset}']
+                }
+            },
+            messages: {
+                content: {
+                    required: '{$lang.content_not_null}',
+                    byteRange: '{$lang.max_script}'
+                }
+            }
+        });
+    })
+    function qa() {
+//        var url = "index.php?app=goods&act=qa&id={$goods.goods_id}&type=ajax";
+//        $.get(url,function(data){
+//            $("#qa_content").html("");
+//            alert(data);
+//            var qa_strs = data.page_info;
+//            alert(qa_strs);
+//            var qa_html="";
+//            $("#qa_content").html(qa_html);
+//        });
+        $("#message").submit();
+    }
+</script>
+
+<div class="x_con">
+    <div id="goodseval">
+        <!-- 咨询留言内容部分 -->
+        <table>
+                    <!--{foreach from=$qa_info.qa_info item=qainfo}-->
+                    <tr>
+                      <Td>{$lang.question_content}：</td>
+                      <td>{$qainfo.question_content|escape|nl2br}</br></td>
+                     <Td>{$qainfo.user_name}</Td>
+                       <Td> <time pubdate="pubdate" datetime="{$qainfo.time_post|date:complete}">
+                                    {$qainfo.time_post|date:complete}
+                                </time></Td>
+                    </tr>
+                    <!--{/foreach}-->
+            </table>
+           <form method="post" id="message" action="{r_url app=goods&act=qa&id=$goods.goods_id}">
+           <table width="100%" cellspacing="0" cellpadding="0" border="0" style="font-size: 1em;">
+            <tbody>
+             <tr>
+             <td style="font-size: 1em;"><span style="font-size: 1em;">
+        		<textarea id="textfield3" name="content"></textarea><span class="field_message"><span class="field_notice"></span></span>
+        		<input type="hidden" value="" id="nchash" name="nchash">
+        	   </span>
+                <span id="consultcharcount" style="font-size: 1em;"><span class="counter" style="font-size: 1em;">还可以输入120字</span></span></td>
+        	 <tr>
+                <Td><a  title="发布咨询" nc_type="consult_submit" href="javascript:qa();" style="font-size: 1em;color: #000000">发布咨询</a>
+                </td>
+        	 </tr>
+               </tbody>
+                  </table>
+               </form>
+                    <div class="clear"></div>
+
+            </div>
+        </div>
+
+
+
+
+

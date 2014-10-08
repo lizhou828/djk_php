@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>POS机刷卡绑定</title>
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/swiping.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/show_share_button.js"></script>
+    <script type="text/javascript">
+         function change1(){
+             if($("#on").attr("class") == "member-l"){
+                 $("#on").attr("class","member0-l");
+                 $("#off").attr("class","member0-r");
+                 $("#member").attr("class","member0");
+                 $("#show_type").val("2");
+             }else{
+                 $("#on").attr("class","member-l");
+                 $("#off").attr("class","member-r");
+                 $("#member").attr("class","member");
+                 $("#show_type").val("1");
+             }
+         }
+
+
+         function sendCode(){
+             var phoneNum = $('#m_phone').val();
+             var reg=/^1[3|4|5|8][0-9]\d{8}$/;
+             if (!reg.test($('#m_phone').val())) {
+                 alert("请填写正确的手机号码！");
+                 return;
+             }
+             $.get("index.php?app=sendcode&act=send&type=bind_pos",{phone_or_tel:$("#m_phone").val()},function(rs){
+                 alert("发送成功!");
+             })
+         }
+
+
+         function submit1(){
+             var show_type = $('#show_type').val();
+             var user_name = $('#user_name').val();
+             var password = $('#password').val();
+             var bank_name = $('#bank_name').val();
+             var real_name = $('#real_name').val();
+             var shenfenzheng = $('#shenfenzheng').val();
+             var m_phone = $('#m_phone').val();
+             var yanzhengma = $('#yanzhengma').val();
+             var bank_card_start = $('#bank_card_start').val();
+             var bank_card_end = $('#bank_card_end').val();
+
+             if(user_name == "" || password == "" || bank_name == "" || bank_card_start == "" || bank_card_end == "" || real_name == "" || shenfenzheng == "" || m_phone == "" || yanzhengma == ""){
+                 alert("请完善基本信息!")
+                 return;
+             }
+             var bank_card = bank_card_start + "****" + bank_card_end;
+             var reg=/^1[3|4|5|8][0-9]\d{8}$/;
+             if (!reg.test($('#m_phone').val())) {
+                 alert("请填写正确的手机号码！");
+                 return;
+             }
+             $.post("index.php?app=pos&act=bind",{user_name:user_name,password:password,bank_name:bank_name,
+                                                       bank_card:bank_card,real_name:real_name,shenfenzheng:shenfenzheng,
+                                                       m_phone:m_phone,yanzhengma:yanzhengma,show_type:show_type},function(data){
+                   if(data.flag == "error"){
+                       alert(data.error_msg);
+                   }
+                   if(data.flag == "ok"){
+                       alert("恭喜您！您的POS机刷卡银行卡与您的大集客会员帐号已经绑定成功！请登录您的会员中心查询详细交易记录和积分累计情况。");
+                       window.location.href = "index.php?app=member";
+                   }
+             },'json')
+         }
+    </script>
+</head>
+<body>
+<!------------头部------------------>
+<div class="top">POS机刷卡绑定</div>
+<!-------内容区定（POS机刷卡绑）------>
+<div class="background">
+    <div class="member" id = "member">
+        <div class="member-l" onclick="change1()" id = "on">已经是会员</div>
+        <div class="member-r" onclick="change1()" id = "off">还不是会员</div>
+    </div>
+    <div class="member2">
+            <table width="309" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="93" height="40" align="right" valign="middle">会员账号</td>
+                    <td width="18" height="40">&nbsp;</td>
+                    <td width="202" height="40"><input class="member2-text" id="user_name" type="text" value="" autocomplete="off"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="93" height="40" align="right" valign="middle">密码</td>
+                    <td width="18" height="40">&nbsp;</td>
+                    <td height="40"><input class="member2-text" id="password" type="password" value="" />
+                    </td>
+                </tr>
+                <tr>
+                    <td width="93" height="40" align="right" valign="middle">刷卡银行</td>
+                    <td width="18" height="40">&nbsp;</td>
+                    <td height="40">
+                        <form id="form1" name="form1" method="post" action="">
+                        <label for="select"></label>
+                        <select name="bank_name" id="bank_name" onchange="document.getElementById('bank_code').value = this.value;" class="input1">
+                            <option value="">请选择</option>
+                            <!--{if $channels}-->
+                            <!--{foreach from=$channels item=channel}-->
+                            <option value="{$channel.channel_name}" channel_code='{$channel.channel_code}'>{$channel.channel_name}</option>
+                            <!--{/foreach}-->
+                            <!--{/if}-->
+                        </select>
+                        <input name="bank_code" id="bank_code" type="hidden"  value=""/>
+                        </form>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td width="93" height="40" align="right" valign="middle">刷卡银行卡号前六位</td>
+                    <td width="18" height="40">&nbsp;</td>
+                    <td height="15">
+                        <input type="hidden" name="bank_card" id="bank_card"  class="input1"/>
+                        <input type="text" name="bank_card_start" id="bank_card_start" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"  class="input1" maxlength="6" style="width: 100px"/>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td width="93" height="40" align="right" valign="middle"></td>
+                    <td width="18" height="40">&nbsp;</td>
+                    <td height="15">
+                        <label>****</label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="93" height="40" align="right" valign="middle">刷卡银行卡号后四位</td>
+                    <td width="18" height="40">&nbsp;</td>
+                    <td height="15">
+                        <input type="text" name="bank_card_end" id="bank_card_end" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"  class="input1" maxlength="4" style="width: 100px" />
+                    </td>
+                </tr>
+                <tr>
+                    <td width="93" height="40" align="right" valign="middle">真实姓名</td>
+                    <td width="18" height="40">&nbsp;</td>
+                    <td height="40"><input class="member2-text" id="real_name" type="text" value="" />
+                    </td>
+                </tr>
+                <tr>
+                    <td width="93" height="40" align="right" valign="middle">身份证号</td>
+                    <td width="18" height="40">&nbsp;</td>
+                    <td height="40"><input class="member2-text" id="shenfenzheng" type="text" value="" />
+                    </td>
+                </tr>
+                <tr>
+                    <td width="93" height="40" align="right" valign="middle">手机号码</td>
+                    <td width="18" height="40">&nbsp;</td>
+                    <td height="40"><input class="member2-text" id="m_phone" type="text" value="" /></td>
+                </tr>
+                <tr>
+                    <td width="93" height="30" align="right" valign="middle">&nbsp;</td>
+                    <td width="18" height="30">&nbsp;</td>
+                    <td height="30"><input class="member2-submit" id="" type="submit" value="获取短信验证码" onclick="sendCode()"/></td>
+                </tr>
+                <tr>
+                    <td width="93" height="45" align="right" valign="middle">短信验证码</td>
+                    <td width="18" height="45">&nbsp;</td>
+                    <td height="45"><input class="member2-text" id="yanzhengma" type="text" value="" />
+                    </td>
+                </tr>
+            </table>
+            <input type="hidden" value="1" id = "show_type">
+    </div>
+    <div class="member-an"><input name="" type="button" class="an-buttom" value="立即绑定" onclick="submit1()"/></div>
+</div>
+</body>
+</html>

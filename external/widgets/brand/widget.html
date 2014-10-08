@@ -1,0 +1,13 @@
+<div class="module_common" xmlns="http://www.w3.org/1999/html">
+    <h2>BRANDS品牌区</h2>
+    <div class="wrap">
+        <div class="wrap_child">
+            <ul class="brands_list">
+                <!--{foreach from=$widget_data item=brand}-->
+                <li><a href="{url app=search&brand=$brand.brand_id|escape:url}"><img src="{$brand.brand_logo}" alt="{$brand.brand_name|escape}" width="86" height="48" title="{$brand.brand_name|escape}" /></a></li>
+                <!--{/foreach}-->
+            </ul>
+            &nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:go(SITE_URL + '/{url app=brand}');" style="line-height: 24px;" />查看全部品牌</a>
+        </div>
+    </div>
+</div>

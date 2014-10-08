@@ -1,0 +1,38 @@
+<div class="nav" >
+    <div class="nav-cent">
+        <div class="nav-left" >
+        <div class="fenlei">
+            <!--{foreach from=$bdsh_category item=item}-->
+            <dl>
+                <dd>{$item.value}</dd>
+                <dt>
+                    <a href="{url app=bdsh&act=get_category_goods&bdsh_reg_id=$filters.bdsh_reg_id&bdsh_subcateid=$item.children[0].id&bdsh_class=$item.children[0].id&bdsh_class_name=$item.value}">{$item.children[0].value}</a>
+                    <a href="{url app=bdsh&act=get_category_goods&bdsh_reg_id=$filters.bdsh_reg_id&bdsh_subcateid=$item.children[1].id&bdsh_class=$item.children[1].id&bdsh_class_name=$item.value}">{$item.children[1].value}</a>
+                    <a href="{url app=bdsh&act=get_category_goods&bdsh_reg_id=$filters.bdsh_reg_id&bdsh_subcateid=$item.children[2].id&bdsh_class=$item.children[2].id&bdsh_class_name=$item.value}">{$item.children[2].value}</a>
+                </dt>
+                <em>
+                    <dl class="ssp_no1">
+                        <s></s>
+                        <dd><a href="{r_url app=bdsh&act=get_category_goods&bdsh_reg_id=$filters.bdsh_reg_id&bdsh_class=$item.id&bdsh_class_name=$item.value}" style="color:#d0281e;">{$item.value}</a></dd>
+                        <dt>
+                            <!--{foreach from=$item.children  item=category}-->
+                            <i><a href="{r_url app=bdsh&act=get_category_goods&bdsh_reg_id=$filters.bdsh_reg_id&bdsh_subcateid=$category.id&bdsh_class=$item.id&bdsh_class_name=$item.value&bdsh_class_sub_name=$category.value}">{$category.value}</a></i>
+                            <!--{/foreach}-->
+                        </dt>
+                    </dl>
+                </em>
+            </dl>
+            <!--{/foreach}-->
+        </div>
+        </div>
+        <div class="nav-center">
+            <ul>
+                <li><a href="{r_url app=bdsh&pd_id=5&bdsh_reg_id=$filters.bdsh_reg_id}" <!--{if !$smarty.get.act }--> style="background: none repeat scroll 0 0 #27A196;color:#fff;width: 80px;display:block;"  <!--{/if}--> >首页</a></li>
+                <li><a href="{r_url app=bdsh&act=store&bdsh_reg_id=$filters.bdsh_reg_id}" <!--{if $smarty.get.act =='store'}-->  style="display:block;width: 80px;background: none repeat scroll 0 0 #27A196;color:#fff" <!--{/if}-->>本地商家</a></li>
+                <li><a href="{r_url app=bdsh&pd_id=5&act=get_category_goods&bdsh_reg_id=$filters.bdsh_reg_id}" <!--{if $smarty.get.act =='get_category_goods'}--> style="display:block;width: 80px;background: none repeat scroll 0 0 #27A196;color:#fff" <!--{/if}-->>本地购</a></li>
+            </ul>
+        </div>
+        <!--<div class="nav-right"><a href="#">最新到货</a></div>-->
+    </div>
+</div>
+

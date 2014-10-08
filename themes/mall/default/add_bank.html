@@ -1,0 +1,148 @@
+{include file=member.header.html}
+<style>
+.borline td { padding:10px 0px; }
+.ware_list th { text-align:left; }
+
+.btn2 {
+    background: url("{$site_url}/themes/mall/default/styles/default/images/btn1.gif") repeat scroll 0 0 transparent;
+    border: 0 none;
+    color: #C73702;
+    font-size: 14px;
+    font-weight: bold;
+    height: 29px;
+    width: 75px;
+    cursor: pointer;
+}
+</style>
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right">
+            <ul class="tab">
+
+            <!--{if $smarty.get.app!="service"}-->
+            <li class="<!--{if $smarty.get.act=='yinhangka'}-->active<!--{else}-->normal<!--{/if}-->"><a href="index.php?app=member&act=yinhangka&p=userInfo">我的银行卡</a></li>
+            <li class="<!--{if $smarty.get.act=='add_yinhangka'}-->active<!--{else}-->normal<!--{/if}-->"><a href="index.php?app=member&act=add_yinhangka&p=userInfo">新增银行卡</a></li>
+            <!--{else}-->
+            <li class="<!--{if $smarty.get.act=='yinhangka'}-->active<!--{else}-->normal<!--{/if}-->"><a href="index.php?app=service&act=yinhangka&p=service">我的银行卡</a></li>
+            <li class="<!--{if $smarty.get.act=='add_yinhangka'}-->active<!--{else}-->normal<!--{/if}-->"><a href="index.php?app=service&act=add_yinhangka&p=service">新增银行卡</a></li>
+            <!--{/if}-->
+            </ul>
+            <div class="wrap">
+                <div class="public">
+                <!--{if $channels}-->
+                <!--{foreach from=$channels item=channel}-->
+                
+                <div class="bank_div" name="{$channel.channel_code}" id="{$channel.channel_code}" flag="<!--{if $channel.isbank}-->error<!--{else}-->ok<!--{/if}-->" title="{$channel.channel_name}">
+              	<img src="{$site_url}/themes/mall/default/styles/default/images/bank/{$channel.channel_code}_1301.png" />
+                <!--{if $channel.isbank}--><span>已设定</span><!--{else}--><a href="javascript:;">添加</a><!--{/if}-->
+                </div>
+                
+                <!--{/foreach}-->
+                <!--{else}-->
+                
+                <!--{/if}-->              
+                
+                </div>
+
+
+                <div class="public table">
+                <table id="add_kahao_table" onabort="add_kahao_table">
+                    <tr>
+                        <th width="100px">请输入卡号: </th>
+                        <td class="">
+                            <input type="text" class="text width7" name="my_bank" id="my_bank" value=""/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th width="100px">请输入姓名: </th>
+                        <td class="">
+                            <input type="text" class="text width7" name="user_name" id="user_name" value=""/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th width="100px">请输入二级密码: </th>
+                        <td class=""><input type="password" class="text width7" name="password2" id="password2" value=""/>
+                            <div style="margin-top:8px; margin-left:25px; font-size:12px; color:#0099CC;display: inline">
+                            <a href="index.php?app={$smarty.get.app}&act=password2" target="_blank">没有二级密码？点击设置二级密码</a>
+                        </div></td>
+                    </tr>
+                    <tr class="content1">
+                        <th></th>
+                        <td><p class="padding4"><input class="btn2" type="button" onclick="save_bank()" value="保存" /></p>
+                        <div id="msg" name="msg" style="font: 10; color: red;display: inline"></div>
+                        </td>
+                    </tr>
+                </table>
+                </div>
+                <!--
+                <div class="input_kahao">输入卡号：<input type="text" id="my_bank" style="clear:both; width:180px" name="my_bank" />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;二级密码：<input type="password" id="password2" name="password2" style="clear:both; width:180px" />
+                <a href="javascript:save_bank()" >保存</a><span></span></div>
+                <br><br><br>
+                -->
+
+
+
+                <div class="wrap_bottom"></div>
+                <!--{if $channels}-->
+                 {include file=member.page.bottom.html}<br><br>
+                <!--{/if}-->
+            </div>
+
+            <div class="clear"></div>
+            <div class="adorn_right1"></div>
+            <div class="adorn_right2"></div>
+            <div class="adorn_right3"></div>
+            <div class="adorn_right4"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<script type="text/javascript">
+var bank_code="";var bank_name="";
+$(".bank_div").bind("click",function(){	
+	if(this.flag=="error"){
+		alert("已经存在该银行的银行卡，请更换!");
+	}else{
+		$(".input_kahao span").html("");
+		$(".bank_div").css({"border": "2px #0099CC solid"});
+		$(this).css({"border": "2px #FFCC66 solid"});		
+		bank_code=this.id;
+		bank_name=this.title;
+	}	
+	
+})
+
+function save_bank(){	
+	
+	if(bank_code==""){
+        $("#msg").html("请先选择银行卡!");
+	}else if($.trim($("#my_bank").val())==""){
+        $("#msg").html("请输入卡号!");
+	}else if($.trim($("#password2").val())==""){
+        $("#msg").html("请输入二级密码!");
+	} else if($.trim($("#user_name").val())==""){
+        $("#msg").html("请输入银行卡对应的真实姓名！");
+    }else{
+        $("#msg").html("");
+		$(".btn2").attr("disabled","disabled");
+    	$(".btn2").val("保存中....");
+		$.post("index.php?app={$smarty.get.app}&act=add_yinhangka",
+                {"bank_code":bank_code,
+                  "bank_name":bank_name,
+                  "my_bank":$("#my_bank").val(),
+                  "password2":$("#password2").val(),
+                  "user_name":$("#user_name").val()
+                },function(rs){
+
+            $(".btn2").val("保存");
+			$(".btn2").attr("disabled","");
+			$("#msg").html("&nbsp;&nbsp;&nbsp;"+rs);
+		})
+		
+	}
+}
+</script>
+{include file=footer1.html}

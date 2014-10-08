@@ -1,0 +1,273 @@
+]{include file=header.html}
+<div id="center_w1200">
+{include file=common_search.html}
+{include file=common.html}
+
+<script type="text/javascript" src="{lib file=jquery.js}" charset="utf-8"></script>
+<script type="text/javascript" src="{lib file=jike.js}" charset="utf-8"></script>
+<script type="text/javascript" src="{lib file=member.js}" charset="utf-8"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.plugins/jquery.validate.js" ></script>
+
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/dialog/dialog.js" id="dialog_js"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js" ></script>
+
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+
+
+<script type="text/javascript">
+    var c = null;
+    var p = null;
+    var a = null;
+    var nameOfProvince=null;
+    var cityCurrentName=null;
+$(function(){
+	//ajax_form("queryByqiangzhu", "在线查询", "index.php?app=service&act=queryByqiangzhu", '700');
+    $("#reg_form2").validate({
+        errorPlacement: function(error, element){
+            var error_td = element.parents('td').next('td');
+            error_td.find('.field_notice').hide();
+            error_td.find('.fontColor3').hide();
+            error_td.append(error);
+        },
+        success: function(label){
+            label.addClass('validate_right').text('OK!');
+        },
+        onkeyup: false,
+        rules: {
+				service_user: {
+                required: true
+                },
+				service_zhengjian : {
+				required : true  
+				},
+				service_age: {
+					required: true
+				},
+				service_address: {
+					required: true				
+				},
+				service_tel: {
+					required: true,				
+					checkTel:true
+				}, 
+				service_email: {
+					required : true
+				},
+				kahao: {
+					required : true
+				},
+            
+				notice: {
+					required : true
+				}
+        },
+        messages: {
+			service_user: {
+                required: '请输入用户名'               
+            },			
+			service_zhengjian: {
+                required: '请输入身份证号码'
+            },
+            service_age: {
+                required: '请输入年龄'
+            },
+            service_address: {
+                required: '请输入地址'             
+            },
+			service_tel: {
+                required: '请输入联系电话'             
+            },
+			service_email: {
+                required: '请输邮箱'          
+            },
+			kahao: {
+                required: '请输入银行卡号'          
+            },
+            notice: {
+                required: '请阅读并同意开店协议'
+            }
+        }
+    });
+});
+
+
+
+function showFocus(obj)
+{
+   if(obj.value=="请选择您要查询的地区")
+   {
+     obj.value="";
+   }else{
+	obj.style.color='#000';
+   }
+}
+
+
+function showBlur(obj)
+{
+  if(obj.value=="")
+   {
+	 obj.style.color = '#ccc';  
+     obj.value="请选择您要查询的地区";
+   }else{
+	obj.style.color='#000';
+   }
+}
+</script>
+
+
+
+<link href="{res file=css/else.css}" rel="stylesheet" type="text/css">
+
+
+
+<style type="text/css">
+body {
+overflow-x: hidden
+}
+</style>
+
+
+<link href="{res file=css/cityLayout.css}" type="text/css" rel="stylesheet">
+
+<!--{if !$visitor.member_type || $visitor.member_type == '01' }-->
+
+<!--中间部分-->
+<!--{if !$smarty.get.step}-->
+
+<div class="fw_bg">
+    <div class="wan"><a href="index.php?app=service&act=register_service&step=2"></a></div>
+    <div class="wan1" style="*margin-top: 330px;"><a href="{url app=member&act=login&ret_url=$ret_url}"></a></div>
+</div>
+
+<!--{else}-->
+<div class="fw_er">
+
+   <div class="er2">
+     <div class="div1"><input name="serachName" id="serachName" type="text" readonly="readonly" style="color: #ccc" onFocus="showFocus(this)" onBlur="showBlur(this)" value="请选择您要查询的地区" class="txt proCitySelAll">
+     <input name="serachService" type="button" id="serachService" class="but"></div>
+     <p>暂时只开放 上海、浙江、福建、江西、江苏！</p>
+   </div>
+</div>
+
+					<div class="provinceCityAll">
+                      
+                      <div class="tabs clearfix">
+                        <ul class="">
+                          <li><a href="javascript:" class="current" tb="hotCityAll">热门城市</a></li>
+                          <li><a href="javascript:" tb="provinceAll">省份</a></li>
+                          <li><a href="javascript:" tb="cityAll" id="cityAll">城市</a></li>
+                          <li><a href="javascript:" tb="countyAll" id="countyAll">区县</a></li>
+                        </ul>
+                      </div>
+                      
+                      <div class="con">
+                        <div class="hotCityAll invis">
+                          <div class="pre"><a></a></div>
+                          <div class="list">
+                            <ul>
+                              <!-- 					<li><a href="javascript:"  class="current">南京</a></li> -->
+                            </ul>
+                          </div>
+                          <div class="next"><a class="can"></a></div>
+                        </div>
+                        
+                        <div class="provinceAll invis">
+                          <div class="pre"><a></a></div>
+                          <div class="list">
+                            <ul>
+                              <!-- 					<li><a href="javascript:"  class="current">江西省</a></li> -->
+                            </ul>
+                          </div>
+                          <div class="next"><a class="can"></a></div>
+                        </div>
+                        
+                        <div class="cityAll invis">
+                          <div class="pre"><a></a></div>
+                          <div class="list">
+                            <ul>
+                              <!-- 					<li><a href="javascript:"  class="current">南京</a></li> -->
+                            </ul>
+                          </div>
+                          <div class="next"><a class="can"></a></div>
+                        </div>
+                        
+                        <div class="countyAll invis">
+                          <div class="pre"><a></a></div>
+                          <div class="list">
+                            <ul>
+                            </ul>
+                          </div>
+                          <div class="next"><a class="can"></a></div>
+                          </div>
+                          
+                          </div>
+                          </div>
+                          
+<!--{/if}-->
+<!--{else}-->
+
+<center><div id="warning" name="warning" style="width:70%; margin-top: 100px; margin-bottom: 100px"></div></center>
+<script>js_fail("服务中心不能抢注服务中心！");</script>
+<!--{/if}-->
+<div class="clear">&nbsp;</div>
+<!--中间部分结束-->
+<script language="javascript">
+var searchTxt = ' 搜索其实很容易！';
+function searchFocus(e){
+	if(e.value == searchTxt){
+		e.value='';
+		$('#keyword').css("color","");
+	}
+}
+function searchBlur(e){
+	if(e.value == ''){
+		e.value=searchTxt;
+		$('#keyword').css("color","#999999");
+	}
+}
+function searchInput() {
+	if($('#keyword').val()==searchTxt)
+		$('#keyword').attr("value","");
+	return true;
+}
+$('#keyword').css("color","#999999");
+
+	
+
+//var sendCitiesAjax_URL	   =	"{res file=js/queryAllCities.js}";
+var sendAllCitiesAjax_URL  =	"{res file=js/queryCities.js}";
+var sendAllCountiesAjax_URL=	"{res file=js/queryAllAreas.js}";
+var sendAllProvinceAjax_URL=	"{res file=js/queryAllProvinces.js}";
+
+
+
+$("#serachService").bind("click",function()
+{
+
+   var serachName=$("#serachName").val();
+   if(serachName=="" || serachName=="请选择您要查询的地区")
+   {
+      alert("请选择查询条件");
+   }else
+   {
+       /*var newstr=serachName.replace("市","");
+       newstr=newstr.replace("区","");
+       newstr=newstr.replace("县","");*/
+	   
+	   
+	   var uri =encodeURI("index.php?app=service&act=queryByqiangzhu&serachName="+serachName);
+        var id = 'seller_order_cancel_order';
+        var title = "在线查询";
+        var width = '700';
+        ajax_form(id, title, uri, width);
+   }
+
+})
+
+</script>
+<script type="text/javascript" src="{res file=js/public.js}" charset="utf-8"></script>
+
+
+{include file=footer.html}

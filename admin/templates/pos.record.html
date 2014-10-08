@@ -1,0 +1,101 @@
+{include file="header.html"}
+
+<script type="text/javascript" src="{lib file=jquery.js}" charset="utf-8"></script>
+<script type="text/javascript" src="{lib file=jike.js}" charset="utf-8"></script>
+<script type="text/javascript" src="{lib file=member.js}" charset="utf-8"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.plugins/jquery.validate.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/dialog/dialog.js" id="dialog_js"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js" ></script>
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+
+
+<script type="text/javascript">
+$(function(){
+    $('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+    $('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+});
+
+function delete_guanggao(id){
+	if(id =="" || id == null){	
+		alert("请选择广告");
+		return;
+	}
+	if(confirm("确认删除吗？")){
+	   location = "index.php?app=guanggao&act=drop&id="+id;
+	}
+}
+
+function undelete_guanggao(id){
+	if(id =="" || id == null){	
+		alert("请选择广告");
+		return;
+	}
+	if(confirm("确认恢复吗？")){
+	   location = "index.php?app=guanggao&act=undrop&id="+id;
+	}
+}
+
+</script>
+<div id="rightTop">
+    <p>pos机消费</p>
+</div>
+<div class="mrightTop">
+    <div class="fontl">
+        <form method="get">
+             <div class="left">
+                <input type="hidden" name="app" value="pos" />
+                <input type="hidden" name="act" value="record" />
+                消费时间从：&nbsp;&nbsp;&nbsp;<input  width="100px" type="text" value="{$smarty.get.add_time_from}" id="add_time_from" name="add_time_from" class="pick_date" />
+                &nbsp;&nbsp;&nbsp;至：&nbsp;&nbsp;&nbsp;<input  width="100px" type="text" value="{$smarty.get.add_time_to}" id="add_time_to" name="add_time_to" class="pick_date" />
+
+                 &nbsp; &nbsp;&nbsp;&nbsp;按卡号：&nbsp;&nbsp;&nbsp;
+                <input type="text" name="card_num" value="{$smarty.get.card_num}"  width="150px" />
+
+                 &nbsp; &nbsp;&nbsp;&nbsp;按银行：&nbsp;&nbsp;&nbsp;
+                 <input type="text" name="card_bank" value="{$smarty.get.card_bank}"  width="150px" />
+
+                <input type="submit" class="formbtn" value="{$lang.query}" />
+            </div>
+        </form>
+    </div>
+    <div class="fontr">
+        {if $orders}{include file=page.top.html}{/if}
+    </div>
+</div>
+<div class="tdare">
+    <table width="100%" cellspacing="0" class="dataTable">    
+        <tr class="tatr1">
+            <td width="15%" class="firstCell"><span ectype="order_by" fieldname="title">银行名称</span></td>
+            <td width="15%"><span ectype="order_by" fieldname="des">银行卡卡号</span></td>
+            <td width="15%"><span ectype="order_by" fieldname="link">商家名称</span></td>
+            <td width="10%"><span ectype="order_by" fieldname="img">交易所在地</span></td>
+            <td width="8%"><span ectype="order_by" fieldname="status">刷卡金额</span></td>
+            <td width="15%"><span ectype="order_by" fieldname="position">刷卡时间</span></td>
+            <td width="15%"><span ectype="order_by" fieldname="position">状态</span></td>
+        </tr>
+        <!-- {foreach from=$data item=view name=v} -->
+        <tr class="tatr2">
+            <td class="firstCell">{$view.bank_name|escape}</td>
+            <td>{$view.bank_card|escape}</td>
+            <td>{$view.store_name|escape}</td>
+            <td>{$view.region_name|escape}</td>
+            <td>{$view.jine|escape}</td>
+            <td>{$view.xiaofei_time|escape}</td>
+            <td><!--{if $gg.handle_status eq 0}-->未处理<!--{else}-->已处理<!--{/if}--></td>
+        </tr>
+        <!--{foreachelse}-->
+        <tr class="no_data">
+            <td colspan="7">{$lang.no_data}</td>
+        </tr>
+        <!--{/foreach}-->
+    </table>
+    <div id="dataFuncs">
+        <div class="pageLinks">
+            {if $orders}{include file=page.bottom.html}{/if}
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<iframe id='iframe_post' name="iframe_post" src="about:blank" frameborder="0" width="0" height="0"></iframe>
+{include file="footer.html"}

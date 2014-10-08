@@ -1,0 +1,113 @@
+@charset "utf-8";
+/***************** 头部（POS机刷卡绑定） ************/
+.top{width:320px;height:42px;line-height:40px;margin:0 auto; font-size:14px;font-weight:bold;text-align:center;color:#fff;background:#c40000;}
+
+.background{width:309px;height:500px;padding:10px 6px 0px 5px; margin:0 auto;background:#f8f8f8;}
+.background-1{width:309px;padding:10px 6px 20px 5px; margin:0 auto;background:#f8f8f8;}
+	.member{ width:309px;height:35px;line-height:35px;font-size:14px;text-align:center;}
+	.member-l{ float:left; width:154px;height:35px;color:#fff; background:#1d5b9f;}
+	.member-r{ float:right; width:155px;height:35px;color:#666; background:#dbdbdb;}
+	.member0{ width:309px;height:35px;line-height:35px;font-size:14px;text-align:center;}
+	.member0-l{ float:left; width:154px;height:35px;color:#666; background:#dbdbdb;}
+	.member0-r{ float:right; width:155px;height:35px;color:#fff; background:#1d5b9f;}
+
+.member2{margin-top:15px;}
+.member2 td{font-size:14px;}
+.member2-text{width:160px;height:25px;padding-left:10px;padding-right:5px;border:1px solid #e5e5e5;background:#FFF;}
+#select{width:137px;height:28px;padding-top:5px;border:1px solid #e5e5e5; background:#FFF;}
+#select option{padding-top:5px;}
+.member2-submit{width:108px;height:28px; color:#fff; cursor:pointer;border:0px;background:#666;}
+
+.member-an{width:309px;height:35px;margin-top:35px;}
+.an-buttom{width:309px;height:35px;line-height:35px;text-align:center;font-size:14px; font-weight:bold; color:#fff;border:0px;border-radius:5px;cursor:pointer;background:#1d5b9f;}
+
+/*****************绑定成功***********/
+.popup{width:307px;height:200px; margin:0 auto;margin-top:100px;border-radius:5px; border:1px solid #e5e5e5;background:#fff;}
+	.popup-t{width:307px;height:35px; border-bottom:1px solid #e5e5e5;}
+	.popup-t span{ float:right;margin-top:6px;margin-right:10px;}
+	.popup-c{width:277px;margin-top:15px;height:145px;line-height:18px;padding:0px 15px 0px 15px;}
+	.popup-an{width:104px;height:35px;margin-top:40px;margin-left:80px;border-radius:5px;border:0px; border:1px solid #7e0000;font-size:14px; font-weight:bold;color:#fff; cursor:pointer;background:#c40000;}
+
+/*****************操作技巧***********/
+.handle{width:287px;height:265px;padding:10px 10px 0px 10px;border-radius:5px;border:1px solid #e5e5e5;background:#fff;}
+.handle0{width:307px;height:450px;border-radius:5px;border:1px solid #e5e5e5;background:#fff;}
+.handle-b{width:307px;border-radius:5px;border:1px solid #e5e5e5;margin-bottom:40px;background:#fff;}
+.handle-1{width:287px;height:39px;line-height:16px;border-bottom:1px solid #e5e5e5;}
+	.handle-1 h3{font-size:14px;}
+	.handle-1 p{ color:#666;}
+.handle-2{width:287px;height:180px;border-bottom:1px solid #e5e5e5;}
+.handle-2 dl{height:110px;}
+.handle-2 dt{width:103px;height:85px;float:left;margin-top:15px;margin-left:27px; }
+.handle-2 dd{width:120px;height:50px;float:left;margin-top:30px;}
+.handle-2 dd h3{ font-size:14px;}
+.handle-an{width:95px;height:30px;margin-top:6px; color:#fff;font-size:14px;background:#c40000;border:0px; cursor:pointer;}
+.handle-2 p {line-height:18px;}
+
+.handle-3{width:287px;height:40px;line-height:40px;font-size:14px;}
+.handle-3 span{ float:right;padding-right:8px;}
+
+/*****************更多功能***********/
+.handle-tu{width:285px;height:115px;margin-bottom:3px;}
+.handle-tu li{width:65px;height:50px;margin-right:25px;margin-top:5px;float:left;}
+
+/****************免费申请pos机***********/
+.charge{width:287px;height:118px;}
+.charge1{width:98px; height:98px;margin-top:9px;margin-left:10px;border:1px solid #e5e5e5; float: left;}
+.charge2{width:130px;height:98px;margin-top:9px;margin-left:20px; float: left;}
+.charge2 p{ font-size:14px;line-height:35px;padding-top:10px;}
+
+/****************托管商家入驻***********/
+.charge3{width:297px;height:45px;line-height:18px;padding:10px 5px 0px 5px; text-indent:22px;background:url(img/wen-hao.jpg) 7px 13px no-repeat;}
+.charge4,.charge-pic{width:307px;padding-bottom:10px;}
+.charge-pic{width:307px;padding-bottom:10px;}
+.tian-j{width:45px;height:43px; background:url(../img/pic/tian-j.jpg) no-repeat; border:0px; cursor:pointer;}
+.service{width:274px;line-height:20px;border-radius:5px;margin-left:10px;margin-bottom:10px;margin-top:5px;padding:5px 5px 5px 8px;background:#e1e1e1;}
+
+.charge4-se{width:218px;height:33px;padding-left:5px;padding-top:6px;border:1px solid #e5e5e5;}
+.charge4-see{width:207px;height:33px;padding-left:5px;padding-top:6px;border:1px solid #e5e5e5;}
+.charge4-se1{width:90px;height:33px;padding-left:5px;padding-top:6px;border:1px solid #e5e5e5;}
+.charge4 td,.charge-pic td{font-size:14px;font-weight:bold; color:#666;}
+.charge4-text{width:205px;height:33px;padding-left:10px;border:1px solid #e5e5e5; background:#FFF; color:#333;}
+.time-text{width:79px;height:33px;padding-left:10px;border:1px solid #e5e5e5; background:#FFF; color:#333;}
+
+.charge4-text2{width:100px;height:33px;padding-left:10px;border:1px solid #e5e5e5; background:#FFF; color:#333;margin-right:5px;}
+.charge4-button{width:95px;height:35px;line-height:35px;border:0px; color:#fff;background:#c40000; cursor:pointer;}
+
+.charge4 p{width:291px;height:38px;line-height:38px;margin-top:5px;padding-left:16px;background:#f2f2f2; color:#666;}
+
+.charge5{width:307px;height:33px;line-height:33px;border-radius:5px;border:1px solid #e5e5e5;margin-top:50px; background:#FFF;}
+.charge5-che{margin-left:10px;vertical-align:middle;}
+.charge5 span{font-size:14px; vertical-align:middle;}
+.charge5 a{color:#1d5b9f;}
+
+/****************链接已过期***********/
+.past{width:307px;height:110px;border-radius:5px;border:1px solid #e5e5e5;background:#FFF;margin-top:50px;}
+.past1{width:307px;height:35px;line-height:35px;font-size:14px; font-weight:bold; text-align:center;border-bottom:1px solid #e5e5e5;}
+.past1 span{ float:right;margin-right:10px;margin-top:7px;}
+.past2{width:277px;height:55px;padding:15px 15px 0px 15px;}
+
+/****************我要入驻***********/
+.Settled{width:307px;height:365px;border-radius:5px;border:1px solid #e5e5e5;background:#FFF;}
+.Settled1{width:285px;height:90px;margin-left:10px;border-bottom:1px solid #e5e5e5;}
+.Settled1 h3{margin-top:8px;line-height:16px;font-size:12px;}
+.Settled1 p{ color:#666;margin-top:10px;}
+
+.Settled2{width:285px;height:200px;margin-left:10px;border-bottom:1px solid #e5e5e5;}
+.Settled2 h3{margin-top:15px;}
+.Settled2 p{margin-top:15px;line-height:20px;}
+.Settled3{width:285px;height:50px;line-height:50px;margin-left:10px;font-size:14px;}
+.Settled3 span{ float:right;margin-right:5px;}
+
+
+/***************店铺入驻***********/
+.enter{width:307px;border-radius:5px;padding-bottom:20px;border:1px solid #e5e5e5;background:#FFF;}
+.enter1{width:307px;}
+.enter1 dt{width:123px;height:125px;float:left;background:#09F}
+.enter1 dd{width:177px;height:130px;line-height:20px; float:left;padding-top:5px;}
+.enter1 h3{width:307px;height:35px;line-height:35px; color:#fff;font-size:14px;text-indent:12px;background:#666}
+#enter11{height:120px;padding-top:15px;}
+
+
+
+
+

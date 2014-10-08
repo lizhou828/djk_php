@@ -1,0 +1,63 @@
+<html>
+<head>
+    <style type="text/css">
+        .cancel_button{
+            height: 35px;width: 90px;font-size: 14px;font-weight: bolder;background: orange;color: #ffffff;border: none;border-radius: 5px;
+        }
+    </style>
+    <script type="text/javascript">
+        function vshop_cancel(_shop_id){
+            if( ! _shop_id || _shop_id ==null || _shop_id ==" " || typeof _shop_id =="undefined"){
+                alert("集客小店号参数丢失!");
+                return;
+            }
+
+            $.post("index.php?app=service&act=vshop_cancel",
+                    {"shop_id":_shop_id,"close_reason":$("input[type='radio']:checked").val()},
+                    function(result){
+                        result = eval("("+result+")");
+                        alert(result.msg);
+                        window.location.reload();
+            });
+        }
+    </script>
+</head>
+<body style="width: 560px;">
+<div >
+    <div style="padding:14px 6px 1px 14px;;line-height:16px; ;font-size:16px;width:530px;height: 30px;background:#C0DBED;color: #000000;font-weight: bolder">
+        取消精品店资格
+    </div>
+    <div  style="width: 560px;margin: 30px 30px;">
+        <div style="float: left;height: 50px;width: 50px;">
+            <img width="25" height="25" src="{res file=images/warning.png}"/></div>
+        <div style="float: left;width: 450px;">
+            <span style="line-height: 30px;font-size: 16px;font-weight:bolder;color:orange ">您确定取消该用户的精品店资格吗?</span><br/>
+            <span style="line-height: 30px;color: #B6B6B6">提示：精品店资格取消后，该会员则变为普通集客小店店主。</span>
+        </div>
+    </div>
+    <br/>
+    <br/>
+
+    <div style="width: 560px;margin: 40px 30px 30px 80px;">
+        <table style="height: 50px;width: 400px;">
+            <tr>
+                <td width="20">取消原因：</td>
+                <td width="40"><input type="radio" name="close_reason" value="销售不理想"/>&nbsp;&nbsp;销售不理想</td>
+                <td width="40"><input type="radio" name="close_reason" value="违反交易规则"/>&nbsp;&nbsp;违反交易规则</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="radio" name="close_reason" value="自动弃权"/>&nbsp;&nbsp;自动弃权</td>
+                <td><input type="radio" name="close_reason" value="其他原因"/>&nbsp;&nbsp;其他原因</td>
+            </tr>
+        </table>
+    </div>
+    <div style="width: 550px;text-align: center;margin-top: 40px;margin-bottom: 20px;">
+        <input class="cancel_button" type="button" onclick="vshop_cancel('{$shop_id}')" value="确定"/>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input class="cancel_button" type="button" onclick="DialogManager.close('vshop_cancel_page')" value="取消"/>
+    </div>
+
+</div>
+</body>
+</html>

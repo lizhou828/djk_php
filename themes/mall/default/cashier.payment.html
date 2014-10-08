@@ -1,0 +1,159 @@
+{include file="header1.html"}
+{include file="curlocal.html"}
+
+<link href="{res file=css/pay.css}" rel="stylesheet" type="text/css">
+
+<div class="flow_chart">
+    <div class="pos_x1 bg_a2" title="{$lang.shopping_step_one}"></div>
+    <div class="pos_x2 bg_b2" title="{$lang.shopping_step_two}"></div>
+    <div class="pos_x3 bg_c1" title="{$lang.shopping_step_three}"></div>
+</div>
+
+<div class="content">
+    <form action="index.php?app=cashier&act=goto_pay&order_id={$order.order_id}" method="POST" id="goto_pay">
+        <div class="module_common">
+            <div class="step_main">
+                <div class="clue_on"><h4>{$lang.order_created}</h4><p>{$lang.order_created_desc}</p></div>
+                <div class="order_information">
+
+                        <table style="width: 800px">
+                            <tr>
+                                <td width="100px"><b>&nbsp;</b></td>
+                                <td><b>订单号</b></td>
+                                <td><b>订单价格</b></td>
+                                <td><b>订单总价</b></td>
+                            </tr>
+                        <!--{foreach from=$allOrders.orders item=order name=ord}-->
+                        <tr>
+                                <td width="100px"><b>&nbsp;</b></td>
+                                <td><span>{$order.order_sn}</span></td>
+                                <td><span>{$order.order_amount|price}</span></td>
+                                <td>
+                                <!--{if $smarty.foreach.ord.last}-->
+                                    <span>{$allOrders.jines|price}</span>
+                                <!--{/if}-->
+                                </td>
+                        </tr>
+                        <!--{/foreach}-->
+                        </table>
+
+                </div>
+
+                <div class="buy">
+                    <h3><b class="ico">{$lang.select_payment}</b></h3>
+
+
+
+                </div>
+
+                <!--网银付款start-->
+                <div class="w pay_main">
+                    <div class="m tabs" id="qpay03">
+                        <div class="mc" data-widget="tabs">
+                            <div class="tabcon ol3" data-widget="tab-content" style="display: block; ">
+                                <div class="tab-t">余额支付</div>
+
+                                <br>
+
+                                <div class="tab-t">账户( {$visitor.user_name|escape} )    可支付余额：{$yue} 元<div class="tab-t">
+
+                                <div class="tab-t"><input type="checkbox">用支付宝余额付款 13.29 元。剩余 61.71 元可选择其他付款方式付款。 </div>
+
+                                <!--{if $chajia}-->
+                                <br><br><br>
+                                <br>
+                                <div class="fore0 clearfix" style="display:none">
+                                    <ul class="bank-list" id="radio_Text_1"></ul>
+                                    <div class="clr"></div>
+                                </div>
+                                <!--{/if}-->
+                                <div class="mpart fore2">
+                                    <div class="mp-t">
+                                        <strong>网银支付</strong>
+                                        需开通网银
+                                    </div>
+                                    <!-- todo -->
+                                    <ul class="bank-list" id="common_bank_one">
+                                        <li clstag="payment|keycount|bank|c-ccb" class="">
+                                            <input type="radio" class="radio" onclick="opteratorBank('CCB')" checked="checked" id="RadioGroup1_1" value="CCB" name="RadioGroup1">
+                                            <div class="bank-info">
+                                                <label>
+                                                    <a href="javascript:;"><img width="125" height="28" id="CCB"  onclick="opteratorBank('CCB')" alt="建设银行" src="{$site_url}/themes/mall/default/styles/default/images/bank/ccb_1301.png"></a>
+                                                </label>
+                                            </div>
+                                        </li>
+
+                                        <li clstag="payment|keycount|bank|c-icbc" class="">
+                                            <input type="radio" class="radio" disabled="disabled"  onclick="opteratorBank('ICBC')" id="RadioGroup1_1" value="ICBC" name="RadioGroup1">
+                                            <div class="bank-info">
+                                                <label>
+                                                    <a href="javascript:;"><img width="125" height="28" id="ICBC" onclick="opteratorBank('ICBC')" alt="工商银行" src="{$site_url}/themes/mall/default/styles/default/images/bank/icbc_1301.png"></a>
+                                                </label>
+                                            </div>
+                                        </li>
+
+                                        <li clstag="payment|keycount|bank|c-cmb" class="">
+                                            <input type="radio" class="radio" disabled="disabled" onclick="opteratorBank('CMB')" id="RadioGroup1_1" value="CMB" name="RadioGroup1">
+                                            <div class="bank-info">
+                                                <label>
+                                                    <a href="javascript:;"><img width="125" height="28" id="CMB" onclick="opteratorBank('CMB')" alt="招商银行" src="{$site_url}/themes/mall/default/styles/default/images/bank/cmb_1301.png"></a>
+                                                </label>
+                                            </div>
+                                        </li>
+
+                                        <li clstag="payment|keycount|bank|c-abc" class="">
+                                            <input type="radio" class="radio" disabled="disabled" onclick="opteratorBank('ABC')" id="RadioGroup1_1" value="ABC" name="RadioGroup1">
+                                            <div class="bank-info">
+                                                <label>
+                                                    <a href="javascript:;" id="to_pay" name="to_pay"><img width="125" height="28" id="ABC" onclick="opteratorBank('ABC')" alt="农业银行" src="{$site_url}/themes/mall/default/styles/default/images/bank/abc_1301.png"></a>
+                                                </label>
+                                            </div>
+                                        </li>
+
+
+
+
+                                    </ul>
+                                    <div class="make_sure">
+                                        <p>
+                                            <a href="javascript:to_pay();" id="to_pay" name="to_pay" class="btn" >{$lang.confirm_pay}</a>
+                                        </p>
+                                    </div>
+                                    <br><br>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!--网银付款end-->
+
+                <!--<div class="remark">
+                    商品将于5工作日内送达。<a href="#">配送范围请查看</a>。<br />
+                    您可以在 <a href="#">我的订单</a>  中查看或取消您的订单，由于系统需进行订单预处理，您可能不会立刻查询到刚提交的订单。<br />
+                    如果您现在不方便支付，可以随后到 <a href="#">我的订单</a>  完成支付，我们会在48小时内为您保留未支付的订单。
+                </div>-->
+                <div class="clear"></div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--{if $allOrders}-->
+<form id="payform1" name="payform1" method="post" action="{$TO_PAY_URL}" target="_blank">
+<input type="hidden" name="orderSn" value="{$order_sns}"/>
+</form>
+<script>
+function to_pay(){
+    //window.open("","do_pay");
+    document.getElementById("payform1").submit();
+}
+</script>
+<!--{else}-->
+<script>
+function to_pay(){
+   alert("没有找到订单信息");
+}
+</script>
+<!--{/if}-->
+{include file="footer1.html"}

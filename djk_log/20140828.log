@@ -1,0 +1,12 @@
+
+错误url=http:///
+2014-08-28 08:52:57  	[2]parse_url(http://) [<a href='function.parse-url'>function.parse-url</a>]: Unable to parse URL	\includes\subdomain.inc.php	50
+
+错误url=http:///
+2014-08-28 09:02:42  	[2]parse_url(http://) [<a href='function.parse-url'>function.parse-url</a>]: Unable to parse URL	\includes\subdomain.inc.php	50
+
+错误url=http:///
+2014-08-28 09:11:38  	[2]parse_url(http://) [<a href='function.parse-url'>function.parse-url</a>]: Unable to parse URL	\includes\subdomain.inc.php	50
+
+错误url=http:///
+2014-08-28 17:44:04  	[2]parse_url(http://) [<a href='function.parse-url'>function.parse-url</a>]: Unable to parse URL	\includes\subdomain.inc.php	50

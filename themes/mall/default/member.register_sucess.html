@@ -1,0 +1,313 @@
+{include file="header.html"}
+<style type="text/css">
+    .top_bs{ width:789px; margin:0px auto; margin-top:55px;height:120px;}
+    .top_bs dl{}
+    .top_bs dl dd{ width:68px; height:63px; float:left; margin-right:20px;}
+    .top_bs dl dt{ float:left;}
+    .top_bs dl dt h5{ color:#5e8f0a; font-size:18px; font-weight:normal; font-family:"微软雅黑"; line-height:40px;}
+    .top_bs dl dt p{ color:#666;}
+    .top_bs dl dt p span{ color:#d0281e; font-family:Verdana, Geneva, sans-serif;}
+    .top_bs dl dt p a{ color:#1d5b9f; text-decoration:none; font-size: 14px}
+    .top_bs dl dt .bot{ color:#4f4f4f; font-size:14px; width:102px; height:32px; border:1px solid #d2d2d2; background:#ededed; line-height:32px; text-align:center; margin-top:12px;float: left}
+    .top_bs dl dt .bot a{color:#4f4f4f; }
+    .top_bz{ width:787px; margin:0px auto; margin-top:26px; height:176px; border:1px solid #eaac44; background: #fffcf7; margin-bottom: 50px;}
+    .top_bz p{ font-size:18px; font-family:"微软雅黑"; color:#ffa800; width:626px; margin:0px auto; margin-top:32px}
+    .top_bz p span{ font-size:24px; color:#d0281e;}
+    .top_bz .yx{ height:28px; line-height:28px; width:492px; margin:0px auto; margin-top:32px;}
+    .top_bz .yx .input1{ width:213px; height:26px; border:1px solid #d1d1d1; vertical-align:middle; line-height:26px; color:#b5b5b5; padding-left:5px;}
+    .top_bz .yx .input2{ border:1px solid #d2d2d2; width:100px; height:28px; background:#ebebeb; border:none; vertical-align:middle; color:#616161; cursor:pointer}
+
+    .top_bs dl dt p .sp1{width:150px; height:26px;}
+    .top_bs dl dt p .sp1 .input1{width:150px; height:26px; border:1px solid #d1d1d1; vertical-align:middle; line-height:26px; color:#b5b5b5; padding-left:5px;}
+    .top_bs dl dt p .input2{border:1px solid #d2d2d2; width:50px; height:28px; background:#ebebeb; border:none; vertical-align:middle; color:#616161; cursor:pointer}
+	
+	
+	.top_bz2{ height:286px}
+</style>
+
+<script type="text/javascript">
+    $(function(){
+        $("#unick").bind("click", function(){
+            $("#p1").hide();
+            $("#p2").show();
+        });
+        $("#updatenick_btn_cancel").bind("click", function(){
+            $("#p2").hide();
+            $("#p1").show();
+        });
+
+        $("#resend").bind("click", function(rs){
+            $.get("index.php?app=member&act=resend",{},function(rs){
+               alert(rs);
+            });
+        });
+        $("#sendemail_btn").bind("click", function(rs){
+            if (!checkEmail($("#email").val())) {
+                $("#sendemail_lable").html("请输入正确的邮箱！");
+                return;
+            }
+            $.post("index.php?app=member&act=updateemail",{email:$("#email").val()},function(rs){
+                rs = trim(rs);
+                if (rs == 'Y') {
+					var str="系统已向您的邮箱<font color='#FF6600'>"+$("#email").val()+"</font>发送了一封验证邮件，请您登录邮箱，点击邮件中的链接完成邮箱验证。如果您超过2分钟未收到邮件，您可以<a  href=\"javascript:resend();\" style=\"color: #0063DC\">重新发送</a>";
+                    $(".yx").html(str);
+                } else if (rs == 'E') {
+                    $("#sendemail_lable").html("该邮箱已被使用，请更换其它邮箱！");
+                } else {
+                    $("#sendemail_lable").html("操作失败，请稍后重试！");
+                }
+            });
+        });
+
+        $("#updatenick_btn").bind("click", function(rs){
+            $.post("index.php?app=member&act=updatenick",{nick_name:$("#nick_name").val()},function(rs){
+                rs = trim(rs);
+                if (rs == 'Y') {
+                    $("#nick_name_btn").html($("#nick_name").val());
+                    $("#nick_name_input").hide();
+                    $("#updatenick_label").html("修改成功!");
+                } else if(rs == 'E'){
+                    $("#updatenick_label").html("昵称已存在，请另外取一个昵称");
+                } else {
+                    $("#updatenick_label").html("操作失败，请稍后重试！");
+                }
+            });
+        });
+    });
+
+function resend(){
+	$.get("index.php?app=member&act=resend",{},function(rs){
+               alert(rs);
+            });
+} 
+
+</script>
+
+<div class="top_bs">
+    <dl>
+        <dd><img src="{$site_url}/themes/mall/default/styles/default/images/gou.png" width="68" height="63" /></dd>
+        <dt>
+        <h5>恭喜，<!--{if $user.im_qq !=''}-->{$user.nick_name}<!--{else}-->{$user.user_name}<!--{/if}--> 已注册成功！</h5>
+        <p id="p1">您的昵称：
+            <span>{$user.nick_name}</span>
+            <a id="unick" href="javascript:void(0);">修改昵称</a> 您的昵称会展示在页面顶部和商品评价等地方，如不希望暴露，建议您修改！
+        </p>
+        <p id="p2" style="display: none">您的昵称：
+                <span id="nick_name_input" class="sp1">
+                    <input id="nick_name" name="nick_name" onblur="if($(this).val()=='')$(this).val('{$user.nick_name}');this.style.color = '#ccc';" onfocus="if($(this).val()=='{$user.nick_name}')$(this).val('');this.style.color='#000'" type="text" value="{$user.nick_name}"  class="input1"/>
+                </span>
+                <span id="nick_name_btn">
+                    <input id="updatenick_btn" type="button" value="保存" class="input2" style="border:1px solid #d2d2d2;" />
+                    <input id="updatenick_btn_cancel" type="button" value="取消" class="input2" style="border:1px solid #d2d2d2;" />
+                </span>
+                <label id="updatenick_label" style="color: red"></label>
+        </p>
+        <p class="bot"><a href="{$site_url}">立即购物</a></p>
+        <p class="bot" style="color:#d0281e;margin-left: 20px;"><a href="index.php?app=jkxd_portal&apply=1" target="_blank">5秒开集客小店</a></p>
+        <p class="bot" style="color:#d0281e;margin-left: 20px;"><a href="index.php?app=member&act=home">进入会员中心</a></p>
+        </dt>
+    </dl>
+</div>
+<div class="top_bz">
+    <!--{if $email_domain }-->
+    <p>超过<span>80%</span>的用户选择了立即验证邮箱，账户更安全购物更放心。</p>
+    <div class="yx">
+        系统已向您的邮箱<font color='#FF6600'> {$user.email} </font>发送了一封验证邮件，请您 <a href="http://mail.{$email_domain}" target="_blank" style="  color: #0063DC">登录</a> 邮箱，点击邮件中的链接完成邮箱验证。如果您超过2分钟未收到邮件，您可以
+        <a id="resend" href="javascript:void(0);" style="color: #0063DC">重新发送</a>
+    </div>
+    <!--{/if}-->
+
+    <!--{if !$email_domain }-->
+    <p>超过<span>80%</span>的用户选择了立即验证邮箱，账户更安全购物更放心。</p>
+    <div class="yx">您的邮箱 <input id="email" name="email"  type="text" value="请输入您常用的电子邮箱"  onblur="showBlur(this)" onfocus="showFocus(this)"
+ class="input1" style="border:1px solid #d2d2d2;"/>
+        <input id="sendemail_btn" type="button" value="发送邮件验证" class="input2" style="border:1px solid #d2d2d2;" />
+        <br/>
+        <label for="sendemail_btn" style="color: red; padding-left: 53px" id="sendemail_lable">完成验证后，您可以用该邮箱登录大集客，找回密码。</label>
+    </div>
+    <!--{/if}-->
+
+</div>
+
+<!--{if !$user.phone_mob || $user.phone_mob == ""}-->
+<div class="top_bz top_bz2">
+    <p>超过<span>一半</span>的用户选择了立即绑定手机，尊享最安全快捷的网购体验！<br>
+    只差一步，尊享最安全快捷的购物提现！
+    </p>    
+    <div class="yx yx2">
+    	&nbsp;&nbsp;&nbsp;&nbsp;手机号码 <input id="phone_mob" name="phone_mob"  type="text" value="请输入您常用的您的手机号码"  onblur="showBlur2(this)" onfocus="showFocus2(this)"
+ class="input1" style="border:1px solid #d2d2d2;"/>
+        <input id="btnSendCode" type="button" value="发送手机验证码" onclick="sendMessage()" class="input2" style="border:1px solid #d2d2d2; width:160px" /> 
+        <br><label id="phone_mob_label" style="color: red;margin-left: 78px;"></label>    
+    </div>
+    <div class="yx yx3">
+    	&nbsp;&nbsp;短信验证码 <input id="yanzhengma" name="yanzhengma"  type="text"  class="input1" style="border:1px solid #d2d2d2; color:#000"/>
+        <label id="yanzhengma_label"></label>
+        <br><br>
+        <input  type="button" id="bang_mob_btn" value="绑定手机" class="input2" style="border:1px solid #d2d2d2; margin-left:77px" />
+
+        <label id="error_label" style="color: red"></label>
+    </div>
+    
+        
+</div>
+<!--{/if}-->
+
+<script type="text/javascript">
+
+ var InterValObj; //timer变量，控制时间
+
+ function showFocus(obj)
+    {
+        if(obj.value=="请输入您常用的电子邮箱")
+        {
+            obj.style.color='#000';
+            obj.value="";
+        }
+    }
+
+    function showBlur(obj)
+    {
+        if(obj.value=="")
+        {
+            obj.style.color = '#ccc';
+            $('#emails_ul').css('display','none');
+            obj.value="请输入您常用的电子邮箱";
+        }
+    }
+
+function showFocus2(obj)
+    {
+        if(obj.value=="请输入您常用的您的手机号码")
+        {
+            obj.style.color='#000';
+            obj.value="";
+        }
+    }
+
+    function showBlur2(obj)
+    {
+        if(obj.value=="")
+        {
+            obj.style.color = '#ccc';
+            $('#emails_ul').css('display','none');
+            obj.value="请输入您常用的您的手机号码";
+        }
+    }	
+	
+	$("#bang_mob_btn").bind("click",function(){	
+		$("#error_label").html("");
+		$("#phone_mob_label").html("");
+		$("#yanzhengma_label").html("");
+		
+		var phone_mob = $("#phone_mob").val();
+		var yanzhengma = $("#yanzhengma").val();
+		
+		if($.trim(phone_mob) == "" || phone_mob == "请输入您常用的您的手机号码" ){
+			$("#phone_mob").html("");
+			$("#phone_mob_label").html("<font color='red'>请输入手机号码</font>");
+			return;
+		}
+		
+		if(!checkMobile(phone_mob)){			
+			$("#phone_mob_label").html("<font color='red'>手机号码格式错误</font>");
+			return;
+		}
+		
+		if($.trim(yanzhengma) == ""){		
+			$("#yanzhengma_label").html("<font color='red'>请输入验证码</font>");
+			return;
+		}
+		$.get("index.php?app=sendcode&act=checkCode&ajax=1","yanzhengma="+yanzhengma,function(rs){
+			if(eval(rs) == false){				
+				$("#yanzhengma_label").html("<font color='red'>手机验证码错误</font>");
+			}else{				
+				$.post("index.php?app=member&act=save_mob",{phone_mob:phone_mob,yanzhengma:yanzhengma},function(rs){
+				
+					if(eval(rs) == false){
+						$("#error_label").html("绑定失败，请稍后重试！");
+						return;
+					}else{
+						var html = "<div class=\"jdb\"><div class=\"top_bs\"><dl><dd><img src=\"{$site_url}/themes/mall/default/styles/default/images/gou.png\" width=\"68\" height=\"63\" /></dd><dt><h5>恭喜，手机  "+phone_mob+"  绑定成功！</h5><p class=\"bot\" style=' margin-left: 0;'><a href=\"{$site_url}\">立即购物</a></p>现在去  <a href='index.php?app=member&act=profile'>完善个人信息</a>  或浏览  <a href='index.php?app=member'>我的个人主页  >></a></dt></dl></div>";
+						$(".yx2").html(html);
+						$(".yx3").css("display","none");
+	
+					}
+				
+				})
+				
+			}
+		
+		})
+		
+		
+	})
+	
+	
+	var curCount;
+    function sendMessage() {
+        curCount = 120;		
+		$("#error_label").html("");
+		$("#phone_mob_label").html("");
+		$("#yanzhengma_label").html("");
+		var phone_mob = $("#phone_mob").val();
+		
+		if( $.trim(phone_mob) == "" || phone_mob == "请输入您常用的您的手机号码" ){
+			$("#phone_mob").html("");
+			//$("#error_label").html("请输入手机号码");
+			$("#phone_mob_label").html("<font color='red'>请输入手机号码</font>");
+			return;
+		}else{
+            if(InterValObj!=null){
+                window.clearInterval(InterValObj);
+            }
+			//设置button效果，开始计时
+			$("#btnSendCode").attr("disabled", "true");
+			$("#btnSendCode").val("请在" + curCount + "秒内输入验证码");			
+			InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+			//向后台发送处理数据
+			$.get("index.php?app=sendcode&act=send2",{phone_or_tel:phone_mob},function(rs){
+				var rst=rs.replace("<br/>","");
+				rst=rst.replace("<br>","");				
+				$("#error_label").html(rst);
+                if($.trim(rst)=="发送失败！"){
+                    $("#btnSendCode").removeAttr("disabled");
+                }
+			})
+		  
+			
+				
+		  
+		}
+    }
+
+    $.get("index.php?app=sendcode&act=getoldtime",{}, function(rs) {
+        if (rs > 0) {
+            $("#btnSendCode").attr("disabled","disabled");
+            $("#btnSendCode").attr("disabled","disabled");
+            curCount = rs;
+            SetRemainTime();
+        }
+    });
+
+ 	//timer处理函数
+		function SetRemainTime() {
+			if (curCount == 0) {
+				window.clearInterval(InterValObj);//停止计时器
+				$("#btnSendCode").removeAttr("disabled");//启用按钮
+                if(state ==0 ){
+                    $("#btnSendCode").val("重新发送验证码");
+                }else{
+                    $("#btnSendCode").val("发送验证码");
+                }
+				code = ""; //清除验证码。如果不清除，过时间后，输入收到的验证码依然有效
+			}
+			else {
+				curCount--;
+				$("#btnSendCode").val("请在" + curCount + "秒内输入验证码");
+			}
+		}
+	
+</script>
+
+{include file=footer.html}

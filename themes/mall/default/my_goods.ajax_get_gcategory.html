@@ -1,0 +1,18 @@
+<!--{if $mgcategories }-->
+<!-- {if $goods.cate_id} -->
+<span class="f_l">{$goods.cate_name|escape}</span>
+<a class="edit_gcategory btn" href="javascript:;">{$lang.edit}</a>
+<select style="display:none" id="selcategory">
+    <option value="">{$lang.select_pls}</option>
+    {html_options options=$mgcategories}
+</select>
+<!-- {else} -->
+<select id="selcategory" >
+    <option value="">{$lang.select_pls}</option>
+    {html_options options=$mgcategories}
+</select>
+<!-- {/if} -->
+<input type="text" id="cate_id" name="cate_id" value="{$goods.cate_id}" class="mls_id" />
+<input type="hidden" name="cate_name" value="{$goods.cate_name|escape}" class="mls_names" />
+  <!--{/if}-->
+

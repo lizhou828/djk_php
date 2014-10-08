@@ -1,0 +1,120 @@
+{include file="header.html"}
+<script type="text/javascript">
+    function quxiao() {
+        $("#quxiao").val("3");
+        if(confirm("您确定要取消提现吗？")){
+            document.getElementById("tixian_form").submit();
+        }
+    }
+    function submit() {
+        if(confirm("您确定要完成打款吗？")){
+            $("#quxiao").val("2");
+            document.getElementById("tixian_form").submit();
+        }
+    }
+
+    function chuli(){
+         $("#quxiao").val("1");
+         document.getElementById("tixian_form").submit();
+    }
+</script>
+<div id="rightTop">
+    <p>提现</p>
+    <ul class="subnav">
+        <li><a class="btn1" href="index.php?app=tixian">列表</a></li>
+    </ul>
+</div>
+
+<div class="info">
+    <form method="post" enctype="multipart/form-data" id="tixian_form">
+        <table class="infoTable">
+            <tr>
+                <th class="paddingT15">
+                    用户名:</th>
+                <td class="paddingT15 wordSpacing5">
+                    {$tixian.user_name}
+                </td>
+            </tr>
+            <tr>
+            <th class="paddingT15">
+            提现金额:</th>
+            <td class="paddingT15 wordSpacing5">
+            {$tixian.jine|price}
+            </td>
+            </tr>
+            <tr>
+                <th class="paddingT15">通道名称:</th>
+                <td class="paddingT15 wordSpacing5">
+
+                    <label class="field_notice">{$tixian.channel_name}</label>
+                </td>
+            </tr>
+            <tr>
+                <th class="paddingT15">通道卡号:</th>
+                <td class="paddingT15 wordSpacing5">
+
+                    <label class="field_notice">{$tixian.channel_card}</label>
+                </td>
+            </tr>
+                <tr>
+                <th class="paddingT15">提现申请时间:</th>
+                <td class="paddingT15 wordSpacing5">
+                    <label class="field_notice">{$tixian.add_time}</label>
+                </td>
+            </tr>
+
+			   <tr>
+                <th class="paddingT15">身份证:</th>
+                <td class="paddingT15 wordSpacing5">
+
+                    <label class="field_notice">{$tixian.shenfenzheng}</label>
+                </td>
+            </tr>
+			<tr>
+                <th class="paddingT15">联系电话:</th>
+                <td class="paddingT15 wordSpacing5">
+
+                    <label class="field_notice">{$member.phone_mob}</label>
+                </td>
+            </tr>
+
+            <tr>
+                <th class="paddingT15">提现状态:</th>
+                <td class="paddingT15 wordSpacing5">
+                    <label class="field_notice"> <!--{if $tixian.status eq 0}-->未处理
+                        <!--{elseif $tixian.status eq 1}-->处理中
+                        <!--{elseif $tixian.status eq 2}-->已完成
+                        <!--{elseif $tixian.status eq 3}-->失败
+                        <!--{elseif $tixian.status eq 4}-->已取消
+                        <!--{/if}--></label>
+                </td>
+            </tr>
+            <tr>
+                <th class="paddingT15">提现类型:</th>
+                <td class="paddingT15 wordSpacing5">
+                    <label class="field_notice"> <!--{if $tixian.type eq -1}-->账户提现
+                        <!--{elseif $tixian.type eq 0}-->免税账户提现
+                        <!--{elseif $tixian.status eq 1}-->缴税账户提现
+                        <!--{/if}--></label>
+                </td>
+            </tr>
+			<tr>
+                <th></th>
+                <td class="ptb20">
+                    <input name="type" id="quxiao" type="hidden" value="">
+                    <a class="btn1" href="index.php?app=tixian" style="float: left;margin-right: 10px;">返回</a>
+                    <!--{if $tixian.status eq 0 }-->
+                      <a class="btn1" href="javascript:chuli()" style="float: left;margin-right: 10px;">处理中</a>
+                    <!--{/if}-->
+                    <!--{if $tixian.status eq 1 || $tixian.status eq 0 }-->
+                    <a class="btn1" href="javascript:submit()" style="float: left;margin-right: 10px;">打款完成</a>
+                    <!--{/if}-->
+                    <!--{if $tixian.status eq 0 }-->
+                    <a class="btn1" href="javascript:quxiao()" style="float: left;margin-right: 10px;" id="btnCancel">取消提现</a>
+                    <!--{/if}-->
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+{include file="footer.html"}

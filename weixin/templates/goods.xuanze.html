@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>大集客-移动商城</title>
+    <link href="{$site_url}/weixin/templates/style/public.css" rel="stylesheet" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/show_share_button.js"></script>
+
+    <script type="text/javascript">
+          function spec(obj,name){
+              $(obj).addClass("aaa");
+              $(obj).parents('li').siblings().find('a').removeClass("aaa");
+              $("#spec1").val(name);
+
+          }
+
+          function specc(obj,name){
+              $(obj).addClass("aaa");
+              $(obj).parents('li').siblings().find('a').removeClass("aaa");
+              $("#spec2").val(name);
+          }
+
+        function jia(){
+            var num = $("#num").text();
+            num = parseInt(num) + 1;
+            $("#num").text(num);
+        }
+
+        function jian(){
+            var num = $("#num").text();
+            if(num > 1){
+                num = parseInt(num) - 1;
+            }
+            $("#num").text(num);
+        }
+
+        function sb(id){
+            var num = parseInt($("#num").text());
+            var spec1 = $("#spec1").val();
+            var spec2 = $("#spec2").val();
+            var goods_id = $("#goods_id").val();
+            var shop_id='{$shop_id}'
+            var vshop='{$vshop}'
+            $.post(
+                    "{$site_url}/weixin/index.php?app=cart&act=add",
+                    {goods_id:id,num:num,spec1:spec1,spec2:spec2,shop_id:shop_id,vshop:vshop},
+                    function(data){
+                        if(data.flag == 'no'){
+                            alert('请选择商品规格!');
+                        }
+                        if(data.flag == 'not'){
+                            alert('商品不存在!');
+                        }
+                        if(data.flag == 'my'){
+                            alert('不能购买自己店铺的商品!');
+                        }
+                        if(data.flag == 'already'){
+                            alert('该商品已加入购物车!');
+                        }
+                        if(data.flag == 'enough'){
+                            alert('商品库存不够!');
+                        }
+                        if(data.flag == 'ok'){
+                            alert('加入购物车成功!');
+                            //location.href = "index.php?app=goods&goods_id=" + goods_id;
+                            window.location.reload();
+                        }
+                     },
+                    'json');
+        }
+    </script>
+</head>
+
+<body>
+<div id="w_3202" style="width: 288px">
+    <div class="tbg">
+        <!--{if $goods.spec_name_1 != ""}-->
+            <div class="fot1">
+                <p class="titp">{$goods.spec_name_1}</p>
+                <ul class="nru" id = "xuanze1">
+                    <!--{foreach from = $spec1  item = sp1 name = sp1}-->
+                         <li>
+                             <!--{if $smarty.foreach.sp1.index < 1}-->
+
+                                     <a href="javascript:;" class = "aaa" onclick="$(this).addClass('aaa');
+                                         $(this).parents('li').siblings().find('a').removeClass('aaa');
+                                         $('#spec1').val('{$sp1}');">
+                             <!--{else}-->
+
+                                     <a href="javascript:;" onclick="$(this).addClass('aaa');
+                                         $(this).parents('li').siblings().find('a').removeClass('aaa');
+                                         $('#spec1').val('{$sp1}');">
+                             <!--{/if}-->
+                                     {$sp1}
+                                 </a>
+                         </li>
+                    <!--{/foreach}-->
+                    <input type="hidden" id = "spec1" value="{$spec1.0}">
+                </ul>
+            </div>
+        <!--{/if}-->
+        <!--{if $goods.spec_name_2 != ""}-->
+            <div class="fot1">
+                <p class="titp">{$goods.spec_name_2}</p>
+                <ul class="nru" id = "xuanze2">
+                    <!--{foreach from = $spec2  item = sp2 name = sp2}-->
+                         <li>
+                             <!--{if $smarty.foreach.sp2.index < 1}-->
+
+                                     <a href="javascript:;" class="aaa" onclick="$(this).addClass('aaa');
+                                         $(this).parents('li').siblings().find('a').removeClass('aaa');
+                                         $('#spec2').val('{$sp2}');">
+                             <!--{else}-->
+
+                                     <a href="javascript:;" onclick="$(this).addClass('aaa');
+                                         $(this).parents('li').siblings().find('a').removeClass('aaa');
+                                         $('#spec2').val('{$sp2}');">
+                             <!--{/if}-->
+                                 {$sp2}
+                             </a>
+                         </li>
+                    <!--{/foreach}-->
+                    <input type="hidden" id = "spec2" value="{$spec2.0}">
+                </ul>
+            </div>
+        <!--{/if}-->
+        <input type="hidden" id = "goods_id" value="{$goods.goods_id}">
+        <div class="fot2">
+            <div class="left">
+                <!--<a href="javascript:;" class="a1" onclick="jian()"></a>-->
+                <a href="javascript:;" class="a1" onclick="    var num = $('#num').text();
+                    if(num > 1){
+                    num = parseInt(num) - 1;
+                    }
+                    $('#num').text(num);">
+                </a>
+                <span class="bg1" id = "num">1</span>
+                <!--<a href="javascript:;" class="a2" onclick="jia()"></a>-->
+                <a href="javascript:;" class="a2" onclick="  var num = $('#num').text();
+                    num = parseInt(num) + 1;
+                    $('#num').text(num);">
+                </a>
+            </div>
+            <!--<div class="butt"><input name="" type="button" class="bot" onclick="sb('{$goods.goods_id}')"></div>-->
+            <div class="butt"><input name="" type="button" class="bot" onclick=" var num = parseInt($('#num').text());
+                var spec1 = $('#spec1').val();
+                var spec2 = $('#spec2').val();
+                var goods_id = $('#goods_id').val();
+                var shop_id='{$shop_id}'
+                var vshop='{$vshop}'
+                $.post(
+                    '{$site_url}/weixin/index.php?app=cart&act=add',
+                    {goods_id:'{$goods.goods_id}',num:num,spec1:spec1,spec2:spec2,shop_id:shop_id,vshop:vshop},
+                    function(data){
+                        if(data.flag == 'no'){
+                            alert('请选择商品规格!');
+                        }
+                        if(data.flag == 'not'){
+                            alert('商品不存在!');
+                        }
+                        if(data.flag == 'my'){
+                            alert('不能购买自己店铺的商品!');
+                        }
+                        if(data.flag == 'already'){
+                            alert('该商品已加入购物车!');
+                        }
+                        if(data.flag == 'enough'){
+                            alert('商品库存不够!');
+                        }
+                        if(data.flag == 'ok'){
+                            alert('加入购物车成功!');
+                            window.location.reload();
+                        }
+                    },
+                'json');"/></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>收益查询</title>
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/binding.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{$SITE_URL}/weixin/templates/js/jquery-1.6.2.min.js"></script>
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            var status= "{$status}";
+//            alert(status+"_"+typeof status+"_length:"+status.length);
+            if(status=='1'){
+                $(".Integra2-1").css({"background":"none repeat scroll 0 0 #ECECEC","color":"#333333"});
+                $(".Integra2-2").css({"background":"none repeat scroll 0 0 #FFFFFF","color":"#C40000"});
+                $(".Integra2-2 a").css({"color":"#c40000"});
+                $(".Integra2-3").css({"background":"none repeat scroll 0 0 #ECECEC","color":"#333333"});
+            }else if(status=='0'){
+                $(".Integra2-1").css({"background":"none repeat scroll 0 0 #ECECEC","color":"#333333"});
+                $(".Integra2-2").css({"background":"none repeat scroll 0 0 #ECECEC","color":"#333333"});
+                $(".Integra2-3").css({"background":"none repeat scroll 0 0 #FFFFFF","color":"#C40000"});
+                $(".Integra2-3 a").css({"color":"#c40000"});
+            }else{
+                $(".Integra2-1").css({"background":"none repeat scroll 0 0 #FFFFFF","color":"#C40000"});
+                $(".Integra2-1 a").css({"color":"#c40000"});
+                $(".Integra2-2").css({"background":"none repeat scroll 0 0 #ECECEC","color":"#333333"});
+                $(".Integra2-3").css({"background":"none repeat scroll 0 0 #ECECEC","color":"#333333"});
+            }
+        });
+    </script>
+</head>
+<body>
+<div class="address-t">
+    <div class="address-l"><a href="javascript:history.go(-1)">返回</a></div>
+    <div class="address-c2" style="padding-left: 55px;">收益查询</div>
+    {include file=member.index_header.html}
+</div>
+<div class="binding-cen">
+
+    <div class="earnings">
+        <div class="earnings-l">
+            <p>总收益额：<strong>￥{$total_money|number2}</strong></p>
+        </div>
+    </div>
+
+    <div class="Integra2">
+        <a href="{$site_url}/weixin/index.php?app=member_account&act=shouyi&status=-1"><div class="Integra2-1">全部</div></a>
+        <a href="{$site_url}/weixin/index.php?app=member_account&act=shouyi&status=1"><div class="Integra2-2">结算成功</div></a>
+        <a href="{$site_url}/weixin/index.php?app=member_account&act=shouyi&status=0"><div class="Integra2-3">未结算</div></a>
+    </div>
+    <div class="Integra3-t">
+        {foreach from=$shouyi item=sy}
+        <div class="Integra3-1">
+            <div class="Integra3-11">￥{$sy.yongjin|number2}</div>
+            <div class="Integra3-22">
+                <p>订单编号</p>
+                <p>{$tichengDetail.order_sn}</p>
+            </div>
+            <div class="Integra3-33">
+                <p>订单金额</p>
+                <p>￥{$sy.orderAmount|number2}</p>
+            </div>
+            <div class="Integra3-44">
+                <p>
+                    <!--{ if $sy.status =='0'}-->
+                        未结算
+                    <!--{elseif $sy.status =='1'}-->
+                        结算成功
+                    <!--{elseif $sy.status =='2'}-->
+                        结算失败
+                    <!--{/if}-->
+                </p>
+                <p>{$sy.orderDate}</p>
+            </div>
+        </div>
+        {foreachelse}
+            <div class="Integra3-1">
+                <span style="text-align: center">没有查询到数据</span>
+            </div>
+        {/foreach}
+    </div>
+</div>
+{include file=cnzz.html}
+</body>
+</html>

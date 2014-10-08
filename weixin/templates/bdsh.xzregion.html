@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>城市列表</title>
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/life.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/public.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/show_share_button.js"></script>
+    <script type="text/javascript">
+        function search1(){
+            var cityName = $("#cityName").val();
+            if(cityName == "" || cityName == "输入城市名"){
+                alert("请输入城市名！");
+            }else{
+                $.post("index.php?app=bdsh&act=ajax_yzCity",{cityName:cityName},function(data){
+                    if(data.flag == "null"){
+                        alert("请输入城市名！");
+                    }
+                    if(data.flag == "error"){
+                        alert("输入的城市名错误！");
+                    }
+                    if(data.flag == "ok"){
+                        location.href = "index.php?app=bdsh&rgid=" + data.rgid;
+                    }
+                },'json');
+            }
+        }
+    </script>
+
+</head>
+<body>
+<div style="width: 309px;margin: 0px auto;">
+<div id="w_3202" style="padding-top: 45px;">
+<!-------------------头部----------------->
+<div class="address-t">
+    <div class="address-l"><a href="javascript:history.go(-1)">返回</a></div>
+    <div class="address-c2">城市列表</div>
+    <div class="address-r1"><a href="index.php?app=bdsh">首页</a></div>
+</div>
+<!-------------------搜索------------------>
+<div class="city-s" style="background: #fff;">
+    <div class="lift-s1">
+        <input class="lift-text" id = "cityName" name="" type="text" value="输入城市名" onfocus="if(this.value=='输入城市名'){this.value='';this.style.color='#333'}" onblur="if(this.value==''){this.value='输入城市名';this.style.color='#ccc'}"/>
+        <input  name="" type="submit" class="lift-bu" value="" onclick="search1()"/>
+    </div>
+</div>
+<!-------------------内容区----------------->
+<div class="city-bg">
+    <div class="city1">当前城市：{$city}</div>
+    <!--{foreach from=$regions item=regi}-->
+        <div class="city2">
+            <h3>{$regi.region_name}</h3>
+            <ul>
+                <!--{foreach from=$regi.cld item=cd}-->
+                    <a href="index.php?app=bdsh&rgid={$cd.region_id}"><li>{$cd.region_name}</li></a>
+                <!--{/foreach}-->
+            </ul>
+        </div>
+    <!--{/foreach}-->
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,187 @@
+{include file=member.header.html}
+
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js"></script>
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js"></script>
+<script type="text/javascript" src="{$site_url}/includes/libraries/javascript/mlselection.js" charset="utf-8"></script>
+
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+
+<div class="content">
+  {include file=member.menu.html}
+   <div id="right">
+       <ul class="tab">
+           <li class="<!--{if $smarty.get.act == 'tuiguang_member'}-->active<!--{else}-->normal<!--{/if}-->" ><a href="index.php?app=tuiguang&act=tuiguang_member&p=tuiguang">好友</a></li>
+           <li class="<!--{if $smarty.get.act == 'tuiguang_store'}-->active<!--{else}-->normal<!--{/if}-->"  ><a href="index.php?app=tuiguang&act=tuiguang_store&p=tuiguang">商家</a></li>
+       </ul>
+
+       <div class="wrap">
+            <div class="public">
+
+
+				<!-- 中间部分 -->
+				<div class="public table" id="serviceTable" name="serviceTable">
+
+
+
+<!--{if $viewType=='member'}-->
+<!--列表 开始  -->
+<div>
+<div class="scarch_order" style="display: inline">
+<form method="get">
+          <input type="hidden" name="app" value="tuiguang" />
+          <input type="hidden" name="act" value="tuiguang_member" />          
+          用户名
+          <input class="queryInput" type="text" name="user_name" value="{$smarty.get.user_name|escape}" />&nbsp;&nbsp;&nbsp;&nbsp;
+          注册时间
+          <input class="text_normal width2" type="text" name="add_time_from" id="add_time_from" value="{$smarty.get.add_time_from|escape}" /> &#8211; 
+          <input class="text_normal width2" id="add_time_to" type="text" name="add_time_to" value="{$smarty.get.add_time_to|escape}" />&nbsp;&nbsp;&nbsp;&nbsp;          
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="submit" class="btn" value="查询" />
+    </form>
+    </div>
+     <br>
+    <hr style=" border:1px solid #E9ECEF" />
+</div>
+<br>
+<div class="tdare">
+  <table width="80%" cellspacing="0" class="dataTable">
+    <!--{if $members}-->
+    <tr>
+     <td width="130px" class="firstCell">用户名</td>
+     <td width="100px" class="firstCell">手机号</td>
+     <td width="100px" class="firstCell">集客小店号</td>
+     <td width="100px" class="firstCell">集客小店昵称</td>
+     <td width="160px" class="firstCell">邮箱</td>
+     <td width="20px" class="firstCell">登入次数</td>
+     <td width="100px" class="firstCell">最后登入时间</td>
+     <td width="70px" class="firstCell">注册日期</td>
+    </tr>
+    <!--{/if}-->
+    <!--{foreach from=$members item=member}-->
+    <tr class="tatr2">      
+      <td><!--{if !$member.im_qq || $member.im_qq == ''}-->{$member.user_name|escape}<!--{else}-->{$member.nick_name|escape}(<font color='red' title='QQ登入的帐号无法显示正常的用户名，暂时只显示昵称！' style='cursor: pointer'>QQ登入</font>)<!--{/if}--></td>
+      <td><!--{if $member.phone_mob }-->{$member.phone_mob|hidden}<!--{else}-->暂无<!--{/if}--></td>
+      <td><!--{if $member.spreader_type == 1 }-->{$member.user_id}<!--{else}-->暂无开通集客小店<!--{/if}--></td>
+      <td><!--{if $member.shop_name}-->{$member.shop_name}<!--{else}-->暂无开通集客小店<!--{/if}--></td>
+      <td><!--{if $member.email}-->{$member.email|hidden}<!--{else}-->暂无<!--{/if}--></td>
+      <td>{$member.logins}</td>
+      <td><!--{if $member.last_login && $member.last_login!='' }-->{$member.last_login|date:complete}<!--{else}-->--<!--{/if}--></td>
+      <td class="table-center">{$member.reg_time|date:complete}</td>
+    </tr>
+    <!--{foreachelse}-->
+    <tr class="no_data">
+      <td colspan="4" class="member_no_records">没有查询到数据</td>
+    </tr>
+    <!--{/foreach}-->
+  </table>
+  <!--{if $members}-->
+  <div id="dataFuncs">
+    <div class="pageLinks">{include file=member.page.bottom.html}</div>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <!--{/if}-->
+<!--列表 结束 -->
+<!--{else if $viewType=='store'}-->
+<!--列表 开始  -->
+<div>
+<div class="scarch_order" style="display: inline">
+<form method="get">
+          <input type="hidden" name="app" value="tuiguang" />
+          <input type="hidden" name="act" value="tuiguang_store" />
+
+        <div class="select_add" id="region" style="width: 350px; display: inline; margin-left: 3px">
+        <input type="hidden" name="region_id" value="{$store.region_id}" class="mls_id" />
+        <input type="hidden" name="region_name" value="{$store.region_name}" class="mls_names" />
+        {if $smarty.get.region_name}
+        <span>{$smarty.get.region_name|escape}</span>
+        <input type="button" value="{$lang.edit}" class="edit_region" />
+        {/if}
+        <select class="d_inline"{if $smarty.get.region_name} style="display:none;"{/if}>
+        <option value="0">--选择地区--</option>
+        {html_options options=$regions}
+        </select>
+        </div>
+    <br> <br>
+
+          店铺名：
+          <input class="queryInput" type="text" name="store_name" style="margin-left: 5px" value="{$smarty.get.store_name|escape}" />&nbsp;&nbsp;&nbsp;&nbsp;
+
+          注册时间：
+          <input class="text_normal width2" type="text" name="add_time_from" id="add_time_from" value="{$smarty.get.add_time_from|escape}" /> &#8211; 
+          <input class="text_normal width2" id="add_time_to" type="text" name="add_time_to" value="{$smarty.get.add_time_to|escape}" />&nbsp;&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+    <input type="submit" class="btn" value="查询" />
+    </form>
+    </div>
+    <br>
+    <hr style=" border:1px solid #E9ECEF" />
+</div>
+<br>
+<div class="tdare">
+  <table width="100%" cellspacing="0" class="dataTable">
+    <!--{if $stores}-->
+    <tr>
+     <td width="100" class="firstCell">店铺名</td>
+     <td width="50" class="firstCell">用户名</td>
+     <td width="50" class="firstCell">注册地</td>
+     <td width="50" class="firstCell">注册日期</td>
+    </tr>
+    <!--{/if}-->
+    <!--{foreach from=$stores item=store}-->
+    <tr class="tatr2">      
+      <td>{$store.store_name|escape}</td>
+      <td>{$store.user_name|escape}</td>   
+      <td>{$store.region_name|escape}</td>
+      <td>{$store.add_time|date:complete}</td>
+    </tr>
+    <!--{foreachelse}-->
+    <tr class="no_data">
+      <td colspan="4" class="member_no_records">没有查询到数据</td>
+    </tr>
+    <!--{/foreach}-->
+  </table>
+  <!--{if $stores}-->
+  <div id="dataFuncs">
+    <div class="pageLinks">{include file=member.page.bottom.html}</div>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <!--{/if}-->
+<!--列表 结束 -->
+<!--{/if}-->
+
+</div>
+</div>
+</div>
+<div class="wrap_bottom"></div>
+</div>
+
+        <div class="clear"></div>
+        <div class="adorn_right1"></div>
+        <div class="adorn_right2"></div>
+        <div class="adorn_right3"></div>
+        <div class="adorn_right4"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<script>
+$('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+$('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});	
+function colse_confirm(url)
+{
+  if(confirm("确认关闭该店铺吗？"))
+  {
+    location=url;
+  }
+}
+
+regionInit("region");
+$('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+$('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+
+</script>
+{include file=footer.html}

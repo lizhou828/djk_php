@@ -1,0 +1,128 @@
+
+<div class="nc-s-c-s1 ncs-message-bar">
+    <div class="title">
+        <h4>客服中心</h4>
+    </div>
+    <div class="lieb_f1">
+        <dl>
+            <dt>售前客服：</dt>
+            <dd style="margin-left: 0px;">
+                <!---{if $receive_data}-->
+                <!--{foreach from=$receive_data item=data name=receive key=key }-->
+                <dl style=" width: 208px;float: left; margin-top: 8px; padding: 0px;">
+                    <dd style="float: left; width: 19px; height: 19px; margin-right: 5px; vertical-align: middle; padding: 0px;"><a href="javascript:addOtherContector('{$key}','{$data.user_name}','{$data.nick_name}');" id="im_chat" style="color: #666666;">
+                        <img src="{res file=images/message.png}" alt="即时聊天{$smarty.foreach.receive.index}"/></a></dd>
+
+                    <dt style="float: left; height: 19px; line-height: 19px;" title="<!--{if $data.nick_name}-->{$data.nick_name}<!--{else}-->{$data.user_name}<!--{/if}-->">
+                        <a href="javascript:addOtherContector('{$key}','{$data.user_name}','{$data.nick_name}');" id="im_chat" style="color: #666666;">
+                            <!--{if $data.djk}-->
+                            {$data.nick_name}
+                            <!--{else}-->
+                            在线客服{$smarty.foreach.receive.index|myeval:"ceil(value+1)"}(<!--{if $data.nick_name}-->{$data.nick_name|truncate:8:"……"}<!--{else}-->{$data.user_name|truncate:8:"……"}<!--{/if}-->)
+                            <!--{/if}-->
+                        </a></dt>
+
+                </dl>
+                <div class="clear"></div>
+                <!--{/foreach}-->
+                <!--{/if}-->
+            </dd>
+        </dl>
+    </div>
+</div>
+<div class="nc-s-c-s1 ncs-search-bar mt10">
+    <div class="title">
+        <h4>店内搜</h4>
+    </div>
+    <div class="content">
+        <form id="" name="searchShop" method="get" action="index.php">
+            <input type="hidden" name="app" value="store" />
+            <input type="hidden" name="act" value="search" />
+            <input type="hidden" name="id" value="{$store.store_id}" />
+
+            <table class="ncs-search" style="font-size: 1em">
+                <tr>
+                    <th style="font-size: 1em">关键字：</th>
+                    <td style="font-size: 1em"><input type="text" class="w90" name="keyword"></td>
+                </tr>
+                <!--<tr>-->
+                <!--<th>价格：</th>-->
+                <!--<td><input type="text" class="w30" name="start_price">-->
+                <!----->
+                <!--<input type="text" class="w30" name="end_price"></td>-->
+                <!--</tr>-->
+                <tr>
+                    <th>&nbsp;</th>
+                    <td style="font-size: 1em"><a href="javascript:document.searchShop.submit();" >搜索</a></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<div class="nc-s-c-s1 ncs-class-bar mt10">
+    <div class="title">
+        <h4>{$lang.gcategory}</h4>
+    </div>
+    <div class="content">
+        <!--<p><span><a href="index.php?act=show_store&op=goods_all&id=8&key=new&order=desc">按新品</a></span><span><a href="index.php?act=show_store&op=goods_all&id=8&key=price&order=desc">按价格</a></span><span><a href="index.php?act=show_store&op=goods_all&id=8&key=sale&order=desc">按销量</a></span><span><a href="index.php?act=show_store&op=goods_all&id=8&key=click&order=desc">按人气</a></span></p>-->
+        <ul class="ncs-submenu">
+            <li><span class="ico-none"><em>-</em></span><a href="{r_url app=store&id=$store.store_id&act=search}">全部商品</a></li>
+            <!--{foreach from=$store.store_gcates item=gcategory name=gcategory}-->
+            <!--{if $gcategory.children}-->
+            <li><span class="ico-none" onclick="class_list(this);" span_id="{$smarty.foreach.gcategory.index}" style="cursor: pointer;"><em>-</em></span><a href="{r_url app=store&id=$store.store_id&act=search&cate_id=$gcategory.id}">{$gcategory.value|escape}</a>
+                <ul id="stc_{$smarty.foreach.gcategory.index}">
+                    <!--{foreach from=$gcategory.children item=child_gcategory}-->
+                    <li><span class="ico-sub">&nbsp;</span><a href="{r_url app=store&id=$store.store_id&act=search&cate_id=$child_gcategory.id}">{$child_gcategory.value|escape}</a></li>
+                    <!--{/foreach}-->
+                </ul>
+            </li>
+            <!--{else}-->
+            <li><span class="ico-none" onclick="class_list(this);" span_id="96" style="cursor: pointer;"><em>-</em></span><a  href="{r_url app=store&id=$store.store_id&act=search&cate_id=$gcategory.id}">{$gcategory.value|escape}</a></li>
+            <!--{/if}-->
+            <!--{/foreach}-->
+        </ul>
+        <div class="clear mb10"></div>
+    </div>
+</div>
+<!--{if $smarty.get.app eq "store" and $smarty.get.act eq "index"}-->
+<!--<div class="nc-s-c-s1 ncs-link-bar mt10">-->
+<!--<div class="title">-->
+<!--<h4>友情链接</h4>-->
+<!--</div>-->
+<!--<div class="content">-->
+<!--<ul>-->
+<!--&lt;!&ndash;{foreach from=$partners item=partner}&ndash;&gt;-->
+<!--<li class="pngFix"><a href="{$partner.link}" target="_blank" title="" >{$partner.title|escape}</a></li>-->
+
+<!--&lt;!&ndash;{/foreach}&ndash;&gt;-->
+<!--</ul>-->
+<!--</div>-->
+<!--</div>-->
+<!--{/if}-->
+
+<!--{if $smarty.get.app eq "goods"}-->
+<div class="ncs-top-panel hide">
+    <div class="title">
+        <h4>{$lang.goods_history}</h4>
+    </div>
+    <div class="content">
+        <!--<ul class="ncs-top-tab pngFix">-->
+        <!--<li class="current"><a href="{r_url app=goods&id=$gh_goods.goods_id}"><img src="{$gh_goods.default_image}" width="50" height="50" alt="{$gh_goods.goods_name|truncate:20|escape}" title="{$gh_goods.goods_name|escape}" /></a></li>-->
+        <!--</ul>-->
+        <div class="ncs-top-panel">
+            <ol>
+                <!--{foreach from=$goods_history item=gh_goods}-->
+                <li>
+                    <dl style="text-align: center">
+                        <dt><a href="{r_url app=goods&id=$gh_goods.goods_id}">{$gh_goods.goods_name|escape}</a></dt>
+                        <dd class="goods-pic"><a href="{r_url app=goods&id=$gh_goods.goods_id}" ><span class="thumb size40" style="text-align: center"><i></i><img src="{$img_url}/{$gh_goods.default_image} "   onload="javascript:DrawImage(this,40,40);"></span></a>
+                        </dd>
+                    </dl>
+                </li>
+                <!--{/foreach}-->
+            </ol>
+        </div>
+    </div>
+</div>
+<!--{/if}-->
+

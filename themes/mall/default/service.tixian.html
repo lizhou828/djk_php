@@ -1,0 +1,339 @@
+<style>
+    .show_alert{
+        /*border: 1px solid #00a9d1;*/
+        line-height: 11px;
+        padding: 5px;
+        width: 330px;
+        margin-bottom: 10px;
+    }
+</style>
+<script type="text/javascript">
+//<!CDATA[
+$(function(){
+
+});
+
+//]]>
+
+//var InterValObj; //timer变量，控制时间
+//var count = {$FAIL_TIME}; //间隔函数，1秒执行
+//var curCount;//当前剩余秒数
+//
+//function sendMessage() {
+//    //$("#msg").html("");
+//    $("label").html("");
+//  	curCount = count;
+//	//设置button效果，开始计时
+//    $("#btnSendCode").attr("disabled", "true");
+//    $("#btnSendCode").val("请在" + curCount + "秒后重新发送");
+//    InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+//    //向后台发送处理数据
+//    $.get("index.php?app=sendcode&act=send3",{phone_or_tel:$("#phone_mob").val()},function(rs){
+//		//js_fail(rs);
+//        alert(rs);
+//    })
+//
+//
+//}
+
+//timer处理函数
+//function SetRemainTime() {
+//    if (curCount == 0) {
+//        window.clearInterval(InterValObj);//停止计时器
+//        $("#btnSendCode").removeAttr("disabled");//启用按钮
+//        $("#btnSendCode").val("重新发送验证码");
+//        code = ""; //清除验证码。如果不清除，过时间后，输入收到的验证码依然有效
+//    }
+//    else {
+//        curCount--;
+//        $("#btnSendCode").val("请在" + curCount + "秒后重新发送");
+//    }
+//}
+
+//function tixian_fail(){
+//js_fail("您还未绑定手机或未验证手机，无法获取验证码，请先 <a href='index.php?app={$smarty.get.app}&act=aqzx' style='color: blue'>绑定手机</a>");
+//}
+
+function showbank(obj){
+		   if(obj==""){
+		   	 return;
+		   }
+		   var channel_code=$("#channel_name").find("option:selected").attr("channel_code"); 
+		   if(channel_code =="ZHIFUBAO"){
+			  $(".channel_kahao_lbl").html("支付宝帐号");
+               $("#li_kaihuhang").css("display","none");
+		   }else{		      
+			  $(".channel_kahao_lbl").html("银行卡号");
+               $("#li_kaihuhang").css("display","block");
+		   }
+		}
+
+</script>
+<style>
+.borline td { padding:10px 0px; }
+.ware_list th { text-align:left; }
+</style>
+<ul class="tab">
+    <li class="active">提取余额到银行卡</li>
+</ul>
+<div class="eject_con">
+    <div class="info_table_wrap">
+        <div id="warning" name="warning"></div>
+        <form method="post" action="index.php?app={$smarty.get.app}&amp;act=tixian"
+              target="do_tixian"  id="tixian_from" name="tixian_from">
+
+            <!--{if $member_type != '02'}-->
+            <!--{if $userInfo.unkoushui_yue }-->
+            <span style="line-height: 20px;color: #999;margin-bottom: 10px;display: block">注：您现在正在提取账户余额(包括店铺的营业额及充值金额。结算/充值金额可随时在线支付交易或申请提现。申请提现金额扣除银行手续费后3-5个工作日完成结算。)</span>
+            <!--{elseif  $userInfo.koushui_yue }-->
+            <span style="line-height: 20px;color: #999;margin-bottom: 10px;display: block">注：您现在正在提取收益余额(包括抽奖现金所得及集客小店的收益。现金收益余额可以随时在线购物交易；收益余额达到100元可以随时申请提现，申请提现金额除去应扣除的国家规定的税金部分和银行手续费后,3-5个工作日内完成结算。)</span>
+            <!--{/if}-->
+            <!--{/if}-->
+
+        <ul class="info_table">
+
+            <!--{if $my_banks}-->
+            <li>
+                <h4>请选择银行卡：</h4>
+                <select id="channel_name1" name="channel_name1" onchange="changeValue(this.value)">
+                    <option value="">--请选择银行卡--</option>
+                    <!--{foreach from=$my_banks item=my_bank}-->
+                    <option value="{$my_bank.bank_code}##{$my_bank.bank_name}##{$my_bank.kahao}##{$my_bank.user_name}##{$my_bank.kaihuhang}" channel_code='{$channel.channel_code}' title="{$my_bank.bank_code}##{$my_bank.bank_name}">{$my_bank.bank_name}&nbsp;&nbsp;{$my_bank.kahao}</option>
+                    <!--{/foreach}-->
+                </select>
+            </li>
+            <!--{/if}-->
+
+        	 <li>
+                <h4>银行名称：</h4>
+                <div id="showkahao" name="showkahao" style="margin-top:5px"></div>
+               	<select id="channel_name" name="channel_name" onchange="showbank(this)">
+                <option>--请选择银行--</option>
+                <!--{if $channels}-->
+                <!--{foreach from=$channels item=channel}-->
+                <option value="{$channel.channel_code}##{$channel.channel_name}" channel_code='{$channel.channel_code}'>{$channel.channel_name}</option>
+                <!--{/foreach}-->
+                <!--{/if}-->
+                </select>
+                <label id="channel_name_lbl" name="channel_name_lbl"></label>
+                <b></b>
+            </li>  	     
+             <li>
+                <h4 class="channel_kahao_lbl">银行卡号：</h4>
+                <div id="showkahao" name="showkahao" style="margin-top:5px"></div>          
+                <input type="txt" class="text width11" name="channel_card" id="channel_card" /><span class="fontColor3">&nbsp;&nbsp;*</span>
+                 <label id="channel_card_lbl" name="channel_card_lbl"></label>
+                <b></b>
+            </li>  
+            <li>
+                <h4>收款姓名：</h4>
+                <div id="showkahao" name="showkahao" style="margin-top:5px"></div>
+                <input type="txt" class="text width11" name="user_name" id="user_name" /><span class="fontColor3">&nbsp;&nbsp;*</span>
+                <label id="user_name_lbl" name="user_name_lbl"></label>
+                <b></b>
+            </li>
+            <li id="li_kaihuhang">
+                <h4 class="kaihuhang_lbl">开户行名称：</h4>
+                <div  name="kaihuhang" style="margin-top:5px"></div>
+                <input type="txt" class="text width11" name="kaihuhang" id="kaihuhang" /><span class="fontColor3">&nbsp;&nbsp;*</span>
+                <b></b>
+            </li>
+            <li>
+                <h4>身份证号：</h4>
+                <div name="showkahao" style="margin-top:5px"></div>
+                <input type="txt" class="text width11" name="shenfenzheng" id="shenfenzheng" /><span class="fontColor3">&nbsp;&nbsp;*</span>
+                <label id="shenfenzheng_lbl" name="user_name_lbl"></label>
+                <b></b>
+            </li>
+            <li>
+                <h4>提现金额：</h4>
+                <input type="text" class="text width11"  onblur="checkJine(this.value)" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"  id="jine" name="jine" value="" /><span class="fontColor3">&nbsp;&nbsp;*</span>
+                <!--{if $userInfo.unkoushui_yue > 0}-->
+                <!--{if !$userInfo.unkoushui_yue  || $userInfo.unkoushui_yue < 0.01 }-->
+                <script>js_fail("您的余额为0.00，无法提现!");</script>
+                <!--{else}-->
+                <font color="#FF0000">&nbsp;余额：{$userInfo.unkoushui_yue|number2}</font>
+                <label id="jine_lbl" name="jine_lbl"></label><input type="hidden" name="unkoushui_yue" id="unkoushui_yue" value="{$userInfo.unkoushui_yue}" /><input type="hidden" name="tixianType" value="0">
+                <!--{/if}-->
+                <!--{else}-->
+                <!--{if !$userInfo.koushui_yue || $userInfo.koushui_yue < 0.01}-->
+                <script>js_fail("您的余额为0.00，无法提现!");</script>
+                <!--{else}-->
+                <font color="#FF0000">&nbsp;余额：{$userInfo.koushui_yue|number2}</font>
+                <label id="jine_lbl" name="jine_lbl"></label><input type="hidden" name="koushui_yue" id="koushui_yue" value="{$userInfo.koushui_yue}" /><input type="hidden" name="tixianType" value="1">
+                <!--{/if}-->
+                <!--{/if}-->
+            </li>
+            <li>
+                <h4>支付密码：</h4>
+                <input type="password" class="text width11"  id="password2" name="password2" value="" /><span class="fontColor3">&nbsp;&nbsp;*</span>
+                <label id="password2_lbl" name="password2_lbl"></label>
+                <div style="margin-top:8px; margin-left:125px; font-size:12px; color:#0099CC">
+                <a href="index.php?app={$smarty.get.app}&act=password2" target="_blank">没有支付密码？点击设置支付密码</a>
+                </div>
+            </li>
+            <!--<li>-->
+                <!--<h4>手机验证码：</h4>-->
+                <!--<input type="text" class="text width_normal2"  id="yanzhengma" name="yanzhengma" value="" />-->
+                <!--<span>-->
+                <!--&nbsp;&nbsp;&nbsp;-->
+                <!--&lt;!&ndash;{if $userInfo.show_tel && $userInfo.phone_mob_bind_status eq 1}&ndash;&gt;-->
+                    <!--<input id="btnSendCode" type="button" class="btn" style="background-color:#F5F5F5; width: 150px; cursor: pointer;border: 1px solid #D8D8D8;" value="获取短信验证码" onclick="sendMessage()" />-->
+                <!--&lt;!&ndash;{else}&ndash;&gt;-->
+                    <!--<input id="btnSendCode" type="button" class="btn" style="background-color:#F5F5F5; width: 150px; cursor: pointer;border: 1px solid #D8D8D8;" value="获取短信验证码" onclick='tixian_fail()' />-->
+                <!--&lt;!&ndash;{/if}&ndash;&gt;-->
+                <!--</span>-->
+                <!--<span class="fontColor3">&nbsp;&nbsp;*</span>-->
+                <!--<br><br><span style="margin-left:120px; margin-top:100px">-->
+                <!--&ndash;{if $userInfo.show_tel}&ndash;&gt;-->
+                    <!--&lt;!&ndash;{if $userInfo.phone_mob_bind_status eq 0 }&ndash;&gt;-->
+                    <!--<script>js_fail("您还未验证手机，无法获取验证码！请先<a href='index.php?app={$smarty.get.app}&act=aqzx' style='color: blue'>验证手机</a>");</script>-->
+                    <!--&lt;!&ndash;{elseif $userInfo.phone_mob_bind_status eq 1}&ndash;&gt;-->
+                    <!--&lt;!&ndash;{/if}&ndash;&gt;-->
+                <!--&lt;!&ndash;{else}&ndash;&gt;-->
+                <!--<script>js_fail("您还未绑定手机，无法获取验证码，请先 <a href='index.php?app={$smarty.get.app}&act=aqzx' style='color: blue'>绑定手机</a>");</script>-->
+                <!--&lt;!&ndash;{/if}&ndash;&gt;-->
+                <!--</span>-->
+            <!--</li>-->
+        </ul>
+       
+        <div class="submit">
+            <input type="button" class="btn"<!--{if !$flag}-->onclick="check_submit()"<!--{/if}-->  style="float:left" value="{$lang.submit}" /></div>
+        </form>
+        <br><br>
+    </div>
+</div>
+<div id="msg" name="msg"></div>
+<script type="text/javascript">
+var bank_name="";
+$(".bank_div").bind("click",function(){	
+    	
+		$(".input_kahao span").html("");
+		$(".bank_div").css({"border": "2px #0099CC solid"});
+		$(this).css({"border": "2px #FFCC66 solid"});		
+	    $("#bank_code").val($(this).attr("my_bank_code"));
+		$("#bank_kahao").val(this.title);
+		$("#showkahao").html($(this).attr("bank_name")+"&nbsp;&nbsp;&nbsp;"+this.title+"&nbsp;&nbsp;&nbsp;"+$(this).attr("user_name"));
+		$("input[value='"+$(this).attr("my_bank_code")+"']").attr("checked","checked");
+})
+
+function checkJine(jine)
+{
+    var yue =0;
+    if ($("input[name='unkoushui_yue']").val()==undefined ||$("input[name='unkoushui_yue']").val()=="" ) {
+         yue=parseFloat($("input[name='koushui_yue']").val() );
+    } else {
+         yue=parseFloat($("input[name='unkoushui_yue']").val() );
+    }
+
+    if(parseFloat(jine)<100){
+        $("#jine").val('');
+        js_fail("提现金额必须大于100！");
+        return;
+    }
+  if(parseFloat(jine)>yue){
+    $("#jine").val(''); 
+    js_fail("提现金额不能大于余额！");
+	return;
+  }
+}
+function checkImg(str){
+  if(str!=""){
+    $.get("index.php?app=captcha&act=check_captcha2",{captcha:str},function(rs){
+	$("#msg").html(rs);
+	})  
+  }	
+	
+}
+/*
+function js_fail(lbl,str){
+    $("#"+lbl+"_lbl").html('<label class="error">' + str + '</label>');
+}*/
+
+function check_submit(){
+    var myyue = 0;
+    if ($("input[name='unkoushui_yue']").val()==undefined || $("input[name='unkoushui_yue']").val()=="" ) {
+        myyue=parseInt($("input[name='unkoushui_yue']").val());
+    } else {
+        myyue=parseInt($("input[name='koushui_yue']").val());
+    }
+    var channel_card=document.getElementById("channel_card").value;
+    var channel_name=document.getElementById("channel_name").value;
+    var user_name	=document.getElementById("user_name").value;
+    var jine		=document.getElementById("jine").value;
+    var password2	=document.getElementById("password2").value;
+//    var myyue	=document.getElementById("myyue").value;
+//    var yanzhengma	=document.getElementById("yanzhengma").value;
+    var shenfenzheng	=document.getElementById("shenfenzheng").value;
+
+    $("label").html("");
+
+
+    if(channel_name==""){
+        //js_fail("channel_name","请选择银行");
+        js_fail("请选择银行");
+        return;
+    }
+    if(channel_card=="" || channel_card.length==0){
+        //js_fail("channel_card","请输入卡号");
+        js_fail("请输入卡号");
+        return;
+    }
+    if(myyue=="" || myyue==0){
+        //js_fail("myyue","您的余额为0不能提现");
+        js_fail("您的余额为0不能提现");
+        return;
+    }
+    if(myyue=="" || myyue< 100){
+        //js_fail("myyue","您的余额为0不能提现");
+        js_fail("您的余额少于100元不能提现");
+        return;
+    }
+    if(user_name==""){
+        //js_fail("user_name","请输入姓名");
+        js_fail("请输入姓名");
+        return;
+    }
+    if(jine==""){
+        //js_fail("jine","请输入金额");
+        js_fail("请输入金额");
+        return;
+    }
+    if(password2==""){
+        //js_fail("password2","请输入支付密码");
+        js_fail("请输入支付密码");
+        return;
+    }
+//	if(yanzhengma==""){
+//        //js_fail("password2","请输入支付密码");
+//        js_fail("请输入手机验证码");
+//        return;
+//    }
+    if(shenfenzheng == ""){
+        //js_fail("password2","请输入支付密码");
+        js_fail("请输入身份证号码");
+        return;
+    }
+
+    $("#tixian_from").submit();
+}
+function changeValue(val){
+    if(val==""){
+        return;
+    }
+    var vals=val.split("##");
+
+    document.getElementById("channel_card").value=vals[2];
+    document.getElementById("user_name").value=vals[3];
+    document.getElementById("kaihuhang").value=vals[4];
+    var channel=document.getElementById("channel_name");
+    for(var i=0;i<channel.length;i++){
+        if(channel[i].value==vals[0]+"##"+vals[1]){
+            channel[i].selected =true;
+            break;
+        }
+    }
+
+}
+
+</script>

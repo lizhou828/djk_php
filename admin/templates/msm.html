@@ -1,0 +1,79 @@
+{include file="header.html"}
+<script type="text/javascript">
+$(function(){
+    $('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+    $('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+});
+</script>
+<div id="rightTop">
+    <p>短信记录</p>
+</div>
+<div class="mrightTop">
+    <div class="fontl">
+        <form method="get" name="form1" id="form1">
+             <div class="left">
+                <input type="hidden" name="app" value="msm" />
+                <input type="hidden" name="act" value="index" />
+                <input type="hidden" id="exportFlag" name="exportFlag" value="0" />
+                
+             </div>
+        </form>
+    </div>
+
+</div>
+<div class="tdare">
+    <table width="100%" cellspacing="0" class="dataTable" style="table-layout:fixed;" >
+
+        <tr class="tatr1">
+            <td width="10%" class="firstCell"><span>手机号</span></td>
+            <td width="50%" ><span ectype="order_by" fieldname="seller_id">短信内容</span></td>
+            <td width="10%"><span ectype="order_by" fieldname="order_sn">发送时间</span></td>
+            <td width="20%"><span ectype="order_by" fieldname="add_time">发送通道</span></td>
+            <td width="10%"><span ectype="order_by" fieldname="buyer_name">状态</span></td>
+        </tr>
+    
+        <!--{foreach from=$msms item=ms}-->
+        <tr class="tatr2">
+            <td class="firstCell">{$ms.cellphone}</td>
+            <td>{$ms.content}</td>
+            <td>{$ms.create_time}</td>
+            <td>
+                <!--{if $ms.sendtype == 0}-->
+                    默认短信通道
+                <!--{else}-->
+                    短信通道1
+                <!--{/if}-->
+            </td>
+            <td>
+                <!--{if $ms.status == 0}-->
+                待发送
+                <!--{esleif $ms.status == 1}-->
+                发送中
+                <!--{elseif $ms.status == 2}-->
+                发送成功
+                <!--{elseif $ms.status == 3}-->
+                发送失败
+                <!--{/if}-->
+            </td>
+        </tr>
+        <!--{foreachelse}-->
+        <tr class="no_data">
+            <td colspan="5">{$lang.no_data}</td>
+        </tr>
+        <!--{/foreach}-->
+    </table>
+    <div id="dataFuncs">
+        <div class="pageLinks">
+            {if $msms}{include file=page.bottom.html}{/if}
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<script>
+ $("#export").bind("click",function(){
+     $("#exportFlag").val("1");
+     document.getElementById("form1").submit();
+ })
+</script>
+
+{include file="footer.html"}

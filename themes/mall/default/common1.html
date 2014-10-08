@@ -1,0 +1,60 @@
+<div id="navBar">
+    <div class="content_index">
+        <div id="all-category">
+            <div class="title">
+                <h2 title="商品全部分类"><a href="{r_url app=category}">商品全部分类</a></h2>
+                <i></i></div>
+            <div id="category" class="category pngFix">
+                <ul class="menu">
+                    <!--{foreach from=$gcategorys_left item=gcategory name=gcategory}-->
+                    <!-- {if $smarty.foreach.gcategory.index<7 }-->
+                    <!-- {if !empty($gcategory) }-->
+                    <li id="cat_{$smarty.foreach.gcategory.index}">
+                        <h3><span class="block"><a href="{r_url app=search&cate_id=$gcategory.id}" title="{$gcategory.value|escape}">{$gcategory.value|escape}</a>   </span>
+                         <span>
+                                <a href="{r_url app=search&cate_id=$gcategory.children[0].id}">{$gcategory.children[0].value}</a>
+                                <a href="{r_url app=search&cate_id=$gcategory.children[1].id}">{$gcategory.children[1].value}</a>
+                               <a href="{r_url app=search&cate_id=$gcategory.children[2].id}">{$gcategory.children[2].value}</a>
+                         </span>
+                        </h3>
+                        <div class="cat-menu" id="cat_{$smarty.foreach.gcategory.index}_menu">
+                            <dl>
+                                <dt> {$gcategory.value|escape} </dt>
+                                <dd><!--{foreach from=$gcategory.children item=child}--><a href="{r_url app=search&cate_id=$child.id}">{$child.value|escape}</a> <!--{/foreach}--> </dd>
+                            </dl>
+
+                        </div>
+                    </li>
+                    <!--{/if}-->
+                    <!--{/if}-->
+                    <!--{/foreach}-->
+                    <div class="clear"></div>
+                </ul>
+            </div>
+
+        </div>
+        <ul class="nc-nav-menu">
+            <li <!--{if $goods_module1}--> class="current" <!--{else}--> class="link" <!--{/if}--> ><a href="/"><span>{$lang.first_page}</span></a></li>
+            <li  <!--{if $market_category}--> class="current" <!--{else}--> class="link" <!--{/if}--> ><a href="{r_url app=market&pd_id=2}"><span>超市</span></a></li>
+            <li class="link"><a class="pngFix" href="{r_url app=tese&pd_id=3}" target='_blank'><span class="pngFix" >特色大集</span></a></li>
+            <li class="link"><a href="{r_url app=bdsh&pd_id=5}"target='_blank' ><span>本地生活</span></a></li>
+            <li class="link"><a href="{r_url app=gczg&pd_id=6}" target='_blank' ><span>工厂直供</span></a></li>
+            <!--<li class="link"><a href="{r_url app=search&act=groupbuy}" target='_blank'><span>团购</span></a></li>-->
+            <!--<li class="link"><a href="#"><span>优惠券</span></a></li>-->
+            <li <!--{if $smarty.get.app == 'jifen'}--> class="current" <!--{else}--> class="link" <!--{/if}--> ><a href="{r_url app=jifen}"><span>积分中心</span></a></li>
+            <li class="link"><a href="{r_url app=lydj&pd_id=4}" target="_blank" ><span>旅游大集</span></a></li>
+            <li class="link"><a href="{url app=hgg&pd_id=10}" target='_blank'><span>国际馆</span></a>
+                <!--<em class="em1"></em>-->
+            </li>
+            <li class="link"><a href="javascript:;" id="cj_link">我要抽奖</a></li>
+        </ul>
+    </div>
+</div>
+<form method="post" name="cj_form" id="cj_form" action="{$TO_PLCHOUJIANG_URL}">
+    <input type="hidden" name="userId" value="{$visitor.user_id}">
+</form>
+<script type="text/javascript">
+    $("#cj_link").bind("click",function(){
+        $("#cj_form").submit();
+    })
+</script>

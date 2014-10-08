@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>我的订单</title>
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/order-inquiry.css" rel="stylesheet" type="text/css" />
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+</head>
+<body>
+<div style="width: 320px;margin: 0px auto">
+    <div style="padding-top: 50px;">
+<div class="address-t">
+    <div class="address-l"><a href="javascript:history.go(-1)">返回</a></div>
+    <div class="address-c2">我的订单</div>
+    {include file=member.index_header.html}
+</div>
+<div class="Safety-cen">
+    <div class="my1">
+        <p><img src="{$site_url}/weixin/templates/style/images/k-n.png" width="93" height="93" alt="哭脸" /></p>
+        <p>您最近还没购买过任何商品，快去购物吧!</p>
+    </div>
+</div>
+    </div>
+</div>
+{include file=cnzz.html}
+</body>
+</html>

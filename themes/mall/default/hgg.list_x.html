@@ -1,0 +1,328 @@
+{include file=header.html}
+<link href="{res file=css/hanguo.css}" rel="stylesheet" type="text/css" />
+<link href="{res file=css/chaoshi.css}" rel="stylesheet" type="text/css">
+<link href="{res file=css/home_tg.css}" rel="stylesheet" type="text/css">
+<script src="{res file=js/class_area_array.js}" ></script>
+<script language="JavaScript">
+
+
+    function change_hgg_view(obj) {
+        var url = "index.php?app=hgg&act=change_chuxiao&type="+obj;
+         window.location = url;
+    }
+    //提交查询
+    function submit_search() {
+        $('#search_form').attr('method','get');
+        $('#search_form').submit();
+    }
+    //本地生活地区筛选
+    function set_hgg_area(area,reg_id) {
+        if(area == '') {
+            $("#hgg_area").val('');
+        }
+        else {
+            $("#hgg_area").val(area);
+            $("#hgg_reg_id").val(reg_id);
+            $("#hgg_city_id").val("");
+            $("#hgg_class").val("");
+            $("#hgg_diqu_id").val("");
+        }
+        submit_search();
+    }
+
+    //超市县级筛选
+    function set_hgg_city(reg_id) {
+        if(reg_id == '') {
+            $("#hgg_city_id").val('');
+        }
+        else {
+            $("#hgg_city_id").val(reg_id);
+            $("#hgg_diqu_id").val("");
+            $("#hgg_reg_id").val();
+        }
+        submit_search();
+    }
+    function set_diqu_id(reg_id) {
+        if(reg_id == '') {
+            $("#hgg_diqu_id").val('');
+        }
+        else {
+            $("#hgg_diqu_id").val(reg_id);
+        }
+        $("#hgg_reg_id").val();
+        $("#hgg_city_id").val();
+        submit_search();
+    }
+    //分类筛选
+    function set_hgg_class(class_id) {
+        $("#hgg_class").val(class_id);
+        submit_search();
+    }
+    // 小分类筛选
+    function set_hgg_subcate(class_id) {
+        $("#hgg_subcateid").val(class_id);
+        submit_search();
+    }
+    //价格筛选
+    function set_hgg_brand(price_range) {
+        $("#hgg_brand").val(price_range);
+        submit_search();
+    }
+    //本地生活排序
+    function set_hgg_order(order_key) {
+        if(order_key == $("#hgg_order_key").val()) {
+            change_hgg_order();
+        } else {
+            $("#hgg_order").val('asc');
+        }
+        $("#hgg_order_key").val(order_key);
+        submit_search();
+    }
+    //本地生活排序筛选
+    function change_hgg_order() {
+        if($("#hgg_order").val() == 'asc') {
+            $("#hgg_order").val('desc');
+        } else {
+            $("#hgg_order").val('asc');
+        }
+    }
+    //超市子分类
+    function set_hgg_sub_class(class_id) {
+        $("#hgg_subcateid").val(class_id);
+        submit_search();
+    }
+</script>
+<div id="center_w1200" style="width: 100%;" >
+    <!--logo部分-->
+    {include file=hgg.common.html}
+    <div id="hg_bg">
+        <div id="hg_menu">
+            <div class="w1200">
+                <div class="left_w210">所有商品分类<span class="hg_ico"></span>
+                    <div class="fenlei">
+                        <!--{foreach from=$hgg_category item=gcategory name=gcategory}-->
+                        <!-- {if $smarty.foreach.gcategory.index<8 }-->
+                        <!-- {if !empty($gcategory) }-->
+                        <dl>
+                            <dd><a href="{r_url app=hgg&act=search&pd_id=$pd_id&cate_id=$gcategory.id}">{$gcategory.value|truncate:22:"……"}</a></dd>
+                            <dt>
+                                <span><a href="{r_url  app=hgg&act=search&pd_id=$pd_id&cate_id=$gcategory.children[0].id}">{$gcategory.children[0].value}</a></span>
+                                <span><a href="{r_url  app=hgg&act=search&pd_id=$pd_id&cate_id=$gcategory.children[1].id}">{$gcategory.children[1].value}</a></span>
+                                <span><a href="{r_url  app=hgg&act=search&pd_id=$pd_id&cate_id=$gcategory.children[2].id}">{$gcategory.children[2].value}</a></span>
+                            </dt>
+                            <em>
+                                <dl class="ssp_no1">
+                                    <dd>{$gcategory.value|escape}</dd>
+                                    <dt><!--{foreach from=$gcategory.children item=child}-->
+                                        <i><a href="{r_url app=hgg&act=search&pd_id=$pd_id&cate_id=$child.id}">{$child.value|escape}</a></i> <!--{/foreach}-->
+                                    </dt>
+                                </dl>
+                            </em>
+
+                        </dl>
+                        <span class="menu_line"></span>
+                        <!--{/if}-->
+                        <!--{/if}-->
+                        <!--{/foreach}-->
+                    </div>
+                </div>
+                {include file=hgg.top.html}
+            </div>
+        </div>
+<!--菜单-->
+    <form id="search_form">
+        <input name="app" type="hidden" value="hgg">
+        <input name="act" type="hidden" value="get_category_goods">
+        <input name="pd_id" type="hidden" value="10">
+        <input id="hgg_subcateid" name="hgg_subcateid" type="hidden" value="{$filters.hgg_subcateid}"/>
+        <input id="hgg_class" name="hgg_class" type="hidden" value="{$filters.hgg_class}"/>
+        <input id="hgg_order_key" name="hgg_order_key" type="hidden" value="{$filters.hgg_order_key}">
+        <input id="hgg_order" name="hgg_order" type="hidden" value="{$filters.hgg_order}">
+    </form>
+<!--内容中-->
+        <!--超市内容1-->
+        <div class="hanguo_chaoshi">
+            <div class="left">
+                <ul class="lul">
+                    <!--{foreach from=$hgg_son_category item=gcategory name=gcategory}-->
+                    <!-- {if $smarty.foreach.gcategory.index<7 }-->
+                    <!-- {if !empty($gcategory) }-->
+                    <li style="border-top:none">
+                        <span class="span1">{$gcategory.value|truncate:22:"……"} </span>
+                         <span class="span2">
+                               <a href="{r_url app=hgg&act=search&pd_id=$pd_id&cate_id=$gcategory.children[0].id}">{$gcategory.children[0].value}</a>
+                               <a href="{r_url app=hgg&act=search&pd_id=$pd_id&cate_id=$gcategory.children[1].id}">{$gcategory.children[1].value}</a>
+                               <a href="{r_url app=hgg&act=search&pd_id=$pd_id&cate_id=$gcategory.children[2].id}">{$gcategory.children[2].value}</a>
+                         </span>
+
+                        <div class="fl cat-menu" id="market_{$smarty.foreach.gcategory.index}_menu" style="width: 400px;height: 300px;border: 1px solid #92BD49;border-left: none">
+                            <dl>
+                                <dt> {$gcategory.value|escape} </dt>
+                                <dd><!--{foreach from=$gcategory.children item=child}--><a href="{r_url app=hgg&act=search&pd_id=$pd_id&cate_id=$child.id}">{$child.value|escape}</a> <!--{/foreach}--> </dd>
+                            </dl>
+
+                        </div>
+                    </li>
+                    <!--{/if}-->
+                    <!--{/if}-->
+                    <!--{/foreach}-->
+
+                </ul>
+            </div>
+            <div class="right">
+                <!-- {if $smarty.get.pd_id == 12} -->
+                <img src="{res file=images/hgg/chaoshi.jpg}">
+                <!-- {/if} -->
+                <!-- {if $smarty.get.pd_id == 13} -->
+                <a href="http://www.dajike.com/?act=index&app=search&search_type=&keyword=zarpar">
+                    <img src="{res file=images/hgg/hanliu.jpg}">
+                </a>
+                <!-- {/if} -->
+                <!-- {if $smarty.get.pd_id == 14} -->
+                <img src="{res file=images/hgg/jiayuan.jpg}">
+                <!-- {/if} -->
+                <!-- {if $smarty.get.pd_id == 15} -->
+                <a href="http://www.dajike.com/?act=index&app=search&search_type=&keyword=%E6%9D%BE%E8%8E%B1%E8%8A%99">
+                <img src="{res file=images/hgg/meizhuang.jpg}">
+                </a>
+                <!-- {/if} -->
+                <!-- {if $smarty.get.pd_id == 16} -->
+                <img src="{res file=images/hgg/lvyou.jpg}">
+                <!-- {/if} -->
+                <!-- {if $smarty.get.pd_id == 17} -->
+                <img src="{res file=images/hgg/kkzg.jpg}">
+                <!-- {/if} -->
+            </div>
+        </div>
+        <!--超市内容1-->
+        <div class="chaoshi_2" style="margin-top: 10px;background: #ffffff; height: 300px;">
+            <div class="left">
+                <div class="chtitle" style="width: 902px;">最新商品</div>
+                <div class="chnei" style="border: none; ">
+                    <ul class="fl" style="width: 950px;background: #ffffff; height: 251px;">
+                        <!--{foreach from=$new_goods item=goods name=n_goods}-->
+                        <!--{if $smarty.foreach.n_goods.iteration<=5}-->
+                        <li style="padding: 12px 6px 6px 6px; border: 1px solid #ddd; margin-top: 5px;">
+                            <a href="{r_url app=goods&id=$goods.goods_id}" target="_blank"><img src="{img_url $img_url/$goods.default_image/160X160}" onload="javascript:DrawImage(this,168,168);" width="168" height="168"></a>
+                            <a href="{r_url app=goods&id=$goods.goods_id}" class="name" target="_blank">{$goods.goods_name|escape}</a>
+                            <p><strong>{$goods.price|price}</strong></p>
+                        </li>
+                        <!--{/if}-->
+                        <!--{/foreach}-->
+                    </ul>
+                </div>
+            </div>
+            <div class="right">
+
+
+                <div class="top">
+                    <!-- {if $smarty.get.pd_id == 12} -->
+                    <a href="{url app=hgg&act=search&keyword=%E7%AB%8B%E5%A5%A5%E8%8A%B3}">
+                    <img src="{res file=images/hgg/sub01_sbanner_01.jpg}" width="237" height="139">
+                    </a>
+                    <!-- {/if} -->
+                    <!-- {if $smarty.get.pd_id == 13} -->
+                    <a href="{r_url app=goods&id=32238}">
+                    <img src="{res file=images/hgg/sub02_sbanner_01.jpg}" width="237" height="139">
+                    </a>
+                    <!-- {/if} -->
+                    <!-- {if $smarty.get.pd_id == 14} -->
+                    <a href="{url app=goods&id=23707}">
+                    <img src="{res file=images/hgg/sub03_sbanner_01.jpg}" width="237" height="139">
+                    </a>
+                    <!-- {/if} -->
+                    <!-- {if $smarty.get.pd_id == 15} -->
+                    <a href="{url app=goods&id=19040}">
+                    <img src="{res file=images/hgg/sub04_sbanner_01.jpg}" width="237" height="139">
+                    </a>
+                    <!-- {/if} -->
+                    <!-- {if $smarty.get.pd_id == 16} -->
+                    <a href="{url app=goods&id=22948}">
+                    <img src="{res file=images/hgg/sub05_sbanner_01.jpg}" width="237" height="139">
+                    </a>
+                    <!-- {/if} -->
+                    <!-- {if $smarty.get.pd_id == 17} -->
+                        <img src="{res file=images/hgg/sub06_sbanner_01.jpg}" width="237" height="139">
+                    <!-- {/if} -->
+                </div>
+                <div class="bottom" style="margin-top: 12px;">
+                    <!-- {if $smarty.get.pd_id == 12} -->
+                    <a href="{url app=goods&id=23067}">
+                    <img src="{res file=images/hgg/sub01_sbanner_02.jpg}" width="237" height="139">
+                     </a>
+                    <!-- {/if} -->
+                    <!-- {if $smarty.get.pd_id == 13} -->
+                    <a href="{url app=goods&id=32237}">
+                    <img src="{res file=images/hgg/sub02_sbanner_02.jpg}" width="237" height="139">
+                    </a>
+                    <!-- {/if} -->
+                    <!-- {if $smarty.get.pd_id == 14} -->
+                    <a href="{url app=goods&id=23668}">
+                    <img src="{res file=images/hgg/sub03_sbanner_02.jpg}" width="237" height="139">
+                    </a>
+                    <!-- {/if} -->
+                    <!-- {if $smarty.get.pd_id == 15} -->
+                    <a href="{url app=goods&id=19023}">
+                    <img src="{res file=images/hgg/sub04_sbanner_02.jpg}" width="237" height="139">
+                    </a>
+                    <!-- {/if} -->
+                    <!-- {if $smarty.get.pd_id == 16} -->
+                    <a href="{url app=goods&id=20017}">
+                    <img src="{res file=images/hgg/sub05_sbanner_02.jpg}" width="237" height="139">
+                    </a>
+                    <!-- {/if} -->
+                    <!-- {if $smarty.get.pd_id == 17} -->
+                        <img src="{res file=images/hgg/sub06_sbanner_02.jpg}" width="237" height="139">
+                    <!-- {/if} -->
+                </div>
+            </div>
+        </div>
+
+        <div class="chaoshi_h" style="background: #fff;">
+           <ul class="fl1_h">
+               <!--{foreach from=$new_goods item=goods name=n_goods}-->
+               <!--{if $smarty.foreach.n_goods.iteration>5}-->
+               <li>
+                   <a href="{r_url app=goods&id=$goods.goods_id}" target="_blank"><img src="{img_url $img_url/$goods.default_image/160X160}" onload="javascript:DrawImage(this,168,168);" width="168" height="168"></a>
+                   <a href="{r_url app=goods&id=$goods.goods_id}" class="name" target="_blank">{$goods.goods_name|escape}</a>
+                   <p><strong>{$goods.price|price}</strong></p>
+               </li>
+               <!--{/if}-->
+               <!--{/foreach}-->
+           </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+        <!--&lt;!&ndash;楼层1&ndash;&gt;-->
+        <!--&lt;!&ndash;{foreach from=$goods_list item=goods name=my_goods}&ndash;&gt;-->
+        <!--&lt;!&ndash;{if $smarty.foreach.my_goods.iteration <5}&ndash;&gt;-->
+        <!--<div class="chaoshi_3">-->
+            <!--<div class="title{$smarty.foreach.my_goods.iteration}">-->
+                <!--<div class="ti{$smarty.foreach.my_goods.iteration}">{$goods.cate_name|truncate:20:"…"}</div>-->
+        <!--<span class="txt">-->
+            <!--<a href="{r_url app=search&cate_id=$goods.children_cate[0].cate_id}">{$goods.children_cate[0].cate_name}</a><a href="{r_url app=search&cate_id=$goods.children_cate[1].cate_id}">{$goods.children_cate[1].cate_name}</a><a href="{r_url app=search&cate_id=$goods.children_cate[2].cate_id}">{$goods.children_cate[2].cate_name}</a><a href="{r_url app=search&cate_id=$goods.children_cate[3].cate_id}">{$goods.children_cate[3].cate_name}</a><a href="{r_url app=search&cate_id=$goods.children_cate[4].cate_id}">{$goods.children_cate[4].cate_name}</a>-->
+        <!--</span>-->
+            <!--</div>-->
+            <!--<div class="nor">-->
+                <!--<div class="left"><a href="{r_url app=search&cate_id=$goods.cate_id}"><img src="{res file=images/ch_f1.jpg}" width="213" height="339"></a></div>-->
+                <!--<div class="right">-->
+                    <!--<ul>-->
+                        <!--&lt;!&ndash;{foreach from=$goods.goods item=gd }&ndash;&gt;-->
+                        <!--<li>-->
+                            <!--<div class="p_img"><a href="{r_url app=goods&id=$gd.goods_id}"><img src="{img_url $img_url/$gd.default_image/160X160}" target="_blank" onload="javascript:DrawImage(this,100,100);" width="100" height="100"></a></div>-->
+                            <!--<div class="p_name"><a href="{r_url app=goods&id=$gd.goods_id}" target="_blank">{$gd.goods_name}</a></div>-->
+                            <!--<div class="p_price"><strong>{$gd.price|price}</strong></div>-->
+                        <!--</li>-->
+                        <!--&lt;!&ndash;{/foreach}&ndash;&gt;-->
+
+                    <!--</ul>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--&lt;!&ndash;{/if}&ndash;&gt;-->
+        <!--&lt;!&ndash;{/foreach}&ndash;&gt;-->
+        <div style="margin-right: 100px;">{include file=page.bottom.html}</div>
+
+</div>
+    </div>
+{include file=footer.html}

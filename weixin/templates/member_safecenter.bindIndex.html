@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>绑定手机</title>
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/Safety.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+</head>
+<body>
+<div style="width: 320px;margin: 0px auto">
+    <div style="padding-top: 50px;">
+<div class="address-t">
+    <div class="address-l"><a href="javascript:history.go(-1)">返回</a></div>
+    <div class="address-c" style="padding-left: 60px;">绑定手机</div>
+    {include file=member.index_header.html}
+</div>
+<div class="pay-5">
+     {if $user.phone_mob ==null || $user.phone_mob_bind_status == 0 }
+        <div class="pay-5-1">亲爱的{if strlen($user.user_name)==32 && strlen($user.im_qq)==32}{$user.nick_name}{else}{$user.user_name}{/if}，您好：<br />
+            <span>　您尚未绑定手机，请先绑定手机！</span>
+        </div>
+        <a href="{$site_url}/weixin/index.php?app=member_safecenter&act=bindMobile">
+            <div class="pay-5-an">
+                绑定手机
+            </div>
+        </a>
+    {else}
+        <div class="pay-5-1">亲爱的{$user.user_name}，您好：<br />
+            <span>　您已经绑定了手机，号码为：{$user.phone_mob}。</span>
+        </div>
+    {/if}
+</div>
+    </div>
+</div>
+{include file=cnzz.html}
+</body>
+</html>

@@ -1,0 +1,107 @@
+                <script type="text/javascript">
+                $(function(){
+                   $('#check_coupon').click(function(){
+                       var coupon_sn = $('#coupon_sn').val();
+                       if(coupon_sn == '')
+                       {
+                           return;
+                       }
+                       $.getJSON("index.php?app=order&act=check_coupon", {coupon_sn: coupon_sn, store_id: '{$smarty.get.store_id}'}, function(data){
+                           if(data['retval'])
+                           {
+                               $('.unusable').hide();
+                               var msg = '{$lang.usable}';
+                               var str = price_format(data['retval']['price']);
+                               $('.usable').show().html(msg + str).css("display","block");
+                           }
+                           else
+                           {
+                               $('.usable').hide();
+                               $('.unusable').show().css("display","block");
+                               $('#coupon_sn').val('');
+                           }
+                       });
+                   });
+               });
+                </script>
+
+                <div class="make_sure">
+                    <!--{if !$user.email && !$user.question && $user.phone_mob_bind_status eq 0 }-->
+                    <div style="color: red;">为了您的账户安全，建议完善您的客户信息。</div><!--{/if}-->
+                    <p>{$lang.order_amount}:&nbsp;<strong class="fontsize3" id="order_amount"></strong>{if $goods_info.allow_coupon}&nbsp;&nbsp;<input type="button" class="btn1" onclick="$(this).parent('p').next().toggle();$('#coupon_sn').val('');" />{/if}</p>
+                    {if $goods_info.allow_coupon}
+                    <p style="display:none;">{$lang.coupon_sn}:&nbsp;
+                    <input type="text" name="coupon_sn" id="coupon_sn" class="text" />  
+                    <input type="button" value="{$lang.check}" class="check" id="check_coupon" />
+                    <span class="usable">{$lang.usable}</span> <span class="unusable">{$lang.unusable}</span>
+                    </p>
+                    {/if}
+                   <p style="margin-left: -10px;">所需积分：&nbsp;<strong  id="order_jifen"></strong></p><input type="hidden" id="hide_jifen" value="">
+                    <p>
+                        <a href="{url app=cart}" class="back">{$lang.backto_cart}</a>
+                        <input type="button" id="order_submit" name="order_submit" style="width:150px;height: 30px;cursor: pointer" class="btn" value="确认订单信息并提交">
+                    </p>
+                </div>
+                <!--
+                <form id="payform1" name="payform1" method="post" action="{$TO_PAY_URL}" target="do_pay">
+                    <input type="hidden" name="userId" value="{$visitor.user_id}"/>
+                    <input type="hidden" name="orderSn" id="orderSn" value=""/>
+                </form>-->
+                <script>
+                $("#order_submit").bind("click",function(){
+                    if($("input[name='address_options']:checked").val()==0) {
+                        alert("请填写收货地址！");
+                        return false;
+                    }
+                    var cellphone =document.getElementsByName("cellphone[]");
+                    if (cellphone.length>0) {
+                        var reg=/^1[3|4|5|8][0-9]\d{4,8}$/;
+                        for (var i=0;i<cellphone.length;i++) {
+                            if (!reg.test(cellphone[i].value)) {
+                                alert("本地生活商品填写的手机号不是完整的11位手机号或者正确的手机号前七位！");
+                                return  false;
+                            }
+                        }
+                    }
+//                    alert(("#order_jifen").innerHTML);
+//                $.getJSON("index.php?app=order&act=get_ajax_jifen",function (data){
+//                       if(data) {
+//                           var goods_jifen=data.jifen;
+//                           return checked(goods_jifen);
+//                       } else {
+//                           alert("服务器繁忙，，获取积分失败！");
+//                           return false;
+//                       }
+//                    });
+
+//                    function checked(goods_jifen) {
+//                       if (goods_jifen < 0 || goods_jifen < parseFloat(document.getElementById("hide_jifen").value)) {
+//                            alert("对不起！您的账户积分不足！");
+//                            return false;
+//                       }else {
+                           var adr= $("input[name='address_options']:checked").val();
+                           $("#adr_checked").attr("value",adr);
+
+                           $("#order_submit").attr("disabled","disabled");
+                           $("#order_submit").val("订单生成中....");
+
+                           var params = $("#order_form").serialize();
+                           //alert(params)
+                           $.post("index.php?app=order&act=add",params,function(rs){
+                               if(rs!=""){
+
+                                   /* $("#orderSn").val(rs);
+                                    window.open("","do_pay");
+                                    document.getElementById("payform1").submit();*/
+                                   location="{$TO_PAY_URL}?orderSn="+rs;
+                               }
+
+                           });
+//                       }
+//                    }
+
+                   });
+
+
+
+                </script>

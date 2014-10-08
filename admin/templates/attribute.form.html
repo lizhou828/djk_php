@@ -1,0 +1,155 @@
+{include file="header.html"}
+<script type="text/javascript">
+        $(document).ready(function(){
+
+            $("a:contains('+')").click(function(){
+                          var _len = $("#my_table tr").length;
+                            $("#my_table").append("<tr style='width: 800px;' id="+_len+">"+
+                               "<th class='paddingT15'>属性名称: </th>" +
+                                "<td class='paddingT15 wordSpacing5'><input type='text' style='width: 100px;'  name='attr_name[]'></td>"+
+                              "<th >属性值:</th>"+
+                              "<td class='paddingT15 wordSpacing5' style='height: 50px;width: 200px;'><textarea style='width: 200px; height: 50px;'  name='def_value[]' ></textarea><br><label>注：一个属性可以设置多个值，一行代表一个属性值，以回车换行</label></td>"+
+                              "<th >是否为可搜索属性</th>" +
+                              "<td><input type='radio' name='is_search_"+_len+"' value='1' checked='true'>是<input type='radio' name='is_search_"+_len+"'  value='0' >否</td>"+
+                               "<td><a href=\'#\' onclick=\'deltr("+_len+")\'>[-]</a></td>"+
+                               "</tr>"
+                            );
+                        })
+               })
+
+           //删除<tr/>
+           var deltr =function(index)
+                   {
+                    var _len = $("#my_table tr").length;
+                   $("tr[id='"+index+"']").remove();//删除当前行
+//                    for(var i=index+1,j=_len;i<j;i++)
+//                       {
+//                            var nextTxtVal = $("#desc"+i).val();
+//                            $("tr[id=\'"+i+"\']")
+//                              .replaceWith("<tr id="+(i-1)+" align='center'>"
+//                                               +"<td>"+(i-1)+"</td>"
+//                                                +"<td>Dynamic TR"+(i-1)+"</td>"
+//                                               +"<td><input type='text' name='desc"+(i-1)+"' value='"+nextTxtVal+"' id='desc"+(i-1)+"'/></td>"
+//                                               +"<td><a href=\'#\' onclick=\'deltr("+(i-1)+")\'>删除</a></td>"
+//                                           +"</tr>");
+//                        }
+//
+               }
+
+
+    $('#attribute_form').validate({
+        errorPlacement: function(error, element){
+            $(element).next('.field_notice').hide();
+            $(element).after(error);
+        },
+        success       : function(label){
+            label.addClass('right').text('OK!');
+        },
+        onfocusout : false,
+        onkeyup    : false,
+        rules : {
+            attr_name : {
+                required : true
+            },
+            def_value: {
+               required : true
+            }
+        },
+        messages : {
+            "attr_name[]": {
+                required : '属性名称不能为空'
+            },
+            "def_value[]": {
+                required : '属性值不能为空'
+            }
+        }
+    });
+
+  function submits() {
+      var attr_names = document.getElementsByName("attr_name[]");
+      var def_values = document.getElementsByName("def_value[]");
+      for (var i=0;i<attr_names.length;i++) {
+          if (attr_names[i].value==""|| attr_names[i].value==null) {
+              alert("属性名称不能为空!");
+              return false;
+          }
+          if (attr_names[i].value == "品牌") {
+              alert("属性不能添加品牌，请到品牌管理添加品牌!");
+              return false;
+          }
+          if (def_values[i].value==""|| def_values[i].value==null) {
+              alert("属性值不能为空!");
+              return false;
+          }
+      }
+    var url ="";
+     <!--{if $attribute.attr_id }-->
+      url = "index.php?app=attribute&act=edit";
+      <!--{else}-->
+      url = "index.php?app=attribute&act=add";
+     <!--{/if}-->
+    document.getElementById("attribute_form").action=url;
+    document.getElementById("attribute_form").submit();
+  }
+  function closeWin() {
+      this.window.close();
+  }
+</script>
+<div id="rightTop">
+    <p>属性列表</p>
+</div>
+
+ <div class="tdare">
+        <table width="100%" cellspacing="0" class="dataTable">
+        <tr>
+            <td>分类名称</td>
+            <td>属性名称</td>
+            <Td style="width:300px;">属性值</Td>
+            <td style="width: 100px;">是否为可搜索属性</td>
+            <td  style="text-align: center">操作</td></tr>
+            <!--{if $attributes}-->
+        <!--{foreach from=$attributes item =attr}-->
+            <tr>
+                <td>{$gcategory.cate_name}</td>
+                <td>{$attr.attr_name}</td>
+                <Td>{$attr.def_value}</Td>
+                <td><!--{if $attr.is_search eq 0}-->否<!--{/if}--><!--{if $attr.is_search eq 1}-->是<!--{/if}--></td>
+                <td style="text-align: center">
+                    <a href="index.php?app=attribute&act=edit&cate_id={$attr.category_id}&attr_id={$attr.attr_id}">编辑</a>
+                    <a href="index.php?app=attribute&act=drop&cate_id={$attr.category_id}&attr_id={$attr.attr_id}">删除</a>
+                </td>
+            </tr>
+          <!--{/foreach}-->
+            <!--{/if}-->
+         </table>
+      </div>
+  <div class="tdare">
+    <form method="post" enctype="multipart/form-data" id="attribute_form">
+        <input type="hidden" name="attr_id" value="{$attribute.attr_id}">
+        <input type="hidden" name="cate_id" id="cate_id" value="{$gcategory.cate_id}">
+        <input type="hidden" name="input_mode" value="input">
+        <table class="infoTable" id="my_table" style="width: 800px;">
+            <tr id="my" style="width: 800px;">
+                <th >属性名称: </th>
+                <td >
+                    <input type="text" style="width: 100px;" id ="attr_name" name="attr_name[]" value="{$attribute.attr_name}"><label class="field_notice"></label>
+                </td>
+                <th >属性值: </th>
+                <td style="height: 50px;width: 200px;">
+                    <textarea id ="def_value" name="def_value[]" style="width: 200px; height: 50px;">{$attribute.def_value}</textarea><Br><label class="field_notice">注：一个属性可以设置多个值，一行代表一个属性值，以回车换行</label>
+                </td>
+                <th >是否为可搜索属性:</th>
+                <td>
+                  <input type="radio" name="is_search_0" value="1" <!--{if $smarty.get.attr_id <=0 || $attribute.is_search == 1}--> checked="true" <!--{/if}--> >是
+                    <input type="radio" name="is_search_0" value="0" <!--{if $attribute.is_search == 0 && $smarty.get.attr_id>0}--> checked="true" <!--{/if}--> >否<label class="field_notice"></label>
+                </td>
+                <td><a href="javascript:void(0);">[+]</a></td>
+            </tr>
+        </table>
+        <div>
+                <input class="formbtn" type="submit" name="Submit" value="{$lang.submit}" onclick="submits()" />
+                <input class="formbtn" type="reset" name="reset" value="关闭" onclick="closeWin()" />
+      </div>
+    </form>
+</div>
+{include file="footer.html"}

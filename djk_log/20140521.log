@@ -1,0 +1,28 @@
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_goods
+2014-05-21 10:48:35  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+MySQL Query:SELECT user_id,user_name,member.user_id FROM ecm_member member WHERE member_type='03' and region_id=
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=jkxd_portal&act=vshop_goods&id=3
+2014-05-21 11:52:41  	[2]Missing argument 1 for Jkxd_portalApp::vshop_goods(), called in D:\wamp\www\eccore\controller\app.base.php on line 168 and defined	\app\jkxd_portal.app.php	948
+
+错误url=http://192.168.0.137/index.php?app=jkxd_portal&act=vshop_list&type=localHot&id=3&topCateId=&goodCateId=&order_by=rg.id&desc_asc=asc
+2014-05-21 14:40:16  	[256]MySQL Error[1054]: Unknown column 'rg.id' in 'order clause'
+MySQL Query:SELECT * FROM ecm_goods g WHERE g.goods_id IN( select vg.goods_id  from ecm_vshop_recom_goods vg where vg.region_id=2717 and vg.status=1 and vg.position=1) order by rg.id asc limit 0, 30
+Wrong File:  D:\wamp\www\includes\models\vshopRecommend.model.php[34]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=jkxd_portal&act=vshop_list&type=localHot&id=3&topCateId=&goodCateId=&order_by=rg.id&desc_asc=asc
+2014-05-21 14:44:46  	[256]MySQL Error[1054]: Unknown column 'rg.id' in 'order clause'
+MySQL Query:SELECT * FROM ecm_goods g WHERE g.goods_id IN( select vg.goods_id  from ecm_vshop_recom_goods vg where vg.region_id=2717 and vg.status=1 and vg.position=1) order by rg.id asc limit 0, 30
+Wrong File:  D:\wamp\www\includes\models\vshopRecommend.model.php[34]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=jkxd_portal&act=vshop_list&type=localHot&id=3&topCateId=&goodCateId=&order_by=rg.id&desc_asc=desc
+2014-05-21 14:44:58  	[256]MySQL Error[1054]: Unknown column 'rg.id' in 'order clause'
+MySQL Query:SELECT * FROM ecm_goods g WHERE g.goods_id IN( select vg.goods_id  from ecm_vshop_recom_goods vg where vg.region_id=2717 and vg.status=1 and vg.position=1) order by rg.id desc limit 0, 30
+Wrong File:  D:\wamp\www\includes\models\vshopRecommend.model.php[34]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=jkxd_portal&act=vshop_list&type=localHot&id=3&topCateId=&goodCateId=&order_by=rg.id&desc_asc=desc
+2014-05-21 14:45:22  	[256]MySQL Error[1054]: Unknown column 'rg.id' in 'order clause'
+MySQL Query:SELECT * FROM ecm_goods g WHERE g.goods_id IN( select vg.goods_id  from ecm_vshop_recom_goods vg where vg.region_id=2717 and vg.status=1 and vg.position=1) order by rg.id desc limit 0, 30
+Wrong File:  D:\wamp\www\includes\models\vshopRecommend.model.php[34]	\eccore\model\mysql.php	310

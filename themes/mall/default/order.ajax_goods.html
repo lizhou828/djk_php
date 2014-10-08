@@ -1,0 +1,95 @@
+<script>
+
+</script>
+<div id="goods_div">
+    <form method="post" id="order_form" name="order_form">
+        <input type="hidden" name="adr_checked" id="adr_checked" value="">
+        <h4 class="add_title"><b class="ico">{$lang.your_cart_goods}</b></h4>
+        <!--{foreach from=$order_goods item=goods key=key name=my_goods}-->
+        <table style="width:960px; ">
+            <tr>
+                <td colspan="4" style="line-height: 30px; padding-left: 20px;">{$lang.store}: <a
+                        href="{url app=store&store_id=$goods.store_info.store_id}" target="_blank">
+                    {$goods.store_info.store_name|escape}</a>
+                </td>
+            </tr>
+            <!--{if $smarty.foreach.my_goods.index==0}-->
+            <tr>
+                <th width="320" style="text-align: center;" height="30" bgcolor="#f9f9f9">{$lang.store_goods}</th>
+                <th width="100" bgcolor="#f9f9f9">{$lang.quantity}</th>
+                <th bgcolor="#f9f9f9" style="text-align: center">描述</th>
+                <!--<th  bgcolor="#f9f9f9" width="80">运费</th>-->
+                <th bgcolor="#f9f9f9" width="50">商品单价</th>
+                <th bgcolor="#f9f9f9" style="text-align: center" widht="200">{$lang.subtotal}</th>
+                <th bgcolor="#f9f9f9" style="text-align: center"></th>
+            </tr>
+            <!--{/if}-->
+            <!--{foreach from=$goods.goodsList item=gd key=key}-->
+            <tr style="border-bottom: 1px dashed #ddd;height: 100px;padding-bottom: 10px;">
+                <td width="320" style="text-align: center"><p style="margin:0px auto;width:300px;margin-top:10px;">
+                    <a style="float:left;border:1px solid #ddd;margin-right:5px;width: 65px; height: 65px; overflow: hidden; "
+                       href="{url app=goods&id=$gd.goods_id}" target="_blank">
+                        <img src="
+                            <!--{if $gd.goods_image}-->
+                            {$gd.goods_image}
+                            <!--{else}-->
+                            {$site_url}/data/system/default_goods_image.gif
+                            <!--{/if}-->" width="65" height="65" alt="{$gd.goods_name|escape}"/></a>
+                    <a style="float:left;width:200px;line-height:24px;text-align: left" target="_blank"
+                       href="{url app=goods&id=$gd.goods_id}">{$gd.goods_name|escape}</a>
+                </p>
+
+                </td>
+                <td width="100">{$gd.quantity}{$lang.goods_unit}</td>
+                <td width="200" style="text-align: center">{$gd.specification|escape}&nbsp;</td>
+                <!--<td width="80" style="text-align: center;">{$gd.shipping|price}</td>-->
+                <td width="50">{$gd.price|price}</td>
+                <td width="200" style="text-align: center;">{$gd.subtotal|price}
+                    <input type="hidden" name="subtotal" value="{$gd.subtotal}">
+                    <input type="hidden" name="goods_jifen" value="{$gd.if_jifen|number}">
+                    <input type="hidden" name="quantity" value="{$gd.quantity}">
+                </td>
+            </tr>
+            <!--{/foreach}-->
+            <!--{if $goods.store_info.seller_type eq 3}-->
+            <tr>
+                <td colspan="5" style="margin-top:10px;height:40px; padding-left:15px;">&nbsp;&nbsp;请输入手机号码：<input
+                        type="text" style="width:160px;height:24px;" name="cellphone[]"></td>
+            </tr>
+            <!--{/if}-->
+            <tr>
+                <td colspan="5">
+                    <script type="text/javascript">
+                        function postscript_activation(tt) {
+                            if (!tt.name) {
+                                tt.value = '';
+                                tt.name = 'postscript[]';
+                            }
+                        }
+                    </script>
+                    <div style="line-height: 30px; padding-left: 20px;">
+                        {$lang.postscript}:
+                        <div id="message">
+                            <textarea id="postscript" onclick="postscript_activation(this);" cols="100"
+                                      style="height: 18px;">{$lang.postscript_desc}</textarea>
+                        </div>
+                        <input type="hidden" name="shippingfee" value="{$goods.shiipingfee}">
+                        <input type="hidden" name="store_id[]" value="{$goods.store_info.store_id}">
+                        <input type="hidden" name="new_store_id" value="{$goods.store_info.store_id}">
+
+                    </div>
+                </td>
+                <!--{if $goods.store_info.seller_type != 3}-->
+                <td width="100"><span style="line-height: 30px;padding-top: 10px;">运费：{$goods.shiipingfee|price}</span>
+                </td>
+                <!--{/if}-->
+            </tr>
+
+        </table>
+        <!--{/foreach}-->
+    </form>
+</div>
+
+
+
+

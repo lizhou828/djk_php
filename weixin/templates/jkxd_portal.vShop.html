@@ -1,0 +1,207 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{$shopOwner.shop_name}的精品集客小店</title>
+    <link href="{$site_url}/weixin/templates/style/com.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/hone.css" rel="stylesheet" type="text/css" />
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+
+    <script type="text/javascript">
+        function apply_jkxd(){
+            $.get('{$site_url}/weixin/index.php?app=jkxd_portal&act=apply_jkxd',function(data){
+                data = eval("("+data+")");
+                if(data.retval == 0){
+                    alert(data.msg);
+                }else if(data.retval==1){
+                    window.location='{$site_url}/weixin/index.php?app=jkxd_portal&act=apply_jkxd_page';
+                }
+            })
+        }
+
+        function search_in_shop(){
+            var keywords =  $("#keyword").val();
+            var re = /^\\S+$/;
+            if(keywords==null || keywords =="" || keywords=="搜索商品关键字"){
+                alert("请填写商品名称或关键字!");
+                return;
+            }else if(re.test(keywords)){
+                alert("搜索的关键字不能为空!");
+                return;
+            }else{
+                var keyword=$("#keyword").val();
+
+                $("#search_in_shop").submit();
+            }
+        }
+        function shop_info(){
+            window.location='{$site_url}/weixin/index.php?app=jkxd_portal&act=shop_info&id={$shopOwner.user_id}';
+        }
+        function all_category(_type){
+            window.location='{$site_url}/weixin/index.php?app=jkxd_portal&act=vshop_category&id={$shopOwner.user_id}&type='+_type;
+        }
+
+    </script>
+
+</head>
+<body>
+
+<div style=" width:320px; margin:0px auto;padding-top: 50px;">
+    <div class="enter-t">
+        <div class="enter-t1">
+            <a href="{$SITE_URL}/weixin/index.php?app=jkxd_portal">
+                <div style="color: white">首页</div>
+            </a>
+        </div>
+        <div class="enter-t22">精品集客小店</div>
+        <a href="javascript:void(0)" onclick="apply_jkxd()"><div class="enter-t33">我也要开小店</div></a>
+    </div>
+    <div class="clear"></div>
+    <div class="enter-bg" {if $user && $user.user_id && $user.user_id > 0}style="padding-bottom:55px;"{else}style="padding-bottom:0px;"{/if}>
+        <div>
+            <form action="{$site_url}/weixin/index.php?app=jkxd_portal&act=vshop_list" method="get" id="search_in_shop">
+                <input type="hidden"  name="app" value="jkxd_portal" />
+                <input type="hidden"  name="act" value="vshop_list" />
+                <input type="hidden"  name="type" value="search" />
+                <input type="hidden" name="id" id="id" value="{$shopOwner.user_id}"/>
+                <div class="sou-text">
+                    <input  style="height: 22px;border-style:none;width:200px;" id="keyword" name="keyword" type="text" value="搜索商品关键字"
+                            onfocus="if(this.value=='搜索商品关键字'){this.value='';this.style.color='#333'}"
+                            onblur="if(this.value==''){this.value='搜索商品关键字';this.style.color='#999'}"/>
+                    <input type="button" style="float: right; font-weight: bold;cursor:pointer;background: none repeat scroll 0 0 #D0281E;height: 28px; border: medium none; color: #FFFFFF;"
+                           value="搜索" onclick="search_in_shop()"/>
+
+                </div>
+            </form>
+        </div>
+        <div class="my-more" style="cursor: pointer;position: relative" onclick="ShowDIV('DialogDiv','{$shopOwner.user_id}','')">
+            <dl>
+                    <dt><img src="{$site_url}/weixin/templates/style/img/logo2.jpg" width="73" height="65" alt="头像" /></dt>
+                    <dd>
+                        <h3>
+                            {$shopOwner.shop_name}<img src="{$site_url}/themes/mall/default/styles/default/images/v2.png" alt="已认证"/>
+                        </h3>
+                        <p style="color:#666;">{$jkxd_site_url}</p>
+                    </dd>
+                </dl>
+            </dl>
+            <div>
+                <em style="position: absolute;right: 5px;top:15px;" ><img id="switch_img" src="{$site_url}/weixin/templates/images/switch.png" alt="集客小店与精品集客小切换"/></em>
+            </div>
+        </div>
+
+    <!--类别列表开始-->
+    <!--<div class="topCategory">-->
+        <!--<a href="{$site_url}/weixin/index.php?app=jkxd_portal&act=vshop_list&id={$shopOwner.user_id}&topCateId=1268&view=category"><div class="category">礼品、箱包、钟表、珠宝</div></a>-->
+        <!--<a href="{$site_url}/weixin/index.php?app=jkxd_portal&act=vshop_list&id={$shopOwner.user_id}&topCateId=1243&view=category"><div class="category">服饰鞋帽</div></a>-->
+        <!--<a href="{$site_url}/weixin/index.php?app=jkxd_portal&act=vshop_list&id={$shopOwner.user_id}&topCateId=1258&view=category"><div class="category">运动、健康</div></a>-->
+    <!--</div>-->
+    <!--类别列表结束-->
+
+
+
+
+    <!--本地特卖商品开始-->
+    {if  $bendi_temai &&  $bendi_temai.goodsList}
+        <div class="hot">
+            <div style="cursor:pointer" onclick="all_category('localHot')" class="hot-t"><span>共<strong>{$bendi_temai.item_count}</strong>件商品 > </span>本地特卖</div>
+            <div class="hot-c">
+                    {foreach from=$bendi_temai.goodsList item=goods name=goods_index}
+                        <a href="{$site_url}/weixin/goods/{$shopOwner.user_id}/{$goods.goods_id}{if $member && $member.user_id > 0}/{$member.user_id}{/if}?vshop=1" title="{$goods.goods_name}" >
+                            <dl style="margin-bottom: 20px;position: relative">
+                                <dt>
+                                    <img src="{img_url $img_url/$goods.default_image/100X100} "  width="100" height="100" />
+                                </dt>
+                                <em style="position: absolute;left: 5px;top:5px;"><img src="{$site_url}/weixin/templates/images/temai.png" /></em>
+                                <dd style="height: 32px;overflow: hidden">{$goods.goods_name|truncate:28}</dd>
+                                <p>￥{$goods.price}</p>
+                                {if  $user.user_id eq $shopOwnerId}
+                                <p style="font-size: 12px;color: #999999;margin-top: 0px;">奖励￥{$goods.yongjin|number2}</p>
+                                {/if}
+                            </dl>
+                        </a>
+                    {/foreach}
+                <div class="clear"></div>
+            </div>
+        </div>
+    {/if}
+    <!--本地特卖商品结束-->
+
+
+
+
+    <!--大集客精品开始-->
+    <div class="hot">
+        <div style="cursor:pointer" onclick="all_category()" class="hot-t"><span>共<strong>{$page.item_count}</strong>件商品 > </span>大集客精品</div>
+        <div class="hot-c">
+            {if $page && $page.goodsList}
+                {foreach from=$page.goodsList item=goods name=goods_index}
+                    <a href="{$site_url}/weixin/goods/{$shopOwner.user_id}/{$goods.goods_id}{if $member && $member.user_id > 0}/{$member.user_id}{/if}?vshop=1" title="{$goods.goods_name}" >
+                        <dl style="margin-bottom: 20px;">
+                            <dt>
+                                <img src="{img_url $img_url/$goods.default_image/100X100} "  width="100" height="100" />
+                            </dt>
+                            <dd style="height: 32px;overflow: hidden">{$goods.goods_name|truncate:28}</dd>
+                            <p>￥{$goods.price}</p>
+                            {if  $user.user_id eq $shopOwnerId}
+                            <p style="font-size: 12px;color: #999999;margin-top: 0px;">奖励￥{$goods.yongjin|number2}</p>
+                            {/if}
+                        </dl>
+                    </a>
+                {/foreach}
+            {else}
+                没有商品！
+            {/if}
+            <div class="clear"></div>
+        </div>
+    </div>
+    <!--大集客精品结束-->
+</div>
+
+
+<div class="pdding"></div>
+
+{if $user && $user.user_id && $user.user_id > 0}
+    {include file=jkxd_portal.footer.html}
+{else}
+    {include file=jkxd_portal.jump.html}
+{/if}
+
+
+
+
+
+{if $user && ($user.user_id==$shopOwner.user_id)}
+<!--qq登录的用户,弹窗设置登录密码   开始-->
+{if $user.im_qq != null && $user.im_qq != ''&& ($user.password == '' || $user.password == null)}
+<script type="text/javascript">
+    $(function(){
+        qq_setPassword();
+    });
+</script>
+{/if}
+<!--qq登录的用户,弹窗设置登录密码   结束-->
+{/if}
+</div>
+
+
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.plugins/jquery.validate.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/dialog/dialog.js" id="dialog_js"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jike.js" ></script>
+<script type="text/javascript">
+    function qq_setPassword(){
+        var uri =encodeURI("index.php?app=jkxd_portal&act=qq_setPasswordPage&id={$shopOwner.user_id}");
+        var id = 'qq_setPassword';
+        var title = "设置集客小店登录密码";
+        var width = '330';
+        ajax_form(id, title, uri, width);
+    }
+</script>
+
+
+</body>
+</html>

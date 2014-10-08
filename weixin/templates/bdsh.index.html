@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>本地生活,大集客-移动商城</title>
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/life.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jike.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/member.js" charset="utf-8"></script>
+
+    <script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.plugins/jquery.validate.js" ></script>
+
+    <script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/dialog/dialog.js" id="dialog_js"></script>
+    <script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js" ></script>
+    <script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js" ></script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/show_share_button.js"></script>
+</head>
+<body>
+<div style="width: 309px;margin: 0px auto;">
+<!-------------------头部----------------->
+<div class="address-t">
+    <div class="address-l"><a href="{$site_url}/weixin/index.php?app=goods&act=index1">返回</a></div>
+    <div class="address-c2">本地生活</div>
+    <div class="address-r1"><a href="index.php?app=bdsh&act=xzregion">{$city}<img src="{$site_url}/weixin/templates/images/sanjj.png"></a></div>
+</div>
+<!-------------------搜索------------------>
+{include file=bdsh.search.html}
+<!-------------------内容区----------------->
+<div class="life-bg">
+    <div class="life-cen">
+        <!--{foreach from=$cates item=cate name=cate}-->
+            <a href="index.php?app=bdsh&act=goodsList&cate_id={$cate.cate_id}&rgid={$rgid}">
+                <!--{if $smarty.foreach.cate.iteration % 3 == 0}-->
+                    <dl style="margin-right:0px;">
+                <!--{else}-->
+                    <dl>
+                <!--{/if}-->
+                <dt><img src="{$site_url}/weixin/templates/images/life-{$cate.cate_id}.jpg" width="78" height="78" alt="{$cate.cate_name}" /></dt>
+                <dd>{$cate.cate_name}</dd>
+            </dl>
+            </a>
+        <!--{/foreach}-->
+        <div class="clear"></div>
+    </div>
+</div>
+</div>
+<script>
+
+    function update1(){
+        var uri =encodeURI("index.php?app=bdsh&act=region");
+        var id = 'bdsh_region';
+        var title = "选择地区";
+        var width = '308';
+        ajax_form(id, title, uri, width);
+    }
+
+</script>
+</body>
+</html>

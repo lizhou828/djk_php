@@ -1,0 +1,204 @@
+{include file=member.header.html}
+<script type="text/javascript">
+$(function(){
+    $('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+    $('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+});
+</script>
+<style type="text/css">
+.float_right {float: right;}
+</style>
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right">
+        {include file=member.submenu.html}
+        <div class="wrap">
+            <div class="public">
+                <div class="user_search">
+                <form method="get">
+                    <span>订单类型</span>
+                    <select name="order_type" >
+                        <option value="">请选择</option>
+                        <option value="material">普通订单</option>
+                        <option value="shop">集客小店</option>
+                        <option value="mobile,shop">集客小店(手机版)</option>
+                        <option value="vshop">精品集客小店</option>
+                        <option value="mobile,vshop">精品集客小店(手机版)</option>
+                        <option value="mobile">移动商城</option>
+                        <option value="pos">POS机刷卡</option>
+                        <option value="weidian">微店</option>
+                        <option value="two">二维码</option>
+                    </select>
+                    <span>{$lang.add_time}: </span>
+                    <input type="text" class="text1 width2" name="add_time_from" id="add_time_from" value="{$query.add_time_from}"/> &#8211;
+                    <input type="text" class="text1 width2" name="add_time_to" id="add_time_to" value="{$query.add_time_to}"/>
+                    <span>{$lang.order_sn}:</span>
+                    <input type="text" class="text1 width_normal" style="width: 165px;" name="order_sn" value="{$query.order_sn|escape}">
+
+
+                    <input type="hidden" name="app" value="buyer_order" />
+                    <input type="hidden" name="act" value="index" />
+                    <input type="hidden" name="shouhou" value="{$smarty.get.shouhou}" />
+
+                    &nbsp;&nbsp;&nbsp;
+                    <input type="submit" class="btn" value="{$lang.soso}" />
+                </form>
+                </div>
+
+                    <!--{if $orders}-->
+                    <!--{foreach from=$orders item=order}-->
+                    <div class="dp">店铺名：<a href="{url app=store&id=$order.seller_id}" target="_blank">{$order.seller_name|escape}</a>
+                        <!--{if $order.status eq ORDER_PENDING && $order.yue_jine > 0 &&  $order.zhifu > 0}-->
+                        <span style="color:red">&nbsp;(余额已支付{$order.zhifu|number2}元，还剩{$order.yue_jine|price}元待支付！)</span>
+                        <!--{/if}-->
+                    </div>
+                    <div class="ble"><table width="766" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td width="100" align="center" bgcolor="#f3f3f3" style="color:#333;">订单号</td>
+                            <td height="30" width="220" colspan="2" align="center" bgcolor="#f3f3f3" style="color:#333;">订单商品</td>
+                            <td width="70" align="center" bgcolor="#f3f3f3" style="color:#333;">订单类型</td>
+                            <td width="88" align="center" bgcolor="#f3f3f3" style="color:#333;">订单金额</td>
+                            <td width="93" align="center" bgcolor="#f3f3f3" style="color:#333;">时间</td>
+                            <td width="82" align="center" bgcolor="#f3f3f3" style="color:#333;">订单状态</td>
+                            <td width="91" align="center" bgcolor="#f3f3f3" style="color:#333;">操作</td>
+                        </tr>
+                        <tr>
+                            <td align="center" style=" padding-left:8px;"><a href="{url app=buyer_order&act=view&order_id=$order.order_id}" style="font-weight:bold; color:#666">{$order.order_sn}</a></td>
+                            <td height="80" colspan="2">
+                                <ul class="sp">
+                                    <!--{foreach from=$order.order_goods item=goods name=o_goods}-->
+                                    <!--{if $smarty.foreach.o_goods.index<=2}-->
+                                    <li>
+                                        <!--{if $order.type == 'two' || $order.type =='pos'}-->
+                                        <a href="{url app=$smarty.get.app&act=view&order_id=$order.order_id}" target="_blank"><img src="{$site_url}/{$goods.goods_image}" style="border: 1px solid #ddd" alt="{$goods.goods_name|escape}" width="60px" height="60px"/></a>
+                                        <!--{else}-->
+                                        <a href="index.php?app=goods&id={$goods.goods_id}" target="_blank"><img src="{$site_url}/{$goods.goods_image}" style="border: 1px solid #ddd" alt="{$goods.goods_name|escape}" width="60px" height="60px"/></a>
+                                        <!--{/if}-->
+                                    </li>
+                                    <!--{/if}-->
+                                    <!--{/foreach}-->
+                                </ul>
+                            </td>
+                            <td height="50" align="center">
+                                <!--订单类型，material为普通订单，shop为集客小店，mobile为微网站订单,pos为pos机刷卡,weidian微店,vshop精品集客小店  mobile,shop   mobile,vshop two-->
+                                { if $order.type == 'material'}
+                                    普通订单
+                                {elseif $order.type == 'shop'}
+                                    集客小店
+                                {elseif $order.type == 'mobile'}
+                                    移动商城
+                                {elseif $order.type == 'pos'}
+                                    pos机刷卡
+                                {elseif $order.type == 'weidian'}
+                                    微店
+                                {elseif $order.type == 'vshop'}
+                                    精品集客小店
+                                {elseif $order.type == 'mobile,vshop'}
+                                    精品集客小店(手机版)
+                                {elseif $order.type == 'mobile,shop'}
+                                    集客小店(手机版)
+                                {elseif $order.type == 'two' && $order.is_daifu ==1}
+                                    二维码(代付)
+                                {elseif $order.type == 'two' && $order.is_daifu ==0}
+                                    二维码
+                                {/if}
+                            </td>
+                            <td align="center" style="font-weight:bold;">{$order.order_amount|price}</td>
+                            <td align="center" style="color:#999;width: 108px">{$order.add_time|date:Y-m-d H:i:s}</td>
+                            <td align="center" style="font-weight:bold; color:#333">{$order.status|modifier:order_status}<!--{if $order.evaluation_status}-->,&nbsp;已评价<!--{/if}--></td>
+                            <td align="center">
+
+                                <!--{if $order.status eq ORDER_PENDING  && $order.is_daifu != 1 }-->
+                                    <!--{if $order.yue_jine > 0}-->
+                                        <a href="javascript:void(0); " name="{$order.order_sn}" flag = {$order.ifPay} id="order{$order.order_id}_action_pay"class="btn pay pay_a" style=" color: #e4a600;">支付余款</a>
+                                    <!--{else}-->
+                                        <a href="javascript:void(0);" name="{$order.order_sn}" flag = {$order.ifPay} id="order{$order.order_id}_action_pay" class="btn pay pay_a" style=" color: #e4a600;" {if $order.status neq ORDER_PENDING} style="display:none"{/if}>{$lang.pay}</a>
+                                        {if $order.status eq ORDER_PENDING}{/if}
+                                    <!--{/if}-->
+                                <!--{/if}-->
+
+                                <!--{if $order.shouhouFlg}-->
+                                <a href="javascript:alert('您有未完成的售后，不能确认收货，您可以选择取消售后申请或者等待卖家处理完毕然后确认收货!');" class="pay_a" {if $order.status neq ORDER_SHIPPED or $order.payment_code eq 'cod'} style="display:none"{/if} style=" color: #e4a600;" id="order{$order.order_id}_action_confirm" >{$lang.confirm_order}</a>
+                               <!--{else}-->
+                                <a href="javascript:;" class="pay_a" {if $order.status neq ORDER_SHIPPED or $order.payment_code eq 'cod'} style="display:none"{/if} style=" color: #e4a600;"  ectype="dialog" dialog_id="buyer_order_confirm_order" dialog_width="500" dialog_title="{$lang.confirm_order}" uri="index.php?app=buyer_order&amp;act=confirm_order&order_id={$order.order_id}&ajax"  id="order{$order.order_id}_action_confirm"
+                                >{$lang.confirm_order}</a>
+                               <!--{/if}-->
+
+                                <!--{if $order.status eq ORDER_PENDING && $order.yue_jine > 0 &&  $order.zhifu > 0}-->
+                                <a href="javascript:cancel_order('index.php?app=buyer_order&act=cancel_order&order_id={$order.order_id}&ajax','{$lang.cancel_order}','buyer_order_cancel_order','{$order.zhifu}');"
+                                   dialog_width="400" {if $order.status neq ORDER_PENDING and $order.status neq ORDER_SUBMITTED} style="display:none"{/if} >{$lang.cancel_order}</a>
+                                {if $order.status neq ORDER_PENDING and $order.status neq ORDER_SUBMITTED} {else}<br>{/if}
+                                <!--{else}-->
+                                <a href="javascript:;" ectype="dialog" dialog_width="400" dialog_title="{$lang.cancel_order}" dialog_id="buyer_order_cancel_order" uri="index.php?app=buyer_order&amp;act=cancel_order&order_id={$order.order_id}&ajax"  id="order{$order.order_id}_action_cancel"
+                                {if $order.status neq ORDER_PENDING and $order.status neq ORDER_SUBMITTED} style="display:none"{/if}>{$lang.cancel_order}</a>
+                                {if $order.status neq ORDER_PENDING and $order.status neq ORDER_SUBMITTED}{else}<br>{/if}
+                                <!--{/if}-->
+                                
+                                <a class="btn1" href="{url app=buyer_order&act=evaluate&order_id=$order.order_id}" target="_blank" id="order{$order.order_id}_evaluate" {if $order.status neq ORDER_FINISHED or $order.evaluation_status neq 0} style="display:none"{/if} >{$lang.evaluate}</a>
+                                {if $order.status neq ORDER_FINISHED or $order.evaluation_status neq 0} {else}<br>{/if}
+
+                                <a class="btn1" href="{url app=buyer_order&act=order_goods&order_id=$order.order_id}"  id="order{$order.order_id}_evaluate" {if $order.status neq ORDER_SHIPPED && $order.status neq ORDER_FINISHED} style="display:none"{/if} >售后管理</a>
+                                {if $order.status neq ORDER_SHIPPED && $order.status neq ORDER_FINISHED} {else}<br>{/if}
+
+                                <a href="{url app=buyer_order&act=view&order_id=$order.order_id}" target="_blank" class="btn1">{$lang.view_order}详情</a>
+
+                            </td>
+                        </tr>
+                    </table>
+                    </div>
+                <!--{/foreach}-->
+                <!--{else}-->
+ 					<center>
+             		<table>
+                    <tr><td class="member_no_records" colspan="7" style="text-align:center">{$lang.no_records}</td></tr>
+                    </table>       
+          			</center>
+                <!--{/if}-->
+
+                <div class="order_form_page">
+                    <div class="page">
+                        {include file=member.page.bottom.html}
+                    </div>
+                </div>
+
+            <div class="wrap_bottom"></div>
+        </div>
+        <div class="clear"></div>
+        <div class="adorn_right1"></div>
+        <div class="adorn_right2"></div>
+        <div class="adorn_right3"></div>
+        <div class="adorn_right4"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<form id="payform1" name="payform1" method="post" action="{$TO_PAY_URL}" target="do_pay">
+    <input type="hidden" name="orderSn" id="orderSn" value=""/>
+</form>
+
+<script>
+    function cancel_order(url,title,id,yue){
+        if(confirm("您已使用余额支付了"+yue+"元，取消订单将会把已支付的金额退还回您的余额账户，确认取消吗？")){
+            var uri =url+"&type=ret";
+            var id =id;
+            var title = title;
+            var width = '400';
+            ajax_form(id, title, uri, width);
+        }
+    }
+    $(".yue_pay,.pay").bind("click",function(){
+        $(this).attr("disabled","disabled");
+        $(this).val("支付中....");
+        $("#orderSn").val(this.name);
+
+        var falg = $(this).attr("flag");
+        if(falg == 1){
+            alert("该订单正在支付中，请稍后刷新页面！");
+        }else{
+            window.open ("{$TO_PAY_URL}"+"?orderSn="+this.name)
+        }
+
+    })
+</script>
+<iframe id='iframe_post' name="iframe_post" src="about:blank" frameborder="0" width="0" height="0"></iframe>
+{include file=footer.html}

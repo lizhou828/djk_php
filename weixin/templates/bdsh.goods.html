@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{$ct}{$category.cate_name}{$keyWord}{$region.region_name},大集客-移动商城</title>
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/life.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/public.css" rel="stylesheet" type="text/css" />
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jike.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/member.js" charset="utf-8"></script>
+
+    <script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.plugins/jquery.validate.js" ></script>
+
+    <script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/dialog/dialog.js" id="dialog_js"></script>
+    <script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js" ></script>
+    <script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js" ></script>
+
+
+    <script type="text/javascript">
+        $(function(){
+            var status= "{$dis}";
+            if(status == '1' || status == ""){
+                $(".cate22").css({"background":"none repeat scroll 0 0 #CCCCCC"});
+                $(".cate11").css({"background":"none repeat scroll 0 0 #999999"});
+            }else{
+                $(".cate11").css({"background":"none repeat scroll 0 0 #CCCCCC"});
+                $(".cate22").css({"background":"none repeat scroll 0 0 #999999"});
+            }
+        });
+    </script>
+</head>
+<body>
+<div style="width: 309px;margin: 0px auto;">
+<div id="w_3202">
+<!-------------------头部----------------->
+<div class="address-t" style="width: 309px;">
+    <div class="address-l"><a href="javascript:history.go(-1)">返回</a></div>
+    <div class="address-c2">
+        <a href="javascript:;" onclick="update3('{$cate_id}','{$keyWord}','{$region_id}','{$dis}','{$order}','{$rgid}');" style="color: #fff;">
+            {$ct}{$category.cate_name}{$keyWord}<img src="{$site_url}/weixin/templates/images/jiantou.png">
+        </a>
+    </div>
+    <div class="address-r1">
+        <!--{if $dis == 1 || $dis == ""}-->
+            <a href="javascript:update1('{$cate_id}','{$keyWord}','{$order}','{$dis}','{$rgid}');">筛选</a>
+        <!--{else}-->
+            <a href="javascript:update2('{$cate_id}','{$keyWord}','{$region_id}','{$dis}','{$rgid}');">筛选</a>
+        <!--{/if}-->
+    </div>
+</div>
+<!-------------------区域-内容区------------------>
+<div class="cate-bg" style="padding-top: 20px;">
+    <div class="cate1">
+        <a href="index.php?app=bdsh&act=goodsList&page={$page}&cate_id={$cate_id}&dis=1&keyWord={$keyWord}&region_id={$region_id}&order={$order}&rgid={$rgid}">
+            <div class="cate11">
+                <!--{if $region.region_name == ""}-->
+                    全部区域
+                <!--{else}-->
+                    {$region.region_name}
+                <!--{/if}-->
+            </div>
+        </a>
+        <a href="index.php?app=bdsh&act=goodsList&page={$page}&cate_id={$cate_id}&dis=2&keyWord={$keyWord}&region_id={$region_id}&order={$order}&rgid={$rgid}">
+            <div class="cate22">
+                <!--{if $order == "price"}-->
+                    按价格排序
+                <!--{elseif $order == "hot"}-->
+                    按人气排序
+                <!--{else}-->
+                    默认排序
+                <!--{/if}-->
+            </div>
+        </a>
+    </div>
+    <div class="cate2">
+        <!--{foreach from=$goods item=good name=good}-->
+            <a href="{$site_url}/weixin/goods/0/{$good.goods_id}{if $member && $member.user_id > 0}/{$member.user_id}{/if}">
+
+            <!--{if $smarty.foreach.good.index == $count1}-->
+                <div class="cate-c1" style="margin-bottom: 0px;">
+            <!--{else}-->
+                <div class="cate-c1">
+            <!--{/if}-->
+                <dl>
+                    <dt><img src="{$img_url}/{$good.default_image}" width="100" height="100" /></dt>
+                    <dd>
+                        <h3 style="height: 34px;overflow: hidden">{$good.goods_name}</h3>
+                        <h4>￥{$good.price}</h4>
+                        <p style="height: 30px;overflow: hidden">{$good.address}</p>
+                        <!--<p>距离：1000米</p>-->
+                    </dd>
+                </dl>
+            </div>
+            </a>
+        <!--{/foreach}-->
+    </div>
+
+    <div class="ddi">
+        <div class="left" style="width: 235px; padding-left: 75px;">
+            <a href="index.php?app=bdsh&act=goodsList&page={$page}&cate_id={$cate_id}&flag=2&keyWord={$keyWord}&region_id={$region_id}&order={$order}&dis={$dis}&rgid={$rgid}" class="a1" style="margin-right: 20px;"></a>
+            <a style="float: left; height: 26px; line-height: 26px; font-family: tahoma; font-size: 14px; margin-right: 20px;">{$page}/{$totalPage}</a>
+            <a href="index.php?app=bdsh&act=goodsList&page={$page}&cate_id={$cate_id}&flag=1&keyWord={$keyWord}&region_id={$region_id}&order={$order}&dis={$dis}&rgid={$rgid}" class="a2"></a>
+        </div>
+    </div>
+
+</div>
+    {include file=member.index_footer.html}
+
+</div>
+</div>
+
+<script>
+
+    function update1(cate_id,keyWord,order,dis,rgid){
+        var uri =encodeURI("index.php?app=bdsh&act=region&cate_id=" + cate_id + "&keyWord=" + keyWord + "&order=" + order + "&dis=" + dis + "&rgid=" + rgid);
+        var id = 'bdsh_region';
+        var title = "选择地区";
+        var width = '308';
+        ajax_form(id, title, uri, width);
+    }
+
+    function update2(cate_id,keyWord,region_id,dis,rgid){
+        var uri =encodeURI("index.php?app=bdsh&act=order&cate_id=" + cate_id + "&keyWord=" + keyWord + "&region_id=" + region_id + "&dis=" + dis + "&rgid=" + rgid);
+        var id = 'bdsh_region';
+        var title = "选择排序方式";
+        var width = '308';
+        ajax_form(id, title, uri, width);
+    }
+
+    function update3(cate_id,keyWord,region_id,dis,order,rgid){
+        var uri =encodeURI("index.php?app=bdsh&act=cate&cate_id=" + cate_id + "&keyWord=" + keyWord + "&region_id=" + region_id + "&dis=" + dis + "&order=" + order + "&rgid=" + rgid);
+        var id = 'bdsh_region';
+        var title = "选择排序方式";
+        var width = '308';
+        ajax_form(id, title, uri, width);
+    }
+
+
+</script>
+</body>
+</html>

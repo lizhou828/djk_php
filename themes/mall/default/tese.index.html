@@ -1,0 +1,192 @@
+{include file=header.html}
+<link href="{res file=css/chaoshi.css}" rel="stylesheet" type="text/css">
+<link href="{res file=css/index.css}" rel="stylesheet" type="text/css">
+<div id="center_w1200" style="width: 100%;" >
+    <!--全部内容-->
+    {include file=common_search.html}
+<script>
+//    $(document).ready(function(){
+//        $("#list").hide();
+//        $("#button_show").click(function(){
+//            $("#list").toggle();
+//        });
+//        $("#button_close").click(function(){
+//            $("#list").hide();
+//        });
+//        $('.group-list').children('ul').children('li').bind('mouseenter',function(){
+//            $('.group-list').children('ul').children('li').attr('class','c1');
+//            $(this).attr('class','c2');
+//        });
+//        $('.group-list').children('ul').children('li').bind('mouseleave',function(){
+//            $('.group-list').children('ul').children('li').attr('class','c1');
+//        });
+//        var area = $("#tese_area").val();
+//        if(area == null || area =="") {
+//            $("#show_area_name").html("全国");
+//            $("#tese_area").val('');
+//        }
+//        else {
+//            $("#show_area_name").html(area);
+//            $("#tese_area").val(area);
+//        }
+//    });
+//    function submit_search() {
+//        $('#search_form').attr('method','get');
+//        $('#search_form').submit();
+//    }
+//    function set_tese_area(area) {
+//        alert('aa');
+//        if(area == '') {
+//            $("#tese_area").val('');
+//        }
+//        else {
+//            $("#tese_area").val(area);
+//        }
+//        submit_search();
+//    }
+</script>
+
+<form id="search_form">
+    <input name="app" type="hidden" value="tese">
+    <input name="pd_id" type="hidden" value="5">
+    <input id="tese_area" name="tese_area" type="hidden" value="{$gcategory.cate_name}"/>
+    <input id="tese_class" name="tese_class" type="hidden" value=""/>
+    <input id="tese_reg_id" name="tese_reg_id" type="hidden" value="{$filter.tese_reg_id}"/>
+</form>
+<div id="navBarts" class="mb10">
+    <div class="content">
+        <div id="all-categoryts">
+            <div class="title">
+                <h2 title="商品全部分类"><a href="{r_url app=category}">商品全部分类</a></h2>
+                <i></i></div>
+            <div id="category" class="category pngFix" style="background: #F8F8F8">
+                <ul class="menu">
+                    <!--{foreach from=$gcategorys_left item=gcategory name=gcategory}-->
+                    <!-- {if $smarty.foreach.gcategory.index<7 }-->
+                    <!-- {if !empty($gcategory) }-->
+                    <li id="cat_{$smarty.foreach.gcategory.index}">
+                        <h3><span class="block"><a href="{r_url app=search&cate_id=$gcategory.id}" title="{$gcategory.value|escape}">{$gcategory.value|escape}</a>   </span>
+                         <span>
+                                <a href="{r_url app=search&cate_id=$gcategory.children[0].id}">{$gcategory.children[0].value}</a>
+                                <a href="{r_url app=search&cate_id=$gcategory.children[1].id}">{$gcategory.children[1].value}</a>
+                               <a href="{r_url app=search&cate_id=$gcategory.children[2].id}">{$gcategory.children[2].value}</a>
+                         </span>
+                        </h3>
+                        <div class="cat-menu" id="cat_{$smarty.foreach.gcategory.index}_menu">
+                            <dl>
+                                <dt> {$gcategory.value|escape} </dt>
+                                <dd><!--{foreach from=$gcategory.children item=child}--><a href="{r_url app=search&cate_id=$child.id}">{$child.value|escape}</a> <!--{/foreach}--> </dd>
+                            </dl>
+
+                        </div>
+                    </li>
+                    <!--{/if}-->
+                    <!--{/if}-->
+                    <!--{/foreach}-->
+
+                    <div class="clear"></div>
+                </ul>
+            </div>
+
+        </div>
+        <ul class="nc-nav-menu">
+            <li <!--{if $smarty.get.act =='get_techan_goods' }--> class="current"<!--{else}--> class="link"<!--{/if}-->><a href="{r_url app=tese&act=get_techan_goods&tese_cate_id=1613&pd_id=3}"><span>当地土特产</span></a></li>
+            <!--<li class="link"><a class="pngFix" href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=1614&pd_id=3}"><span class="pngFix">蔬果菜市</span></a></li>-->
+            <li class="link"><a href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=1615&pd_id=3}"><span>营养健康</span></a></li>
+            <li class="link"><a href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=1616&pd_id=3}"><span>有机食品</span></a></li>
+            <li class="link"><a href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=1617&pd_id=3}"><span>休闲食品</span></a></li>
+            <!--<li class="link"><a href="{r_url app=tese&act=get_goods_qianggou}"><span>限时抢购</span></a></li>-->
+            <!--<li class="link"><a href="{url app=service&act=register_service}" target='_blank'><span>抢注服务中心</span></a><em class="em1"></em></li>-->
+        </ul>
+    </div>
+</div>
+
+<!--<div id="headRelative">-->
+    <!--<div class="title">-->
+        <!--<h1></h1>-->
+        <!--<div class="city"> <a href="javascript:void(0)" id="button_show">-->
+            <!--<h2 id="show_area_name">切换</h2>-->
+        <!--</a> </div>-->
+    <!--</div>-->
+    <!--<div id="list" class="list" style="display:none;"><a id="button_close" class="close" href="javascript:void(0)" >x</a>-->
+        <!--<ul>-->
+            <!--<li><a href="javascript:void(0)" onClick="set_tese_area('')" >全国</a></li>-->
+            <!--&lt;!&ndash;{foreach from=$region item=reg key=key}&ndash;&gt;-->
+            <!--<li><a href="javascript:void(0)" onClick="set_tese_area('{$reg}')" >{$reg}</a></li>-->
+            <!--&lt;!&ndash;{/foreach}&ndash;&gt;-->
+        <!--</ul>-->
+    <!--</div>-->
+<!--</div>-->
+<!--超市内容1-->
+<div class="tese1_1">
+    <div class="left" style="height: 285px;">
+        <ul class="lul" style="height: 285px;">
+            <!--{foreach from=$tese_category item=item name=gc}-->
+            <!--{if $smarty.foreach.gc.index<5 && $item.id !=1613 }-->
+            <li>
+                <span class="span1">{$item.value}</span>
+                <span class="span2">
+                    <a href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=$item.id&tese_subcateid=$item.children[0].id&pd_id=3}">{$item.children[0].value}</a>
+                    <a href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=$item.id&tese_subcateid=$item.children[1].id&pd_id=3}">{$item.children[1].value}</a>
+                    <a href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=$item.id&tese_subcateid=$item.children[2].id&pd_id=3}">{$item.children[2].value}</a>
+                </span>
+                <div class="fl cat-menu" id="cat_7_menu" style="width: 500px;">
+                    <dl>
+                        <dt><a href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=$item.id&pd_id=3}">{$item.value}</a></dt>
+                        <dd>
+                            <!--{foreach from=$item.children  item=category}--><a href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=$item.id&tese_subcateid=$category.id&pd_id=3}">{$category.value}</a><!--{/foreach}-->
+                        </dd>
+                    </dl>
+                </div>
+            </li>
+            <!--{/if}-->
+            <!--{/foreach}-->
+        </ul>
+        <div class="clear"></div>
+        <div class="ad"><img src="{res file=images/45.jpg}" width="213" height="103"></div>
+    </div>
+    <div class="right"><img src="{res file=images/tese_banner.jpg}"></div>
+</div>
+        <div class="clear"></div>
+<!--当季热销-->
+    <!--{if $hot_goods }-->
+<div class="tese_1">
+    <h3>当季热销</h3>
+    <div class="wrap">
+        <ul class="wrap_ul">
+            <!--{foreach from=$hot_goods item=goods}-->
+            <li>
+                <a href="{r_url app=goods&id=$goods.goods_id&pd_id=3}" class="puimg" target="_blank" title="{$goods.goods_name}"><img src="{img_url $img_url/$goods.default_image/160X160}" onload="javascript:DrawImage(this,120,120);" width="120" height="120"></a>
+                <div class="info">
+                    <a href="{r_url app=goods&id=$goods.goods_id&pd_id=3}" target="_blank" class="title" title="{$goods.goods_name}">{$goods.goods_name|escape}</a>
+                    <p>&nbsp;{$goods.price|price}</p>
+                    <p class="sell">最近销量:<strong>{$goods.sales}</strong>件</p>
+                    <!--<p class="spu"><span>补肝肾</span><br/><span>益精血</span></p>-->
+                </div>
+            </li>
+            <!--{/foreach}-->
+        </ul>
+    </div>
+</div>
+        <!--{/if}-->
+<!--楼层1-->
+
+<!--{foreach from=$goods_list item=goods key=k}-->
+<div class="tese_2">
+   <h3 class="ts-title">{$k}</h3>
+    <div class="bd-con">
+        <!--{foreach from=$goods item=gd}-->
+        <div class="city">
+            <a href="{r_url app=goods&id=$gd.goods_id&pd_id=3}" target="_blank" title="{$gd.goods_name}"><img src="{img_url $img_url/$gd.default_image/160X160}" width="170" height="170"></a>
+            <a href="{r_url app=goods&id=$gd.goods_id&pd_id=3}" class="title" target="_blank" title="{$gd.goods_name}">{$gd.goods_name}</a>
+            <p class="desc">{$gd.price|price}</p>
+            <!--<p class="buyer">最近<em class="num">{$goods.sales}</em>人购买</p>-->
+        </div>
+        <!--{/foreach}-->
+    </div>
+</div>
+<div class="clear"></div>
+   <!--{/foreach}-->
+
+
+{include file=footer.html}

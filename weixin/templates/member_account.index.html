@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>结算中心</title>
+    <link href="{$site_url}/weixin/templates/style/address.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{$SITE_URL}/weixin/templates/js/jquery-1.6.2.min.js"></script>
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+</head>
+<body>
+<div style="width: 320px;margin: 0px auto;">
+    <div style="padding-top: 50px;">
+<div class="address-t">
+    <div class="address-l"><a href="javascript:history.go(-1)">返回</a></div>
+    <div class="address-c">结算中心</div>
+    <div class="address-r"><a href="{$site_url}/weixin/index.php?app=member">会员中心</a></div>
+</div>
+<div class="address-cen">
+    {if !$user.bank}
+        <div class="clearing1">
+            {if $user.member_type==01 && $user.store}
+                您还未绑定银行卡，请先绑定银行卡，方便大集客与您进行资金结算
+            {else}
+                您还未绑定银行卡，请先绑定银行卡，方便提现与管理您的资产
+            {/if}
+    </div>
+    {/if}
+    {if $user.member_type==01 && $user.store}
+        <div class="clearing2">
+            <a href="{$site_url}/weixin/index.php?app=member_account&act=yye">
+            <p style=" color:#333;"><span>></span><strong>我的营业额</strong></p>
+            <p>{$user.yye}元，每日营业额明细</p>
+            </a>
+        </div>
+        <!--<div class="clearing2">-->
+            <!--<p style=" color:#333;"><span>></span><strong>结算明细 </strong></p>-->
+            <!--<p><a href="{$site_url}/weixin/index.php?app=member_account&act=jiesuan">每日结算详单</a></p>-->
+        <!--</div>-->
+    {/if}
+
+    <div class="clearing2">
+        <a href="{$site_url}/weixin/index.php?app=member_account&act=tixian_detail">
+        <p style=" color:#333;"><span>></span><strong>提现明细</strong></p>
+        <p>我的提现详单</p>
+        </a>
+    </div>
+
+    {if $user.member_type == 01}
+    <div class="clearing2">
+        <a href="{$site_url}/weixin/index.php?app=member_account&act=yue">
+        <p style=" color:#333;"><span>></span><strong>我的余额</strong></p>
+        <p>￥{$userFinance.unkoushui_yue|number2}元</p>
+        </a>
+    </div>
+    {/if}
+    <div class="clearing2">
+        <a href="{$site_url}/weixin/index.php?app=member_account&act=shouyi">
+        <p style=" color:#333;"><span>></span><strong>我的收益</strong></p>
+        <p>
+            {if !$userFinance.koushui_yue}
+                ￥0元
+            {else}
+                ￥{$userFinance.koushui_yue|number2}元
+            {/if}
+
+        </p>
+        </a>
+    </div>
+
+</div>
+</div>
+</div>
+{include file=cnzz.html}
+</body>
+</html>

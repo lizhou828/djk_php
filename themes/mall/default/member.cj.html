@@ -1,0 +1,433 @@
+<!doctype html>
+<html>
+<head>
+    <base href="{$site_url}/" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7 charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    {$page_seo}
+
+    <style type="text/css">
+        body {
+            _behavior: url({$site_url}/themes/mall/default/styles/default/csshover.htc);
+        }</style>
+    <script type="text/javascript">
+        //<!CDATA[
+        var SITE_URL = "{$site_url}";
+        var REAL_SITE_URL = "{$real_site_url}";
+        var PRICE_FORMAT = '{$price_format}';
+        //]]>
+    </script>
+    <script type="text/javascript" src="index.php?act=jslang"></script>
+    <link href="{res file=css/index.css}" rel="stylesheet" type="text/css">
+    <link href="{res file=css/djk.css}" rel="stylesheet" type="text/css">
+    <link href="{res file=css/base.css}" rel="stylesheet" type="text/css">
+    <link href="{res file=css/dialog.css}" rel="stylesheet" type="text/css">
+    <link href="{res file=css/layout.css}" rel="stylesheet" type="text/css">
+    <link href="{res file=css/dialog.css}" rel="stylesheet" type="text/css">
+    <link href="{res file=css/user.css}" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        #all-category .category { display: block !important;}
+        #all-category .title i { display: none!important;}
+    </style>
+    <!--[if IE]>
+    <script src="{res file=js/html5.js}"></script>
+    <![endif]-->
+    <!--[if IE 6]>
+    <script src="{res file=js/IE6_PNG.js}"></script>
+    <script>
+        DD_belatedPNG.fix('.pngFix');
+    </script>
+
+    <script>
+        // <![CDATA[
+if((window.navigator.appName.toUpperCase().indexOf("MICROSOFT")>=0)&&(document.execCommand))
+try{
+document.execCommand("BackgroundImageCache", false, true);
+   }
+catch(e){}
+// ]]>
+</script>
+<![endif]-->
+    <script>
+        COOKIE_PRE = '7210_';_CHARSET = 'utf-8';SITEURL = '{$site_url}';
+    </script>
+    <script type="text/javascript" src="{res file=js/jquery.js}" charset="utf-8"></script>
+  
+
+    <script type="text/javascript"  src="{res file=js/min.js}" charset="utf-8"></script>
+    <script type="text/javascript" src="{res file=js/accordion.js}" charset="utf-8"></script>
+    <script type="text/javascript" src="{res file=js/tonjay.js}"  charset="utf-8"></script>
+    <script type="text/javascript"  src="{res file=js/swfobject_modified.js}" charset="utf-8"></script>
+    <script type="text/javascript"  src="{res file=js/mini.js}" charset="utf-8"></script>
+    <!--<script type="text/javascript" src="{res file=js/index.js}" charset="utf-8"></script>-->
+    <script type="text/javascript" src="{res file=js/poshytip.js}" charset="utf-8"></script>
+    <!-- 首页对联广告 -->
+
+    <script type="text/javascript" src="{lib file=jquery.js}" charset="utf-8"></script>
+    <script type="text/javascript" src="{lib file=jike.js}" charset="utf-8"></script>
+    <script type="text/javascript" src="{$site_url}/dajike-account/choujiang/share.js" charset="utf-8"></script>
+
+
+    <script>
+        function show_fenxiang() {
+            var _d = DialogManager.create('fenxiang');
+            _d.setContents("微博");
+            _d.setStyle('add_spec');
+            _d.setTitle('分享');
+            _d.setStyle({'padding' : '0'});
+            _d.setWidth(300);
+            _d.show('center');
+        }
+    </script>
+
+
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/dialog/dialog.js" id="dialog_js"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js" ></script>
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+
+<script type="text/javascript" src="{$site_url}/includes/libraries/javascript/ZeroClipboard.js" charset="utf-8"></script>
+<script type="text/javascript" src="{res file=js/jquery.showLoading.js}" charset="utf-8"></script>
+<link href="{res file=css/showLoading.css}" rel="stylesheet" type="text/css">
+    
+{$_head_tags}
+
+</head>
+<body style="background:#fff9db;">
+
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div id="page">
+    <div id="topNav" class="warp-all">
+        <dl class="user-entry">
+            <dt> {$visitor.nick_name|escape}&nbsp;&nbsp;{$lang.hello}<span><a href="index.php" title="{$lang.index}" alt="{$lang.index}">{$lang.index_title}</a></span></dt>
+            <!--{if !$visitor.user_id}-->
+            <dd>[<a href="{url app=member&act=login&ret_url=$ret_url}">{$lang.login}</a>]</dd>
+            <dd>[<a href="{url app=member&act=register&ret_url=$ret_url}">{$lang.register}</a>]</dd>
+            <!--{else}-->
+            [<a href="{url app=member&act=logout}">{$lang.logout}</a>]
+            <!--{/if}-->
+        </dl>
+        <ul class="quick-menu">
+            <li>
+                <!--{if $member.user_id >0 && $member.spreader_type ==1 && $member.shop_name !=null }-->
+                {if  strstr($site_url,'www')}
+                <a href="http://www.{$member.user_id}.dajike.com">
+                    {else}
+                    <a href="{$site_url}/index.php?app=jkxd_portal&act=my_jkxd&id={$member.user_id}">
+                        {/if}
+                        <!--{else}-->
+                        <a href="index.php?app=jkxd_portal">
+                            <!--{/if}-->
+                            我的集客小店</a>
+            </li>
+            <li><a href="{url app=member&act=home}" target="_blank">会员中心</a></li>
+            <li><a href="{url app=apply&step=2&id=2}" id="shangjiaruizhu" target="_blank">商家入驻</a></li>
+            <li><a href="index.php?app=pos">POS机刷卡入口</a></li>
+            <li><span></span><a href="javascript:void(0);" onmousedown="www_zzjs_net(this,'http://www.dajike.com','大集客');">收藏大集客</a></li>
+        </ul>
+    </div>
+</div>
+
+
+<link href="{res file=css/choujiang.css}" rel="stylesheet" type="text/css">
+
+
+
+
+<div class="chj_1200">
+    <div class="chj_1000">
+        <div class="fl1">
+
+			<!--{if !$user}-->
+            <div class="f_bg">
+            	<form id="login_form" name="login_form" method="post" action="index.php?app=member&act=login">
+                <input type="hidden" name="ret_url" value="{$ret_url}" />  
+                <h3 class="title_h3">用户登录</h3>
+                <ul class="ceul">
+                    <li>用户名：<input autocomplete="off"  name="user_name" id="user_name" type="text" class="inp">                  
+                    </li>
+                    <li>密&nbsp;&nbsp;码：<input name="password" autocomplete="off"  id="password" type="password" class="inp">                  
+                    </li>
+                    <li><input name="sbt" id="sbt" type="button" onClick="checkForm(this.form)"  class="span1" value="登 录"/><span class="span2"><a href="index.php?app=find_password">忘记密码？</a></span></li>
+                </ul>
+                </form>
+            </div>
+            <!--{else}-->
+            <div class="f_bg2">
+                <h3 class="title_h3">登录成功</h3>
+                <div class="ceul">用户名：<span class="span1">{$visitor.nick_name|escape}</span></div>
+                <div class="con1">
+                    <ul>
+                        <li style="display: none">剩余抽奖次数：<span id="choujiangCount2">{$user.choujiangCount2}</span> 次</li>
+                        <li>您的可用抽奖权有：<span id="choujiangquanCount">{$count3}</span> 个</li>
+                        <li>积分：<span id="jifen">{$user.jifen}</span> 分</li>
+                        <li>今日已抽奖次数：<span id="choujiangCount1">{$user.choujiangCount1}</span> 次</li>
+                        <li>总收益：<span id="yue">{$user.koushui_yue|number2}</span> 元</li>
+                    </ul>
+                </div>
+            </div>
+
+            <script>
+                /*jQuery('.f_bg2').showLoading({'addClass': 'loading-indicator-bars'});
+                jQuery.post("index.php?app=member&act=get_user_api","",function(data){
+                    var rs =  data;
+                    if(rs.code!=200){
+                        alert("服务器繁忙，获取用户信息失败");
+                    } else{
+                        jQuery("#yue").html(rs.koushui_yue.toFixed(2));
+                        jQuery("#jifen").html(rs.jifen);
+                    }
+                    jQuery('.f_bg2').hideLoading();
+                },"json")*/
+
+                function updateUserInfo(data){
+                    jQuery("#yue").html(data.yue.toFixed(2));
+                    jQuery("#jifen").html(data.jifen);
+                    jQuery("#choujiangCount1").html(data.choujiangCount1.toFixed(2));
+                    jQuery("#choujiangCount2").html(data.choujiangCount2.toFixed(2));
+                    jQuery("#choujiangquanCount").html(data.choujiangquanCount);
+                }
+
+            </script>
+			<!--{/if}-->
+
+
+        </div>
+        <div class="fl2">
+            <h3 class="title_h3">您的专属链接：</h3>
+            <div class="con">
+            <input name="t_url" id="t_url" type="text"  value="<!--{if $tuiguangURL}-->{$site_url}{$tuiguangURL}<!--{/if}-->" class="inp">
+            <div <!--{if $user}-->id="d_clip_button" name="d_clip_button"<!--{else}-->onclick="alert('您还没有登入，请先登入！')"<!--{/if}--> style="display:inline;">
+            <button style="background-color:#E1478b; width:70px; border:0; color:#FFFFFF; height:28px">点击复制</button>
+            </div>
+            <div <!--{if $user}-->id="bdshare" name="d_clip_button"<!--{else}-->onclick="alert('您还没有登入，请先登入！')"<!--{/if}--> class="bdshare_t bds_tools get-codes-bdshare" data="{'url':'{$site_url}{$tuiguangURL}'}" style="float: right; *margin-top: -25px;">
+                <span class="bds_more">分享到</span>
+                <!--<a class="bds_tqq">腾讯微博</a>-->
+                <!--<a class="bds_qzone">QQ空间</a>-->
+                <!--<a class="bds_sqq">QQ好友</a>-->
+                <!--<a class="bds_tsina">新浪微博</a>-->
+                <!--<a class="shareCount"></a>-->
+            </div>
+             <!--<div &lt;!&ndash;{if $user}&ndash;&gt;id="d_clip_button2" name="d_clip_button2"&lt;!&ndash;{else}&ndash;&gt;onclick="alert('您还没有登入，请先登入！')"&lt;!&ndash;{/if}&ndash;&gt; style="display:inline;"  ectype="fenxiang"><a href="javascript:show_fenxiang()" style="width: 70;color: #ffffff">一键分享</a></div>-->
+            </div>
+
+            <div class="bot"></div>
+        </div>
+        <div class="fl3">
+            <h3 class="title_h3"></h3>
+            <div class="font">  1. 公司每天拿出前一天营业额的1%~10%的奖金放入奖池；<br/>
+                                2. 确认收货后累计消费额满500元即可获得一个抽奖权；当日确认收货所获得的抽奖权，次日才能参与抽奖；<br/>
+                                3. 每个抽奖权每天只能参加一次抽奖，每个抽奖权暂定有100次的抽奖机会；（公司根据盈利情况可能会随时调整抽奖次数，已获得的抽奖次数不受调整影响）<br/>
+                                4. 每个抽奖权可以任意参加“现金奖池”或“积分奖池”的抽奖活动；获得的现金奖励，可以继续消费也可以申请提现；<br/>
+                                5. 未参加当日抽奖的抽奖权，系统会在18:00自动将奖池中剩余的奖金，用积分的形式平均分配到有抽奖权的虚拟账户；<br/>
+                                6. 中奖金额累计达到300元含积分（40积分=1元）或抽奖次数用完即除抽奖权；<br/>
+                                7. 每日抽奖时间段 10:00 - 16:00；<br/>
+                                </div>
+        </div>
+        <div class="fl4"></div>
+    </div>
+</div>
+
+<div class="clear"></div>
+<!--下部分-->
+<div class="chj_bg">
+    <div class="f1">
+        <div class="zleft">
+            
+            
+            <div class="zleft1" id="choujiang_div1">
+        <embed src="{$sendToFlexURL}/big.swf" FlashVars="{$ref}" quality="high" style="width:666px;height:676px;" NAME="FlashMovie" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" swLiveConnect="true" pluginspage="http://www.macromedia.com/go/getflashplayer" />
+
+               <!-- <iframe src="{$TO_CHOUJIANG_URL2}/big.action" style="width:666px;height:676px; border: 0"></iframe>-->
+            </div>
+            
+            
+            <div class="zleft2"></div>
+        </div>
+        <div class="zright">
+            <h3 class="title_h3">奖项说明</h3>
+            <div class="font1">
+                <span>一等奖：<strong>300</strong>元</span>
+                <span>二等奖：<strong>100</strong>元</span>
+                <span>三等奖：<strong>50</strong>元</span>
+                <span>四等奖：<strong>10</strong>元</span>
+                <span>五等奖：<strong>5</strong>元</span>
+            </div>
+            <h3 class="title_h3">中奖名单</h3>
+            <div class="font2">
+                <ul>
+                    <!--{if $dajiang}-->
+                    <!--{foreach from=$dajiang item=dajiang_v name=dajiang_idx}-->
+                    <li <!--{if $smarty.foreach.dajiang_idx.last}-->style="border-bottom:none"<!--{/if}--> ><em>{$dajiang_v.choujiang_date}</em><span>{$dajiang_v.user_name}</span>获得{$dajiang_v.jine|number2}元</li>
+                    <!--{/foreach}-->
+                    <!--{/if}-->
+
+                </ul>
+            </div>
+            <div class="hua"></div>
+        </div>
+    </div>
+    <div class="f2"></div>
+    <div class="f3">
+        <div class="zleft">
+            <h3 class="title_h3"></h3>
+            <div class="kbg">
+                <h3 class="th3">积分介绍</h3>
+                   <div class="font1">1、积分奖池百分之百中奖率；<br>2、积分可以到网站的积分中心换购指定的商品；<br>
+3、积分可以享受“积分+现金”的优惠活动；<br>4、积分不能兑换现金，不能提现；<br>5、每天的积分奖金额度随公司营业额不同而变化<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请随时关注；</div>
+                <h3 class="th3">今日积分奖金</h3>
+                <div class="font2">
+                    <!--{if $jiangpin2}-->
+                    <!--{foreach from=$jiangpin2 item=jiangpin name=jiangpin_idx }-->
+                    <span><!--{if $jiangpin.jibie eq 11}-->一
+                           <!--{elseif $jiangpin.jibie eq 12}-->二
+                           <!--{elseif $jiangpin.jibie eq 13}-->三
+                           <!--{elseif $jiangpin.jibie eq 14}-->四
+                           <!--{elseif $jiangpin.jibie eq 15}-->五
+                           <!--{elseif $jiangpin.jibie eq 16}-->六
+                           <!--{else}-->
+                           <!--{/if}-->等奖：<strong>{$jiangpin.jifen|number0}</strong> 积分</span>
+                    <!--{/foreach}-->
+                    <!--{/if}-->
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="zright" id="choujiang_div2">
+        <embed src="{$sendToFlexURL}/small.swf" FlashVars="{$ref}" quality="high" width="450px" height="450px" NAME="FlashMovie" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" swLiveConnect="true" pluginspage="http://www.macromedia.com/go/getflashplayer" />
+
+            <!--<iframe src="{$TO_CHOUJIANG_URL2}/small.action" style="width:450px;height:450px; border: 0"></iframe>-->
+        </div>
+        
+        
+    </div>
+</div>
+<div class="chj_di"></div>
+
+<div class="chj_bottom">
+    <div class="x1200">
+        <div class="top">
+
+            <ul>
+            <!--{if $xiaojiang}-->
+            <!--{foreach from=$xiaojiang item=xiaojiang_v name=xiaojiang_idx1 }-->
+            <!--{if $smarty.foreach.xiaojiang_idx1.index<5}-->
+            <li><span>{$xiaojiang_v.user_name}</span>获得{$xiaojiang_v.jine|number0}积分 {$xiaojiang_v.choujiang_date}</li>
+            <!--{/if}-->
+            <!--{/foreach}-->
+            <!--{/if}-->
+            </ul>
+
+            <ul>
+                <!--{if $xiaojiang}-->
+                <!--{foreach from=$xiaojiang item=xiaojiang_v name=xiaojiang_idx2 }-->
+                <!--{if $smarty.foreach.xiaojiang_idx2.index>=5}-->
+                <li><span>{$xiaojiang_v.user_name}</span>获得{$xiaojiang_v.jine|number0}积分 {$xiaojiang_v.choujiang_date}</li>
+                <!--{/if}-->
+                <!--{/foreach}-->
+                <!--{/if}-->
+            </ul>
+        </div>        
+    </div>
+</div>
+
+
+<script language="javascript">
+
+    <!--{if $user}-->
+    var clip = null;
+    function $(id) {return document.getElementById(id);}
+    window.onload=function(){init();}
+    function init() {
+        clip = new ZeroClipboard.Client();
+        clip.setHandCursor( true );
+        clip.addEventListener('load', my_load);
+        clip.addEventListener('mouseOver', my_mouse_over);
+        clip.addEventListener('complete', my_complete);
+        clip.glue( 'd_clip_button' );
+    }
+
+    function my_load(client) {
+        debugstr("Flash movie loaded and ready.");
+    }
+
+    function my_mouse_over(client) {
+         clip.setText( $('t_url').value );
+    }
+
+    function my_complete(client, text) {
+
+        alert("复制成功!\n"+text);
+    }
+
+    function debugstr(msg) {
+
+    }
+    <!--{/if}-->
+	
+	function checkForm(obj){
+	 				var user_name=document.getElementById("user_name").value;
+					var password=document.getElementById("password").value;
+					if(user_name=="" || password==""){
+						alert("用户名或密码不能为空！");
+					}else{
+						obj.submit();
+					}
+	}
+
+
+        var iFlash = null;
+        var version = null;
+        var isIE = navigator.userAgent.toLowerCase().indexOf("msie") != -1;
+        if(isIE){
+            //for IE
+
+            if (window.ActiveXObject) {
+                var control = null;
+                try {
+                    control = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+                } catch (e) {
+                    iFlash = false;
+                }
+                if (control) {
+                    iFlash = true;
+                    version = control.GetVariable('$version').substring(4);
+                    version = version.split(',');
+                    version = parseFloat(version[0] + '.' + version[1]);
+                }
+            }
+        }else{
+            //for other
+            if (navigator.plugins) {
+                for (var i=0; i < navigator.plugins.length; i++) {
+                    if (navigator.plugins[i].name.toLowerCase().indexOf("shockwave flash") >= 0) {
+                        iFlash = true;
+                        version = navigator.plugins[i].description.substring(navigator.plugins[i].description.toLowerCase().lastIndexOf("Flash ") + 6, navigator.plugins[i].description.length);
+                    }
+                }
+            }
+        }
+        if(iFlash){
+            //alert(version);
+        }else{
+           $("#choujiang_div1,#choujiang_div2").html("" +
+                   "<br><br><br><br><br><br><br><br><p><a href='http://get2.adobe.com/cn/flashplayer/' target='_blank'><font color='red'>您当前的网页浏览器没有安装flash play，无法参与抽奖，请点击安装以后刷新页面重试！</font></a></p>");
+        }
+
+</script>
+<!-- Baidu Button BEGIN -->
+
+<script type="text/javascript" id="bdshare_js" data="type=tools"  ></script>
+<script type="text/javascript" id="bdshell_js"></script>
+
+<script type="text/javascript">
+//    var bds_config={"snsKey":{'tsina':'{$site_url}{$tuiguangURL}','tqq':'{$site_url}{$tuiguangURL}','t163':'{$site_url}{$tuiguangURL}','tsohu':'{$site_url}{$tuiguangURL}'}}
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000);
+</script>
+<!-- Baidu Button END -->
+
+
+{include file=footer1.html}
+

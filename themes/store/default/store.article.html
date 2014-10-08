@@ -1,0 +1,93 @@
+{include file=header.html}
+{include file=common.html}
+<link href="{res file=base.css}" rel="stylesheet" type="text/css">
+<link href="{res file=chaoshi.css}" rel="stylesheet" type="text/css">
+<link href="{res file=djk.css}" rel="stylesheet" type="text/css">
+<link href="{res file=shop.css}" rel="stylesheet" type="text/css">
+<link href="{res file=home_login.css}" rel="stylesheet" type="text/css">
+<link href="{res file=style.css}" rel="stylesheet" type="text/css">
+<link href="{res file=index.css}" rel="stylesheet" type="text/css">
+<link href="{res file=shop_2.css}" rel="stylesheet" type="text/css">
+<link href="{res file=home_tg.css}" rel="stylesheet" type="text/css">
+<div class="background clearfix">
+    <div class="ncsl-nav">
+        <div class="banner"><a href="{r_url app=store&id=$store.store_id}" class="img">
+            <div class="ncs-default-banner pngFix">
+                <!--{if $store.store_banner}-->
+                <img src="{$img_url}/{$store.store_banner}" width="1000" height="325" />
+                <!--{else}-->
+                <img src="{res file=images/default.jpg}" width="1000" height="325" />
+                <!--{/if}-->
+            </div>
+        </a></div>
+        <nav id="nav" class="pngFix">
+            <ul class="pngFix">
+                <li><a class="active" href="{r_url app=store&id=$store.store_id}"><span>{$lang.store_index}</span></a></li>
+                <!--<li><a class="active" href="{r_url app=store&act=groupbuy&id=$store.store_id}"><span>{$lang.nav_groupbuy}</span></a></li>-->
+                <li><a class="active" href="{r_url app=store&act=article&id=$store.store_id}"><span>店铺详情</span></a></li>
+                <li><a class="active" href="{r_url app=store&act=credit&id=$store.store_id}"><span>{$lang.credit_evaluation}</span></a></li>
+
+            </ul>
+
+        </nav>
+    </div>
+
+<article id="content">
+    <section class="layout expanded mt10" >
+        <article class="nc-goods-main">
+            <!--{if $store.description}-->
+            <div class="nc-s-c-s3 ncg-list mt10">
+                {$store.description|escape:editor}
+            </div>
+            <!--{else}-->
+            <div class="nc-s-c-s3 ncg-list mt10">
+                暂无记录
+            </div>
+           <!--{/if}-->
+        </article>
+        <aside class="nc-sidebar">
+            <!--店铺基本信息 S-->
+            <div>
+                <div class="ncs-info clearfix">
+                    <div class="shop-card">
+                        <h4>{$store.store_name|escape}</h4>
+                        <dl>
+                            <dt><a href="{url app=store&id=$store.store_id}"><img src="{$img_url}/{$store.store_logo}" class="size60"
+                                                                                  title="{$store.store_owner.user_name|escape}" alt="{$store.store_owner.user_name|escape}"/></a></dt>
+                            <dd><a href="" class="shopkeeper">{$store.store_owner.user_name|escape}</a> <a href="{url app=message&act=send&to_id=$store.store_owner.user_id|escape}"
+                                                                                                           class="message text-hidden" title="发站内信">发站内信</a></dd>
+                            <dd class="ncs-level">
+                                <span class="seller-crown level-5"></span>
+                            </dd>
+                            <dd><span>好评率：</span>{$store.praise_rate}%</dd>
+                        </dl>
+                    </div>
+
+                    <div class="shop-detail">
+                        <h4>店铺信息</h4>
+                        <!-- 店铺信息 -->
+                        <dl>
+                            <dt>{$lang.store_add_time}：</dt>
+                            <dd>{$store.add_time|date}</dd>
+                            <dt>{$lang.region}：</dt>
+                            <dd>{$store.region_name|escape}</dd>
+                            <dt>{$lang.goods_count}：</dt>
+                            <dd><strong>{$store.goods_count}</strong>件商品</dd>
+                            <dt>{$lang.credit_value}：</dt>
+                            <dd>{$store.credit_value}
+                            <dt>详细地址：</dt>
+                            <dd>{$store.address}&nbsp;</dd>
+                            <dt>联系电话：</dt>
+                            <dd>{$store.tel}</dd>
+
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+    </section>
+</article>
+</div>
+<div class="clear"></div>
+{include file=footer.html}

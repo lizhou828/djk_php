@@ -1,0 +1,115 @@
+{include file=member.header.html}
+
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js"></script>
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js"></script>
+<script type="text/javascript" src="{$site_url}/includes/libraries/javascript/mlselection.js" charset="utf-8"></script>
+<style>
+    .show_alert{
+        background-color: #F5F5F5;
+        border: 1px solid #D8D8D8;
+        margin-top: 20px;
+        margin-left: 2px;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        color: #919191;
+        line-height: 20px;
+        display: block;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+
+<div class="content">
+  {include file=member.menu.html}
+   <div id="right">
+       <ul class="tab">
+           <li class="active" ><a href="index.php?app=tuiguang&act=tuiguang_member&p=tuiguang">我推荐的商家</a></li>
+        </ul>
+
+       <div class="wrap">
+            <div class="public">
+
+
+				<!-- 中间部分 -->
+				<div class="public table" id="serviceTable" name="serviceTable">
+
+
+<!--列表 开始  -->
+<div>
+
+<div class="tdare">
+<table width="80%" cellspacing="0" class="dataTable">
+<!--列表 开始  -->
+<div>
+<div class="scarch_order" style="display: inline">
+<form method="get">
+    <div class="show_alert">
+          <input type="hidden" name="app" value="{$smarty.get.app}" />
+          <input type="hidden" name="act" value="{$smarty.get.act}" />
+          <font style="color: #666666;font-size: 14px;font-weight: bold; margin-left: 22px">我的集客小店号：{$visitor.user_id}</font>
+          <br><br>
+          <font style=' margin-left: 22px;color: #666666;'>推荐商家名称：</font>
+          <input class="queryInput" type="text" name="store_name" style="margin-left: 5px" value="{$smarty.get.store_name|escape}" />&nbsp;&nbsp;&nbsp;&nbsp;
+
+          <font style='color: #666666;'>推荐日期：</font>
+          <input class="text_normal width2" type="text" name="add_time_from" id="add_time_from" value="{$smarty.get.add_time_from|escape}" /> &#8211; 
+          <input class="text_normal width2" id="add_time_to" type="text" name="add_time_to" value="{$smarty.get.add_time_to|escape}" />&nbsp;&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="submit" class="btn" value="查询" />
+    </div>
+    </form>
+    </div>
+    <br><br>
+    <hr style=" border:1px solid #E9ECEF" />
+</div>
+
+<div class="tdare">
+  <table width="100%" cellspacing="0" class="dataTable">
+    <tr>
+     <td width="80" class="firstCell" style="padding-left: 20px;">店铺名</td>
+     <td width="60" class="firstCell">用户名</td>
+     <td width="60" class="firstCell">注册地</td>
+     <td width="50" class="firstCell">注册日期</td>
+    </tr>
+    <!--{foreach from=$stores item=store}-->
+    <tr class="tatr2">      
+      <td style="padding-left: 20px; cursor: pointer" title="{$store.store_id}">{$store.store_name|escape}</td>
+      <td>{$store.user_name|escape}</td>   
+      <td>{$store.region_name|escape}</td>
+      <td>{$store.add_time|date:complete}</td>
+    </tr>
+    <!--{foreachelse}-->
+    <tr class="no_data">
+      <td colspan="4" class="member_no_records">没有查询到数据</td>
+    </tr>
+    <!--{/foreach}-->
+  </table>
+  <!--{if $stores}-->
+  <div id="dataFuncs">
+    <div class="pageLinks">{include file=member.page.bottom.html}</div>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <!--{/if}-->
+</div>
+</div>
+</div>
+<div class="wrap_bottom"></div>
+</div>
+        <div class="clear"></div>
+        <div class="adorn_right1"></div>
+        <div class="adorn_right2"></div>
+        <div class="adorn_right3"></div>
+        <div class="adorn_right4"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<script>
+regionInit("region");
+$('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+$('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+
+</script>
+{include file=footer.html}

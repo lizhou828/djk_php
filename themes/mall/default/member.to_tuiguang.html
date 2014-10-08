@@ -1,0 +1,107 @@
+{include file=member.header.html}
+<script type="text/javascript" src="{res file=js/jquery.js}" charset="utf-8"></script>
+<style>
+    .borline td { padding:10px 0px; }
+    .ware_list th { text-align:left; }
+</style>
+<script type="text/javascript" src="{$site_url}/includes/libraries/javascript/ZeroClipboard.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var clip = null;
+    function $(id) { return document.getElementById(id); }
+    window.onload=function(){init();}
+    function init() {
+        clip = new ZeroClipboard.Client();
+        clip.setHandCursor( true );
+        clip.addEventListener('load', my_load);
+        clip.addEventListener('mouseOver', my_mouse_over);
+        clip.addEventListener('complete', my_complete);
+        clip.glue( 'd_clip_button' );
+    }
+
+    function my_load(client) {
+        debugstr("Flash movie loaded and ready.");
+    }
+
+    function my_mouse_over(client) {
+         clip.setText( $('t_url').value );
+    }
+
+    function my_complete(client, text) {
+
+        alert("复制成功!\n"+text);
+    }
+
+    function debugstr(msg) {
+
+    }
+    //下载二维码
+    function down_file(){
+       var obj = document.getElementById("erweima");
+       var url = SITE_URL+"/index.php?app=tuiguang&act=get_erweima";
+        alert(url);
+        alert(obj.src);
+       var parm = obj.src;
+
+    }
+</script>
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right">
+        {include file=member.submenu.html}
+        <div class="wrap">
+            <div class="public">
+                <form method="post" enctype="multipart/form-data" id="profile_form">
+                
+                	<center><div id="warning" name="warning" style="width:70%; margin-top: 100px; margin-bottom: 100px"></div></center>
+                
+                    <div class="information">
+                        <div><strong style="color: #666">方式一.通过链接推广</strong> <span style="color: #999;">(复制下面的链接通过qq，短信，邮箱，微博发送给对方成功注册即可终身享受推广提成)</span></div><br/><br>
+                        <input id="t_url" value="{$site_url}{$tuiguangURL}" class="text width11" style="width: 300px;" />
+                        <div id="d_clip_button" class="scarch_order" style="display: inline"><input class="btn" title="如果点击复制无效，请手动复制连接！" type="button" value="点击复制">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;或者直接
+                        </div>
+                        <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare" data="{'url':'{$site_url}{$tuiguangURL}'}" style="float: right;*margin-top: -25px;margin-right:25px">
+                            <span class="bds_more">分享到：</span>
+                            <a class="bds_qzone">QQ空间</a>
+                            <a class="bds_tsina">新浪微博</a>
+                            <a class="bds_tqq">腾讯微博</a>
+                        </div>
+                        <div style="color:#999999; margin-top: 10px">如果”点击复制“按钮无效，请手动复制！</div>
+                        <div><strong style="color: #666"><br><br>方式二.通过二维码推广</strong> <span style="color: #999; line-height: 22px;">(复制下面的二维码图片放在自己的空间，博客，或对方邮箱，用户用手机QQ或者微信扫描该二维码进入注册页面成功注册即可终身享受推广提成)</span></div><br/>
+                        <div style="margin-left: 260px;">
+                      <!--<script>-->
+                       <!--document.write("<img src=\"{$filename}\" width=\"220\" height=\"220\" /></img>");-->
+                        <!--</script>-->
+
+
+                        <img src = "{$site_url}/index.php?app=tuiguang&act=generateCode" width="220" height="220" />
+                        <br>
+                           <span style="margin-left: 65px;"><a href="index.php?app=tuiguang&act=down_img&code={$tuiguangURL}"  target="_blank">点击下载二维码</a></span>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="wrap_bottom"></div>
+        </div>
+
+        <div class="clear"></div>
+        <div class="adorn_right1"></div>
+        <div class="adorn_right2"></div>
+        <div class="adorn_right3"></div>
+        <div class="adorn_right4"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+{include file=footer.html}
+    <!-- Baidu Button BEGIN -->
+<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6765728" ></script>
+<script type="text/javascript" id="bdshell_js"></script>
+<script type="text/javascript">
+    var bds_config = {
+        'snsKey':{'tsina':'http://t.qq.com/'}		//'请参考自定义分享到平台的appkey'
+    }
+
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000);
+</script>
+<!-- Baidu Button END -->

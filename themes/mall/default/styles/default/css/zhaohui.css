@@ -1,0 +1,22 @@
+.zh_mm{ width:998px; border:1px solid #d1d1d1; margin:0px auto; padding-bottom:25px;}
+.zh_mm .title{ width:983px; height:32px; background:url(../images/zhmm/zh_mimabg.png) repeat-x; line-height:32px; font-weight:bold; padding-left:15px; color:#666; font-size:12px;}
+.zh_mm .sp1{ width:879px; height:25px; background:url(../images/zhmm/zh_mimapic1.png) no-repeat; margin-left:64px; margin-top:20px;}
+.zh_mm .sp2{ width:879px; height:25px; background:url(../images/zhmm/zh_mimapic1.png) no-repeat 0px -25px; margin-left:64px; margin-top:20px;}
+.zh_mm .sp3{ width:879px; height:25px; background:url(../images/zhmm/zh_mimapic1.png) no-repeat 0px -50px; margin-left:64px; margin-top:20px;}
+.zh_mm .sp4{ width:879px; height:25px; background:url(../images/zhmm/zh_mimapic1.png) no-repeat 0px -75px; margin-left:64px; margin-top:20px;}
+.zh_mm .sp1 span, .zh_mm .sp2 span,.zh_mm .sp3 span,.zh_mm .sp4 span{ float:left; font-weight:bold; text-align:center; line-height:25px;}
+.zh_mm .sp1 .span1,.zh_mm .sp2 .span1,.zh_mm .sp3 .span1,.zh_mm .sp4 .span1{ width:222px; color:#999; }
+.zh_mm .sp1 .span2,.zh_mm .sp2 .span2,.zh_mm .sp3 .span2,.zh_mm .sp4 .span2{ width:215px; color:#999; }
+.zh_mm .sp1 .span3,.zh_mm .sp2 .span3,.zh_mm .sp3 .span3,.zh_mm .sp4 .span3{ width:215px;  color:#999;}
+.zh_mm .sp1 .span4,.zh_mm .sp2 .span4,.zh_mm .sp3 .span4,.zh_mm .sp4 .span4{ width:220px; color:#999;}
+.zh_mm table{ margin-top:30px; color:#666; margin-left:95px;}
+.zh_mm table .c_d0281e{ color:#d0281e; font-weight:bold; font-family:Verdana, Geneva, sans-serif}
+.zh_mm table .ipt1{ width:241px; height:25px; border:1px solid #ddd; line-height:25px; padding-left:5px; color:#999}
+.zh_mm table .ipt2{ width:102px; height:25px; border:1px solid #ddd; line-height:25px; padding-left:5px;}
+.zh_mm table .ipt3{ width:202px; height:25px; border:1px solid #ddd; line-height:25px; padding-left:5px;}
+.zh_mm table .a1{ width:68px; height:25px; display:block; line-height:25px; text-align:center;background:url(../images/zhmm/zh_mimapic2.png) no-repeat; color:#666;}
+.zh_mm table .a2{ width:121px; height:25px; display:block; line-height:25px; text-align:center;background:url(../images/zhmm/zh_mimapic2.png) no-repeat 0 -26px; color:#666;}
+
+#warning { border:red 1px solid; background:#FFB7B7; color:#000; padding:3px 10px; margin:8px 0px; display:none; color:#000; font-weight:normal; }
+#warning label { display:block; margin:3px 0px; }
+#warning label.error { color:#000; font-weight:normal; }

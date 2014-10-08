@@ -1,0 +1,180 @@
+{include file=pos.header.html}
+
+<script type="text/javascript" src="index.php?act=jslang"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.plugins/jquery.validate.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{lib file=mlselection.js}" ></script>
+<script type="text/javascript" src="{res file=js/jquery.showLoading.js}" charset="utf-8"></script>
+<link href="{res file=css/showLoading.css}" rel="stylesheet" type="text/css">
+<style>form .field_notice {font-size: 12px;}form label.error {font-size: 12px;}</style>
+<script>
+    var InterValObj=null;
+    var show_type =1;
+    $(function(){
+        regionInit("region");
+            $("#bindform").validate({
+            errorPlacement: function(error, element){
+                var error_td = element.parents('td').next('td');
+                error_td.find('.field_notice').hide();
+                error_td.find('.fontColor3').hide();
+                error_td.append(error);
+            },
+            success: function(label){
+                label.remove();
+            },
+            submitHandler : function(form) {
+                $('.sava_tr').showLoading({'addClass': 'loading-indicator-bars'});
+                form.submit();
+            },
+            onkeyup: false,
+            rules: {
+                seller_name: {
+                    required: true
+                },
+                store_name: {
+                    required: true
+                },
+                mobile_phone_number: {
+                    required: true
+                },
+                bank_card_number: {
+                    required: true,
+                    checkTel:true
+                },
+                telephone_number:{
+                    checkTel:true
+                }
+            },
+            messages: {
+                seller_name :{
+                    required : '请输入营业执照企业名称，个体工商户请输入字号名称（4-20位）'
+                },
+                store_name : {
+                    required : '请填写您的大集客店铺名称'
+                },
+                mobile_phone_number : {
+                    required : '请填写您的手机号，方便大集客联系您',
+                    checkTel  : '手机号码格式错误'
+                },
+                telephone_number : {
+                    checkTel  : '固定电话格式错误'
+                }
+            }
+        });
+    });
+
+    jQuery.validator.addMethod("confirm_password_validate", function(value, element) {
+        if(show_type ==2 && value ==""){
+            return false;
+        }
+        return true;
+    }, "请输入确认密码");
+
+    jQuery.validator.addMethod("confirm_password_validate2", function(value, element) {
+        var password =$("#password").val();
+        if(show_type ==2 && value !="" && password != "" && password !=value){
+            return false;
+        }
+        return true;
+    }, "二次密码不一致");
+
+    jQuery.validator.addMethod("user_name_validate", function(value, element) {
+        var txt = value.substring(0,3).toUpperCase();
+        var reg = /DJK/;
+        if(reg.test(txt)) {
+            return false;
+        }
+        return true;
+    }, "&nbsp;该用户名错误，请重新输入。");
+
+    function callback_apply(rs){
+        if(rs.flag == "error"){
+            alert(rs.error_msg);
+        }else if(rs.flag == "ok"){
+            $('.sava_tr').success_Loading({'div_title':'提交资料成功','hide_div':"sava_tr",'div_content':"感谢您申请POS机终端，1-3个工作日后我们会有专人与您接洽。",'location_url':"index.php?app=pos"});
+            return;
+        }else{
+            alert("服务器繁忙，请稍后重试！");
+        }
+        $('.sava_tr').hideLoading();
+    }
+
+</script>
+
+<!--面包屑-->
+<div id="mianb"><a href="index.php?app=pos">首页</a> > <a href="index.php?app=pos&act=apply">POS机刷卡绑定</a> > <span><a href="index.php?app=pos&act=apply">在线绑定</a></span></div>
+<!--正文-->
+<div class="sqgout">
+    <h2>在线提交资料 - 欢迎申请POS机终端！请填写下列信息，1-3个工作日内我们会有专人与您接洽。</h2>
+
+
+    <!--{if $smarty.get.success}-->
+    <div style="width:580px; height:200px; text-align:center; padding:30px; padding-left:200px; size:+2; color:#000;padding-top:80px  ">恭喜您提交资料成功，请耐心等待审核！
+        感谢您申请POS机终端，1-3个工作日后我们会有专人与您接洽。
+    </div>
+    <!--{else}-->
+    <div class="nei">
+        <form method="post" id="bindform" name="bindform" target="apply_iframe">
+            <input id="show_type" type="hidden" name="show_type" value="1"  />
+            <table width="980" border="0" cellspacing="0" cellpadding="0" class="txt">
+                <tr>
+                    <td height="45">&nbsp;</td>
+                    <td align="right">商家名称：</td>
+                    <td>{$store.owner_name}<input type="hidden" name="seller_name" id="seller_name" value="{$store.owner_name}" class="input1"/></td>
+                    <td style="width: 460px"><span class="fontColor3">*</span ><span class="field_notice">请输入营业执照企业名称，个体工商户请输入字号名称（4-20位）</span></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td height="45">&nbsp;</td>
+                    <td align="right">店铺名称：</td>
+                    <td>{$store.store_name}<input type="hidden" name="store_name" id="store_name"  value="{$store.store_name}" class="input1"/></td>
+                    <td><span class="fontColor3">*</span ><span class="field_notice">请填写您的大集客店铺名称</span></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td height="45">&nbsp;</td>
+                    <td align="right">手机号码：</td>
+                    <td><input type="text" name="mobile_phone_number" id="mobile_phone_number" value="{$data.mobile_phone_number}"  class="input1"/></td>
+                    <td><span class="fontColor3">*</span ><span class="field_notice">请填写您的手机号，方便大集客联系您</span></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td height="45">&nbsp;</td>
+                    <td align="right">固定电话（选填）：</td>
+                    <td>
+                        <input type="text" name="telephone_number" id="telephone_number" value="{$data.telephone_number}"  class="input1" style=" vertical-align:middle"/>
+                    <td class="mobile_phone_number_label"><span class="fontColor3">&nbsp;</span ><span class="field_notice">请填写您的固定电话，方便大集客联系您</span></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <!--{if !$data || $data.status neq 1}-->
+                <tr class="sava_tr">
+                    <td height="45">&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td><input type="submit" style="width:100px; height:32px; background:#d0281e; color:#fff; line-height:32px; text-align:center; font-weight:bold; cursor: pointer;border: 0" value="提交申请" /></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <!--{/if}-->
+            </table>
+
+            <!--{if $data}-->
+                <!--{if $data.status eq 0}-->
+                <div style="width:580px; text-align:center;size:+2; color:#000;  margin-top: 10px ">您已提交资料成功，请耐心等待审核！
+                    感谢您申请POS机终端，1-3个工作日后我们会有专人与您接洽。
+                </div>
+                <!--{elseif $data.status eq 1}-->
+                <div style="width:580px; text-align:center;  size:+2; color:#000; margin-top: 10px">恭喜您提交资料成功并且【审核成功】！
+                    感谢您申请POS机终端，1-3个工作日后我们会有专人与您接洽。
+                </div>
+                <!--{elseif $data.status eq e}-->
+                <div style="width:580px; text-align:center;size:+2; color:#000; margin-top: 10px">
+                    非常抱歉你的申请审核【未通过】,您可以继续申请！
+               </div>
+                <!--{/if}-->
+            <!--{/if}-->
+        </form>
+    </div>
+    <!--{/if}-->
+
+</div>
+<iframe name="apply_iframe" id="apply_iframe" style="display:none" ></iframe>
+{include file=pos.footer.html}

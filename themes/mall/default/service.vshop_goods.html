@@ -1,0 +1,210 @@
+{include file=member.header.html}
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js"></script>
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js"></script>
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+<script type="text/javascript" charset="utf-8">
+    jQuery(function($){
+        $.datepicker.regional['zh-CN'] ={
+            clearText: '清除', clearStatus: '清除已选日期',
+            closeText: '关闭', closeStatus: '不改变当前选择',
+            prevText: '<上月', prevStatus: '显示上月',
+            nextText: '下月>', nextStatus: '显示下月',
+            currentText: '今天', currentStatus: '显示本月',
+            monthNames: ['一月','二月','三月','四月','五月','六月',
+                '七月','八月','九月','十月','十一月','十二月'],
+            monthNamesShort: ['一','二','三','四','五','六',
+                '七','八','九','十','十一','十二'],
+            monthStatus: '选择月份', yearStatus: '选择年份',
+            weekHeader: '周', weekStatus: '年内周次',
+            dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+            dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
+            dayNamesMin: ['日','一','二','三','四','五','六'],
+            dayStatus: '设置 DD 为一周起始', dateStatus: '选择 m月 d日, DD',
+            dateFormat: 'yy-mm-dd', firstDay: 1,
+            initStatus: '请选择日期', isRTL: false
+        }
+        $.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+        $("#add_time_from").datepicker({dateFormat: 'yy-mm-dd'});
+        $("#add_time_to").datepicker({dateFormat: 'yy-mm-dd'});
+    });
+</script>
+
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right">
+        <ul class="tab">
+            <li class="active">商品推荐</li>
+        </ul>
+
+        <div class="wrap">
+        <div class="public_select table" style=" padding: 20px 0;">
+            <table id="my_goods" class="table" style="text-align: center;" >
+                <tr>
+                    <th colspan="12">
+                        <div class="scarch_order">
+                            <form id="my_goods_form" method="get">
+                                <input type="hidden" name="app" value="service">
+                                <input type="hidden" name="act" value="vshop_goods">
+                                商品名
+                                <input type="text" class="text_normal" name="keyword" value="{$smarty.get.keyword|escape}"/>&nbsp;&nbsp;&nbsp;&nbsp;
+                                新增时间
+                                <input class="text_normal width2" type="text" name="add_time_from" id="add_time_from" value="{$smarty.get.add_time_from|escape}" /> &#8211;
+                                <input class="text_normal width2" id="add_time_to" type="text" name="add_time_to" value="{$smarty.get.add_time_to|escape}" />&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;托管商家
+                                <select name="store_id" class="sgcategory">
+                                    <!--{if $stores}-->
+                                        <option value="-1">全部</option>
+                                        <!--{foreach from=$stores item=store}-->
+                                            <option value="{$store.store_id}" <!--{if $smarty.get.store_id == $store.store_id}-->selected="selected"<!--{/if}--> >{$store.store_name}</option>
+                                        <!-- {/foreach} -->
+                                    <!--{else}-->
+                                        <option value="">没有找到商家</option>
+                                    <!--{/if}-->
+                                </select>
+
+
+
+                                <br><br>
+
+                                分类&nbsp;&nbsp;&nbsp;&nbsp;
+                                <select name="cate_id" id="cate_id">
+                                    <option value="0">{$lang.select_pls}</option>
+                                    {html_options options=$scategories selected=$smarty.get.cate_id}
+                                </select>
+
+                                <!--&nbsp;&nbsp;&nbsp;&nbsp;按子账号-->
+                                <!--<select name="users" class="sgcategory">-->
+                                    <!--<option value="-1">全部</option>-->
+                                    <!--&lt;!&ndash;{if $users}&ndash;&gt;-->
+                                    <!--&lt;!&ndash;{foreach from=$users item=user}&ndash;&gt;-->
+                                    <!--<option value="{$user.user_id}" &lt;!&ndash;{if $smarty.get.users == $user.user_id}&ndash;&gt;selected="selected"&lt;!&ndash;{/if}&ndash;&gt; >{$user.user_name}</option>-->
+                                    <!--&lt;!&ndash; {/foreach} &ndash;&gt;-->
+                                    <!--&lt;!&ndash;{/if}&ndash;&gt;-->
+                                <!--</select>  &nbsp;&nbsp;&nbsp;&nbsp;-->
+                                <input type="submit" class="btn" value="{$lang.soso}" />
+                            </form>
+                        </div>
+                    </th>
+                </tr>
+                <tr class="line_bold"><th colspan="13">&nbsp;</th></tr>
+                <tr class="line_bold">
+                    <th class="width1"><input type="checkbox" id="all" class="checkall"/></th>
+                    <th colspan="6">
+                        <span class="all"><label for="all">{$lang.checkall}</label></span>
+                        <a href="javascript:void(0);" class="edit" ectype="batchbutton" uri="index.php?app=service&amp;act=goods_batch_edit&ret_page={$page_info.curr_page}&p=service" name="id">{$lang.edit}</a>
+                        <a href="javascript:void(0);" class="delete" uri="index.php?app=service&act=drop" name="id" presubmit="confirm('{$lang.drop_confirm}')" ectype="batchbutton">{$lang.drop}</a>
+
+                    </th>
+                    <th colspan="6">&nbsp;</th>
+                </tr>
+
+                <tr class="gray"  ectype="table_header">
+                    <th width="25"></th>
+                    <th width="40"  style="padding-left: 5px;">缩略图</th>
+                    <th width="150" colspan="2" coltype="editable" column="goods_name" checker="check_required" inputwidth="90%" title="{$lang.sort_order}"  class="cursor_pointer" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span ectype="order_by">{$lang.goods_name}</span></th>
+                    <th width="70" column="cate_id" title="{$lang.sort_order}"  class="cursor_pointer"><span ectype="order_by">{$lang.gcategory}</span></th>
+                    <th width="55" coltype="editable" column="brand" checker="check_required" inputwidth="55px" title="{$lang.sort_order}"  class="cursor_pointer"><span ectype="order_by">状态</span></th>
+                    <th width="50" class="cursor_pointer" coltype="editable" column="price" checker="check_number" inputwidth="50px" title="{$lang.sort_order}"><span ectype="order_by">{$lang.price}</span></th>
+                    <th width="50" class="cursor_pointer" coltype="editable" column="stock" checker="check_pint" inputwidth="50px" title="{$lang.sort_order}"><span ectype="order_by">{$lang.stock}</span></th>
+                    <th width="60" coltype="switchable" column="recommended" onclass="right_ico" offclass="wrong_ico" title="{$lang.sort_order}"  class="cursor_pointer">
+                        &nbsp;&nbsp;&nbsp;<span ectype="order_by">店铺名</span></th>
+                    <th width="30" coltype="switchable" column="if_show" onclass="right_ico" offclass="wrong_ico" title="{$lang.sort_order}"  class="cursor_pointer">佣金比例</th>
+                    <th width="100">
+                        &nbsp;&nbsp;&nbsp;操作
+                    </th>
+
+                </tr>
+            <!--{if $page_info && $page_info.goodsList && count( $page_info.goodsList ) > 0 }-->
+                <!--{foreach from=$page_info.goodsList item=goods name=_goods_f}-->
+                    <tr class="line<!--{if $smarty.foreach._goods_f.last}--> last_line<!--{/if}-->" ectype="table_item" idvalue="{$goods.goods_id}">
+                        <td width="25" class="align2"><input type="checkbox" class="checkitem" value="{$goods.goods_id}"/></td>
+                        <td width="40" class="align2"><!--{if $goods.pd_id ==5 }--> <a href="{url app=bdsh&act=goods_detail&id=$goods.goods_id}" target="_blank"><!--{else}--><a href="{url app=goods&id=$goods.goods_id}" target="_blank"><!--{/if}--> <img src="{$site_url}/{$goods.default_image}" width="50" height="50"  /></a></td>
+                        <td width="150" align="align2" colspan="2">
+                            <p class="ware_text" style="width: 220px"><span class="color2" ectype="editobj">{$goods.goods_name|truncate:60:"…"}</span></p>
+                        </td>
+                        <td width="65"><span class="color2">{$goods.cate_name|nl2br}</span></td>
+                        <td width="50" class="align2"><span class="color2" >
+                                        <!--{if $goods.dropState eq 1 }-->正常
+                                        <!--{elseif $goods.dropState eq 2 }-->待审核
+                                        <!--{elseif $goods.dropState eq 3}-->审核不通过
+                                        <!--{elseif $goods.dropState eq 4}-->
+                                        <label style="color: red;cursor: pointer" title="韩国馆一审通过，请耐心等待最终审核">一审通过</label>
+                                        <!--{/if}-->
+                                    </span></td>
+                        <td width="50" class="align2"><!--{if $goods.spec_qty}--><span class="cursor_pointer"><!--{else}--><span class="color2" ectype="editobj"><!--{/if}-->{$goods.price}</span></td>
+                        <td width="50" class="align2">
+                            <!--{if $goods.spec_qty}--><span class="cursor_pointer">
+                            <!--{else}--><span class="color2" ectype="editobj">
+                            <!--{/if}-->
+                            {$goods.stock}</span>
+                        </td>
+                        <td width="50" class="align2"><span style="margin:0px 5px;"><span class="color2">{$goods.store_name}</span></td>
+                        <td width="30" class="align2">
+                            <span style="margin:0px 5px;" ectype="editobj">{$goods.yongjinbili}%</span>
+                        </td>
+                        <td width="100">
+                            <div style="float: left"><a href="{url app=service&act=edit&id=$goods.goods_id&p=service&pageNo=$pageNo}" class="edit">{$lang.edit}</a>
+                                <a href="javascript:drop_confirm('{$lang.drop_confirm}', 'index.php?app=service&amp;act=drop&id={$goods.goods_id}');" class="delete">{$lang.drop}</a>
+                            </div>
+                        </td>
+                    </tr>
+                <!--{/foreach}-->
+             <!--{else}-->
+                <tr>
+                    <td class="align2 member_no_records padding6" colspan="10">{$lang.$smarty.get.act}{$lang.no_records}</td>
+                </tr>
+            <!--{/if}-->
+            <!--{if $page_info.goodsList}-->
+                <tr class="line_bold line_bold_bottom">
+                    <td colspan="13"> </td>
+                </tr>
+                <tr>
+                    <th><input type="checkbox" id="all2" class="checkall"/></th>
+                    <th class="align1" colspan="3">
+                        <span class="all"><label for="all">{$lang.checkall}</label></span>
+                    </th>
+                    <th colspan="8">{include file=member.page.bottom.html}</th>
+                </tr>
+            <!--{/if}-->
+            </table>
+
+            <br/>
+            <form id="recommend_form" style="margin-left: 0px;" target="recommend_iframe" action="index.php?app=service&act=vshop_recomGoods" method="post">
+                推荐到：
+                <select name="position">
+                    <option value="">请选择推荐位置</option>
+                    <option value="1">精品集客小店——本地特卖</option>
+                </select>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="button" style="width:50px;height: 30px;" onclick="toRecommend();" value="确 定">
+                <input id="goods_ids" name="goods_ids" type="hidden" value="">
+                <script>
+                    function toRecommend() {
+                        var goods_ids = "";
+                        $(".checkitem").each(function(index){
+                            if ($(this).attr("checked")) {
+                                goods_ids += $(this).attr("value") + ",";
+                            }
+                        });
+                        $("#goods_ids").val(goods_ids);
+                        $("#recommend_form").action = $("recommend_iframe").attr("src");
+                        $("#recommend_form").submit();
+                        $(".checkitem").each(function(index){
+                            $(this).attr("checked", false);
+                        });
+                        alert("您推荐的商品正在审核中...");
+
+                    }
+                </script>
+            </form>
+            <br/>
+            <iframe id="recommend_iframe" name="recommend_iframe" width="780" height="400" src="index.php?app=service&act=vshop_recomGoods">
+            </iframe>
+        </div>
+        <div class="wrap_bottom"></div>
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+</div>
+{include file=footer.html}

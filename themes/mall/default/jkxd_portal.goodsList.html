@@ -1,0 +1,178 @@
+{include file=header.html}
+
+<!--logo部分(集客小店搜索框)-->
+{include file=jkxd_portal.header.html}
+
+<script type="text/javascript">
+    $(function(){
+        var category_id = '{$category_id}';
+        $("#parentCategory a").css({"background":"#fff","color":"#27a196","padding":"5px"});
+        $("#parentCategory a span").css({"color":"#999999","font-family":"arial,sans-serif","font-size": "10px", "margin-left": "3px"});
+
+        var node = "#"+category_id+" a"
+        $(node).css({"background":"#27a196","color":"#fff"});
+        $(node+" span").css({"color":"#fff"});
+    });
+    function findGoodsByCategory(id){
+        $("#category_id").val(id);
+        formSubmit("");
+    }
+
+
+    function order_start_time(){
+        $("#order_by").val("start_time");
+        chooseOrder();
+        var category_id = $("#category_id").val()
+        formSubmit();
+
+
+    }
+
+    function order_price(){
+        $("#order_by").val("price");
+        chooseOrder();
+        var category_id = $("#category_id").val()
+        formSubmit();
+
+    }
+    function order_addTime(){
+        $("#order_by").val("add_time");
+        chooseOrder();
+        var category_id = $("#category_id").val()
+        formSubmit();
+    }
+    function order_default(){
+        $("#order_by").val("rg.id");
+        chooseOrder();
+        var category_id = $("#category_id").val()
+        formSubmit();
+    }
+    function chooseOrder(){
+        var desc_asc = $("#desc_asc").val();
+        if(desc_asc =="desc"){
+            $("#desc_asc").val("asc");
+        }else{
+            $("#desc_asc").val("desc");
+        }
+    }
+    function formSubmit(url){
+        if(url != null && url !="" && typeof url !="undefined"){
+            $.get(
+                    url,
+                    function(data){
+                        $("#goods_list").html(data);
+                    }
+            );
+        }else{
+            var id  = $("#id").val();
+            var category_id = $("#category_id").val();
+            var order_by  = $("#order_by").val();
+            var desc_asc  = $("#desc_asc").val();
+            var type =$("#type").val();
+            window.location="index.php?app=jkxd_portal&act=goodsList&type="+type+"&id="+id+"&category_id="+category_id+"&order_by="+order_by+"&desc_asc="+desc_asc;
+
+        }
+
+    }
+</script>
+
+<!--全部内容-->
+<div id="center_w1200">
+        <input type="hidden" id="type" value="{$type}"/>
+        <div id="shop_list">
+            <form action="" method="post" id="goodsForm">
+                <input type="hidden" id="id" name="id" value="{$shopOwner.user_id}"/>
+                <!--商品类别-->
+                <div class="fov1">
+                    <div class="txt1">分类:</div>
+                    <!--父类别-->
+                    <ul class="inline" id="parentCategory">
+                        <li class="item"><a href="index.php?app=jkxd_portal&act=goodsList&id={$shopOwner.user_id}&type={$type}&category_id=-1">全部</a></li>
+                        {foreach from=$goodsCategoryList item=category}
+                            <li class="item" >
+                                <div id="{$category.cate_id}">
+                                    <a href="javascript:findGoodsByCategory('{$category.cate_id}')"  >
+                                        {$category.cate_name|myeval:"substr(value, strpos(value,'	'))"}<span>({$category.c})</span>
+                                    </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+                            </li>
+                        {/foreach}
+                    </ul>
+                    <input type="hidden" id="category_id" name="category_id" value="{$category_id}"/>
+                    <div class="clear"></div>
+                </div>
+
+                <!--显示商品排序字段-->
+                <div class="libiao">
+                    <div class="div1">
+                        <input type="hidden" id="order_by" name="order_by" {if $order_by} value="{$order_by}" {else} value="start_time"{/if}/>
+                        <input type="hidden" id="desc_asc" name="desc_asc" {if $desc_asc} value="{$desc_asc}" {else} value="desc"{/if}/>
+                        <a href="javascript:order_default()" class="c_eeeded">默认排序</a>
+                        <a href="javascript:order_price()"><span></span>价格</a>
+                        <a href="javascript:order_addTime()"><span></span>最新上架</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    <!--展示搜索结果-->
+    <div id="goods_list">
+        <div class="xiaod">
+            <div class="top">
+                {if $type=='search'}
+                    <div class="biti1"></div>
+                {else}
+                    <div class="biti2"></div>
+                {/if}
+                <div class="duo">
+                    <a>共 <span> {$page_info.item_count}</span> 件商品</a>
+                </div>
+            </div>
+            <div class="bottom" style="margin-top:0px;">
+                <ul>
+                    {if $page_info && $page_info.goodsList && count($page_info.goodsList) > 0 }
+                        {foreach from=$page_info.goodsList item=goods name=goods_index }
+                            <li {if $smarty.foreach.goods_index.iteration%5 eq 0 } style="padding-right:0px;margin-right:0px;"{/if}>
+                                <div class="pic">
+                                    <a href="index.php?app=goods&id={$goods.goods_id}&shop_id={$shopOwner.user_id}" target="_blank">
+                                        <img src="{img_url $img_url/$goods.default_image/220X220}" width="220" height="220" />
+                                    </a>
+
+                                </div>
+                                <div class="text">
+                                    <a href="index.php?app=goods&id={$goods.goods_id}&shop_id={$shopOwner.user_id}" target="_blank">
+                                        {$goods.goods_name|truncate:60}
+                                    </a>
+                                </div>
+                                <div class="jiage">￥<span>{$goods.price}</span>
+                                    {if $user && $shopOwner && $user.user_id == $shopOwner.user_id}
+                                        <em class="em1">奖励：￥{$goods.yongjin|number2}</em>
+                                    {/if}
+                                </div>
+                            </li>
+                        {/foreach}
+                    {else}
+                        <li>
+                            没有相关数据!
+                        </li>
+
+                    {/if}
+                </ul>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <!--分页开始-->
+        {include file=page.bottom.html}
+
+        <!--分页结束-->
+    </div>
+
+
+</div>
+
+
+<!--底部横banner-->
+{include file=footer.html}
+
+</body>
+</html>

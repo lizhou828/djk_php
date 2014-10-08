@@ -1,0 +1,95 @@
+{include file="header.html"}
+<script type="text/javascript">
+$(function(){
+    $('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+    $('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+});
+</script>
+<div id="rightTop">
+    <p>签约业务员客首页</p>
+</div>
+<div class="mrightTop">
+    <div class="fontl">
+             <form method="get">
+             		<div class="left">
+                    <span>申请时间: </span>
+                    <input type="text"  name="add_time_from"  id="add_time_from" value="{$smarty.get.add_time_from}" class="pick_date" style="width:100px;" /> &#8211;
+                    <input type="text"  name="add_time_to"    id="add_time_to" value="{$smarty.get.add_time_to}" class="pick_date" style="width:100px;" />
+                    
+                    <span>申请人:</span>
+                    <input type="text" class="text1 width_normal" name="user_name" value="{$smarty.get.user_name}">
+					
+                    <span>状态:</span>
+                    <select id="status" name="status">
+                    <option value="">全部</option>
+                    <option value="0" <!--{if $smarty.get.status !="" && $smarty.get.status eq 0}-->selected="selected"<!--{/if}--> >未审核</option>
+                    <option value="1" <!--{if $smarty.get.status eq 1}-->selected="selected"<!--{/if}-->>成功</option>
+                    <option value="2" <!--{if $smarty.get.status eq 2}-->selected="selected"<!--{/if}-->>失败</option>
+                    </select>
+                    <input type="hidden" name="app" value="qianyue" />
+                    <input type="hidden" name="act" value="index" />
+                    &nbsp;&nbsp;&nbsp;
+                    <input type="submit" class="formbtn" value="查询" />
+                    </div>
+                </form>
+    </div>
+
+</div>
+<div class="tdare">
+    <table width="100%" cellspacing="0" class="dataTable">
+
+        <tr class="tatr1">
+            <td width="10%" class="firstCell"><span ectype="order_by" fieldname="seller_id">业务员类型</span></td>
+            <td width="8%"><span ectype="order_by" fieldname="order_sn">姓名</span></td>
+            <td width="15%"><span ectype="order_by" fieldname="add_time">电话号码</span></td>
+            <td width="20%"><span ectype="order_by" fieldname="buyer_name">邮箱</span></td>
+            <td width="5%"><span ectype="order_by" fieldname="order_amount">状态</span></td>
+            <td  width="5%">合同</td>
+            <td  width="15%">申请时间</td>
+            <td  width="5%">操作</td>
+            <td width="10%"><span ectype="order_by" fieldname="status"></span></td>
+        </tr>
+    
+        <!--{foreach from=$data item=shenqing}-->
+        <tr class="tatr2">
+                <td class="width4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!--{if $shenqing.account_type eq 0}-->个人<!--{else}-->公司<!--{/if}--></td>
+                    <td>{$shenqing.user_name|escape}</td>
+                    <td class="align2">{$shenqing.phone_mob}</td>
+                    <td class="width13">{$shenqing.email}</th>
+                    <td class="width4"><!--{if $shenqing.status eq 0}-->未审核<!--{elseif $shenqing.status eq 1}-->审核成功<!--{else}-->审核失败<!--{/if}--></th>                    
+                    <td class="width4">
+                        <!--{if $shenqing.hetong != ""}-->
+                        <div class="padding1">
+                        <a href="{$site_url}/{$shenqing.hetong}" target="_blank">查看</a>
+                        </div>
+                        <!--{else}-->--
+                        <!--{/if}-->
+                    </th>
+             		<td class="width13">{$shenqing.add_time}</th>
+                    <td>
+                        <div class="padding1">
+                            <a href="index.php?app=qianyue&amp;act=view&id={$shenqing.user_id}" dialog_width="600" dialog_title="{$lang.edit}" class="edit1">查看</a>
+                            </div>
+                    </td>
+        </tr>
+        <!--{foreachelse}-->
+        <tr class="no_data">
+            <td colspan="6">{$lang.no_data}</td>
+        </tr>
+        <!--{/foreach}-->
+    </table>
+    <div id="dataFuncs">
+        <div class="pageLinks">
+            {if $tixians}{include file=page.bottom.html}{/if}
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<script>
+ $("#export").bind("click",function(){
+     $("#exportFlag").val("1");
+     document.getElementById("form1").submit();
+ })
+</script>
+
+{include file="footer.html"}

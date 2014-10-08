@@ -1,0 +1,60 @@
+{include file="header.html"}
+<script charset="utf-8" type="text/javascript" src="{lib file=mlselection.js}" ></script>
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js"></script>
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js"></script>
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+<div id="rightTop">
+  <ul class="subnav">
+    <li>数据库奖品
+    </li>
+    <!--<li><a class="btn1" href="index.php?app=prize1&amp;act=add">{$lang.add}</a></li>-->
+  </ul>
+</div>
+<div class="mrightTop">
+    <div class="fontl">
+        <form method="post" action="index.php?app=prize1">
+            抽奖时间：
+    <input class="text_normal width2" type="text" name="date" id="add_time_from" value="{$smarty.get.add_time_from|escape}" />
+            <input type="submit" value="查询">
+            <input type="button" id="enter" value="奖品进入数据库" onclick="enter1();">
+        </form>
+    </div>
+    <div class="fontr">{include file=page.top.html} </div>
+</div>
+<div class="tdare">
+  <table width="100%" cellspacing="0" class="dataTable">
+    <tr class="tatr1">
+      <td><span ectype="order_by" fieldname="jibie">级别</span></td>
+      <td><span ectype="order_by" fieldname="jine">金额</span></td>
+      <td><span ectype="order_by" fieldname="choujiang_date">抽奖时间</span></td>
+      <td><span ectype="order_by" fieldname="create_time">创建时间</span></td>
+      <td><span ectype="order_by" fieldname="count">奖品数量</span></td>
+      <td><span ectype="order_by" fieldname="sum_jine">该级别总奖金</span></td>
+      <!--<td class="handler">{$lang.handler}</td>-->
+    </tr>
+    <!--{foreach from=$prize1 item=prize}-->
+    <tr class="tatr2">
+      <td><!--{foreach from=$level item=lv key=k}--><!--{if $prize.jibie == $k}-->{$lv}<!--{/if}--><!--{/foreach}--></td>
+      <td>{$prize.jine}</td>
+      <td>{$prize.choujiang_date}</td>
+      <td>{$prize.create_time}</td>
+      <td>{$prize.count}</td>
+      <td>{$prize.sum_jine}</td>
+
+    </tr>
+    <!--{/foreach}-->
+  </table>
+  <div class="clear"></div>
+   <div class="pageLinks">{include file=page.bottom.html}</div>
+</div>
+<script>
+    regionInit("region");
+    $('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+    $('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+
+   function enter1(){
+       $.post("/dajike-account/test_account_detail.jsp?to_db=1");
+       alert('已进入数据库! ');
+   }
+</script>
+{include file="footer.html"}

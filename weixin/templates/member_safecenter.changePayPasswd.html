@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{if $user && $user.password2 && $user.password2 != ''}修改支付密码{else}设置支付密码{/if}</title>
+    <link href="{$site_url}/weixin/templates/style/Safety.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{$SITE_URL}/weixin/templates/js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+    <script type="text/javascript">
+        function set_password(){
+            var password1 = $("#payPasswd1").val();
+            var password2 = $("#payPasswd2").val();
+            if(!password1 || password1 ==null || password1=="" || typeof password1=="undefined"){
+                alert("密码不能为空!");
+                return;
+            }
+            if(!password2 || password2 ==null || password2=="" || typeof password2=="undefined"){
+                alert("确认密码不能为空!");
+                return;
+            }
+            var reg = new RegExp("^\\w{6,20}$");
+            if(!reg.test(password1) || !reg.test(password2)){
+                $("#error1").css({"color":"#c40000"});
+                alert("密码长度为6到20位");
+                return;
+            }else{
+                $("#error1").css({"color":"#999999"});
+            }
+            if(password1 != password2){
+                alert("两次输入的密码不一致!");
+                return;
+            }
+            $.get(
+                    "/weixin/index.php?app=member_safecenter&act=changePayPasswd",
+                    {"password1":password1,"password2":password2},
+                    function(result){
+                        result = eval("("+result+")");
+                        if(parseInt(result.retval) >=0 ){
+                            var flag="";
+                            if(result.msg && result.msg !=null && result.msg !=""){//表示是再次修改密码
+                                flag=1;
+                            }
+                            window.location.href="{$SITE_URL}/weixin/index.php?app=member_safecenter&act=changePayPasswdSuccess&flag="+flag;
+                        }else{
+                            alert("支付密码修改失败...");
+                        }
+                    }
+            );
+        }
+    </script>
+</head>
+<body>
+<div style="width: 320px;margin: 0px auto">
+    <div style="padding-top: 50px;">
+<div class="address-t">
+    <div class="address-l"><a href="javascript:history.go(-1)">返回</a></div>
+    <div class="address-c" style="padding-left: 44px;">{if $user && $user.password2 && $user.password2 != ''}修改支付密码{else}设置支付密码{/if}</div>
+    {include file=member.index_header.html}
+</div>
+<div class="Safety-cen">
+    <div class="pay">
+        <dl>
+            <dd><img src="{res file=images/safety/1-bg.png}" width="35" height="35" alt="身份验证" /><dd>
+            <dt>身份验证<dt>
+        </dl>
+        <dl>
+            <dd><img src="{res file=images/safety/2-bg-h.png}" width="35" height="35" alt="身份验证" /><dd>
+            <dt>验证手机<dt>
+        </dl>
+        <dl>
+            <dd><img src="{res file=images/safety/3-bg-h.png}" width="35" height="35" alt="身份验证" /><dd>
+            <dt style="color:#c40000;">{if $user && $user.password2 && $user.password2 != ''}修改支付密码{else}设置支付密码{/if}<dt>
+        </dl>
+    </div>
+    <div class="clear"></div>
+    <div class="pay3">
+        <div class="pay3-1">
+            <span>设置支付密码：</span>
+            <input class="pay3-text" name="payPasswd1"  id="payPasswd1" type="password" />
+            <p>
+                <span id="error1">支付密码是由字母数字及符号组成的6-20位半角字符，区分大小写</span>
+            </p>
+        </div>
+        <div class="pay3-1">
+            <span>支付密码确认：</span>
+            <input class="pay3-text" name="payPasswd2"  id="payPasswd2"  type="password"/>
+            <p ><span id="error2"></span></p>
+        </div>
+    </div>
+    <a href="#" onclick="set_password()"><div class="next-step" style="color:white">提交</div></a>
+</div>
+
+<div class="pay-4" style="display: none" >
+    <div class="Success">
+        <div class="Success-1">{if $user && $user.password2 && $user.password2 != ''}支付密码修改成功{else}支付密码设置成功{/if}</div>
+        <div class="Success-2"><a href="index.php?app=member">返回个人主页 ></a></div>
+    </div>
+</div>
+    </div>
+</div>
+{include file=cnzz.html}
+</body>
+</html>

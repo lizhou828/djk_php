@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <script type="text/javascript">
+            $("#bind_button").click(function(){
+                if( $("#shop_id").val().match(/^\d+$/) &&  $("#shop_id").val() > 0 ){
+                    $.post("index.php?app=service&act=vshop_bind",{"shop_id":$("#shop_id").val()},function(result){
+                                result = eval("("+result+")");
+                                alert(result.msg);
+                                window.location.reload();
+                            }
+                    );
+                }else{
+                    alert('请输入正确的集客小店号！');
+                    $("#shop_id").val("请输入集客小店号");
+                }
+            });
+        </script>
+    </head>
+    <body style="width: 560px;">
+        <div style="padding-bottom: 30px;padding-top: 15px;">
+            <div style="margin-left:15px;margin-bottom: 15px;;font-size: 16px;color: #FF4F01;font-weight: bolder">
+                绑定精品店
+            </div>
+            <div style="width: 500px;margin-left:15px;border: 1px solid #FFCFB3;background:#FFE6C6;padding:10px 8px;;line-height: 20px; ">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请将您推广的精品店资料按照下列信息进行填写，然后提交等待我们审核。审核通过后，该精品店在大集客网上商城的所有有效销售行为您都将获得佣金奖励。
+            </div>
+            <div style="margin-left:120px;margin-top: 30px;margin-bottom: 20px;line-height: 25px">
+                绑定精品店：
+                <input id="shop_id" style="border: 1px solid #d3d3de;width: 200px;height: 25px;padding-left: 5px;"  type="text" value="请输入集客小店号"
+                        onfocus="if(!this.value.match(/^\d+$/)){this.value=''}"
+                        onblur="if(!this.value.match(/^\d+$/)){alert('请输入正确的集客小店号！');this.value='请输入集客小店号'}"
+                        />
+            </div>
+            <div style="margin-left:195px;margin-top: 30px;">
+                <input type="button" id="bind_button" value="立即绑定" style="color:#ffffff;height:35px;width:180px;font-size:14px;font-weight:bolder;border:none;border-radius:5px;background: orange"/>
+            </div>
+        </div>
+    </body>
+</html>

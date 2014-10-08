@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>
+        大集客-移动商城-集客小店
+    </title>
+    <link href="{$site_url}/weixin/templates/style/public.css" rel="stylesheet" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+
+    <style type="text/css">
+        .category{
+            background: url('{$site_url}/weixin/templates/images/address-bg.jpg') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+            font-style: normal;
+            height: 26px;
+            left: 6px;
+            line-height: 26px;
+            position: absolute;
+            text-align: center;
+            top: 9px;
+            width: 64px;
+            margin-left: 240px;
+        }
+        .category a{
+            color: white;
+        }
+    </style>
+    <script type="text/javascript">
+        function orderByPrice (){
+            chooseOrder();
+            var desc_asc = $("#desc_asc").val();
+                window.location="{$site_url}/weixin/index.php?app=jkxd_portal&act=vshop_list&type={$type}&id={$shopOwner.user_id}&type={$type}&topCateId={$topCateId}&goodCateId={$goodCateId}&view={$view}&order_by=price&desc_asc="+desc_asc;
+        }
+        function orderByAddTime(){
+            chooseOrder();
+            var desc_asc = $("#desc_asc").val();
+            window.location="{$site_url}/weixin/index.php?app=jkxd_portal&act=vshop_list&type={$type}&id={$shopOwner.user_id}&type={$type}&topCateId={$topCateId}&goodCateId={$goodCateId}&view={$view}&order_by=rg.id&desc_asc="+desc_asc;
+        }
+        function chooseOrder(){
+            var desc_asc = $("#desc_asc").val();
+            if(desc_asc =="desc"){
+                $("#desc_asc").val("asc");
+            }else{
+                $("#desc_asc").val("desc");
+            }
+        }
+
+    </script>
+</head>
+
+<body>
+<div id="w_3202" style="min-height:500px;">
+    <div class="top">
+        {if $type && $type=="search" }
+            搜索结果列表
+        {else}
+            商品列表
+        {/if}
+        {if $page.goodsList && count($page.goodsList) > 0 && $type != 'search'}
+            <div class="category">
+                <a href="{$SITE_URL}/weixin/index.php?app=jkxd_portal&act=vshop_category&type={$type}&id={$shopOwner.user_id}">类别列表</a>
+            </div>
+        {/if}
+        <em class="em1"><a href="javascript:history.go(-1)">返回</a></em>
+    </div>
+
+
+    <div class="shitu">
+        {if $type && $type=='search' }
+            <a href="{$site_url}/weixin/index.php?app=jkxd_portal&act=vshop_list&id={$shopOwner.user_id}&type={$type}&keyword={$keyword}" class="a3">列表视图</a>
+            <a href="{$site_url}/weixin/index.php?app=jkxd_portal&act=vshop_list&id={$shopOwner.user_id}&type={$type}&keyword={$keyword}&view=pic" class="a4">图片视图</a>
+        {else}
+            <a href="index.php?app=jkxd_portal&act=vshop_list&type={$type}&id={$shopOwner.user_id}&topCateId={$topCateId}&goodCateId={$goodCateId}" class="a3">列表视图</a>
+            <a href="index.php?app=jkxd_portal&act=vshop_list&type={$type}&id={$shopOwner.user_id}&topCateId={$topCateId}&goodCateId={$goodCateId}&view=pic" class="a4">图片视图</a>
+        {/if}
+    </div>
+    <div class="libiao">
+        <div class="title">
+            <input type="hidden" name="desc_asc" id="desc_asc" {if !$desc_asc} value="desc"{else}value="{$desc_asc}"{/if}/>
+            <a href="javascript:void(0)" onclick="orderByAddTime()" {if $order_by =='rg.id'} class="a1" {else} class="a2"{/if}>
+                最新上架
+            </a>
+            <a href="javascript:void(0)" onclick="orderByPrice()" {if $order_by =='price'} class="a1" {else} class="a2"{/if}>
+                价格
+            </a>
+        </div>
+        <div class="llsstt2">
+            <!--{foreach from=$page.goodsList item=gds}-->
+            <a href="{$site_url}/weixin/goods/{$shopOwner.user_id}/{$gds.goods_id}{if $member && $member.user_id > 0}/{$member.user_id}{/if}?vshop=1">
+                <dl>
+                    <dd><img src="{$img_url}/{$gds.default_image}" width="138" height="138" /></dd>
+                    <dt>
+                    <div class="jiage">{$gds.price|price}</div>
+                    <!--<div class="dianji">查看详情</div>-->
+                    </dt>
+                </dl>
+            </a>
+            <!--{/foreach}-->
+            <div class="clear"></div>
+        </div>
+    </div>
+
+
+
+    <!--分页开始-->
+    <script type="text/javascript">
+        function formerPage(curr_page,page_count){
+            //                alert(curr_page-1);
+            var page = parseInt(curr_page)-1
+            if( page> 0 ){
+                window.location ="{$site_url}/weixin/index.php?app=jkxd_portal&act=vshop_list&id={$shopOwner.user_id}&topCateId={$topCateId}&goodCateId={$goodCateId}&view={$view}&order_by={$order_by}&desc_asc={$desc_asc}&page="+page;
+            }else{
+                alert("已经到了首页！");
+                return;
+            }
+        }
+        function nextPage(curr_page,page_count){
+            var page = parseInt(curr_page)+1;
+            if(page > page_count){
+                alert("已经到了最后一页！");
+            }else{
+                window.location ="{$site_url}/weixin/index.php?app=jkxd_portal&act=vshop_list&id={$shopOwner.user_id}&topCateId={$topCateId}&goodCateId={$goodCateId}&view={$view}&order_by={$order_by}&desc_asc={$desc_asc}&page="+page;
+            }
+        }
+    </script>
+    <div class="Safety-cen-1">
+        <div class="ddi">
+            <div class="left" style="width: 235px; padding-left: 75px;">
+                <a href="javascript:formerPage('{$page.curr_page}','{$page.page_count}')" class="a1" style="margin-right: 20px;"></a>
+                <a style="float: left; height: 26px; line-height: 26px; font-family: tahoma; font-size: 14px; margin-right: 20px;">{$page.curr_page}/{$page.page_count}</a>
+                <a href="javascript:nextPage('{$page.curr_page}','{$page.page_count}')" class="a2"></a>
+            </div>
+        </div>
+    </div>
+    <!--分页结束-->
+
+    {if $user && $user.user_id && $user.user_id > 0}
+        {include file=jkxd_portal.footer.html}
+    {/if}
+</div>
+</body>
+</html>

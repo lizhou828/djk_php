@@ -1,0 +1,187 @@
+<script type="text/javascript" src="{lib file=member.js}" charset="utf-8"></script>
+<script>
+    $(function(){
+        price_onblur();
+    })
+    function price_onblur() {
+        var price =  $("#goods_price").val();
+        var org_price =  $("#org_price").val();
+        if(price !=""&&price >0 &&org_price!=null&&org_price>0) {
+            if (parseFloat(price) < parseFloat(org_price)) {
+                alert("销售价必须大于供货价");
+                $("#show_tc").html(0);
+            } else {
+                var bili = ((1-org_price/price)*100).toFixed(2);
+                $("#show_tc").html(bili+"%");
+            }
+            var account =parseFloat(org_price)/parseFloat(price);
+            $("#account").html((account*10).toFixed(2)+"折");
+        }
+    }
+
+</script>
+<div class="clear"></div>
+        <br>
+           <h4><b>{$lang.goods_base_info}</b></h4><br>
+           <div class="products" style="width: 768px;padding-left: 100px;">
+               <ul>
+                <li style="width: 768px;">
+                    <h2 style="width: 200px;text-align: right;">{$lang.goods_name}: </h2>
+                    <div class="arrange" style="width: 500px;margin-left: 10px;"><input title="{$goods.goods_name|escape}" type="text" name="goods_name" value="{$goods.goods_name|escape}" class="text width_normal" /><span class="red">*</span></div>
+                </li>
+                <li  style="width: 768px;">
+                    <h2 style="width: 200px;text-align: right;">商品简短描述: </h2>
+                    <div class="arrange" style="width: 500px;margin-left: 10px;"><textarea name="goods_desc" cols="50" style="height: 50px;">{$goods.goods_desc|escape}</textarea>
+                        <span class="gray">（请对此商品进行简短描述）</span></div>
+                </li>
+                   <li style="width: 768px;">
+                       <h2 style="width: 200px;text-align: right;">供货价: </h2>
+                       <div class="arrange" style="width: 500px;margin-left: 10px;"><input title="{$goods.org_price|price}" type="text"  name="org_price" id="org_price" value="{$goods.org_price}"  onblur="price_onblur()" class="text width_short" /><span class="red">*</span><img src="{$site_url}/themes/mall/default/styles/default/images/help-round.png" title="请如实填写商品供货价，这将是大集客与商家进行结算的价格依据 " /></span></div>
+                   </li>
+                 <li style="width: 768px;">
+                        <h2 style="width: 200px;text-align: right;">商品价格: </h2>
+                        <div class="arrange" style="width: 500px;margin-left: 10px;"><input  type="text" name="price" value="{$goods.price}" onblur="price_onblur()" class="text width_short" id="goods_price"/><span class="red">*</span></div>
+                  </li>
+                   <li style="width: 768px;">
+                       <h2 style="width: 200px;text-align: right;">比例: </h2>
+                       <div class="arrange"  style="width: 500px;margin-left: 10px;"><span id="show_tc"></span><span style="color: #B9B9B9">&nbsp;&nbsp;比例越高商品排名越靠前</span></div>
+                   </li>
+                    <li style="width: 768px;">
+                        <h2 style="width: 200px;text-align: right;">折扣: </h2>
+                        <div class="arrange" style="width: 500px;margin-left: 10px;"><span id="account">0</span></div>
+                    </li>
+
+                <li style="width: 768px;">
+                    <h2 style="width: 200px;text-align: right;">{$lang.if_show}: </h2>
+                    <div class="arrange" style="width: 500px;margin-left: 10px;">
+                                            <span class="distance">
+                                                <label><input name="if_show" value="1" type="radio" {if $goods.if_show}checked="checked" {/if}/> {$lang.yes}</label>
+                                                <label><input name="if_show" value="0" type="radio" {if !$goods.if_show}checked="checked" {/if}/> {$lang.no}</label>
+                                            </span>
+                        <span class="gray" >上架的商品将能被买家购买，下架商品买家无法购买</span>
+                    </div>
+                </li>
+                <li style="width: 768px;">
+                    <h2 style="width: 200px;text-align: right;">{$lang.recommended}: </h2>
+                    <div class="arrange" style="width: 500px;margin-left: 10px;">
+                                            <span class="distance">
+                                                <label><input name="recommended" value="1" {if $goods.recommended}checked="checked" {/if}type="radio" name="c2" /> {$lang.yes}</label>
+                                                <label><input name="recommended" value="0" {if !$goods.recommended}checked="checked" {/if}type="radio" name="c2" /> {$lang.no}</label>
+                                            </span>
+                        <span class="gray">{$lang.note_for_recommended}</span>
+                    </div>
+                </li>
+                <li style="width: 768px;">
+                    <h2 style="width: 200px;text-align: right;">是否发货: </h2>
+                    <div class="arrange" style="width: 500px;margin-left: 10px;">
+                                            <span class="distance">
+                                                <label><input name="is_send" value="0" type="radio" {if $goods.is_send eq 0}checked="checked" {/if}/> {$lang.yes}</label>
+                                                <label><input name="is_send" value="1" type="radio" {if $goods.is_send eq 1}checked="checked" {/if}/> {$lang.no}</label>
+                                            </span>
+                        <span class="gray">上门消费的商品在此选择否</span>
+                    </div>
+                </li>
+                </ul>
+                </div>
+                <div class="clear"></div>
+                <h4><b>商品图片</b></h4><br>
+                <div class="pic_list" style="width: 768px;">
+                    <div class="big_pic" style="margin-left: 250px;"><img id="big_goods_image" src="{$goods.default_goods_image}" width="300" height="300" alt="" /></div>
+                    <div class="small_pic" style="margin-left: 250px;">
+                        <ul id="goods_images">
+                            <!--{foreach from=$goods_images item=goods_iamge}-->
+                            <li ectype="handle_pic" file_id="{$goods_iamge.file_id}" thumbnail="{$img_url}/{$goods_iamge.thumbnail}">
+                                <input type="hidden" name="goods_file_id[]" value="{$goods_iamge.file_id}">
+                                <div class="pic">
+                                    <img src="{$img_url}/{$goods_iamge.thumbnail}" width="55" height="55" />
+                                    <div ectype="handler" class="bg">
+                                        <p class="operation">
+                                            <span class="cut_in" ectype="set_cover" ecm_title="{$lang.set_cover}"></span>
+                                            <span class="delete" ectype="drop_image" ecm_title="{$lang.drop}"></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                            <!--{/foreach}-->
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="upload_btn" style="margin-left: 250px;">
+                        <div class="upload" id="open_uploader"><b class="hide">{$lang.upload_goods_image}</b></div>
+                        <div class="upload_con" id="uploader" style="display:none">
+                            <div class="upload_con_top"></div>
+                            <div class="upload_wrap">
+
+                                <ul>
+                                    <li class="btn1">
+                                        <div id="divSwfuploadContainer">
+                                            <div id="divButtonContainer">
+                                                <span id="spanButtonPlaceholder"></span>
+                                            </div>
+                                        </div>
+                                        <div id="divFileProgressContainer"></div>
+                                    </li>
+                                    <li><iframe src="index.php?app=comupload&act=view_iframe&id={$id}&belong={$belong}&pd_id={$pd_id}&instance=goods_image" width="86" height="30" scrolling="no" frameborder="0"></iframe></li>
+                                    <li id="open_remote" class="btn2">{$lang.rem_upload}</li>
+                                </ul>
+                                <div id="remote" class="upload_file" style="display:none">
+                                    <iframe src="index.php?app=comupload&act=view_remote&id={$id}&belong={$belong}&pd_id={$pd_id}&instance=goods_image" width="272" height="39" scrolling="no" frameborder="0"></iframe>
+                                </div>
+                                <div id="goods_upload_progress"></div>
+                                <div class="upload_txt">
+                                    <span>{$lang.note_for_upload}</span>
+                                </div>
+                            </div>
+                            <div class="upload_con_bottom"></div>
+                        </div>
+                        <a href="http://get.adobe.com/cn/flashplayer/" target="_blank" style='color:green'>无法上传图片？可能是您的浏览器不支持flash播放器，点击下载!</a>
+                    </div>
+                </div>
+                <div class="clear"></div>
+<script>
+
+    var SWFUp=null;
+    $(function(){
+        SWFUp=new SWFUpload({
+            upload_url: "index.php?app=swfupload&instance=goods_image",  //taobao_image
+            flash_url: "{$site_url}/includes/libraries/javascript/swfupload/swfupload.swf",
+            post_params: {
+                "ECM_ID": "{$ECM_ID}",
+                "HTTP_USER_AGENT":"{$HTTP_USER_AGENT}",
+                'belong': 2,
+                'item_id': {$id},
+                'ajax': 1,
+                'up_store_id':1,
+                'pd_id': 5
+            },
+            file_size_limit: "8 MB",
+            file_types: "*.gif;*.jpg;*.jpeg;*.png;*.tbi",
+            custom_settings: {
+                upload_target: "divFileProgressContainer",
+                if_multirow: 0
+            },
+
+            // Button Settings
+            button_image_url: "{$site_url}/includes/libraries/javascript/swfupload/images/SmallSpyGlassWithTransperancy_17x18.png",
+            button_width: 86,
+            button_height: 18,
+            button_text: '<span class="button">批量上传</span>',
+            button_text_style: '.button {font-family: Helvetica, Arial, sans-serif; font-size: 12pt; font-weight: bold; color: #3F3D3E;} .buttonSmall {font-size: 10pt;}',
+            button_text_top_padding: 0,
+            button_text_left_padding: 18,
+            button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
+            button_cursor: SWFUpload.CURSOR.HAND,
+
+            // The event handler functions are defined in handlers.js
+            file_queue_error_handler: fileQueueError,
+            file_dialog_complete_handler: fileDialogComplete,
+            upload_progress_handler: uploadProgress,
+            upload_error_handler: uploadError,
+            upload_success_handler: uploadSuccess,
+            upload_complete_handler: uploadComplete,
+            button_placeholder_id: "spanButtonPlaceholder",
+            file_queued_handler : fileQueued
+        });
+    });
+</script>
+

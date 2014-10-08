@@ -1,0 +1,83 @@
+{include file=tuiguang_header.html}
+
+<!--面包屑-->
+<div id="mianb"><a href="index.php?app=tuiguang&act=view">首页</a> > <span>新手上路</span></div>
+
+<!--正文-->
+<div id="fon_con">
+  <div class="left">
+    
+    <h2>1. 会员如何购物更省钱？如何分享获利更多？</h2>
+    <p style="padding-left:20px">1. 会员累计消费500元即可获取100次抽奖机会，通过抽奖可获取现金和积分奖励，远远大于折扣哦！（详情点击<a href="javascript:;" class="cj_link" style="color:#000000">我要抽奖</a>）</p>
+    <p style="padding-left:20px">2. 会员可以通过分享自己的专属链接和二维码，产生注册的会员在大集客商城购物消费额，你即可获得注册会员消费额的积分奖励。<font color="#000000">（结算方式：以积分的形式存入会员帐号中；获取现金奖励可以在线申请签约业务员）</font></p>
+    <p style="padding-left:20px">3. 会员可以帮助大集客引荐商家入驻大集客，并可获得入驻大集客商家营业额的积分奖励。<font color="#000000">（结算方式：以积分的形式存入会员帐号中；获取现金奖励可以在线申请签约业务员）</font></p>
+    
+    
+    <!--<h2>2. 会员如何成为签约业务员？</h2>-->
+    <!--<p style="padding-left:20px">签约业务员需要在线申请或到所属区域服务中心现场签订签约业务员劳动合同，经大集客许可并审核通过的会员方可成为签约业务员。</p>-->
+    <!---->
+   <!---->
+   
+    <h2>3. 获取积分流程</h2>
+    <p><img src="{$site_url}/themes/mall/default/styles/default/images/lianmengke/pic7.png" width="606" height="129" /></p>
+    <p style="color:#999;">
+  
+  
+<h2>4. 积分说明</h2>
+<p style="padding-left:20px">40个积分=人民币1元</p>
+   </div>
+   <!--<div class="right">-->
+     <!--<div class="on1">-->
+       <!--<h2>新晋业务员</h2>-->
+       <!--<ul>-->
+            <!--<li>- djkzhuce***</li>-->
+            <!--<li>- djk5615***</li>-->
+            <!--<li>- djk15***</li>-->
+            <!--<li>- sdf***</li>-->
+            <!--<li>- djkzhuce***</li>-->
+            <!--<li>- djk5615***</li>-->
+            <!--<li>- djk15***</li>-->
+            <!--<li>- sdf***</li>-->
+            <!--<li>- djkzhuce***</li>-->
+            <!--<li>- djk5615***</li>-->
+          <!--</ul>-->
+     <!--</div>-->
+     <!--<div class="on2">-->
+           <!--<h2>常见问题</h2>-->
+           <!--<ul>-->
+             <!--<li><a href="javascript:;">·如何才能申请成为大集客的签约业务员？</a></li>-->
+             <!--<li><a href="javascript:;">·网站在线申请签约业务员后多久可以知道审核结果？</a></li>-->
+             <!--<li><a href="javascript:;">·申请成为签约业务员需要提交哪些资料？</a></li>-->
+             <!--<li><a href="javascript:;">·普通业务员和签约业务员有什么区别？</a></li>-->
+           <!--</ul>-->
+        <!--</div>-->
+        <!--<div class="on3" style="border-bottom:none;">-->
+           <!--<h2>月收入排行榜</h2>-->
+           <!--<ul>-->
+            <!--<li style=" color:#d8271c">djkzhuce***</li>-->
+            <!--<li>djk5615***</li>-->
+            <!--<li style=" color:#eaac44">djk15***</li>-->
+            <!--<li>sdf***</li>-->
+            <!--<li style=" color:#1d5b9f">djkzhuce***</li>-->
+            <!--<li>djk5615***</li>-->
+            <!--<li>djk15***</li>-->
+            <!--<li>sdf***</li>-->
+            <!--<li>djkzhuce***</li>-->
+            <!--<li>djk5615***</li>-->
+          <!--</ul>-->
+        <!--</div>-->
+   <!--</div>-->
+</div>
+<form method="post" name="cj_form" id="cj_form" action="{$TO_PLCHOUJIANG_URL}">
+    <input type="hidden" name="userId" value="{$visitor.user_id}">
+</form>
+<script>
+    $(".cj_link").bind("click",function(){
+        $("#cj_form").submit();
+    })
+</script>
+<!--底部-->
+<div class="clear"></div>
+{include file=tuiguang_footer.html}
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="{res file=/public.css}" rel="stylesheet" type="text/css" />
+    <link href="{res file=/list_x.css}" rel="stylesheet" type="text/css" />
+
+    {$page_seo}
+
+    <style type="text/css">
+        body {
+            _behavior: url({$site_url}/themes/mall/default/styles/default/csshover.htc);
+        }</style>
+    <LINK href="/favicon.ico" type="image/x-icon" rel=icon>
+    <LINK href="/favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <!--[if IE]>
+    <script src="{res file=js/html5.js}"></script>
+    <![endif]-->
+    <!--[if IE 6]>
+    <script src="{res file=js/IE6_PNG.js}"></script>
+    <script>
+        DD_belatedPNG.fix('.pngFix');
+    </script>
+    <script>
+        // <![CDATA[
+if((window.navigator.appName.toUpperCase().indexOf("MICROSOFT")>=0)&&(document.execCommand))
+try{
+document.execCommand("BackgroundImageCache", false, true);
+   }
+catch(e){}
+// ]]>
+</script>
+<![endif]-->
+    <script>
+        COOKIE_PRE = '7210_';_CHARSET = 'utf-8';SITEURL = '{$site_url}';
+    </script>
+    <script type="text/javascript" src="index.php?act=jslang"></script>
+    <script type="text/javascript" src="{res file=js/jquery.js}" charset="utf-8"></script>
+    <script type="text/javascript" src="{res file=js/common.js}" charset="utf-8"></script>
+    <script type="text/javascript">
+        $(function () {
+            //search
+
+            $("#keyword").blur();
+            var url = "/index.php?app=default&act=get_vistor";
+            $.getJSON(url,{},function(data) {
+                if(data['nick_name']!=null){
+                    $("#login_name").html(data['nick_name']+"&nbsp;");
+                }
+                if (data['user_id'] ==0 ) {
+                    $("#login").html("<a href='{url app=member&act=login&ret_url=$ret_url}'>[{$lang.login}]</a>");
+                    $("#register").html("&nbsp;<a href='{url app=member&act=register&ret_url=$ret_url}'>[免费注册]</a>");
+                } else {
+                    $("#login_out").html("<a href='{url app=member&act=logout}'>[{$lang.logout}]</a>");
+                }
+
+                if (data['member_type'] =='02' || data['member_type']=='03') {
+                    $("#quick-menu").html("");
+                    var html="";
+                    html+="<li >";
+                    html+="<a href=\"index.php?app=service&p=service&tuoguan=1\" target=\"_top\" title=\"进入服务中心\">进入服务中心</a>";
+                    html+="</li>";
+                    $("#quick-menu").html(html);
+                } else if (data['member_type'] =='04') {
+                    $("#quick-menu").html("");
+                    var html="";
+                    html+="<li>";
+                    html+="<a href=\"index.php?app=service&p=service&tuoguan=1\" target=\"_top\" title=\"进入采购中心\">进入采购中心</a>";
+                    html+="</li>";
+                    $("#quick-menu").html(html);
+                }/*else{
+                 var html="";
+                 html+="<li class=\"pm\">";
+                 html+="<a href=\"{url app=service&act=register_service}\" target='_blank'><span style=\"color: #ff3300\">抢注服务中心</span></a><em class=\"em1\"></em>";
+                 html+="</li>";
+                 $(".quick-menu").html(html+$(".quick-menu").html());
+                 }*/
+
+            })
+        });
+
+        $(function(){
+            $.getJSON("index.php?app=cart&act=cart_kinds",{},function(data) {
+                $("#cart_kinds").html(data);
+            });
+        });
+    </script>
+
+    <script type="text/javascript"  src="{res file=js/min.js}" charset="utf-8"></script>
+    <script type="text/javascript" src="{res file=js/shop.js}" charset="utf-8"></script>
+    <script type="text/javascript" src="{res file=js/tonjay.js}"  charset="utf-8"></script>
+    <script type="text/javascript"  src="{res file=js/swfobject_modified.js}" charset="utf-8"></script>
+    <script type="text/javascript"  src="{res file=js/mini.js}" charset="utf-8"></script>
+    <!--<script type="text/javascript" src="{res file=js/index.js}" charset="utf-8"></script>-->
+    <script type="text/javascript" src="{res file=js/poshytip.js}" charset="utf-8"></script>
+    <script type="text/javascript" src="{res file=js/charCount.js}"></script>
+    <script type="text/javascript" src="{res file=js/public.js}"></script>
+    <script type="text/javascript" src="{lib file=jike.js}"></script>
+    <!-- 首页对联广告 -->
+    <script type="text/javascript"  src="{res file=js/double_adv.js}"></script>
+    <script type="text/javascript">
+        //<!CDATA[
+        var SITE_URL = "{$site_url}";
+        var IMG_URL = "{$img_url}";
+        var REAL_SITE_URL = "{$real_site_url}";
+        var PRICE_FORMAT = '{$price_format}';
+//        document.domain = '{$domain}';
+        //]]>
+    </script>
+    {$_head_tags}
+
+</head>
+<body >
+<!--头部-->
+<div id="top">
+    <div class="w1200">
+        <div class="left"><span class="ico"><a href="index.php?act=ydshop">移动商城</a></span><span id="login_name"></span>您好，欢迎来到<a href="/"><b>大集客网上商城</b></a>！<span id="login"></span><span id="register"></span><span id="login_out"></span> </div>
+        <div class="right">
+            <ul id="quick-menu">
+                <li>
+                    <!--{if $member.user_id >0 && $member.spreader_type ==1 && $member.shop_name !=null}-->
+                    <a href="http://www.{$member.user_id}.dajike.com">
+                        <!--{else}-->
+                    <a href="index.php?app=jkxd_portal">
+                            <!--{/if}-->
+                    我的集客小店
+                    </a>
+                </li>
+                <li><a href="{url app=member&act=home}" target="_blank">会员中心</a></li>
+                <li style=" color:#cfcfcf;">|</li>
+                <li><a href="{url app=my_qa&p=seller}" target="_blank">卖家中心</a></li>
+                <li style=" color:#cfcfcf;">|</li>
+                <li><a href="index.php?app=pos">POS机刷卡入口</a></li>
+                <li style=" color:#cfcfcf;">|</li>
+                <li><span></span><a href="javascript:void (0);" onmousedown="www_zzjs_net(this,'http://www.dajike.com','大集客');">收藏大集客</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--全部内容-->
+<div id="center_w1200">
+    <!--logo部分-->
+    <div class="login">
+        <div class="logo"><a href="/"><img src="{res file=images/logo.png}" width="269" height="47" /></a></div>
+        <div class="search" id="search">
+
+            <div class="k1">
+                <form action="{r_url app=search}" onSubmit="return searchInput();" method="GET">
+                    <input type="hidden" name="act" value="index"/>
+                    <input type="hidden" name="app" value="search"/>
+                    <span class="sp1"><input type="text"  class="text" lang="zh-CN"  value="{$ky[0]}" onblur="searchBlur(this)" onfocus="searchFocus(this)" maxlength="60" x-webkit-speech="" onwebkitspeechchange="foo()" x-webkit-grammar="builtin:search" id="keyword" name="keyword" style="color: rgb(153, 153, 153);" /></span>
+                    <span class="sp2"><input name="" type="submit" value="搜索" class="buttom"  <!--{if $kw }--> value="{$ky}"<!--{/if}-->/></span>
+                </form>
+            </div>
+            <div class="resou">热搜：
+                <!--{foreach from=$hot_keywords item=keyword name=my_kw}-->
+                <a href="{r_url app=search&keyword=$keyword}" {if $smarty.foreach.my_kw.index==0} class="cd0281e" {elseif $smarty.foreach.my_kw.index==1}class="c1d5b9f"{elseif $smarty.foreach.my_kw.index==2}class="ceaac44"{elseif $smarty.foreach.my_kw.index==3}class="c92bd49"{else}class="c27a196"{/if}>{$keyword}</a>
+                <!--{/foreach}--></div>
+        </div>
+        <div class="car"><a href="{url app=cart}"></a><span class="span01"><span id="goods_kinds">{$cart_goods_kinds}</span></span></div>
+    </div>
+

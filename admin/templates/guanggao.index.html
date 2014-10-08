@@ -1,0 +1,110 @@
+{include file="header.html"}
+<script type="text/javascript">
+$(function(){
+    $('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+    $('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+});
+
+function delete_guanggao(id){
+	if(id =="" || id == null){	
+		alert("请选择广告");
+		return;
+	}
+	if(confirm("确认删除吗？")){
+	   location = "index.php?app=guanggao&act=drop&id="+id;
+	}
+}
+
+function undelete_guanggao(id){
+	if(id =="" || id == null){	
+		alert("请选择广告");
+		return;
+	}
+	if(confirm("确认恢复吗？")){
+	   location = "index.php?app=guanggao&act=undrop&id="+id;
+	}
+}
+
+    function get_ajax(obj) {
+        var title = obj.value;
+        location = "index.php?app=guanggao&act=index&title="+title;
+    }
+
+</script>
+<div id="rightTop">
+    <p>广告管理</p>
+    <ul class="subnav">
+        <li><span><a href="index.php?app=guanggao&act=index" class="btn1">管理</a></span></li>
+        <li><span><a href="index.php?app=guanggao&act=add" class="btn1">新增</a></span></li>
+    </ul>
+</div>
+<div class="mrightTop">
+    <div class="fontl">
+        <form method="get">
+             <div class="left">
+                <input type="hidden" name="app" value="guanggao" />
+                <input type="hidden" name="act" value="index" />                
+                录入时间从：&nbsp;&nbsp;&nbsp;<input  width="100px" type="text" value="{$query.add_time_from}" id="add_time_from" name="add_time_from" class="pick_date" />
+                &nbsp;&nbsp;&nbsp;至：&nbsp;&nbsp;&nbsp;<input  width="100px" type="text" value="{$query.add_time_to}" id="add_time_to" name="add_time_to" class="pick_date" />                
+                &nbsp; &nbsp;&nbsp;&nbsp;按广告位：&nbsp;&nbsp;&nbsp;
+                 <select id="position" name="position" onchange="javascript:get_ajax(this)">
+                     <option value="">---请选择---</option>
+                     <!--{if $guanggao_position}-->
+                     <!--{foreach from=$guanggao_position item=gg key=gg_key}-->
+                     <option value="{$gg_key}" <!--{if $gg_key ==$smarty.get.title}-->selected="selected"<!--{/if}--> >{$gg.position}</option>
+                     <!--{/foreach}-->
+                     <!--{/if}-->
+                 </select>
+                <input type="submit" class="formbtn" value="{$lang.query}" />
+            </div>
+        </form>
+    </div>
+    <div class="fontr">
+        {if $orders}{include file=page.top.html}{/if}
+    </div>
+</div>
+<div class="tdare">
+    <table width="100%" cellspacing="0" class="dataTable">    
+        <tr class="tatr1">
+            <td width="15%" class="firstCell"><span ectype="order_by" fieldname="title">广告标题</span></td>
+            <td width="15%"><span ectype="order_by" fieldname="des">广告描述</span></td>
+            <td width="15%"><span ectype="order_by" fieldname="link">链接</span></td>
+            <td width="10%"><span ectype="order_by" fieldname="img">广告图</span></td>
+            <td width="8%"><span ectype="order_by" fieldname="status">是否可用</span></td>
+            <td width="10%"><span ectype="order_by" fieldname="position">广告位</span></td>
+            <td width="5%"><span ectype="order_by" fieldname="sort">排序</span></td>
+            <td width="15%">录入时间</td>           
+            <td width="10%">{$lang.handler}</td>
+        </tr>     
+        <!--{foreach from=$guanggao item=gg}-->
+        <tr class="tatr2">
+            <td class="firstCell">{$gg.title|escape}</td>
+            <td>{$gg.des}</td>
+            <td><!--{if $gg.link}--><a href="{$gg.link}" target="_blank">{$gg.link}</a><!--{/if}--></td>
+            <td><!--{if $gg.img}--><a href="{$site_url}/{$gg.img}" target="_blank">查看</a><!--{/if}--></td>
+            <td><!--{if $gg.status eq 1}-->正常<!--{else}-->已删除<!--{/if}--></td>
+            <td>{$gg.position_name}</td>
+            <td>{$gg.sort}</td>
+            <td>{$gg.create_time}</td>
+            <td>
+            <a href="index.php?app=guanggao&act=edit&id={$gg.id}">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <!--{if $gg.status eq 1}-->
+            <a href="javascript:delete_guanggao({$gg.id})">删除</a>
+            <!--{else}-->
+            <a href="javascript:undelete_guanggao({$gg.id})">恢复</a>
+            <!--{/if}-->
+            </td>          
+        </tr>
+        <!--{foreachelse}-->
+        <tr class="no_data">
+            <td colspan="8">{$lang.no_data}</td>
+        </tr>
+        <!--{/foreach}-->
+    </table>
+    <div id="dataFuncs">
+        <div class="pageLinks">
+           {include file=page.bottom.html}        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+{include file="footer.html"}

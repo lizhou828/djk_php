@@ -1,0 +1,43 @@
+<div class="x_con">
+    <!-- 商品评价内容部分 -->
+    <div id="goodseval">
+        <table width="100%" cellspacing="0" cellpadding="0" border="0" id="t" class="nc-comment">
+            <thead class="type">
+            <tr><th colspan="3"><div>
+                <input type="radio" href="index.php?app=goods&amp;act=comments&amp;goods_id={$goods.goods_id}&amp;id=8" nc_type="sform" checked="" value="0" id="allRate" name="evalscore">
+                <label for="allRate">全部评价</label>
+            </div></th>
+
+            </tr>
+            </thead>
+
+            <tbody class="detail">
+            <!-- {foreach from=$goods_comments.comments item=comment} -->
+            <tr>
+                <th class="w40"><em title="好评" class="ncse-good"></em></th>
+                <td><p>{$comment.comment|escape|nl2br}</p>
+                    <time pubdate="pubdate">{if $comment.evaluation_time }{$comment.evaluation_time|date:simple} {/if}</time>
+                    <span class="ml20"></span></td>
+                <td class="w150"><dl>
+                    <dd>{if $comment.anonymous}***{else}{$comment.buyer_name|escape}{/if}</dd>
+                    <dd>
+                        {if $comment.evaluation gt 0}<img src="{res file=images/bit.gif}" />{/if}
+                        {if $comment.evaluation gt 1}<img src="{res file=images/bit.gif}" />{/if}
+                        {if $comment.evaluation gt 2}<img src="{res file=images/bit.gif}" />{/if}
+                        {if $comment.evaluation lt 3}<img src="{res file=images/bit2.gif}" />{/if}
+                        {if $comment.evaluation lt 2}<img src="{res file=images/bit2.gif}" />{/if}
+                        {if $comment.evaluation lt 1}<img src="{res file=images/bit2.gif}" />{/if}
+                    </dd>
+                </dl></td>
+            </tr>
+            <!-- {foreachelse} -->
+            <tr>
+                <td colspan="3"><span class="light" >{$lang.no_records}</span></td>
+            </tr>
+            <!-- {/foreach} -->
+
+            </tbody>
+
+        </table>
+    </div>
+    </div>

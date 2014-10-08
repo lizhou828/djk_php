@@ -1,0 +1,46 @@
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_goods
+2014-05-27 15:50:43  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'g.if_show=1 and  and g.closed=0 limit 0, 20' at line 5
+MySQL Query:select g.g.goods_id,g.pd_id, g.store_id, g.type, g.goods_name, g.cate_id, g.cate_name ,g.if_show, g.closed, g.add_timeg.default_image,g.dropState,
+                     gs.price,gs.org_price,gs.stock,
+                     s.store_name
+              from ecm_goods g left join ecm_goods_spec gs on g.goods_id=gs.goods_id
+              left join ecm_store s on s.store_id=g.store_id where 1=1  and type='material' and g.dropState =1 g.if_show=1 and  and g.closed=0 limit 0, 20
+Wrong File:  D:\wamp\www\includes\models\goods.model.php[446]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_goods
+2014-05-27 15:52:56  	[2]Division by zero	\app\service.app.php	5092
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_goods&keyword=&add_time_from=&add_time_to=&store_id=-1&cate_id=1250
+2014-05-27 16:31:23  	[256]MySQL Error[1054]: Unknown column 'g.cate_id1' in 'where clause'
+MySQL Query:select g.goods_id,g.pd_id, g.store_id, g.type, g.goods_name, g.cate_id, g.cate_name ,g.if_show, g.closed, g.add_time,g.default_image,g.dropState,
+                     gs.price,gs.org_price,gs.stock,
+                     s.store_name
+              from ecm_goods g left join ecm_goods_spec gs on g.goods_id=gs.goods_id
+              left join ecm_store s on s.store_id=g.store_id where 1=1  and type='material' and g.dropState =1 and g.if_show=1 and g.closed=0 and s.dropState=1 and state=1 and s.store_id > 0 and tuoguan=1 and s.fwzx=2208 and (g.cate_id =1250 or g.cate_id1=1250) limit 0, 20
+Wrong File:  D:\wamp\www\includes\models\goods.model.php[446]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_recomGoods
+2014-05-27 16:41:12  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and position=1' at line 1
+MySQL Query:SELECT *,vshop_recom_goods.id FROM ecm_vshop_recom_goods vshop_recom_goods WHERE goods_id= and position=1
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_recomGoods
+2014-05-27 16:42:43  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and position=1' at line 1
+MySQL Query:SELECT *,vshop_recom_goods.id FROM ecm_vshop_recom_goods vshop_recom_goods WHERE goods_id= and position=1
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_recomGoods
+2014-05-27 16:43:03  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and position=1' at line 1
+MySQL Query:SELECT *,vshop_recom_goods.id FROM ecm_vshop_recom_goods vshop_recom_goods WHERE goods_id= and position=1
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_recomGoods
+2014-05-27 16:44:00  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and position=1' at line 1
+MySQL Query:SELECT *,vshop_recom_goods.id FROM ecm_vshop_recom_goods vshop_recom_goods WHERE goods_id= and position=1
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_recomGoods
+2014-05-27 16:46:23  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and position=1' at line 1
+MySQL Query:SELECT *,vshop_recom_goods.id FROM ecm_vshop_recom_goods vshop_recom_goods WHERE goods_id= and position=1
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310

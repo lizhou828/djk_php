@@ -1,0 +1,142 @@
+{include file=member.header.html}
+<script>
+var init_id="";
+var init_state=1;
+var init_store_id='';
+function showGoods(data)
+{	  
+			 if(init_state==1)
+			 {
+				document.getElementById("mytable").deleteRow(-1);
+				$("#step2").css("display","block");
+				init_id	= data.id;
+                init_store_id =data.store_id;
+			 }else
+			 {
+			    var arr=init_id.split(",");
+				for(var i=0;i<arr.length;i++)
+			    {
+					if(arr[i]==data.id)
+					{
+                         alert("选择的商品已经存在，不能重复选择！");
+                         return;
+					}else if(data.store_id !=init_store_id)
+                    {
+                        alert("1次只能开1家店铺的订单！");
+                        return;
+                    }
+				}		
+			    init_id+=","+data.id;			
+			 } 
+			  var newTr = document.getElementById("mytable").insertRow(-1);
+
+			  //添加两列
+			  var newTd1 = newTr.insertCell(-1);
+			  var newTd2 = newTr.insertCell(-1);
+			  var newTd3 = newTr.insertCell(-1);
+              var newTd4 = newTr.insertCell(-1);
+			  //设置列内容和属性
+			  newTd1.innerHTML = data.title;
+			  newTd2.innerHTML = data.cate_name;
+			  newTd3.innerHTML = data.price;
+              newTd4.innerHTML = data.stock;
+
+            if(init_state%2==0)
+            {
+                newTr.setAttribute("class","specalt");
+                newTd1.setAttribute("class","alt");
+                newTd2.setAttribute("class","alt");
+                newTd3.setAttribute("class","alt");
+                newTd4.setAttribute("class","alt");
+            }else
+            {
+                newTr.setAttribute("class","spec");
+            }
+    		init_state++;
+
+}
+$("#step2").bind("click",function()
+{
+
+})
+
+
+</script>
+<div class="content">
+
+{include file=member.menu.html}
+
+
+    <div id="right">
+	<ul class="tab">
+                 <li class="active">上传订单</li>
+                 </ul>
+
+        <div class="wrap">
+            <div class="public">
+
+
+				   <!-- 服务中心 对应的 店铺 列表 -->
+                   <div>
+                   <label style='color:#666666'>&nbsp;&nbsp;&nbsp;已经选择的商品</label><br><br>
+                  <table id="mytable" cellspacing="0">
+                           <tr>
+                               <th scope="col" >商品名称</th>
+                               <th scope="col" >商品分类</th>
+                               <th scope="col" >价格</th>
+                               <th scope="col" >库存</th>
+                           </tr>
+                           <tr>
+                               <th scope="row" abbr="Model" class="spec" colspan="4"><center>没有选择商品</center></th>
+                           </tr>
+                       </table>
+                       <br>
+                       <input class="btn_kaidan" type="button" onclick="step2();" style=" display: none;cursor: pointer" id="step2"  value="确认开单" />
+                   <br>              
+                   <br>
+                   <br>
+                       <br>
+                       <br>
+                       <br>
+                   </div>
+				
+
+	
+
+                   <div class="public table" id="serviceTable" name="serviceTable">
+                   <iframe src="index.php?app=service&act=query_goods" width="770px" scrolling="no" frameborder="0" onload="this.height=this.contentWindow.document.body.scrollHeight">
+                   </iframe>
+				   </div>
+                   </div>
+				   <form name="goodsform" id="goodsform" method="post">
+				   <input  id="goodsid" name="goodsid" type="hidden"/>
+                   </form>
+            <div class="wrap_bottom"></div>
+        </div>
+
+        <div class="clear"></div>
+        <div class="adorn_right1"></div>
+        <div class="adorn_right2"></div>
+        <div class="adorn_right3"></div>
+        <div class="adorn_right4"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<style>
+#tab_goods tr td{ color:#666666; font-size:13px; text-align:left}
+</style>
+<script>
+    function step2()
+    {
+        if(init_id=="")
+        {
+            alert("没有选中任何商品，不能开单");
+        }else
+        {
+            $("#goodsid").val(init_id);
+            $("#goodsform").action="index.php?app=service&act=kaidan";
+            $("#goodsform").submit();
+        }
+    }
+</script>
+{include file=footer.html}

@@ -1,0 +1,87 @@
+{include file=header.html}
+<link href="{res file=css/other.css}" rel="stylesheet" type="text/css" />
+<link href="{res file=css/bdsh.css}" rel="stylesheet" type="text/css" />
+<script>
+    function get_city(reg_id) {
+        var url = SITE_URL+"/index.php?app=mlselection&type=region";
+        $.getJSON(url,{'pid':reg_id},function(data){
+            if (data.done) {
+                jQuery("#city").empty();
+                var data  = data.retval;
+                for (i = 0; i < data.length; i++)
+                {
+                    $("#city").append("<option value='" + data[i].region_id + "'>" + data[i].region_name + "</option>");
+                }
+            }
+        });
+    }
+
+    function to_index(reg_id,reg_name) {
+        if (reg_id==""||reg_name=="") {
+            var reg_id= $("#city").val();
+            var reg_name= $("#city").find("option:selected").text();
+        }
+        location ="index.php?app=bdsh&pd_id=5&bdsh_reg_id="+reg_id;
+    }
+</script>
+    <!--全部内容-->
+{include file=bdsh.common_search.html}
+<input type="hidden" id="hidden_type" value="{$type}">
+    <!--菜单-->
+{include file=bdsh.category_common.html}
+<!--内容中-->
+    <div id="chengs">
+        <div class="fol1" id="region">
+            <span class="label">按省份选择：</span>
+            <span class="xuz">
+            <select onchange="javascript:get_city(this.value);">
+                <option value="0">{$lang.select_pls}</option>
+                {html_options options=$region}
+            </select>
+            <select name="" id="city">
+                <option value="0">{$lang.select_pls}</option>
+            </select>
+                </span>
+            <input type="hidden" class="mls_id" name="region_id" id="region_id"/><input type="hidden" name="region_name" class="mls_names" id="region_name"/>
+            <a href="javascript:void(0)" onclick="to_index('','')"><input  type="button" value="确定" class="anniu" /></a>
+        </div>
+        <div class="fol2">
+            <h2>常用城市：</h2>
+            <p>
+                <a href="javascript:to_index(321,'上海')">上海</a><a href="javascript:to_index(52,'北京')">北京</a>
+                <a href="javascript:to_index(76,'广州')">广州</a><a href="javascript:to_index(77,'深圳')">深圳</a>
+                <a href="javascript:to_index(180,'武汉')">武汉</a><a href="javascript:to_index(343,'天津')">天津</a>
+                <a href="javascript:to_index(311,'西安')">西安</a><a href="javascript:to_index(220,'南京')">南京</a>
+                <a href="javascript:to_index(383,'杭州')">杭州</a><a href="javascript:to_index(322,'成都')">成都</a>
+            </p>
+        </div>
+        <div class="fol2">
+            <h2>最近访问：</h2>
+            <p>
+                <a href="javascript:to_index(321,'上海')">上海</a>
+            </p>
+        </div>
+        <div class="fol3">
+            <h2>按省份选择<span class="arrow">»</span></h2>
+            <ul>
+                <!--{foreach from=$shengshi item=city key=key}-->
+                <li>
+                 <p>
+                 <span class="lable" style="width: 80px;"><strong style="width: 80px;">{$city.shengfen}</strong></span>
+                   <span class="cc">
+                    <!--{foreach from=$city item=item name=my_city key=cc}-->
+                     <!--{if !$smarty.foreach.my_city.last}-->
+                    <a href="javascript:to_index('{$item.region_id}','{$item.region_name}')">{$item.region_name}</a>
+                       <!--{/if}-->
+                     <!--{/foreach}-->
+                   </span>
+                   </p>
+                </li>
+                <!--{/foreach}-->
+            </ul>
+            <div class="clear"></div>
+        </div>
+    </div>
+    </div>
+
+{include file = footer.html}

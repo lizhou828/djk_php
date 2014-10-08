@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>大集客-移动商城-集客小店</title>
+    <link href="{$site_url}/weixin/templates/style/public.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/com.css" rel="stylesheet" type="text/css" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        function showOrHideChildCategory(_cate_id){
+            if(!_cate_id || _cate_id==null || _cate_id=="" || typeof _cate_id =="undefined"){
+                alert("参数错误！");
+                return;
+            }
+            var cateIdSpan = "#"+_cate_id+"_span";
+            if(document.getElementById(_cate_id).style.display=="none"){
+                document.getElementById(_cate_id).style.display="block";
+                $(cateIdSpan).css({"background":"url('{$site_url}/weixin/templates/images/ico_list.png') no-repeat"});
+            }else{
+                document.getElementById(_cate_id).style.display="none";
+                $(cateIdSpan).css({"background":"url('{$site_url}/weixin/templates/images/ico_list.png') no-repeat -17px 0"});
+            }
+        }
+    </script>
+    <style type="text/css">
+        .category{
+            background: url('{$site_url}/weixin/templates/images/address-bg.jpg') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+            font-style: normal;
+            height: 26px;
+            left: 6px;
+            line-height: 26px;
+            position: absolute;
+            text-align: center;
+            top: 9px;
+            width: 64px;
+            margin-left: 240px;
+        }
+        .category a{
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+<div id="w_3202" style="height: 600px;">
+    <div class="top">
+        商品类别列表
+        <em class="em1"><a href="javascript:history.go(-1)">返回</a></em>
+        <div class="category">
+            <a href="{$site_url}/weixin/index.php?app=jkxd_portal&act=vshop&id={$shopOwnerId}">小店首页</a>
+        </div>
+    </div>
+    <div class="list_list">
+        <ul class="uls">
+
+                <!--{foreach from=$topCategoryList item=cate}-->
+                    <div style="height:39px;color: #333333;font-size: 14px;padding-left: 12px;width: 296px;padding-top: 20px;cursor: pointer;border: 1px solid white;position: relative"
+                         onclick="showOrHideChildCategory('{$cate.cate_id}')"
+                         onmouseover="this.style.border='1px solid red'"
+                         onmouseout="this.style.border='1px solid white'"
+                            >
+                        <strong>{$cate.cate_name}</strong>
+                        <span id="{$cate.cate_id}_span" style="float: right;background: url('{$site_url}/weixin/templates/images/ico_list.png') no-repeat -17px 0;position: absolute;width: 16px;height: 16px;right: 20px;"></span>
+                    </div>
+                    <div id="{$cate.cate_id}" style="display: none">
+                        <!--{foreach from=$page.cates item=gcate name=gcate_index}-->
+                        {if $cate.cate_id == $gcate.cate_id_1}
+                        <li>
+                            <a href="{$site_url}/weixin/index.php?app=jkxd_portal&act=vshop_list&id={$shopOwnerId}&type={$type}&topCateId={$gcate.cate_id_1}&goodCateId={$gcate.cate_id}">
+                                <div style="font-size: 14px;color: #000000">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;{$gcate.cate_name|myeval:"substr(value, strpos(value,'	'))"}({$gcate.c})
+                                    <span>></span>
+                                </div>
+
+                            </a>
+                        </li>
+                        {/if}
+                        <!--{/foreach}-->
+                    </div>
+                <!--{/foreach}-->
+
+
+        </ul>
+    </div>
+
+    {if $user && $user.user_id && $user.user_id > 0}
+        {include file=jkxd_portal.footer.html}
+    {/if}
+</div>
+</body>
+</html>

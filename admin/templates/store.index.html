@@ -1,0 +1,179 @@
+{include file="header.html"}
+<script charset="utf-8" type="text/javascript" src="{lib file=mlselection.js}" ></script>
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js"></script>
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js"></script>
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+<form method="get">
+<div id="rightTop">
+  <p>{$lang.store}</p>
+  <ul class="subnav">
+    <!--{if $smarty.get.wait_verify}-->
+    <li><a class="btn1" href="index.php?app=store">{$lang.manage}</a></li>
+    <!--{else}-->
+    <li><span>{$lang.manage}</span></li>
+    <!--{/if}-->
+    <li><a class="btn1" href="index.php?app=store&amp;act=test">{$lang.add}</a></li>
+    <!--{if $smarty.get.wait_verify}-->
+    <li><span>{$lang.wait_verify}</span></li>
+    <!--{else}-->
+    <li><a class="btn1" href="index.php?app=store&amp;wait_verify=1">{$lang.wait_verify}</a></li>
+    <!--{/if}-->
+  </ul>
+  
+            <div style="float:left; padding:13px">
+            店铺类型
+            <select name="seller_type">
+            <option value="-1" >--全部--</option>
+            <option value="0" <!--{if $smarty.get.seller_type eq 0 && $smarty.get.seller_type != ""}-->selected="selected"<!--{/if}--> >厂商</option>
+            <option value="1" <!--{if $smarty.get.seller_type eq 1}-->selected="selected"<!--{/if}--> >代理商</option>
+            <option value="2" <!--{if $smarty.get.seller_type eq 2}-->selected="selected"<!--{/if}--> >零售商</option>
+            <option value="3" <!--{if $smarty.get.seller_type eq 3}-->selected="selected"<!--{/if}-->>实体店</option>
+            </select>
+            </div>
+    <div style="float:left; padding:13px">
+        店铺状态
+        <select name="state">
+            <option value="">--全部--</option>
+            <option value="1" <!--{if $smarty.get.state eq 1}-->selected="selected"<!--{/if}--> >开启</option>
+            <option value="2" <!--{if $smarty.get.state eq 2}-->selected="selected"<!--{/if}--> >关闭</option>
+            <option value="3" <!--{if $smarty.get.state eq 3}-->selected="selected"<!--{/if}--> >审核不通过</option>
+        </select>
+    </div>
+    <!--{if $smarty.get.wait_verify}-->
+    <div style="float:left; padding:13px">
+        店铺待审核类型
+        <select name="tuoguan">
+            <option value="0" <!--{if $smarty.get.tuoguan eq 0}-->selected="selected"<!--{/if}--> >非托管</option>
+            <option value="1" <!--{if $smarty.get.tuoguan eq 1}-->selected="selected"<!--{/if}--> >托管</option>
+        </select>
+    </div>
+    <!--{/if}-->
+</div>
+<div class="mrightTop">
+  <div class="fontl">
+       <div class="left">
+          <input type="hidden" name="app" value="store" />
+          <input type="hidden" name="act" value="index" />
+          <input type="hidden" name="wait_verify" value="{$smarty.get.wait_verify}" />
+          {$lang.owner_name}:
+          <input class="queryInput" type="text" style="width: 60px;" name="owner_name" value="{$smarty.get.owner_name|escape}" />
+          {$lang.store_name}:
+          <input class="queryInput" type="text" name="store_name" value="{$smarty.get.store_name|escape}" />
+
+           &nbsp;&nbsp;&nbsp;注册时间 &nbsp;&nbsp;&nbsp;
+           <input class="text_normal" style="width:80px;" type="text" name="add_time_from" id="add_time_from" value="{$smarty.get.add_time_from|escape}" /> &#8211;
+           <input class="text_normal"  style="width:80px;" id="add_time_to" type="text" name="add_time_to" value="{$smarty.get.add_time_to|escape}" />&nbsp;
+
+           
+           <!--
+          {$lang.sgrade}:
+          <select class="querySelect" name="sgrade">
+            <option value="">{$lang.select_pls}</option>
+            {html_options options=$sgrades selected=$smarty.get.sgrade}
+          </select>
+          -->
+           所在地区:
+           <div id="region" style=" display:inline">
+               <input type="hidden" name="region_id" value="" class="mls_id" />
+               <input type="hidden" name="region_name" value="" class="mls_names" />
+               <select>
+                   <option>{$lang.select_pls}</option>
+                   {html_options options=$regions}
+               </select>
+           </div>&nbsp;
+           <label style='color:#666666'>{$smarty.get.region_name}&nbsp;&nbsp;</label>
+
+          <input type="submit" class="formbtn" value="{$lang.query}" />
+      </div>
+      <!--{if $filtered}-->
+      <a class="left formbtn1" href="index.php?app=store<!--{if $smarty.get.wait_verify}-->&amp;wait_verify={$smarty.get.wait_verify}<!--{/if}-->">{$lang.cancel_query}</a>
+      <!--{/if}-->
+    
+  </div>
+  <div class="fontr">{include file=page.top.html} </div>
+</div>
+</form>
+<div class="tdare">
+  <table width="100%" cellspacing="0" class="dataTable">
+    <!--{if $stores}-->
+    <tr class="tatr1">
+      <td width="20" class="firstCell"><input type="checkbox" class="checkall" /></td>
+      <td>{$lang.owner_user_name} | {$lang.owner_real_name}</td>
+      <td><span ectype="order_by" fieldname="store_name">{$lang.store_name}</span></td>
+      <td><span ectype="order_by" fieldname="region_id">{$lang.region}</span></td>
+      <td><span ectype="order_by" fieldname="sgrade">申请时间</span></td>
+        <td><span ectype="order_by" fieldname="seller_type">店铺类型</span></td>
+      <td class="table-center"><span ectype="order_by" fieldname="add_time">提成比例</span></td>
+      <td class="table-center"><span ectype="order_by" fieldname="state">{$lang.state}</span></td>
+      <!--{if !$smarty.get.wait_verify}-->
+      <td class="table-center"><span ectype="order_by" fieldname="sort_order">{$lang.sort_order}</span></td>
+      <td class="table-center"><span ectype="order_by" fieldname="recommended">{$lang.recommend}</td>
+      <!--{/if}-->
+      <td class="handler">{$lang.handler}</td>
+    </tr>
+    <!--{/if}-->
+    <!--{foreach from=$stores item=store}-->
+    <tr class="tatr2">
+      <td class="firstCell"><input type="checkbox" class="checkitem" value="{$store.store_id}" /></td>
+      <td>{$store.user_name|escape} | {$store.owner_name|escape}</td>
+      <td>{$store.store_name|escape}</td>
+      <td>{$store.region_name|escape}</td>
+      <td>{$store.add_time|date:complete}</td>
+      <td>
+          <!--{if $store.seller_type eq 0}-->
+          厂商
+          <!--{elseif $store.seller_type eq 1}-->
+          代理商
+          <!--{elseif $store.seller_type eq 2}-->
+          零售商
+          <!--{elseif $store.seller_type eq 3}-->
+          实体店
+          <!--{/if}-->
+      </td>
+      <td class="table-center">{$store.ticheng|changerStr:100}%</td>
+      <td class="table-center">{$store.state}</td>
+      <!--{if !$smarty.get.wait_verify}-->
+      <td class="table-center"><span ectype="inline_edit" fieldname="sort_order" fieldid="{$store.store_id}" datatype="pint" title="{$lang.editable}" class="editable">{$store.sort_order}</span></td>
+      <td class="table-center"><!--{if $store.recommended}--><img src="templates/style/images/positive_enabled.gif" ectype="inline_edit" fieldname="recommended" fieldid="{$store.store_id}" fieldvalue="1" title="{$lang.editable}"/><!--{else}--><img src="templates/style/images/positive_disabled.gif" ectype="inline_edit" fieldname="recommended" fieldid="{$store.store_id}" fieldvalue="0" title="{$lang.editable}"/><!--{/if}--></td>
+      <!--{/if}-->
+      <td class="handler">
+        <!--{if !$smarty.get.wait_verify}-->
+        <a href="index.php?app=store&amp;act=edit&amp;id={$store.store_id}">{$lang.edit}</a> | <a href="javascript:drop_confirm('{$lang.drop_confirm}', 'index.php?app=store&amp;act=drop&amp;id={$store.store_id}');">{$lang.drop}</a> | <a target="_blank" href="{$site_url}/index.php?app=store&amp;id={$store.store_id}">{$lang.store_index}</a>
+        <!--{else}-->
+        <a href="index.php?app=store&amp;act=view&amp;id={$store.store_id}">{$lang.view}</a>
+
+        <!--{/if}-->
+          <a href="index.php?app=goods&amp;act=goodsView&amp;store_name={$store.store_name}" target="_blank">查看商品</a>
+      </td>
+    </tr>
+    <!--{foreachelse}-->
+    <tr class="no_data">
+      <td colspan="13">{$lang.no_data}</td>
+    </tr>
+    <!--{/foreach}-->
+  </table>
+  <!--{if $stores}-->
+  <div id="dataFuncs">
+    <div class="pageLinks">{include file=page.bottom.html}</div>
+    <div id="batchAction" class="left paddingT15">{if !$smarty.get.wait_verify}
+      &nbsp;&nbsp;
+      <input class="formbtn batchButton" type="button" value="{$lang.edit}" name="id" uri="index.php?app=store&act=batch_edit&ret_page={$page_info.curr_page}" />
+      &nbsp;&nbsp;
+      <input class="formbtn batchButton" type="button" value="{$lang.drop}" name="id" uri="index.php?app=store&act=drop" presubmit="confirm('{$lang.drop_confirm}');" />
+      <!--&nbsp;&nbsp;
+      <input class="formbtn batchButton" type="button" value="{$lang.update_order}" name="id" presubmit="updateOrder(this);" />-->
+      {else}
+      <input class="formbtn batchButton" type="button" value="{$lang.drop}" name="id" uri="index.php?app=store&act=drop" presubmit="confirm('{$lang.reject_confirm}');" />
+      <!--{/if}-->
+    </div>
+  </div>
+  <div class="clear"></div>
+  <!--{/if}-->
+
+</div>
+<script>
+regionInit("region");
+$('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+$('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+</script>
+{include file="footer.html"}

@@ -1,0 +1,149 @@
+<div class="clear"></div>
+<div id="faq">
+    <ul class="s1">
+        <h3>
+            帮助中心      </h3>
+        <!--{foreach from=$help item=hl}-->
+        <li><a href="{url app=article&act=view&article_id=$hl.article_id}" title="{$hl.title}" target="_blank"> {$hl.title} </a></li>
+        <!--{/foreach}-->
+    </ul>
+    <ul class="s2">
+        <h3>
+            店主之家      </h3>
+        <!--{foreach from=$home item=hm}-->
+        <li><a href="{url app=article&act=view&article_id=$hm.article_id}" title="{$hm.title}" target="_blank"> {$hm.title} </a></li>
+        <!--{/foreach}-->
+    </ul>
+    <ul class="s3">
+        <h3>
+            集客小店      </h3>
+        <!--{foreach from=$pay item=pa}-->
+        <li><a href="{url app=article&act=view&article_id=$pa.article_id}" title="{$pa.title}" target="_blank"> {$pa.title} </a></li>
+        <!--{/foreach}-->
+    </ul>
+    <ul style="width:190px;">
+        <li style="padding-top:35px; padding-left:15px;"><img src="{res file=images/logo_di.png}" width="83" height="75"  /></li>
+    </ul>
+    <ul class="s4">
+        <h3>
+            售后服务      </h3>
+        <!--{foreach from=$service item=sv}-->
+        <li><a href="{url app=article&act=view&article_id=$sv.article_id}" title="{$sv.title}" target="_blank"> {$sv.title} </a></li>
+        <!--{/foreach}-->
+    </ul>
+    <ul class="s5">
+        <h3>
+            客服中心      </h3>
+        <!--{foreach from=$center item=ct}-->
+        <li><a href="{url app=article&act=view&article_id=$ct.article_id}" title="{$ct.title}" target="_blank"> {$ct.title} </a></li>
+        <!--{/foreach}-->
+    </ul>
+    <ul class="s6">
+        <h3>
+            关于我们      </h3>
+        <!--{foreach from=$about item=ab}-->
+        <li><a href="{url app=article&act=view&article_id=$ab.article_id}" title="{$ab.title}" target="_blank"> {$ab.title} </a></li>
+        <!--{/foreach}-->
+
+    </ul>
+    <div class="clear"></div>
+</div>
+<div id="di">
+    <a href="{url app=article&act=view&article_id=28}" target="_blank">联系我们</a>
+    |<a href="{url app=article&act=view&article_id=39}" target="_blank">人才招聘</a>
+    |<a href="{url app=article&act=view&article_id=23}" target="_blank">商家开店</a>
+    | <a href="{url app=article&act=view&article_id=29}" target="_blank">在线支付</a>
+    | 客服热线<a href="{url app=article&act=view&article_id=54}" target="_blank"> 400-728-1117</a>
+    <!-- Live800在线客服图标:dajike-link[文本图标] 开始-->
+    <div style='display:none;'><a href='http://www.live800.com'>在线客服</a></div><script language="javascript" src="http://chat10.live800.com/live800/chatClient/textButton.js?jid=6251139253&companyID=385228&configID=190636&codeType=custom"></script><script id='write' language="javascript">function writehtml(){var temptext=text_generate();document.getElementById('live190636').innerHTML=temptext;setTimeout('write.src',9000);}writehtml();</script><div style='display:none;'><a href='http://en.live800.com'>live chat</a></div>
+    <!-- 在线客服图标:dajike-link 结束-->
+    <br />
+    上海酷鸟网络科技有限公司  版权所有
+    <a href="http://www.miitbeian.gov.cn/" target="_blank">沪ICP备13035566号</a>
+    上海市公安局宝山分局备案编号：<a href="http://www.zx110.org" target="_blank">3101130300284792-1</a><br/>
+ <img src="{res file=images/yewei_zhifubao.jpg}"/>
+        <a href="http://www.sgs.gov.cn/lz/licenseLink.do?method=licenceView&entyId=20131119172754953" target="_blank"><img src="{res file=images/yewei_gongshang.jpg}"/></a>
+<a href="http://www.police.sh.cn/shga/gweb/email/110/" target="_blank"><img src="{res file=images/yewei_110.jpg}"/></a>
+<a href="http://www.zx110.org/" target="_blank"><img src="{res file=images/yewei_zhengxin.jpg}"/></a> 
+<a href="https://ss.knet.cn/verifyseal.dll?sn=e13112211010043577zqnz000000&amp;ct=df&amp;a=1&amp;pa=0.557971702672331" target="_blank"><img src="{res file=images/yewei_kexinren.jpg}"/></a>
+    <a href="https://online.unionpay.com/static/page/530.html" target="_blank"><img src="{res file=images/yinlian.jpg}"/></a>
+<span style="display:none">
+  <script src="http://kxlogo.knet.cn/seallogo.dll?sn=e13112211010043577zqnz000000&size=3"></script>
+</span>
+</div>
+<span style="display: none">
+    <script type="text/javascript">
+        var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1000080062'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1000080062' type='text/javascript'%3E%3C/script%3E"));</script>
+</span>
+
+<div id="d_im_chat">
+    <div id="talkWindowDivId" style="display:none"></div>
+    <div class="tstart-drop-panel" style="display:none" id="bottom"></div>
+    <div id="bottom11" style="display:none"></div>
+</div>
+<script>
+
+    //$.post("index.php?app=default&act=get_chat","",function(rs){
+     //       $("#bottom11").css("display","");
+     //       $("#bottom11").html(rs);
+    //})
+    function open_kf(){
+        if (document.getElementById("chatObj")) {
+            show_kf();
+        } else {
+            $.post("index.php?app=default&act=get_chat&init_chat="+new Date(),"",function(rs){
+                $("#bottom11").css("display","");
+                $("#bottom11").html(rs);
+                show_kf();
+            })
+        }
+    }
+    function show_kf(){
+        try {
+            var chatSWF = document.getElementById("chatObj");
+            var obj = new Object();
+            obj.userid = "5594";
+            obj.username = "djkkf001";
+            obj.nickname = "在线客服01";
+            obj.newMessageNum = "0";
+            obj.isKf ="false";
+            obj.messages = "";
+            obj.online = "false";
+            chatSWF.addOtherContector(obj);
+        } catch (e) {
+            setTimeout(show_kf, 1000);
+        }
+    }
+
+    function addOtherContector(user_id,user_name,nick_name) {
+        if (document.getElementById("chatObj")) {
+            var chatSWF = document.getElementById("chatObj");
+            var obj = new Object();
+            obj.userid = user_id;
+            obj.username = user_name;
+            obj.nickname = nick_name;
+            obj.newMessageNum = "0";
+            obj.isKf ="false";
+            obj.messages = "";
+            obj.online = "false";
+            try{
+                chatSWF.addOtherContector(obj);
+            }catch(e) {
+               setTimeout(function(){
+                   addOtherContector(user_id,user_name,nick_name);
+               },5000);
+            }
+        }else{
+            $.post("index.php?app=default&act=get_chat&init_chat="+new Date(),"",function(rs){
+                $("#bottom11").css("display","");
+                $("#bottom11").html(rs);
+                addOtherContector(user_id,user_name,nick_name);
+            })
+        }
+
+    }
+</script>
+
+</div>
+</body>
+</html>

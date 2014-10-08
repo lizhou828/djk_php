@@ -1,0 +1,143 @@
+#bottom11 {
+    line-height: 28px;
+    background: url(../images/shop_lt01.jpg) repeat-x;
+    border: 1px solid #ececec;
+    border-bottom: none;
+    border-top: none;
+    width: 200px;
+    display: block;
+    height: 28px;
+    bottom: 0px;
+    position: fixed;
+    z-index: 2000;
+    -moz-opacity: 0.8;
+    opacity: 0.8;
+    _position: absolute;
+    _bottom: auto;
+    _top: expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)||0)-(parseInt(this.currentStyle.marginBottom,10)||0)));
+    right: 0px;
+}
+
+*+html #bottom11 {
+    padding-top: 1px;
+    line-height: 20px;        padding-bottom:10px;
+    background: url(../images/shop_lt01.jpg) repeat-x;
+    border: 1px solid #ececec;
+    border-bottom: none;
+    border-top: none;
+    width: 200px;
+    display: block;
+    height: 20px;
+    bottom: 6px;
+    position: fixed;
+    z-index: 2000;
+    -moz-opacity: 0.8;
+    opacity: 0.8;
+    _position: absolute;
+    _bottom: auto;
+    _top: expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)||0)-(parseInt(this.currentStyle.marginBottom,10)||0)));
+    right: 0px;
+}
+
+#bottom11 ul li {
+    float: left;
+    padding-right: 5px;
+    position: relative;
+}
+
+* html #bottom11 ul li {
+    float: left;
+    padding-right: 5px;
+    position: relative;
+}
+
+* html #bottom11 li img {
+    padding-top: 5px;
+}
+
+
+#bottom11 ul {
+    padding-left: 15px;
+}
+* html #bottom11 ul {
+    padding-left: 15px;
+}
+
+#bottom11 s {
+    width: 200px;
+    border: 1px solid #dbdbdb;
+    position: absolute;
+    top: -202px;
+    right: -52px;
+    text-decoration: none;
+    height: 200px;
+    background-color: #f9feff;
+    overflow: scroll
+}
+
+*+html #bottom11 s {
+    width: 200px;
+    border: 1px solid #dbdbdb;
+    position: absolute;
+    top: -209px;
+    right: -52px;
+    text-decoration: none;
+    height: 200px;
+    background-color: #f9feff;
+    overflow: scroll
+}
+
+#bottom11 s p {
+    padding-left: 8px;
+    padding-top: 3px;
+}
+
+#bottom11 s dl {
+    width: 100px;
+    margin-left: 10px;
+    height: 22px;
+}
+
+#bottom11 s dd {
+    float: left
+}
+
+#bottom11 s dt {
+    float: right
+}
+
+#bottom {
+    width: 200px;
+    display: block;
+    height: 400px;
+    overflow-y: scroll;  border:1px solid #dbdbdb;
+    bottom: 0px;
+    position: fixed;
+    z-index: 2000;
+    /*filter: alpha(opacity = 80);*/
+    /*-moz-opacity: 0.8;*/
+    /*opacity: 0.8;*/
+    _position: absolute;
+    _bottom: auto;
+    _top: expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)||0)-(parseInt(this.currentStyle.marginBottom,10)||0)));
+    right: 0px;
+    line-height: 30px;
+    margin-bottom: 25px; background-color:#fff;
+}
+
+#bottomp{ height:30px; background-color:#eee; padding-left:8px; border-bottom:1px solid #dbdbdb; color:blue}
+
+#bottom dl{ line-height:30px; padding-left:8px;}
+#bottom dl dd{ float:left}
+#bottom dl dd img{ padding-top:8px; margin-right:5px;}
+#bottom dl dt{ line-height:28px;}
+/*防止ie6中滚动式抖动*/
+*html {
+    background-image: url(about:blank);
+    background-attachment: fixed;
+}
+
+#bottom img {
+    float: left
+}
+

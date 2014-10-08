@@ -1,0 +1,169 @@
+{include file=header.html}
+<link href="{res file=css/chaoshi.css}" rel="stylesheet" type="text/css">
+<link href="{res file=css/index.css}" rel="stylesheet" type="text/css">
+<div id="center_w1200" style="width: 100%;" >
+    <!--全部内容-->
+    {include file=common_search.html}
+<div id="navBarts" class="mb10">
+    <div class="content">
+        <div id="all-categoryts">
+            <div class="title">
+                <h2 title="商品全部分类"><a href="{url app=category}">商品全部分类</a></h2>
+                <i></i></div>
+            <div id="category" class="category pngFix" style="background: #F8F8F8">
+                <ul class="menu">
+                    <!--{foreach from=$gcategorys_left item=gcategory name=gcategory}-->
+                    <!-- {if $smarty.foreach.gcategory.index<7 }-->
+                    <!-- {if !empty($gcategory) }-->
+                    <li id="cat_{$smarty.foreach.gcategory.index}">
+                        <h3><span class="block"><a href="{url app=search&cate_id=$gcategory.id}" title="{$gcategory.value|escape}">{$gcategory.value|escape}</a>   </span>
+                         <span>
+                                <a href="{url app=search&cate_id=$gcategory.children[0].id}">{$gcategory.children[0].value}</a>
+                                <a href="{url app=search&cate_id=$gcategory.children[1].id}">{$gcategory.children[1].value}</a>
+                               <a href="{url app=search&cate_id=$gcategory.children[2].id}">{$gcategory.children[2].value}</a>
+                         </span>
+                        </h3>
+                        <div class="cat-menu" id="cat_{$smarty.foreach.gcategory.index}_menu">
+                            <dl>
+                                <dt> {$gcategory.value|escape} </dt>
+                                <dd><!--{foreach from=$gcategory.children item=child}--><a href="{url app=search&cate_id=$child.id}">{$child.value|escape}</a> <!--{/foreach}--> </dd>
+                            </dl>
+
+                        </div>
+                    </li>
+                    <!--{/if}-->
+                    <!--{/if}-->
+                    <!--{/foreach}-->
+
+                    <div class="clear"></div>
+                </ul>
+            </div>
+
+        </div>
+        <ul class="nc-nav-menu">
+            <li <!--{if $smarty.get.act =='get_techan_goods' }--> class="current"<!--{else}--> class="link"<!--{/if}-->><a href="{r_url app=tese&act=get_techan_goods&pd_id=3}"><span>当地土特产</span></a></li>
+            <!--<li class="link"><a class="pngFix" href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=1614&pd_id=3}"><span class="pngFix">蔬果菜市</span></a></li>-->
+            <li class="link"><a href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=1615&pd_id=3}"><span>营养健康</span></a></li>
+            <li class="link"><a href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=1616&pd_id=3}"><span>有机食品</span></a></li>
+            <li class="link"><a href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=1617&pd_id=3}"><span>休闲食品</span></a></li>
+            <!--<li class="link"><a href="{r_url app=tese&act=get_goods_qianggou}"><span>限时抢购</span></a></li>-->
+            <!--<li class="link"><a href="{url app=service&act=register_service}" target='_blank'><span>抢注服务中心</span></a><em class="em1"></em></li>-->
+            <!--<li class="link"><a href="{r_url app=search&act=groupbuy}"><span>团购</span></a></li>-->
+            <!--&lt;!&ndash;<li class="link"><a href="#"><span>优惠券</span></a></li>&ndash;&gt;-->
+            <!--<li class="link"><a href="#"><span>积分中心</span></a></li>-->
+            <!--<li class="link"><a href="#"><span>微商城</span></a></li>-->
+            <!--<li class="link"><a href="index.php?app=service&act=register_service"><span>服务中心</span></a></li>-->
+            <!--<li class="link"><a href="{r_url app=member&act=cj}"><span>我要抽奖</span></a></li>-->
+        </ul>
+    </div>
+</div>
+<!--超市内容1-->
+<div class="tese1_1">
+    <div class="left">
+        <ul class="lul">
+            <!--{foreach from=$tese_category item=gcategory key=key name=gcategory}-->
+            <!-- {if $smarty.foreach.gcategory.index<8 }-->
+            <!-- {if !empty($gcategory) }-->
+            <li style="border-top:none">
+                <span class="span1">{$key|truncate:22:"……"}</span>
+                  <span class="span2">
+                              <!--{foreach from=$gcategory item=child key=key}-->
+                             <!--{foreach from =$son_category item=fa key=fakey name=myfa}-->
+                              <!--{if $fakey eq $key}-->
+                             <!--{foreach from=$fa item=son name=my_son}-->
+                             <!--{if $son.cate_id}-->
+                             <!--{if $smarty.foreach.my_son.index<1}-->
+                            <a href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=$key}">{$son.cate_name}&nbsp;</a>
+                             <!--{/if}-->
+                             <!--{else}-->
+                             <!--{foreach from=$son item=gs name=my_gs}-->
+                             <!--{if $smarty.foreach.my_son.index<1}-->
+                              <!--{if $smarty.foreach.my_gs.index<1}-->
+                              <a href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=$key}">{$gs.cate_name}&nbsp;</a>
+                             <!--{/if}-->
+                             <!--{/if}-->
+                             <!--{/foreach}-->
+                              <!--{/if}-->
+                             <!--{/foreach}-->
+                             <!--{/if}-->
+                            <!--{/foreach}-->
+                             <!--{/foreach}-->
+
+                         </span>
+
+                <div class="fl cat-menu"  style="min-height: 0px;width: 500px;">
+                    <!--{foreach from=$gcategory item=child key=key}-->
+                    <dl>
+                        <dt><a href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=$key}"> {$child|escape}</a> </dt>
+                        <dd><!--{foreach from =$son_category item=fa key=fakey name=my_son}-->
+                            <!--{if $fakey eq $key}-->
+                            <!--{foreach from =$fa item=son key=k name =my_fa}-->
+                            <!--{if $son.cate_id}-->
+                            <!--{if $smarty.foreach.my_fa.index<10}-->
+                            <a href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=$fakey&tese_subcateid=$son.cate_id}">{$son.cate_name}</a>
+                            <!--{/if}-->
+                            <!--{else}-->
+                            <!--{foreach from=$son item=gs name=my_gs}-->
+                            <!--{if $smarty.foreach.my_fa.index<3}-->
+                            <a href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=$k&tese_subcateid=$gs.cate_id}">{$gs.cate_name}</a>
+                            <!--{/if}-->
+                            <!--{/foreach}-->
+                            <!--{/if}-->
+                            <!--{/foreach}-->
+                            <!--{/if}-->
+                            <!--{/foreach}--></dd>
+                    </dl>
+                    <!--{/foreach}-->
+                </div>
+            </li>
+            <!--{/if}-->
+            <!--{/if}-->
+            <!--{/foreach}-->
+        </ul>
+    </div>
+    <div class="right"><a href="{url app=article&act=view&article_id=28}" target="_blank"><img src="{res file=images/tese_banner.jpg}"></a></div>
+</div>
+        <div class="clear"></div>
+<!--<div class="tese_1">-->
+    <!--<h3>当季热销</h3>-->
+    <!--<div class="wrap">-->
+        <!--<ul class="wrap_ul">-->
+            <!--&lt;!&ndash;{foreach from=$hot_goods item=goods}&ndash;&gt;-->
+            <!--<li>-->
+                <!--<a href="{r_url app=goods&id=$goods.goods_id}" class="puimg"><img src="{$img_url}/{$goods.default_image}" onload="javascript:DrawImage(this,120,120);" width="120" height="120"></a>-->
+                <!--<div class="info">-->
+                    <!--<a href="{r_url app=goods&id=$goods.goods_id}" class="title">{$goods.goods_name|escape}</a>-->
+                    <!--<p>&nbsp;{$goods.price|price}</p>-->
+                    <!--<p class="sell">最近销量:<strong>{$goods.sales}</strong>件</p>-->
+                    <!--&lt;!&ndash;<p class="spu"><span>补肝肾</span><br/><span>益精血</span></p>&ndash;&gt;-->
+                <!--</div>-->
+            <!--</li>-->
+            <!--&lt;!&ndash;{/foreach}&ndash;&gt;-->
+        <!--</ul>-->
+    <!--</div>-->
+<!--</div>-->
+
+<!--当地土特产-->
+
+
+<div class="tese_2">
+   <h3 class="ts-title">商品列表</h3>
+    <div class="bd-con">
+        <!--{foreach from=$goods_list item=goods}-->
+        <div class="city">
+            <a href="{r_url app=goods&id=$goods.goods_id&pd_id=3}" title="{$goods.goods_name}" target="_blank"><img src="{img_url $img_url/$goods.default_image/160X160}" width="170" height="170"></a>
+            <a href="{r_url app=goods&id=$goods.goods_id&pd_id=3}" class="title" title="{$goods.goods_name}" target="_blank">{$goods.goods_name}</a>
+            <p class="desc">{$goods.price|price}</p>
+            <!--<p class="buyer">最近<em class="num">{$goods.sales}</em>人购买</p>-->
+        </div>
+        <!--{/foreach}-->
+    </div>
+
+</div>
+    <div class="clear"></div>
+    <div style="width: 1200px;margin: 0px auto;">
+    {include file=page.bottom.html}
+    </div>
+<div class="clear"></div>
+
+{include file=footer.html}

@@ -1,0 +1,94 @@
+
+错误url=http://192.168.0.137/weixin/index.php?app=member_account&act=yye&u_id=2
+2014-06-12 14:29:40  	[256]MySQL Error[1054]: Unknown column 'o.buyer_name' in 'field list'
+MySQL Query:SELECT yue_log.*,o.buyer_name,yue_log.id FROM ecm_yue_log yue_log WHERE  user_id =2 and yue_log.type=4  ORDER BY create_time DESC LIMIT 0,50
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=member_account&act=yye&u_id=2
+2014-06-12 14:31:24  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'left join ecm_order on this.order_sn=o.order_sn' at line 1
+MySQL Query:SELECT COUNT(*) as c FROM ecm_yue_log yue_log WHERE  user_id =2 and yue_log.type=4 left join ecm_order on this.order_sn=o.order_sn
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[482]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=member_account&act=yye&u_id=2
+2014-06-12 14:37:27  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select * from ecm_yue_log y left join ecm_order o on y.order_sn=o.order_sn where' at line 1
+MySQL Query:SELECT *,yue_log.id FROM ecm_yue_log yue_log WHERE select * from ecm_yue_log y left join ecm_order o on y.order_sn=o.order_sn where and yue_log.type=4  user_id =2 order by y.create_time DESC limit 1 50
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=member_account&act=yye&u_id=2
+2014-06-12 14:37:55  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select * from ecm_yue_log y left join ecm_order o on y.order_sn=o.order_sn where' at line 1
+MySQL Query:SELECT *,yue_log.id FROM ecm_yue_log yue_log WHERE select * from ecm_yue_log y left join ecm_order o on y.order_sn=o.order_sn where and yue_log.type=4  user_id =2 order by y.create_time DESC limit 1 50
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=member_account&act=yye&u_id=2
+2014-06-12 14:38:12  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select * from ecm_yue_log y left join ecm_order o on y.order_sn=o.order_sn where' at line 1
+MySQL Query:SELECT *,yue_log.id FROM ecm_yue_log yue_log WHERE select * from ecm_yue_log y left join ecm_order o on y.order_sn=o.order_sn where and yue_log.type=4  user_id =2 order by y.create_time DESC limit 1 50
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=member_account&act=yye&u_id=2
+2014-06-12 14:38:22  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and yue_log.type=4  user_id =2 order by y.create_time DESC limit 1 50' at line 1
+MySQL Query:select * from ecm_yue_log y left join ecm_order o on y.order_sn=o.order_sn where and yue_log.type=4  user_id =2 order by y.create_time DESC limit 1 50
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[532]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=member_account&act=yye&u_id=2
+2014-06-12 14:38:48  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'user_id =2 order by y.create_time DESC limit 1 50' at line 1
+MySQL Query:select * from ecm_yue_log y left join ecm_order o on y.order_sn=o.order_sn where  yue_log.type=4  user_id =2 order by y.create_time DESC limit 1 50
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[532]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=member_account&act=yye&u_id=2
+2014-06-12 14:38:50  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'user_id =2 order by y.create_time DESC limit 1 50' at line 1
+MySQL Query:select * from ecm_yue_log y left join ecm_order o on y.order_sn=o.order_sn where  yue_log.type=4  user_id =2 order by y.create_time DESC limit 1 50
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[532]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=member_account&act=yye&u_id=2
+2014-06-12 14:39:26  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '50' at line 1
+MySQL Query:select * from ecm_yue_log y left join ecm_order o on y.order_sn=o.order_sn where  yue_log.type=4 and  user_id =2 order by y.create_time DESC limit 1 50
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[532]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=member_account&act=yye&u_id=2
+2014-06-12 14:41:08  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '50' at line 1
+MySQL Query:select * from ecm_yue_log y left join ecm_order o on y.order_sn=o.order_sn where  y.type=4 and  user_id =2 order by y.create_time DESC limit 1 50
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[532]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=member_account&act=yye&u_id=2
+2014-06-12 14:41:24  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '50' at line 1
+MySQL Query:select * from ecm_yue_log y left join ecm_order o on y.order_sn=o.order_sn where  y.type=4 and  y.user_id =2 order by y.create_time DESC limit 1 50
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[532]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=member_account&act=yye&u_id=2
+2014-06-12 14:42:24  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '50' at line 1
+MySQL Query:select * from ecm_yue_log y left join ecm_order o on y.order_sn=o.order_sn where  y.type=4 and  y.user_id =2 order by y.create_time DESC limit 1 50
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[532]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=member_account&act=yye&u_id=2
+2014-06-12 14:42:26  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '50' at line 1
+MySQL Query:select * from ecm_yue_log y left join ecm_order o on y.order_sn=o.order_sn where  y.type=4 and  y.user_id =2 order by y.create_time DESC limit 1 50
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[532]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=member_account&act=yye&u_id=2
+2014-06-12 14:42:27  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '50' at line 1
+MySQL Query:select * from ecm_yue_log y left join ecm_order o on y.order_sn=o.order_sn where  y.type=4 and  y.user_id =2 order by y.create_time DESC limit 1 50
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[532]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=member_account&act=yye&u_id=2
+2014-06-12 14:42:28  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '50' at line 1
+MySQL Query:select * from ecm_yue_log y left join ecm_order o on y.order_sn=o.order_sn where  y.type=4 and  y.user_id =2 order by y.create_time DESC limit 1 50
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[532]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=member_account&act=yye&u_id=2
+2014-06-12 14:42:47  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '50' at line 1
+MySQL Query:select * from ecm_yue_log y left join ecm_order o on y.order_sn=o.order_sn where  y.type=4 and  y.user_id =2 order by y.create_time DESC limit 1 50
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[532]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=member_account&act=yye&u_id=2
+2014-06-12 14:43:05  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '50' at line 1
+MySQL Query:select * from ecm_yue_log y left join ecm_order o on y.order_sn=o.order_sn where  y.type=4 and  y.user_id =2 order by y.create_time DESC limit 1 50
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[532]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=member_account&act=servicecentershouyi&u_id=2208
+2014-06-12 16:03:04  	[2]Missing argument 1 for Member_accountApp::serviceCenterShouyi(), called in D:\wamp\www\eccore\controller\app.base.php on line 168 and defined	\weixin\app\member_account.app.php	236
+
+错误url=http://192.168.0.137/weixin/index.php?app=member_account&act=serviceCenterShouyi&u_id=2208
+2014-06-12 16:03:28  	[2]Missing argument 1 for Member_accountApp::serviceCenterShouyi(), called in D:\wamp\www\eccore\controller\app.base.php on line 168 and defined	\weixin\app\member_account.app.php	236
+
+错误url=http://192.168.0.137/weixin/index.php?app=member_account&act=serviceCenterShouyi&u_id=2208
+2014-06-12 16:05:20  	[2]Missing argument 1 for Member_accountApp::serviceCenterShouyi(), called in D:\wamp\www\eccore\controller\app.base.php on line 168 and defined	\weixin\app\member_account.app.php	236

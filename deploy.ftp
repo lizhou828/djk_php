@@ -1,0 +1,7 @@
+open 180.166.105.166
+user ftp Tm?dp*KrA_T
+prompt
+lcd ws
+mput index.php
+bye
+exit

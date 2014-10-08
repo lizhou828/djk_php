@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>我的营业额</title>
+    <link href="{$site_url}/weixin/templates/style/address.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="{$SITE_URL}/weixin/templates/js/jquery-1.6.2.min.js"></script>
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/css">
+         .ddi{ width:310px; height:40px; margin:0px auto; margin-top:20px;}
+         .ddi .left{ width:240px; float:left; background:#bfbfbf; height:31px; margin-right:6px; padding-left:10px; padding-top:9px;}
+         .ddi .left .a1{ width:42px; height:25px; background:url('{$site_url}/weixin/templates/images/ico33.png') no-repeat; float:left; margin-right:42px;}
+         .ddi .left .a2{ width:42px; height:25px; background:url('{$site_url}/weixin/templates/images/ico33.png') no-repeat -42px 0; float:left;}
+    </script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+
+</head>
+<body>
+<div style="width: 320px;margin: 0px auto">
+    <div style="padding-top: 50px;">
+<div class="address-t">
+    <div class="address-l"><a href="javascript:history.go(-1)">返回</a></div>
+    <div class="address-c">我的营业额</div>
+    <div class="address-r"><a href="{$site_url}/weixin/index.php?app=member">会员中心</a></div>
+</div>
+<div class="address-cen">
+    <div class="clearing-1">
+        {if $yyelogs}
+            <table width="308" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="179" height="36" align="center" bgcolor="#d2d2d2">明细</td>
+                    <td width="128" height="36" align="center" bgcolor="#d2d2d2">变动金额</td>
+                </tr>
+                {foreach from=$yyelogs item=yyelog }
+                    <tr>
+                        <td height="59" align="left" bgcolor="#ffffff" style="font-size:12px;">
+                            买家{$yyelog.buyer_name}(订单号：{$yyelog.order_sn})确认收货，获得营业额{$yyelog.jine|number2}元
+                        </td>
+                        <td height="59" align="center" bgcolor="#ffffff" style="font-size:12px;">
+                            <strong>￥:{$yyelog.jine|number2}</strong>
+                            <br />
+                            {$yyelog.create_time}
+                        </td>
+                    </tr>
+                {/foreach}
+            </table>
+            <!--分页开始-->
+            <script type="text/javascript">
+                function formerPage(curr_page,page_count){
+    //                alert(curr_page-1);
+                    var page = parseInt(curr_page)-1
+                    if( page> 0 ){
+                        window.location ="{$site_url}/weixin/index.php?app=member_account&act=yye&page="+page;
+                    }else{
+                        alert("已经到了首页！");
+                        return;
+                    }
+                }
+                function nextPage(curr_page,page_count){
+                    var page = parseInt(curr_page)+1;
+                    if(page > page_count){
+                        alert("已经到了最后一页！");
+                    }else{
+                        window.location ="{$site_url}/weixin/index.php?app=member_account&act=yye&page="+page;
+                    }
+                }
+            </script>
+            <div class="Safety-cen-1">
+                <div class="ddi">
+                    <div class="left" style="width: 235px; padding-left: 75px;">
+                        <a href="javascript:formerPage('{$page.curr_page}','{$page.page_count}')" class="a1" style="margin-right: 20px;"></a>
+                        <a style="float: left; height: 26px; line-height: 26px; font-family: tahoma; font-size: 14px; margin-right: 20px;">{$page.curr_page}/{$page.page_count}</a>
+                        <a href="javascript:nextPage('{$page.curr_page}','{$page.page_count}')" class="a2"></a>
+                    </div>
+                </div>
+            </div>
+            <!--分页结束-->
+        {else}
+            <table width="308" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="179" height="36" align="center" bgcolor="#d2d2d2">明细</td>
+                    <td width="128" height="36" align="center" bgcolor="#d2d2d2">变动金额</td>
+                </tr>
+                <tr>
+                    <td width="307" height="36" align="center" colspan="2">
+                        <div>没有相关数据！</div>
+                    </td>
+                </tr>
+            </table>
+        {/if}
+    </div>
+</div>
+    </div>
+</div>
+{include file=cnzz.html}
+
+</body>
+</html>

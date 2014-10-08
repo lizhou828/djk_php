@@ -1,0 +1,24 @@
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_goods
+2014-05-26 15:01:21  	[256]MySQL Error[1054]: Unknown column 'g.tichenggs.spec_id' in 'field list'
+MySQL Query:SELECT g.goods_id,g.pd_id, g.store_id, g.type, g.goods_name,g.org_price, g.cate_id, g.cate_name, g.brand_id,g.brand, g.spec_qty, g.spec_name_1, g.spec_name_2, g.if_show, g.closed, g.add_time, g.recommended,g.default_image,g.dropState, g.start_time,g.end_time,g.tichenggs.spec_id, gs.spec_1, gs.spec_2, gs.color_rgb, gs.price, gs.stock, s.store_name, s.region_id, s.region_name, s.credit_value, s.sgrade, gst.views, gst.sales, gst.comments,s.store_name as "store_name" FROM ecm_goods g LEFT JOIN ecm_goods_spec gs ON g.default_spec = gs.spec_id LEFT JOIN ecm_store s ON g.store_id = s.store_id LEFT JOIN ecm_goods_statistics gst ON g.goods_id = gst.goods_id LEFT JOIN ecm_goods_attr gd ON g.goods_id = gd.goods_id LEFT JOIN ecm_goods_image gi ON g.goods_id = gi.goods_id WHERE 1 = 1 and type='material' and g.dropState =1 and g.closed=0 and g.ticheng >= 0.4 and EXISTS (select 1 from ecm_store store where (fwzx=2208  or fwzx=5016 or fwzx=5785) and g.store_id=store.store_id   and region_id ='2717') AND gs.spec_id IS NOT NULL AND s.store_id IS NOT NULL and g.dropState<>0 GROUP BY g.goods_id  ORDER BY goods_id desc, s.sort_order  LIMIT 0,20
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_goods_manage&goods_name=&create_time_from=&create_time_to=&cate_id=0&region_id=2717&status=2&position=-1
+2014-05-26 15:16:27  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'vg.id,vg.update_time,vg.region_id,vg.region_name,vg.status
+               FROM e' at line 1
+MySQL Query:SELECT g.goods_id ,g.goods_name,g.org_price,g.price,g.default_image,g.ticheng,g.cate_name,gs.stock,,vg.id,vg.update_time,vg.region_id,vg.region_name,vg.status
+               FROM ecm_vshop_recom_goods vg LEFT JOIN ecm_goods g ON vg.goods_id=g.goods_id
+               left  join ecm_goods_spec gs on g.goods_id=gs.goods_id
+               where g.if_show=1 and g.closed=0 and dropState=1  and vg.status=2 and vg.region_id=2717 GROUP BY vg.goods_id  limit 0, 20
+Wrong File:  D:\wamp\www\includes\models\vshopRecommend.model.php[34]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=jkxd_portal&act=my_jkxd
+2014-05-26 17:52:05  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+MySQL Query:SELECT *,member.user_id FROM ecm_member member WHERE user_id=
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=jkxd_portal&act=my_jkxd&u_id=3
+2014-05-26 17:52:06  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+MySQL Query:SELECT *,member.user_id FROM ecm_member member WHERE user_id=
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310

@@ -1,0 +1,124 @@
+{include file=member.header.html}
+<script type="text/javascript">
+$(function(){
+    $('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+    $('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+});
+</script>
+<style type="text/css">
+.float_right {float: right;}
+</style>
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right">
+        {include file=member.submenu.html}
+        <div class="wrap">
+            <div class="public">
+                <div class="user_search">
+                <form method="get">
+
+                    <span>{$lang.add_time}: </span>
+                    <input type="text" class="text1 width2" name="add_time_from" id="add_time_from" value="{$query.add_time_from}"/> &#8211;
+                    <input type="text" class="text1 width2" name="add_time_to" id="add_time_to" value="{$query.add_time_to}"/>
+                    <span>{$lang.order_sn}:</span>
+                    <input type="text" class="text1 width_normal" name="order_sn" value="{$query.order_sn|escape}">
+
+
+                    <input type="hidden" name="app" value="jkxd" />
+                    <input type="hidden" name="act" value="jkxd_order" />
+                    <input type="hidden" name="shouhou" value="{$smarty.get.shouhou}" />
+
+                    &nbsp;&nbsp;&nbsp;
+                    <input type="submit" class="btn" value="搜索" />
+                </form>
+                </div>
+
+                    <!--{if $orders}-->
+                    <!--{foreach from=$orders item=order}-->
+                    <div class="dp">店铺名：<a href="{url app=store&id=$order.seller_id}" target="_blank">{$order.seller_name|escape}</a>
+                        <!--{if $order.status eq ORDER_PENDING && $order.yue>0}-->
+                        <span style="color:red">&nbsp;(余额已支付{$order.yue}元，还剩{$order.yue_jine}元待支付！)</span>
+                        <!--{/if}-->
+                    </div>
+                    <div class="ble"><table width="766" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td width="100" align="center" bgcolor="#f3f3f3" style="color:#333;">订单号</td>
+                            <td height="30" width="220" colspan="2" align="center" bgcolor="#f3f3f3" style="color:#333;">订单商品</td>
+                            <td width="17" align="center" bgcolor="#f3f3f3" style="color:#333;">&nbsp;</td>
+                            <td width="93" align="center" bgcolor="#f3f3f3" style="color:#333;">订单金额</td>
+                            <td width="108" align="center" bgcolor="#f3f3f3" style="color:#333;">时间</td>
+                            <td width="87" align="center" bgcolor="#f3f3f3" style="color:#333;">订单状态</td>
+                        </tr>
+                        <tr>
+                            <td align="center" style=" padding-left:8px;"><a href="{url app=seller_order&act=view&order_id=$order.order_id}&viewType=tuiguang" style="font-weight:bold; color:#666">{$order.order_sn}</a></td>
+                            <td height="80" colspan="2">
+                                <ul class="sp">
+                                    <!--{foreach from=$order.order_goods item=goods name=o_goods}-->
+                                    <!--{if $smarty.foreach.o_goods.index<=2}-->
+                                    <li>
+                                        <a href="index.php?app=goods&id={$goods.goods_id}" target="_blank"><img src="{$site_url}/{$goods.goods_image}" style="border: 0px" title="{$goods.goods_name|escape}" width="60px" height="60px"/></a>
+                                    </li>
+                                    <!--{/if}-->
+                                    <!--{/foreach}-->
+                                </ul>
+                            </td>
+                            <td height="50">&nbsp;</td>
+                            <td align="center" style="font-weight:bold;">{$order.order_amount|price}</td>
+                            <td align="center" style="color:#999;width: 108px">{$order.add_time|date:Y-m-d H:i:s}</td>
+                            <td align="center" style="font-weight:bold; color:#333">{$order.status|modifier:order_status}<!--{if $order.evaluation_status}-->,&nbsp;已评价<!--{/if}--></td>
+
+                        </tr>
+                    </table>
+                    </div>
+                <!--{/foreach}-->
+                <!--{else}-->
+ 					<center>
+             		<table>
+                    <tr><td class="member_no_records" colspan="6" style="text-align:center">{$lang.no_records}</td></tr>
+                    </table>       
+          			</center>
+                <!--{/if}-->
+
+                <div class="order_form_page">
+                    <div class="page">
+                        {include file=member.page.bottom.html}
+                    </div>
+                </div>
+
+            <div class="wrap_bottom"></div>
+        </div>
+        <div class="clear"></div>
+        <div class="adorn_right1"></div>
+        <div class="adorn_right2"></div>
+        <div class="adorn_right3"></div>
+        <div class="adorn_right4"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<form id="payform1" name="payform1" method="post" action="{$TO_PAY_URL}" target="do_pay">
+    <input type="hidden" name="orderSn" id="orderSn" value=""/>
+</form>
+
+<script>
+    function cancel_order(url,title,id,yue){
+        if(confirm("您已使用余额支付了"+yue+"元，取消订单将会把已支付的金额退还回您的余额账户，确认取消吗？")){
+            var uri =url+"&type=ret";
+            var id =id;
+            var title = title;
+            var width = '400';
+            ajax_form(id, title, uri, width);
+        }
+    }
+    $(".yue_pay,.pay").bind("click",function(){
+        $(this).attr("disabled","disabled");
+        $(this).val("支付中....");
+        $("#orderSn").val(this.name);
+//        window.open("","do_pay");
+        //location = "{$TO_PAY_URL}"+"?orderSn="+this.name;
+        window.open ("{$TO_PAY_URL}"+"?orderSn="+this.name)
+//        document.getElementById("payform1").submit();
+    })
+</script>
+<iframe id='iframe_post' name="iframe_post" src="about:blank" frameborder="0" width="0" height="0"></iframe>
+{include file=footer.html}

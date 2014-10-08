@@ -1,0 +1,79 @@
+{include file=member.header.html}
+<style>
+.member_no_records {border-top: 0px !important;}
+.table td{ padding-left: 5px; }
+</style>
+<div class="content">
+  <div class="totline"></div>
+  <div class="botline"></div>
+  {include file=member.menu.html}
+  <div id="right">
+    {include file=member.submenu.html}
+        <div class="wrap">
+            <div class="eject_btn_two eject_pos1" title="{$lang.add}"><b class="ico2" onclick="go('index.php?app=seller_yushou&amp;act=add');">{$lang.add_yushou}</b></div>
+            <div class="public_select table">
+                <table>
+
+                    <tr class="line_bold">
+                        <!--<th class="align1" colspan="2"></th>-->
+                        <!--<th colspan="4">-->
+                            <!--<div class="select_div">-->
+                            <!--<form method="get">-->
+                            <!--&lt;!&ndash;{if $filtered}&ndash;&gt;-->
+                            <!--<a class="detlink_with_no_bg" style="float:right" href="{url app=seller_yushou}">{$lang.cancel_query}</a>-->
+                            <!--&lt;!&ndash;{/if}&ndash;&gt;-->
+                            <!--<div style="float:right">-->
+                            <!--<input type="text" class="text_normal" name="group_name" value="{$smarty.get.group_name|escape}"/>-->
+                            <!--<select name="state">-->
+                            <!--{html_options options=$state selected=$smarty.get.state}-->
+                            <!--</select>-->
+                            <!--<input type="hidden" name="app" value="seller_yushou" />-->
+                            <!--<input type="hidden" name="act" value="index" />-->
+
+                            <!--</div>-->
+                            <!--</form>-->
+                            <!--</div>-->
+                        <!--</th>-->
+                    <!--</tr>-->
+                        <!--{if $yushou_list}-->
+                    <tr class="gray">
+                        <th width="200" colspan="2"><span>&nbsp;&nbsp;&nbsp;&nbsp;预售活动名称</span></th>
+                        <th width="140"><span>预售活动状态</span></th>
+                        <th width="200"><span>预售商品信息</span></th>
+                        <th  width="300" style="text-align: center">操作</th>
+                    </tr>
+                    <!--{foreach from=$yushou_list item=yushou name=_group_f}-->
+                    <tr class="line" >
+                        <th><a href="{url app=seller_yushou&act=edit&id=$yushou.id}"> <img width="40" height="40" src="{$img_url}/{$yushou.default_image}"></a></th>
+                        <th><a href="{url app=seller_yushou&act=edit&id=$yushou.id}">{$yushou.yushou_name}</a></th>
+                        <th><!--{if $yushou.state eq 1}-->进行中<!--{else}-->已取消<!--{/if}--></th>
+                        <th>{$yushou.goods_name}</th>
+                        <th style="text-align: center"><a href="{url app=seller_yushou&act=edit&id=$yushou.id}">编辑</a>&nbsp;&nbsp;<a href="{url app=seller_yushou&act=drop&id=$yushou.id}">取消</a></th>
+                    </tr>
+                    <!--{/foreach}-->
+                    <!--{else}-->
+                    <tr class="line_bold line_bold_bottom">
+                        <td colspan="4"></td>
+                    </tr>
+                    <!--{/if}-->
+                    <tr>
+                        <th colspan="6">
+                            <p class="position2">
+                                {include file=member.page.bottom.html}
+                            </p>
+                        </th>
+                    </tr>
+                </table>
+            </div>
+            <div class="wrap_bottom"></div>
+        </div>
+        <div class="clear"></div>
+        <div class="adorn_right1"></div>
+        <div class="adorn_right2"></div>
+        <div class="adorn_right3"></div>
+        <div class="adorn_right4"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<iframe name="iframe_post" id="iframe_post" width="0" height="0"></iframe>
+{include file=footer.html}

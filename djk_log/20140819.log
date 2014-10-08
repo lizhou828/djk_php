@@ -1,0 +1,54 @@
+
+错误url=http:///
+2014-08-19 08:58:36  	[2]parse_url(http://) [<a href='function.parse-url'>function.parse-url</a>]: Unable to parse URL	\includes\subdomain.inc.php	50
+
+错误url=http://192.168.0.155/weixin/index.php?app=store&act=index
+2014-08-19 16:29:07  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 5
+MySQL Query:SELECT g.goods_id,g.goods_name,g.store_id,g.price,g.org_price,g.default_image
+                FROM ecm_goods g
+                WHERE  g.TYPE='material'
+                AND g.if_show = 1  AND g.closed=0 and g.if_jifen=0
+                AND g.dropState =1 AND g.store_id =
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[532]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.155/weixin/index.php?app=store
+2014-08-19 16:29:15  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 5
+MySQL Query:SELECT g.goods_id,g.goods_name,g.store_id,g.price,g.org_price,g.default_image
+                FROM ecm_goods g
+                WHERE  g.TYPE='material'
+                AND g.if_show = 1  AND g.closed=0 and g.if_jifen=0
+                AND g.dropState =1 AND g.store_id =
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[532]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.155/weixin/index.php?app=store&act=index
+2014-08-19 16:31:01  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 5
+MySQL Query:SELECT g.goods_id,g.goods_name,g.store_id,g.price,g.org_price,g.default_image
+                FROM ecm_goods g
+                WHERE  g.TYPE='material'
+                AND g.if_show = 1  AND g.closed=0 and g.if_jifen=0
+                AND g.dropState =1 AND g.store_id =
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[532]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.155/weixin/index.php?app=member_order&act=detail&order_id=1455
+2014-08-19 17:07:24  	[2]include(D:\wamp\www/includes/ordertypes/nomal.otype.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory	\includes\global.lib.php	66
+
+错误url=http://192.168.0.155/weixin/index.php?app=member_order&act=detail&order_id=1455&u_id=3
+2014-08-19 17:07:24  	[2]include(D:\wamp\www/includes/ordertypes/nomal.otype.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory	\includes\global.lib.php	66
+
+错误url=http://192.168.0.155/weixin/index.php?app=member_order&act=detail&order_id=1454
+2014-08-19 17:07:28  	[2]include(D:\wamp\www/includes/ordertypes/nomal.otype.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory	\includes\global.lib.php	66
+
+错误url=http://192.168.0.155/weixin/index.php?app=member_order&act=detail&order_id=1454&u_id=3
+2014-08-19 17:07:28  	[2]include(D:\wamp\www/includes/ordertypes/nomal.otype.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory	\includes\global.lib.php	66
+
+错误url=http://192.168.0.155/weixin/index.php?app=member_order&act=detail&order_id=1454
+2014-08-19 17:07:31  	[2]include(D:\wamp\www/includes/ordertypes/nomal.otype.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory	\includes\global.lib.php	66
+
+错误url=http://192.168.0.155/weixin/index.php?app=member_order&act=detail&order_id=1454&u_id=3
+2014-08-19 17:07:32  	[2]include(D:\wamp\www/includes/ordertypes/nomal.otype.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory	\includes\global.lib.php	66
+
+错误url=http://192.168.0.155/weixin/index.php?app=member_order&act=detail&order_id=1453
+2014-08-19 17:07:37  	[2]include(D:\wamp\www/includes/ordertypes/nomal.otype.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory	\includes\global.lib.php	66
+
+错误url=http://192.168.0.155/weixin/index.php?app=member_order&act=detail&order_id=1453&u_id=3
+2014-08-19 17:07:37  	[2]include(D:\wamp\www/includes/ordertypes/nomal.otype.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory	\includes\global.lib.php	66

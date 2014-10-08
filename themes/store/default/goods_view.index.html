@@ -1,0 +1,115 @@
+{include file="header.html"}
+{include file="common.html"}
+<script type="text/javascript" src="{res file=js/goodsinfo.js}"></script>
+<script type="text/javascript" src="{res file=js/cloud-zoom.1.0.2.min.js}"></script>
+<script type="text/javascript" src="{res file=js/goods_detail.js}"></script>
+<script type="text/javascript" src="{res file=js/jquery.js}"></script>
+<script type="text/javascript" src="{res file=js/jquery.json.2.3.min.js}"></script>
+
+<script type="text/javascript" src="{res file=js/jquery-1.6.2.min.js}"></script>
+
+<div class="mbxie">
+    <!--{foreach from=$_curlocal item=lnk name=my_curlocal}-->
+    <!--{if $lnk.url}-->
+    <a href="{$lnk.url}">{$lnk.text|escape}</a><span>>&nbsp;</span>
+    <!--{/if}-->
+    <!--{/foreach}-->
+</div>
+
+<style xmlns="http://www.w3.org/1999/html">
+    .cloud-zoom-lens {
+        border: 0px solid #888;
+        margin: -4px;
+        background-color: #fff;
+        cursor: move;
+    }
+
+        /* 这是标题文本 */
+    .cloud-zoom-title {
+        font-family: Arial, Helvetica, sans-serif;
+        position: absolute !important;
+        background-color: #000;
+        color: #fff;
+        padding: 3px;
+        width: 100%;
+        text-align: center;
+        font-weight: bold;
+        font-size: 10px;
+        top: 0px;
+    }
+
+        /* 这是缩放窗口。 */
+    .cloud-zoom-big {
+        border: 0px solid #ccc;
+        overflow: hidden;
+    }
+
+        /* 这是加载消息。 */
+    .cloud-zoom-loading {
+        color: white;
+        background: #222;
+        padding: 3px;
+        border: 0px solid #000;
+    }
+
+</style>
+
+
+<div class="product_info">
+    <div class="x_top">
+        <div class="x_left">
+            <div class="zoom-section">
+                <div class="zoom-small-image">
+                    <!--{foreach from=$goods_imges item=img name=my_img}-->
+                    <!--{if $smarty.foreach.my_img.index==0}-->
+                    <a href='{$img_url}/{$img.file_path}' class="cloud-zoom"
+                       id="zoom1" rel="adjustX:10, adjustY:-4">
+                        <img src="{img_url $img_url/$img.file_path/310X310}" width="350" height="350" alt=""
+                             title=""></a>
+                    <!--{/if}-->
+                    <!--{/foreach}-->
+                </div>
+            </div>
+            <div class="top_n2" id="top_n2">
+                <div class="list_a1"></div>
+                <div class="list_a2"></div>
+                <div class="list_div">
+                    <ul>
+                        <!--{foreach from=$goods_imges item=goods_image name=fe_goods_image}-->
+                        <li><a href="{$img_url}/{$goods_image.file_path}" class="cloud-zoom-gallery"
+                               rel="useZoom: 'zoom1', smallImage: '{img_url $img_url/$goods_image.file_path/310X310}' ">
+                            <img class="zoom-tiny-image" src="{$img_url}/{$goods_image.file_path}" alt=""
+                                 onload="javascript:DrawImage(this,40,40);"> </a></li>
+                        <!--{/foreach}-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="x_right">
+            <div  class="n1_02" style="margin-bottom: 40px;">商品名称：{$goods_name|escape}</div>
+            <div  class="n1_02" style="margin-bottom: 40px;">商品分类：{$cate_name|escape}</div>
+            <div  class="n1_02" style="margin-bottom: 40px;">商品价格：{$price|price}</div>
+            <div  class="n1_02" style="margin-bottom: 40px;">商品品牌：{$brand|escape}</div>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="x_bot">
+        <div class="list_l"></div>
+        <div class="list_r">
+            <div class="tab">
+                <ul>
+                    <li><a id="tab_description" class="current" href="javascript:div_show('description')"><span>{$lang.goods_detail}</span></a>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="x_con" id="description">{$description|escape:editor}</div>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+{include file=footer.html}

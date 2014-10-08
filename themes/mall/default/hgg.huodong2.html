@@ -1,0 +1,131 @@
+{include file=header.html}
+<link href="{res file=css/hanguo.css}" rel="stylesheet" type="text/css" />
+<link href="{res file=css/chaoshi.css}" rel="stylesheet" type="text/css">
+<link href="{res file=css/home_tg.css}" rel="stylesheet" type="text/css">
+<script src="{res file=js/class_area_array.js}" ></script>
+<script language="JavaScript">
+
+
+    function change_hgg_view(obj) {
+        var url = "index.php?app=hgg&act=change_chuxiao&type="+obj;
+        window.location = url;
+    }
+
+</script>
+<div id="center_w1200" style="width: 100%;" >
+    <!--logo部分-->
+    {include file=hgg.common.html}
+    <div id="hg_bg">
+        <div id="hg_menu">
+            <div class="w1200">
+                <div class="left_w210">所有商品分类<span class="hg_ico"></span>
+                    <div class="fenlei">
+                        <!--{foreach from=$hgg_category item=gcategory name=gcategory}-->
+                        <!-- {if $smarty.foreach.gcategory.index<8 }-->
+                        <!-- {if !empty($gcategory) }-->
+                        <dl>
+                            <dd><a href="{r_url app=hgg&act=search&pd_id=$pd_id&cate_id=$gcategory.id}">{$gcategory.value|truncate:22:"……"}</a></dd>
+                            <dt>
+                                <span><a href="{r_url  app=hgg&act=search&pd_id=$pd_id&cate_id=$gcategory.children[0].id}">{$gcategory.children[0].value}</a></span>
+                                <span><a href="{r_url  app=hgg&act=search&pd_id=$pd_id&cate_id=$gcategory.children[1].id}">{$gcategory.children[1].value}</a></span>
+                                <span><a href="{r_url  app=hgg&act=search&pd_id=$pd_id&cate_id=$gcategory.children[2].id}">{$gcategory.children[2].value}</a></span>
+                            </dt>
+                            <em>
+                                <dl class="ssp_no1">
+                                    <dd>{$gcategory.value|escape}</dd>
+                                    <dt><!--{foreach from=$gcategory.children item=child}-->
+                                        <i><a href="{r_url app=hgg&act=search&pd_id=$pd_id&cate_id=$child.id}">{$child.value|escape}</a></i> <!--{/foreach}-->
+                                    </dt>
+                                </dl>
+                            </em>
+
+                        </dl>
+                        <span class="menu_line"></span>
+                        <!--{/if}-->
+                        <!--{/if}-->
+                        <!--{/foreach}-->
+                    </div>
+                </div>
+                {include file=hgg.top.html}
+            </div>
+        </div>
+        <!--菜单-->
+        <form id="search_form">
+            <input name="app" type="hidden" value="hgg">
+            <input name="act" type="hidden" value="get_category_goods">
+            <input name="pd_id" type="hidden" value="10">
+            <input id="hgg_subcateid" name="hgg_subcateid" type="hidden" value="{$filters.hgg_subcateid}"/>
+            <input id="hgg_class" name="hgg_class" type="hidden" value="{$filters.hgg_class}"/>
+            <input id="hgg_order_key" name="hgg_order_key" type="hidden" value="{$filters.hgg_order_key}">
+            <input id="hgg_order" name="hgg_order" type="hidden" value="{$filters.hgg_order}">
+        </form>
+        <div  style="width: 1200px;margin: 0px auto;">
+            <select onchange="change_hgg_view(this.value)" style="width:320px; height:30px; margin:8px 0 0 0; padding: 4px; color: #666666; border-top: 2px solid #92bd49; border-bottom: 2px solid #92bd49; border-left: 1px solid #92bd49; border-right: 1px solid #92bd49; background: #f8ffeb;">
+                <!--<option value="huodong_zhenlu">韩国馆促销活动</option>-->
+                <option value="1" <!--{if $smarty.get.type ==1}--> selected="selected" <!--{/if}-->>春节礼物特展</option>
+                <option value="2" <!--{if $smarty.get.type ==2}--> selected="selected" <!--{/if}-->>手机饰品特惠抢购</option>
+            </select>
+        </div>
+        <div id="hg_banner_1">
+            <div class="lxfscroll"> <ul>
+                <li><img src="{res file=images/hgg/tezhan.jpg}" width="1200" /></li>
+            </ul></div>
+        </div>
+
+
+        <div id="hg_one_tezhan" style="margin-top: 20px;">
+            <div >
+                <div ><img src="{res file=images/hgg/tezhan01.gif}"/></div>
+                <div id="hg_rexiao1">
+                    <ul>
+                        <!-- {foreach from=$new_goods item=recgoods name=goods1} -->
+                        <!--{if $smarty.foreach.goods1.iteration<21}-->
+                        <li>
+                            <div class="hg_rex">
+                                <div class="hg_pic">
+                                    <a href="{r_url app=goods&id=$recgoods.goods_id}" target="_blank">
+                                        <img src="{img_url $img_url/$recgoods.default_image/160X160}" width="160" height="160" title="{$recgoods.goods_name}" />
+                                    </a>
+                                </div>
+                                <div class="hg_txt">{$recgoods.goods_name}</div>
+                                <div class="hg_jiage"><em><a href="{r_url app=goods&id=$recgoods.goods_id}">立即购买</a></em>商城价：<strong><span>{$recgoods.price|price}</span></strong></div>
+                            </div>
+                        </li>
+                        <!--{/if}-->
+                        <!--{/foreach}-->
+
+                    </ul>
+                </div>
+
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div id="hg_one_tezhan" style="margin-top: 10px;">
+            <div>
+                <div ><img src="{res file=images/hgg/tezhan02.gif}"/></div>
+                <div id="hg_rexiao1">
+                      <ul>
+                        <!-- {foreach from=$tezhan_goods2 item=recgoods name=goods2} -->
+                        <li>
+                            <div class="hg_rex">
+                                <div class="hg_pic">
+                                    <a href="{r_url app=goods&id=$recgoods.goods_id}" target="_blank">
+                                        <img src="{img_url $img_url/$recgoods.default_image/160X160}" width="160" height="160" title="{$recgoods.goods_name}" />
+                                    </a>
+                                </div>
+                                <div class="hg_txt">{$recgoods.goods_name}</div>
+                                <div class="hg_jiage"><em><a href="{r_url app=goods&id=$recgoods.goods_id}">立即购买</a></em>商城价：<strong><span>{$recgoods.price|price}</span></strong></div>
+                            </div>
+                        </li>
+                        <!--{/foreach}-->
+
+                    </ul>
+                </div>
+
+
+            </div>
+            <div class="clear"></div>
+        </div>
+
+    <div class="clear"></div>
+

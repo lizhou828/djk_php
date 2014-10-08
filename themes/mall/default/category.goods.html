@@ -1,0 +1,25 @@
+{include file=header1.html}
+{include file=curlocal.html}
+<link href="{res file=css/djk.css}" rel="stylesheet" type="text/css">
+<div class="content">
+    <div class="commodity_assort">
+        <h2 class="gongg">全部分类</h2>
+        <!--{foreach from=$gcategorys_left item=gcategory}-->
+        <dl>
+            <dd><a href="{url app=search&cate_id=$gcategory.id}">{$gcategory.value|escape}</a></dd>
+            <dt>
+                <!--{foreach from=$gcategory.children item=child}-->
+                <span><a href="{url app=search&cate_id=$child.id}">{$child.value|escape}</a></span>
+              <!--{/foreach}-->
+            </dt>
+
+        </dl>
+        <!--{/foreach}-->
+    </div>
+
+    <!--<div class="ad_sidebar_list" area="right" widget_type="area">-->
+        <!--&lt;!&ndash;{widgets page=gcategory area=right}&ndash;&gt;-->
+    <!--</div>-->
+</div>
+  <div class="clear"></div>
+{include file=footer1.html}

@@ -1,0 +1,390 @@
+{include file=header.html}
+<div id="center_w1200">
+{include file=common_search.html}
+{include file=common.html}
+
+<script type="text/javascript" src="{lib file=jquery.js}" charset="utf-8"></script>
+<script type="text/javascript" src="{lib file=jike.js}" charset="utf-8"></script>
+<script type="text/javascript" src="{lib file=member.js}" charset="utf-8"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.plugins/jquery.validate.js" ></script>
+
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/dialog/dialog.js" id="dialog_js"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js" ></script>
+
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+<link href="{res file=css/else.css}" rel="stylesheet" type="text/css">
+
+<script type="text/javascript">
+$(function(){
+	
+    $("#reg_form2").validate({
+        errorPlacement: function(error, element){
+            var error_td = element.parents('span').next('span');
+            error_td.find('.field_notice').hide();
+            error_td.find('.fontColor3').hide();
+            error_td.append(error);
+        },
+        success: function(label){
+            //label.addClass('validate_right').text('OK!');
+            label.remove();
+        },
+        onkeyup: false,
+        rules: {
+				service_user: {
+                required: true
+                },
+				service_zhengjian : {
+				required : true  ,
+				service_zhengjianValidate : []
+				},
+				service_age: {
+					required: true
+				},
+				service_address: {
+					required: true				
+				},
+				service_tel: {
+					required: true,				
+					checkTel:true,
+                    maxlength: 11,
+                    minlength: 7
+				}, 
+				service_tel2: {
+					//required: true,
+					checkTel:true,
+                    maxlength: 20,
+                    minlength: 6
+				}, 
+				service_email: {
+					//required : true,
+					email:true
+				},
+                shenfenzhengImg: {
+                    required : true,
+                    accept: "jpg|jpeg|png|gif"
+                },
+
+                yingyezhizhaoImg: {
+                    <!--{if $uploadImg}-->required : true,<!--{/if}-->
+                    accept: "jpg|jpeg|png|gif"
+                },
+
+				notice: {
+					required : true
+				},
+				service_desc:{
+					required : true,
+					jineValidate : []
+				}
+        },
+        messages: {
+			service_user: {
+                required: '请输入姓名'               
+            },
+            shenfenzhengImg: {
+                required: '请上传手持身份证',
+                accept: "图片格式必须是jpg|jpeg|png|gif"
+            },
+            yingyezhizhaoImg: {
+                required: '请上传营业执照',
+                accept: "图片格式必须是jpg|jpeg|png|gif"
+            },
+            service_zhengjian: {
+                required: '请输入身份证号码'
+            },
+            service_age: {
+                required: '请输入年龄'
+            },
+            service_address: {
+                required: '请输入地址'             
+            },
+			service_tel: {
+                required: '请输入手机号码',
+				checkTel : '手机号码格式错误',
+                maxlength: '手机号码最大11位',
+                minlength: '手机号码最小7位'
+            },
+			service_tel2: {
+                required: '请输入固定号码',
+				checkTel : '固定电话格式错误',
+                maxlength: '固定号码最大20位',
+                minlength: '固定号码最小5位'
+            },
+			service_email: {
+                required: '请输邮箱',
+				email    : '请输入正确确实的邮箱'
+            },
+            notice: {
+                required: '请阅读并同意抢注协议'
+            },
+			service_desc: {
+                required: '请选择技术服务费'
+            }
+        }
+    });
+});
+
+jQuery.validator.addMethod("jineValidate", function(value, element) {
+        if(value==0 || value==""){
+            return false;
+        }
+        return true;
+    }, "请选择技术服务年限");
+
+jQuery.validator.addMethod("service_zhengjianValidate", function(value, element) {
+        if(value==0 || value==""){
+            return false;
+        }
+		value=value.toUpperCase();
+		regExp = /(^\d{15}$)|(^\d{17}(\d|X)$)/;
+		if(!regExp.test(value)) {
+			return false;
+		} else {
+			return true;
+		} 
+		
+        return true;
+    }, "身份证号格式错误");
+
+</script>
+
+
+
+<link href="{res file=css/else.css}" rel="stylesheet" type="text/css">
+
+
+</head>
+<body>
+<!--<script type="text/javascript" src="http://www.multibuy.cn/resource/js/common2.2.js" charset="utf-8"></script>
+<link href="style/dialog2.2.css" rel="stylesheet" type="text/css">-->
+
+
+
+<link href="{res file=css/cityLayout.css}" type="text/css" rel="stylesheet">
+ 
+
+
+<!--<div class="keyword">
+<h4>当前位置：</h4>
+			    <a href="#">首页</a><span>&nbsp;</span>
+			    服务中心		
+</div>-->
+
+<!--中间部分-->
+
+
+<div class="fw_eh">
+  <div class="jd">
+      <ul>
+        <li class="lir1">填写注册信息</li>
+        <li class="lir2"></li>
+        <li class="lir3">支付</li>
+        <li class="lir2"></li>
+        <li class="lir4">等待审核</li>
+      </ul>
+   </div>
+
+   <!--{if $visitor.member_type == '01' }-->
+
+
+   <div class="jdb">
+   	  <form id="reg_form2" name="reg_form2" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="key" value="{$Key}"/>
+                        <input  type="hidden" name="step" value="3"/>
+                        <input  type="hidden" name="serviceid" value="{$serviceid}"/>
+                        <input type="hidden" name="init_region_name"  value="{$init_user.region_name}"/>	
+      <ul>
+
+          <!--{if !$uploadImg}-->
+      						<!--{if $shenqings}-->
+                             <li>
+                               <span class="span1">历史记录：</span>
+                               <span class="span2">
+                               <!--{foreach from=$shenqings item=shenqing}-->
+                                <input type="radio" class="rdo ipt2" name="lishi" value="{$shenqing.id}" c/>{$shenqing.service_user}&nbsp;&nbsp;&nbsp;
+                               <!--{/foreach}-->
+                             </span>
+                             </li>                             
+                            <!--{/if}-->
+
+          <li>
+              <span class="span1">所在区域：</span>
+              <span class="span2">{$region_name}</span>
+              <span class="span5 padding3"><span class="fontColor3"> </span><span class="field_notice"></span></span>
+          </li>
+
+        <li>
+           <span class="span1">姓名：</span>
+           <span class="span2"><input name="service_user" id="service_user" type="text" class="ipu1"></span>
+           <span class="span5 padding3"><span class="fontColor3">*</span><span class="field_notice">请输入姓名</span></span>
+        </li>
+
+          <!--
+          <li>
+           <span class="span1">技术服务年限：</span>
+           <span class="span2">
+          <select name="service_desc" class="ipu1" onChange="showjine(this.value)">
+          						<option value="0">请选择技术服务年限</option>
+                                <!--{foreach from=$jibie item=jibieVal key=jibiekey}-->
+                                <option value="{$jibiekey}#{$jibieVal.service_desc}">{$jibieVal.time}</option>
+                                <!--{/foreach}-->
+                                </select>  
+          </span>
+          <span class="span5 padding3"><span class="fontColor3">*</span><span  class="field_notice">请选择技术服务年限</span></span>
+        </li>
+        <li>
+           <span class="span1">技术服务费：</span>
+           <span class="span2" id="showjine"></span>
+           <span class="span5 padding3"><span class="fontColor3">*</span><span class="field_notice">一次性付清</span></span>
+        </li>
+          -->
+
+          <li>
+              <span class="span1">技术开发费：</span>
+              <span class="span2" id="showjine"><font color='red' size=+1>{$jibie}/元</font></span>
+              <span class="span5 padding3"><span class="fontColor3">*</span><span class="field_notice">一次性付清</span></span>
+          </li>
+
+          <li>
+              <span class="span1">技术服务费：</span>
+              <span class="span2" id="showjine"><font color='red' size=+1>{$nianfei}/年</font></span>
+              <span class="span5 padding3"><span class="fontColor3">*</span><span class="field_notice">按年支付</span></span>
+          </li>
+
+
+        <li>
+           <span class="span1">手机号码：</span>
+           <span class="span2"><input id="service_tel" name="service_tel" type="text" class="ipu1"></span>
+           <span class="span5 padding3"><span class="fontColor3">*</span><span class="field_notice">请输入手机号码</span></span>
+        </li>
+        
+        <li>
+           <span class="span1">固定号码：</span>
+           <span class="span2"><input id="service_tel2" name="service_tel2" type="text" class="ipu1"></span>
+           <span class="span5 padding3"><span class="fontColor3"> </span><span class="field_notice"></span></span>
+        </li>
+        
+         <li>
+           <span class="span1">电子邮箱：</span>
+           <span class="span2"><input id="service_email" name="service_email" type="text" class="ipu1"></span>
+           <span class="span5 padding3"><span class="fontColor3"> </span><span class="field_notice"></span></span>
+        </li>
+        
+        <li>
+           <span class="span1">上传手持身份证照：</span>
+           <span class="span2"><input name="shenfenzhengImg" id="shenfenzhengImg" type="file" class="ipu1"></span>  
+           <span class="span5 padding3"><span class="fontColor3">*</span><span class="field_notice">上传手持身份证照</span></span>
+        </li>
+        
+         <li>
+           <span class="span1"></span>
+           <span class="span2"><a href="{$site_url}/themes/mall/default/styles/default/images/scshenfenzheng.jpg" target="_blank">手持身份证照片模版</a></span>
+        </li>
+        
+        <li>
+           <span class="span1">上传营业执照：</span>
+           <span class="span2"><input name="yingyezhizhaoImg" id="yingyezhizhaoImg" type="file" class="ipu1"></span>
+           <span class="span5 padding3"><!--<span class="fontColor3">*</span><span class="field_notice">请上传营业执照</span>--></span>
+        </li>
+        <li>
+           <span class="span1">身份证号码：</span>
+           <span class="span2"><input name="service_zhengjian" id="service_zhengjian" type="text" class="ipu1"></span>
+           <span class="span5 padding3"><span class="fontColor3">*</span><span class="field_notice">请输入身份证号</span></span>
+        </li>      
+       
+       <li>
+       	 <span class="span1">&nbsp;</span>
+         <span class="span2"><input type="checkbox" name="notice" value="1" id="notice" /> <label for="warning">我已同意<a href="{$site_url}/index.php?app=article&act=view&article_id=47" target="_blank">服务中心代理加盟协议</a></span>
+         <span class="span5 padding3"><span class="fontColor3">*</span><span class="field_notice">请同意加盟协议</span></span>  
+        </li> 
+        <!--{else}-->
+          <li>
+              <span class="span1">上传营业执照：</span>
+              <span class="span2"><input name="yingyezhizhaoImg" id="yingyezhizhaoImg" type="file" class="ipu1"></span>
+              <span class="span5 padding3"><!--<span class="fontColor3">*</span><span class="field_notice">请上传营业执照</span>--></span>
+          </li>
+        <!--{/if}-->
+
+          <li>
+              <div style="float: left;margin-left: 110px; margin-top: -10px;border:1px solid #ddd;background:#f7f7f7;width:310px; height:60px;padding: 10px;color: red">您需要预付订金<font size='+1'>1000</font>元+<font size='+1'>12</font>元网银转账费共计<font size='+1'>1012</font>元。
+                  温馨提示：如果您在申请成功后10小时内还未付款，则将视为自动弃权并且该申请将予以作废！</div>
+         </li>
+
+
+
+          <li>
+           <span class="span1"></span>
+           <span class="span4"><input class="input1" id="uploadImg" style="" type="submit" value="提交资料" /></span>
+        </li>
+      </ul>
+      <br><br>
+  </form>
+  </div>
+  <!--{else}-->
+    <center><div id="warning" name="warning" style="width:70%; margin-top: 200px; margin-bottom: 100px"></div></center>
+  <script>js_fail("服务中心不能抢注服务中心！");</script>
+  <!--{/if}-->
+
+</div>
+
+
+
+<div class="clear">&nbsp;</div>
+
+
+<script language="javascript">
+var searchTxt = ' 搜索其实很容易！';
+function searchFocus(e){
+	if(e.value == searchTxt){
+		e.value='';
+		$('#keyword').css("color","");
+	}
+}
+function searchBlur(e){
+	if(e.value == ''){
+		e.value=searchTxt;
+		$('#keyword').css("color","#999999");
+	}
+}
+function searchInput() {
+	if($('#keyword').val()==searchTxt)
+		$('#keyword').attr("value","");
+	return true;
+}
+$('#keyword').css("color","#999999");
+
+var datas=new Array();
+<!--{if $shenqings}-->
+<!--{foreach from=$shenqings item=shenqing}-->
+datas[{$shenqing.id}]=Array("{$shenqing.service_user}","{$shenqing.service_tel}","{$shenqing.service_zhengjian}");
+<!--{/foreach}-->
+$(".rdo").bind("click",function(){
+    $("#service_user").val(datas[this.value][0]);
+    $("#service_tel").val(datas[this.value][1]);
+    $("#service_zhengjian").val(datas[this.value][2]);
+})
+<!--{/if}-->
+$("#reg_form2").bind("submit",function(){
+    $(".btn").attr("disabled","disabled");
+    $(".btn").val("申请中....");
+})
+
+function showjine(jine){
+if(jine!=0 && jine !=""){
+	var tmp=jine.split("-");
+	/*if(tmp.length==2){
+	var str= tmp[0];	
+	var tmp=str.split("#");
+	$("#showjine").html("<font color='red' size=+1>"+tmp[0]+"</font>");*/
+	$("#showjine").html("<font color='red' size=+1>"+tmp[1]+"</font>");
+}else{
+$("#showjine").html("");
+}
+
+}
+
+</script>
+<script type="text/javascript" src="{res file=js/public.js}" charset="utf-8"></script>
+
+{include file=footer.html}

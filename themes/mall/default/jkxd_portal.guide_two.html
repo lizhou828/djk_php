@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>大集客-我的集客小店—引导页二</title>
+    <link href="{res file=css/public.css}" rel="stylesheet" type="text/css" />
+    <link href="{res file=css/jike_shop.css}" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<div class="yind">
+    <div class="gb"></div>
+    <div class="font">
+        <p>如果您向您的小伙伴推荐了您的集客小店，他们通过您的链接注册成为了大集客的会员，您就<span>“锁定”</span>了该会员！该会员以后在大集客网上所有有效购买行为您都能获得相应的奖励；如果他们通过您的链接注册成为了大集客的商家，那么该商家以后在大集客网上所有商品出售您都将能获得相应的奖励！
+            <span>哇！是终身的耶！</span></p>
+    </div>
+    <div class="ann"><a href="javascript:guide_three()"></a></div>
+</div>
+
+<script type="text/javascript">
+    function guide_three(){
+        DialogManager.close("guide_one");
+        var uri =encodeURI("index.php?app=jkxd_portal&act=guide_three");
+        var id = 'guide_three';
+        var title = "引导三";
+        var width = '755';
+        ajax_form(id, title, uri, width);
+    }
+</script>
+
+
+</body>
+</html>

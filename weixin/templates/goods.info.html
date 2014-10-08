@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{$goods.goods_name}</title>
+    <link href="{$site_url}/weixin/templates/style/public.css" rel="stylesheet" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jike.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/member.js" charset="utf-8"></script>
+
+    <script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.plugins/jquery.validate.js" ></script>
+
+    <script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/dialog/dialog.js" id="dialog_js"></script>
+    <script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js" ></script>
+    <script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js" ></script>
+
+    <script type="text/javascript">
+        function my_jkxd(_id,_vshop){
+            if(!_id || _id ==null || _id=="" || typeof _id=="undefined"){
+                alert("集客小店号错误!");
+                return;
+            }else if(_vshop != "" && parseInt(_vshop ) == 1 ){
+                window.location= '{$site_url}/weixin/vshop/'+_id;
+            }else{
+                window.location= '{$site_url}/weixin/my_jkxd/'+_id;
+            }
+        }
+    </script>
+</head>
+
+<body>
+<div id="w_3202">
+    <div class="top">商品详情<em class="em1"><a href="javascript:history.go(-1)">返回</a></em></div>
+    <div class="product_x">
+        <!--标示是否来自集客小店的商品-->
+        <input type="hidden" id="shop_id" value="{$shop_id}"/>
+        <!--标示是否来自精品集客小店的商品-->
+        <input type="hidden" id="vshop" value="{$vshop}"/>
+
+
+        <ul class="gos_b">
+            <li class="les  current" style="width: 153px">商品简介</li>
+            {if $shopOwner.user_id && $shopOwner.user_id > 0}
+                <a href="{$site_url}/weixin/goodsxq/{$shopOwner.user_id}/{$goods.goods_id}{if $member && $member.user_id > 0}/{$member.user_id}{/if}{if $vshop==1}?vshop=1{/if}"><li class="les" style="width: 153px">商品详情</li></a>
+            {else}
+                <a href="{$site_url}/weixin/goodsxq/0/{$goods.goods_id}{if $member && $member.user_id > 0}/{$member.user_id}{/if}{if $vshop==1}?vshop=1{/if}"><li class="les" style="width: 153px">商品详情</li></a>
+            {/if}
+            <!--<li class="les">商品评论</li>-->
+        </ul>
+        <div class="pro" style="margin:0 ">
+            <dl class="lies" style="height: auto;width: auto">
+                <dd class="pics"style="height: auto;width: auto">
+                    <!--{foreach from = $goodsimage  item = image  name = image}-->
+                        <!--{if $smarty.foreach.image.index < 1}-->
+                             <img src="{img_url $img_url/$image.image_url/310X310}" style="width: 306px;" onclick="big_image('{$image.image_id}')"/>
+                        <!--{/if}-->
+                    <!--{/foreach}-->
+                </dd>
+                <dt class="txts">{$goods.goods_name}</dt>
+            </dl>
+            <div class="fl2t">
+                ￥{$goods.price}<input name="" type="button" class="but" onclick="xuanze('{$goods.goods_id}');"/>
+            </div>
+            <div class="fl3t">
+                <!--{if $yf || $reg_name}-->
+                    运费:{$yf.jiage}元<span class="sp">地区:<a href="javascript:;" onclick="update1('{$goods.goods_id}');" style="color: #333">{$reg_name}</a></span>
+                <!--{else}-->
+                    <!--{if $yunfei}-->
+                         <span id = "yunfei"></span><span class="sp" id = "city"><a href="javascript:;" onclick="update1('{$goods.goods_id}');">配送运费</a></span>
+                    <!--{else}-->
+                         无法配送
+                    <!--{/if}-->
+                <!--{/if}-->
+            </div>
+        </div>
+    </div>
+    <div class="xzz" onclick="xuanze('{$goods.goods_id}');" style="cursor: pointer">
+        <!--{if $goods.spec_name_1 != ""}-->
+            <p class="p1">{$goods.spec_name_1}：
+                <!--{foreach from = $spec1  item = sp1}-->
+                   {$sp1}
+                <!--{/foreach}-->
+            <span style="">></span></p>
+        <!--{/if}-->
+        <!--{if $goods.spec_name_2 != ""}-->
+        <p class="p1" style="margin-bottom:0px;">{$goods.spec_name_2}：
+            <!--{foreach from = $spec2  item = sp2}-->
+                {$sp2}
+            <!--{/foreach}-->
+        </p>
+        <!--{/if}-->
+    </div>
+
+
+    {if !$shop_id || $shop_id <= 0}
+        <div class="tongd">
+            <h2 class="title"><span class="ico_x"></span>同店推荐</h2>
+            <div class="gos">
+                <ul>
+                    <!--{foreach from = $goods_store  item = gs  name = gs}-->
+                    <!--{if $smarty.foreach.gs.index < 2}-->
+                    <li class="lis">
+                        <div class="pic"><a href="{$site_url}/weixin/goods/0/{$gs.goods_id}{if $member && $member.user_id > 0}/{$member.user_id}{/if}" style="color: #333"><img src="{$img_url}/{$gs.default_image}" width="100" height="100" /></a></div>
+                        <div class="font"><a href="{$site_url}/weixin/goods/0/{$gs.goods_id}{if $member && $member.user_id > 0}/{$member.user_id}{/if}" style="color: #333">{$gs.goods_name}</a></div>
+                        <div class="an1">￥{$gs.price}</div>
+                    </li>
+                    <!--{/if}-->
+                    <!--{/foreach}-->
+                </ul>
+            </div>
+        </div>
+    {else}
+        <div class="tongd" style="height: 33px;line-height: 33px;cursor: pointer" align="center" onclick="my_jkxd('{$shopOwner.user_id}','{$vshop}')">
+            {if $vshop != null && $vshop==1}
+                <font color="#c40000">进入{$shopOwner.shop_name}的精品集客小店</font>
+            {else}
+                <font color="#c40000">进入{$shopOwner.shop_name}的集客小店</font>
+            {/if}
+
+        </div>
+    {/if}
+
+
+
+
+    <!--<div class="w320d">进入店铺</div>-->
+    {include file=member.index_footer.html}
+</div>
+
+<script>
+
+    function update1(a){
+        var shop_id = $("#shop_id").val();
+        var _url ="{$site_url}/weixin/index.php?app=goods&act=region&goods_id=" + a;
+        if( shop_id && parseInt(shop_id) > 0 ){
+            _url +="&shop_id="+shop_id;
+        }
+        var uri =encodeURI(_url);
+        var id = 'goods_region';
+        var title = "选择地区";
+        var width = '308';
+        ajax_form(id, title, uri, width);
+    }
+
+
+    function xuanze(id){
+        var shop_id = $("#shop_id").val();
+        var vshop = $("#vshop").val();
+        var _url = "{$site_url}/weixin/index.php?app=goods&act=xuanze&goods_id=" + id;
+        if( shop_id && parseInt(shop_id) > 0 ){
+            _url +="&shop_id="+shop_id;
+        }
+        if( vshop && vshop== "1"  ){
+            _url +="&vshop="+vshop;
+        }
+        var uri =encodeURI(_url);
+        var id = 'goods_xuanze';
+        var title = "选择商品规格";
+        var width = '308';
+        ajax_form(id, title, uri, width);
+    }
+
+    function big_image(_imageId){
+        var _url = '{$site_url}/weixin/index.php?app=goods&act=big_img&image_id='+_imageId;
+         _url =encodeURI(_url);
+        var id = 'goods_info_big_img';
+        var title = "商品图片";
+        var width = '370';
+        ajax_form(id, title, _url, width);
+    }
+</script>
+
+</body>
+</html>

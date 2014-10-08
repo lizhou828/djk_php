@@ -1,0 +1,191 @@
+{include file=header1.html}
+<link href="{res file=css/chaoshi.css}" rel="stylesheet" type="text/css">
+<script src="{res file=js/class_area_array.js}" ></script>
+<script language="JavaScript">
+    //鼠标触及更替li样式
+    $(document).ready(function(){
+        $("#list").hide();
+        $("#button_show").click(function(){
+            $("#list").toggle();
+        });
+        $("#button_close").click(function(){
+            $("#list").hide();
+        });
+        $('.group-list').children('ul').children('li').bind('mouseenter',function(){
+            $('.group-list').children('ul').children('li').attr('class','c1');
+            $(this).attr('class','c2');
+        });
+        $('.group-list').children('ul').children('li').bind('mouseleave',function(){
+            $('.group-list').children('ul').children('li').attr('class','c1');
+        });
+        var area = $("#bdsh_area").val();
+        if(area == null || area =="") {
+            $("#show_area_name").html("全国");
+            $("#bdsh_area").val('');
+        }
+        else {
+            $("#show_area_name").html(area);
+            $("#bdsh_area").val(area);
+        }
+    });
+
+    //提交查询
+    function submit_search() {
+        $('#search_form').attr('method','get');
+        $('#search_form').submit();
+    }
+    //团购地区筛选
+    function set_bdsh_area(area) {
+        if(area == '') {
+            $("#bdsh_area").val('');
+        }
+        else {
+            area_array = area.split(",");
+            $("#bdsh_area").val(area_array[0]);
+        }
+        submit_search();
+    }
+    //团购价格筛选
+    function set_bdsh_brand(brand_id) {
+        $("#brand_id").val(brand_id);
+        submit_search();
+    }
+    //团购价格筛选
+    function set_bdsh_order(order_key) {
+        if(order_key == $("#bdsh_order_key").val()) {
+            change_bdsh_order();
+        }
+        else {
+            $("#bdsh_order").val('asc');
+        }
+        $("#bdsh_order_key").val(order_key);
+        submit_search();
+    }
+    //团购排序筛选
+    function change_bdsh_order() {
+        if($("#bdsh_order").val() == 'asc') {
+            $("#bdsh_order").val('desc');
+        }
+        else {
+            $("#bdsh_order").val('asc');
+        }
+    }
+</script>
+<div id="navBarbd" class="mb10">
+    <div class="content">
+        <div id="all-categorybd">
+            <div class="title" style="background:#5ea600">
+                <h2 title="商品全部分类"><a href="{r_url app=category}">商品全部分类</a></h2>
+                <i></i></div>
+            <div id="category" class="category pngFix">
+                <ul class="menu">
+                    <!--{foreach from=$gcategorys_left item=gcategory name=gcategory}-->
+                    <!-- {if $smarty.foreach.gcategory.index<7 }-->
+                    <!-- {if !empty($gcategory) }-->
+                    <li id="cat_{$smarty.foreach.gcategory.index}">
+                        <h3><span class="block"><a href="{r_url app=search&cate_id=$gcategory.id}" title="{$gcategory.value|escape}">{$gcategory.value|escape}</a>   </span>
+                         <span>
+                                <a href="{r_url app=search&cate_id=$gcategory.children[0].id}">{$gcategory.children[0].value}</a>
+                                <a href="{r_url app=search&cate_id=$gcategory.children[1].id}">{$gcategory.children[1].value}</a>
+                               <a href="{r_url app=search&cate_id=$gcategory.children[2].id}">{$gcategory.children[2].value}</a>
+                         </span>
+                        </h3>
+                        <div class="cat-menu" id="cat_{$smarty.foreach.gcategory.index}_menu">
+                            <dl>
+                                <dt> {$gcategory.value|escape} </dt>
+                                <dd><!--{foreach from=$gcategory.children item=child}--><a href="{r_url app=search&cate_id=$child.id}">{$child.value|escape}</a> <!--{/foreach}--> </dd>
+                            </dl>
+
+                        </div>
+                    </li>
+                    <!--{/if}-->
+                    <!--{/if}-->
+                    <!--{/foreach}-->
+
+                    <div class="clear"></div>
+                </ul>
+            </div>
+
+        </div>
+        <ul class="nc-nav-menu">
+            <li  <!--{if !$smarty.get.act}--> class="current" <!--{else}--> class="link"<!--{/if}--> ><a href="{r_url app=bdsh&pd_id=5}" ><span>首页</span></a></li>
+            <li <!--{if $filters.bdsh_class eq 1559}--> class="current" <!--{else}--> class="link"<!--{/if}--> ><a class="pngFix" href="{r_url app=bdsh&act=get_category_goods&bdsh_class=1559}"><span class="pngFix">丽人</span></a></li>
+            <li <!--{if $filters.bdsh_class eq 1528}--> class="current" <!--{else}--> class="link"<!--{/if}--> ><a href="{r_url app=bdsh&act=get_category_goods&bdsh_class=1528}"><span>美食</span></a></li>
+            <li <!--{if $filters.bdsh_class eq 1560}--> class="current" <!--{else}--> class="link"<!--{/if}--> ><a href="{r_url app=bdsh&bdsh_class=1560&act=get_category_goods}"><span>生活服务</span></a></li>
+            <li<!--{if $filters.bdsh_class eq 1561}--> class="current" <!--{else}--> class="link"<!--{/if}--> ><a href="{r_url app=bdsh&bdsh_class=1561&act=get_category_goods}"><span>休闲娱乐</span></a></li>
+            <li <!--{if $brands}--> class="current" <!--{else}--> class="link"<!--{/if}-->><a href="{r_url app=bdsh&act=get_brand_goods&pd_id=5}"><span>品牌秀</span></a></li>
+            <li class="link"><a href="{url app=service&act=register_service}" target='_blank'><span>抢注服务中心</span></a><em class="em1"></em></li>
+        </ul>
+    </div>
+</div>
+<div id="headRelative">
+    <div class="title">
+        <h1></h1>
+        <div class="city"> <a href="javascript:void(0)" id="button_show">
+            <h2 id="show_area_name">切换</h2>
+        </a> </div>
+    </div>
+    <div id="list" class="list" style="display:none;"><a id="button_close" class="close" href="javascript:void(0)" >x</a>
+        <ul>
+            <li><a href="javascript:void(0)" onClick="set_bdsh_area('')" >全国</a></li>
+            <!--{foreach from=$region item=reg}-->
+            <li><a href="javascript:void(0)" onClick="set_bdsh_area('{$reg}')" >{$reg}</a></li>
+            <!--{/foreach}-->
+        </ul>
+    </div>
+</div>
+<form id="search_form">
+    <input name="app" type="hidden" value="bdsh">
+    <input name="act" type="hidden" value="get_brand_goods">
+    <input name="pd_id" type="hidden" value="5">
+    <input id="bdsh_area" name="bdsh_area" type="hidden" value="{$filters.bdsh_area}"/>
+    <input id="bdsh_class" name="bdsh_class" type="hidden" value="{$filters.bdsh_class}"/>
+    <input id="brand_id" name="brand_id" type="hidden" value="{$filters.brand_id}"/>
+    <input id="bdsh_cate" name="bdsh_subcateid" type="hidden" value="{$filters.bdsh_subcateid}">
+</form>
+<!--本地生活1-->
+<div class="mb10 warp-all">
+<div class="group-screen">
+<!--{if $brands}-->
+    <dl>
+        <dt>品牌:</dt>
+        <dd <!--{if !$filters.brand_id }--> class="nobg selected" <!--{/if}-->><a href="javascript:void(0)" onClick="set_bdsh_brand('')">不限</a></dd>
+        <!--{foreach from=$brands item=brand  key=key }-->
+        <dd <!--{if $filters.brand_id eq $brand.brand_id}--> class="nobg selected" <!--{/if}-->> <a href="javascript:void(0)" onClick="set_bdsh_brand('{$brand.brand_id}')"> {$brand.brand_name}</a> </dd>
+        <!--{/foreach}-->
+    </dl>
+ <!--{/if}-->
+
+</div>
+    </div>
+<div class="clear"></div>
+<!--内容-->
+<!--{if $goods_list}-->
+<div class="bd_con">
+    <ul class="ul1">
+        <!--{foreach from=$goods_list item=goods}-->
+        <li class="li1">
+            <div class="pic1"><img src="{img_url $img_url/$goods.default_image/312X189}" width="312" height="189"></div>
+            <h3 class="h31">
+                <a href="{r_url app=goods&id=$goods.goods_id}" target="_blank">
+                    <span class="span1">{$goods.goods_name}</span>
+                    <!--<span class="span2">{$goods.description}</span>-->
+                </a>
+            </h3>
+            <p class="p1">
+                <span class="span1">{$goods.price|price}<em></em></span>
+                <span class="span2"><a href="{r_url app=goods&id=$goods.goods_id&pd_id=5}" target="_blank">点击查看</a></span>
+            </p>
+        </li>
+       <!--{/foreach}-->
+    </ul>
+</div>
+<div class="pagination" style="padding-right: 180px;">
+    {include file=page.bottom.html}
+</div>
+        <!--{else}-->
+        <div style="text-align: center">暂无记录</div>
+        <!--{/if}-->
+<div class="clear"></div>
+
+{include file=footer1.html}

@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>注册,大集客-移动商城</title>
+    <link href="{$site_url}/weixin/templates/style/public.css" rel="stylesheet" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/show_share_button.js"></script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+
+    <script type="text/javascript">
+          $(function(){
+              $("#register").click(function(){
+                  var username = $("#username").val();
+
+                  var reg=/^1[3|4|5|8][0-9]\d{8}$/;
+                  if (!reg.test(username)) {
+                      alert("请填写正确的手机号码！");
+                      return  false;
+                  }
+
+                  var password = $("#password").val();
+                  var t_id = $("#t_id").val();
+                  var flag = $('#default').is(':checked');
+                  var returnUrl = '{$returnUrl}';
+                  var ret_url = '{$ret_url}';
+                  $.post("index.php?app=member&act=register",{username:username,password:password,flag:flag,t_id:t_id,returnUrl:returnUrl},function(data){
+                      if(data.flag == 'error'){
+                          alert("请先同意大集客用户服务协议！");
+                      }
+                      if(data.flag == 'null'){
+                          alert("请填写用户名或密码！");
+                      }
+                      if(data.flag == 'length'){
+                          alert("用户名或密码长度不规范！");
+                      }
+                      if(data.flag == 'no'){
+                          alert("用户名已经存在！");
+                      }
+                      if(data.flag == 'dajike'){
+                          alert("用户名不能以djk开头!");
+                      }
+                      if(data.flag == 'ok'){
+                          alert("注册成功！");
+                          if( ret_url && ret_url !=null && ret_url != ""){
+                              window.location=decodeURIComponent(ret_url);
+                          }else{
+                              window.location.href = "{$site_url}/weixin/index.php?app=member"
+                          }
+
+                      }
+                      if(data.flag == 'jkxd'){
+                          alert("注册成功！");
+                          window.location.href = "{$site_url}/weixin/index.php?app=jkxd_portal&act=apply_jkxd_page"
+                      }
+                      if(data.flag == 'cart'){
+                          alert("注册成功！");
+                          window.location.href = "{$site_url}/weixin/index.php?app=cart"
+                      }
+                  },'json')
+              });
+          })
+
+          function showFocus(obj)
+          {
+              if(obj.value=="请输入账号")
+              {
+                  obj.value="";
+              }
+          }
+
+          function showBlur(obj)
+          {
+              if(obj.value=="")
+              {
+                  obj.value="请输入账号";
+              }
+          }
+
+
+
+    </script>
+</head>
+
+<body>
+<div id="w_3202" style="min-height:500px;">
+    <div class="top">注册<em class="em1"><a href="<!-- {if referer} -->/weixin/<!-- {else} -->javascript:history.go(-1)<!-- {/if} -->">返回</a></em><em class="em2"><a href="index.php?app=member&act=login">登录</a></em></div>
+    <div class="wbg">
+        <!-- {if $t_member} -->
+        <div class="lil1">
+            <span class="font_w">来源：</span>
+            <span class="input_w">
+                <input type="text" readonly="readonly" value="{$t_member.nick_name}" class="input_1" />
+            </span>
+        </div>
+        <!-- {/if} -->
+        <div class="lil1">
+            <span class="font_w">账号：</span>
+            <span class="input_w"><input name="" type="text" value="请输入账号" class="input_1" id = "username"
+                                         onblur="showBlur(this)" onfocus="showFocus(this)"/></span>
+        </div>
+        <div class="z_font">请输入11位的手机号码</div>
+        <div class="lil1">
+            <span class="font_w">密码：</span>
+            <span class="input_w"><input name="" type="password" value="" class="input_1" id = "password"/></span>
+        </div>
+        <div class="z_font" style="height:75px;">6-20个字符，为了保证您的帐号安全，请尽量使用字母、数字和符号的组合密码。</div>
+        <div class="lil1">
+            <span class="gou"><input name="" type="checkbox" value="" id = "default"/></span>
+            <span class="z_txt">阅读并同意<a href="index.php?app=help">《大集客用户服务协议》</a></span>
+        </div>
+        <input type="hidden" id="t_id" value="{$t_id}">
+        <div class="but" style="margin-bottom:30px;" id = "register">立即注册</div>
+        <!--<div class="lil2"><a href="#">手机快速注册</a><span style=" float:right; padding-right:10px;"><a href="#">></a></span></div>-->
+    </div>
+</div>
+</body>
+</html>

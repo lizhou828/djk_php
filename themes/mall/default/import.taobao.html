@@ -1,0 +1,437 @@
+{include file=member.header.html}
+<script type="text/javascript">
+var pageType="taobaoImport";
+</script>
+<script type="text/javascript" charset="utf-8" src="{$site_url}/includes/libraries/javascript/swfupload/swfupload.js"></script>
+<script type="text/javascript" charset="utf-8" src="{$site_url}/includes/libraries/javascript/swfupload/js/handlers.js"></script>
+<link type="text/css" rel="stylesheet" href="{$site_url}/includes/libraries/javascript/swfupload/css/default.css"/>
+<script type="text/javascript">
+
+    //改变店铺，改变运费模板
+    function chsel(){
+        var store_id=document.getElementById("store_id");
+        var shipping_id=document.getElementById("shipping_id");
+        if(store_id.value) {
+            shipping_id.options.length=1;
+            for(var i=0;i<selects[store_id.value].length;i++){
+                shipping_id.options.add(selects[store_id.value][i]);
+            }
+        }
+    }
+
+    var SWFUp=null;
+    $(function(){
+        SWFUp=new SWFUpload({
+            upload_url: "index.php?app=swfupload&act=taobao_image&up_type=1",  //taobao_image
+            flash_url: "{$site_url}/includes/libraries/javascript/swfupload/swfupload.swf",
+            post_params: {
+                "ECM_ID": "{$ECM_ID}",
+                "HTTP_USER_AGENT":"{$HTTP_USER_AGENT}",
+                'belong': 2,
+                'item_id': 0,
+                'ajax': 1
+                <!--{if $smarty.get.store_id}-->
+                ,'up_store_id': {$smarty.get.store_id}
+                <!--{else}-->
+                <!--{if $store_id}-->,'up_store_id': {$store_id}<!--{/if}-->
+                <!--{/if}-->
+            },
+            file_size_limit: "8 MB",
+            file_types: "*.gif;*.jpg;*.jpeg;*.png;*.tbi",
+            custom_settings: {
+                upload_target: "divFileProgressContainer",
+                if_multirow: 0
+            },
+
+            // Button Settings
+            button_image_url: "{$site_url}/includes/libraries/javascript/swfupload/images/SmallSpyGlassWithTransperancy_17x18.png",
+            button_width: 86,
+            button_height: 18,
+            button_text: '<span class="button">批量上传</span>',
+            button_text_style: '.button {font-family: Helvetica, Arial, sans-serif; font-size: 12pt; font-weight: bold; color: #3F3D3E;} .buttonSmall {font-size: 10pt;}',
+            button_text_top_padding: 0,
+            button_text_left_padding: 18,
+            button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
+            button_cursor: SWFUpload.CURSOR.HAND,
+
+            // The event handler functions are defined in handlers.js
+            file_queue_error_handler: fileQueueError,
+            file_dialog_complete_handler: fileDialogComplete,
+            upload_progress_handler: uploadProgress,
+            upload_error_handler: uploadError,
+            upload_success_handler: uploadSuccess,
+            upload_complete_handler: uploadComplete,
+            button_placeholder_id: "spanButtonPlaceholder",
+            file_queued_handler : fileQueued
+        });
+    });
+</script>
+<style>
+    h2.title a.fold {position: absolute; top: 4px; right: 8px; width: 13px; height: 13px; overflow: hidden; display: block;}
+    .span_close {background: url({res file=images/member/close.gif});}
+    .span_open {background: url({res file=images/member/open.gif});}
+    .title {line-height: 24px; height: 24px; position: relative; background: #f5f5f5; font-size: 12px; color: #3e3e3e; padding-left: 20px; word-spacing: 3px; cursor: pointer;}
+
+    .btn { background:transparent url({res file=images/member/btn.gif}) repeat scroll 0 -590px; color:#3E3E3E; display:block; float:left; height: 24px; line-height:20px; margin: 0 3px; text-align:center; text-decoration:none; width:78px;}
+    .f_l{ float:left; }
+    .sub_btn {background:transparent url({res file=images/member/btn.gif}) no-repeat scroll 0 -253px; border:0 none; color:#3F3D3E; cursor:pointer; font-weight:bold; height:32px; width:120px; }
+    .gray{color: #B9B9B9; line-height: 22px; margin-left: 10px; }
+    .select select { color: #3D3D3D; padding: 2px; }
+    .table_text td { height : 30px; vertical-align:middle; }
+</style>
+<script type="text/javascript">
+    //<!CDATA[
+
+    function add_uploadedfile(file_data)
+    {
+        $('label.right').show();
+    }
+    function uploadSuccess(file, serverData) {
+        try {
+            eval('serverData = '+serverData);
+            var errorMsg = '';
+            var progress = new FileProgress(file,  this.customSettings);
+            if (serverData.done) {
+                serverData.retval.file_name = file.name;
+                add_uploadedfile(serverData.retval);
+                progress.setStatus(lang.finish);
+                progress.setComplete();
+                progress.toggleCancel(false);
+            } else {
+                //addImage(SITE_URL + "/includes/libraries/javascript/swfupload/images/error.gif");
+                progress.setStatus(lang.error);
+                progress.toggleCancel(false);
+                if(typeof(serverData.msg) == 'object'){
+                    $.each(serverData.msg, function(i, val){
+                        errorMsg += lang.get(val.msg) + '[' + val.obj + ']\n';
+                    });
+                } else {
+                    errorMsg += lang.get(serverData.msg);
+                }
+                if(errorMsg != ''){
+                    swfupload_error(errorMsg);
+                }
+            }
+
+
+        } catch (ex) {
+            this.debug(ex);
+        }
+    }
+
+    function swfupload_error(str)
+    {
+        $('#warning').append('<label class="error">' + str + '</label>');
+        $('#warning').show();
+    }
+    $(function(){
+        gcategoryInit("gcategory");
+    });
+
+
+
+    //]]>
+</script>
+<div class="content">
+    <div class="totline"></div>
+    <div class="botline"></div>
+    {include file=member.menu.html}
+    <div id="right">
+
+        <!--{if !$addType}-->
+        {include file=member.submenu.html}
+        <!--{else}-->
+        <ul class="tab">
+            <li class="<!--{if !$smarty.get.step}-->active<!--{else}-->normal<!--{/if}-->" ><a href="index.php?app=service&act=import_taobao&p=service">淘宝助理商品导入</a></li>
+            <li class="<!--{if $smarty.get.step==2 }-->active<!--{else}-->normal<!--{/if}-->" ><a href="index.php?app=service&act=import_taobao&step=2&p=service">淘宝助理图片导入</a></li>
+        </ul>
+        <!--{/if}-->
+
+        <div class="wrap">
+            <div class="public">
+                <form method="post" enctype="multipart/form-data" id="goods_form">
+                    <h2 class="title">
+                        {$lang.import_taobao_csv}<a title="close" class="fold {if $step eq 2}span_open{else}span_close{/if}"></a>
+                    </h2>
+                    <ul{if $step eq 2} style="display:none"{/if}>
+                    <table class="table_text2 word_spacing5" style="margin-top:15px">
+
+                        <tr>
+                            <td valign="top" style="width: 70px">&nbsp;</th>
+                            <td>
+                            &nbsp;
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td valign="top"><p>{$lang.select_file}: </p></td>
+                            <td><input type="file" name="csv" id="csv" /> <span class="gray">{$lang.note_for_taobao_file}</span><br><br></td>
+                        </tr>
+                        <tr>
+                            <td valign="top">{$lang.gcategory}: </th>
+                            <td><div class="select" id="gcategory">
+                                <input type="hidden" name="cate_id" value="{$goods.cate_id}" class="mls_id" />
+                                <input type="hidden" name="cate_name" value="{$goods.cate_name|escape}" class="mls_names" />
+                                <select>
+                                    <option>{$lang.select_pls}</option>
+                                    {html_options options=$mgcategories}
+                                </select>
+                                <span class="gray">{$lang.select_leaf_category}</span>
+                            </div>
+                            <br>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td valign="top">品牌: </th>
+                            <td>
+                            <div id="div_attr" name="div_attr"><select><option>请先选择分类</option></select></div><br>
+                            </td>
+                        </tr>
+
+                        <!--{if !$addType}-->
+                        <tr>
+                            <td>{$lang.sgcategory}: </th>
+                            <td>
+                                <div class="f_l select">
+                                    <select name="sgcate_id[]" class="sgcategory">
+                                        <option value="0">{$lang.select_pls}</option>
+                                        {html_options options=$sgcategories}
+                                    </select>
+                                </div>
+                                <a class="btn" id="add_sgcategory" href="javascript:;">{$lang.add}</a>
+                                <span class="gray">{$lang.note_for_sgcategory}</span></td>
+                        </tr>
+                        <!--{/if}-->
+
+
+                        <tr>
+                            <td valign="top">{$lang.charset}: </th>
+                            <td><p>
+                                <label> </label>
+                                <label>unicode</label><br>
+                            </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top">{$lang.file_format}: </th>
+                            <td>{$lang.file_format_limit}<br></td>
+                        </tr>
+                        <tr>
+                            <td valign="top"><p>{$lang.import_guide}: </p></td>
+                            <td><span class="gray" style="display:block;">{$lang.import_guide_content}</span></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2" valign="top">
+                                <!--{if $addType}-->
+                                请选择导入的店铺:
+                                <select name="store_id" id="store_id" class="sgcategory" onchange="chsel()">
+                                    <!--{if $stores}-->
+                                    <!--{foreach from=$stores item=store}-->
+                                    <option value="{$store.store_id}">{$store.store_name}</option>
+                                    <!-- {/foreach} -->
+                                    <!--{else}-->
+                                    <option value="" disabled="disabled">没有找到可导入的店铺</option>
+                                    <!--{/if}-->
+                                </select>
+                                &nbsp;&nbsp;&nbsp;<a href="index.php?app=service&act=uploadStore2&tuoguan=1&p=service" style='color:green' target="_blank">没有店铺？点击去新增店铺</a>
+
+                                <br><br>
+                                <!--{/if}-->
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td valign="top">运费模板</td>
+                            <td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        <!--普通卖家-->
+                            <!-- {if !$addType} -->
+                            <!--{if  $shippings}-->
+                            <select name="shipping_id" id="shipping_id" class="selcategory">
+                            <option value="">--请选择运费模板--</option>
+                            <!--{foreach from=$shippings item=shipping name=sh}-->
+                            <option value="{$shipping.shipping_id}" <!--{if $smarty.foreach.sh.iteration==1}--> selected="selected" <!--{/if}--> >{$shipping.shipping_name}</option>
+                            <!-- {/foreach} -->
+                            <!--{else}-->
+                            <select name="shipping_id" id="shipping_id" disabled="disabled" class="selcategory">
+                                <option value="" selected="selected" >没有运费模板</option>
+                                <!--{/if}-->
+                            </select>
+
+                            <!--服务中心/采购-->
+                            <!--{else}-->
+                            <!--{if $stores}-->
+                            <select name="shipping_id" id="shipping_id">
+                                <option value="">--请选择运费模板--</option>
+                            </select>
+                            <!--{else}-->
+                            <select name="shipping_id" disabled="disabled" id="shipping_id">
+                                <option value="0">没有任何可用模板</option>
+                            </select>
+                            <!--{/if}-->
+
+                            <!--{/if}--><br><br>
+                     </td>
+                    </tr>
+                    </table>
+                    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                    <div class="send_out">
+                        <!--{if $addType}-->
+                        <!--{if $stores}-->
+                        <input class="sub_btn" type="submit" value="{$lang.import}" />
+                        <!--{else}-->
+                        <input class="sub_btn" type="submit" disabled="disabled" value="{$lang.import}" />
+                        <!--{/if}-->
+                        <!--{else}-->
+                        <input class="sub_btn" type="submit" value="{$lang.import}" />
+                        <!--{/if}-->
+                    </div>
+                    </ul>
+                    <h2 class="title" style="position:inherit">
+                        <!--{if $addType}-->
+                        {$lang.upload_taobao_image}
+                        <!--{else}-->
+                        <a href="index.php?app=my_goods&act=import_taobao&step=2">{$lang.upload_taobao_image}</a>
+                        <!--{/if}-->
+                        <a title="close" class="fold {if $step eq 2}span_close{else}span_open{/if}"></a>
+                    </h2>
+                    <ul{if $step eq 1} style="display:none"{/if}>
+
+                    <!--{if $addType}-->
+                    <br><br>
+                    请选择导入的店铺:
+                    <select name="store_id2" id="store_id2" class="sgcategory" onchange="change_store(this.value)">
+                        <!--{if $stores}-->
+                        <!--{foreach from=$stores item=store}-->
+                        <option value="{$store.store_id}" <!--{if $smarty.get.store_id==$store.store_id}-->selected="selected"<!--{/if}-->  >{$store.store_name}</option>
+                        <!-- {/foreach} -->
+
+                        <!--{else}-->
+                        <option value="" disabled="disabled">没有找到可导入的店铺</option>
+                        <!--{/if}-->
+                    </select>
+                    <br><br>
+                    <!--{/if}-->
+
+
+                    <table class="word_spacing5">
+                        <tr>
+                            <td><span class="gray">{$lang.upload_taobao_image_note}</span></td>
+                        </tr>
+                        <tr id="trUploadContainer">
+                            <td height="40" valign="top">
+
+                                <!--{if $addType}-->
+                                <!--{if $stores}-->
+                                <div id="divSwfuploadContainer" style="width:740px;">
+                                    <div id="divButtonContainer">
+                                        <span id="spanButtonPlaceholder"></span>
+                                    </div>
+                                    <div id="divFileProgressContainer"></div>
+                                </div>
+                                <div id="warning"></div>
+                                <!--{else}-->
+                                <br>
+                                <font color="red">没有找到可导入的店铺，请先提交商家资料</font>
+                                <!--{/if}-->
+                                <!--{else}-->
+                                <div id="divSwfuploadContainer" style="width:740px;">
+                                    <div id="divButtonContainer">
+                                        <span id="spanButtonPlaceholder"></span>
+                                    </div>
+                                    <div id="divFileProgressContainer"></div>
+                                </div>
+                                <div id="warning"></div>
+                                <!--{/if}-->
+                            </td>
+                        </tr>
+                    </table>
+                    </ul>
+                    </td>
+                    </tr>
+                    </table>
+                </form>
+                <label style="display:none" class="error right"><font color="green">上传成功!</font></label>
+            </div>
+
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<script>
+    <!--{if $addType && $smarty.get.step==2}-->
+        <!--{if $stores}-->
+
+            var store_ids=document.getElementById("store_id2");
+
+            function change_store(store_id)
+            {
+                if(store_id!=""){
+//                    $.post("index.php?app=service&act=saveStoreId&"+new Date().getTime(),{store_id:store_id},function(rs){
+//                    alert(rs);
+//                    })
+                      location="{$site_url}/index.php?app=service&act=import_taobao&up_type=1&step=2&store_id="+store_id;
+                }
+            }
+            window.onload=function(){
+
+                if(store_ids.options.length>0){
+                    <!--{if $smarty.get.store_id==0}-->
+                    location="{$site_url}/index.php?app=service&act=import_taobao&up_type=1&step=2&store_id="+store_ids.options[0].value;
+                    <!--{/if}-->
+                }
+            }
+    <!--{/if}-->
+    <!--{/if}-->
+
+
+            //运费模板
+            <!--{if $stores && $smarty.get.step!=2}-->
+            var selects=[];
+            selects[0]=new Array(
+                    new Option('--请选择运费模板--','0'));
+
+            //初始化数据   运费模板
+            <!--{foreach from=$stores item=store key=storekey}-->
+
+            selects['{$storekey}']=new Array(
+
+                    <!--{foreach from=$shippingArray.$storekey name=yun_fei item=yunfei key=yunfeikey}-->
+                    new Option('{$yunfei.shipping_name}','{$yunfei.shipping_id}')
+
+                    <!--{if $smarty.foreach.yun_fei.last}-->
+
+                    <!-- {else} -->
+                    ,
+                    <!--{/if}-->
+
+                    <!--{/foreach}-->
+
+            );
+            <!--{/foreach}-->
+
+            var store_id=document.getElementById("store_id");
+            window.onload=function(){
+            //赋初始值
+
+
+            if(store_id !=undefined){
+                if(store_id.value) {
+                    var shipping_id=document.getElementById("shipping_id");
+                    shipping_id.options.length=1;
+                    for(var i=0;i<selects[store_id.value].length;i++){
+                        shipping_id.options.add(selects[store_id.value][i]);
+                    }
+                }
+            }
+            }
+
+          <!--{/if}-->
+
+$("#goods_form").bind("submit",function(){
+    $(".sub_btn").attr("disabled","disabled");
+    $(".sub_btn").val("数据导入中...");
+})
+</script>
+{include file=footer.html}

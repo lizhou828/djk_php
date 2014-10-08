@@ -1,0 +1,169 @@
+{include file="header.html"}
+<script type="text/javascript">
+//<!CDATA[
+$(function(){
+    $("#reject").click(function(){
+        var reason = $.trim($("#reject_reason").val());
+        if (reason == '')
+        {
+            alert('{$lang.input_reason}');
+            return false;
+        }
+        return true;
+    });
+});
+//]]>
+</script>
+<div id="rightTop">
+  <p>{$lang.store}</p>
+  <ul class="subnav">
+    <li><a class="btn1" href="index.php?app=store">{$lang.manage}</a></li>
+    <li><a class="btn1" href="index.php?app=store&amp;act=test">{$lang.add}</a></li>
+    <li><a class="btn1" href="index.php?app=store&amp;wait_verify=1">{$lang.wait_verify}</a></li>
+  </ul>
+</div>
+<div class="info">
+  <form method="post" enctype="multipart/form-data">
+    <table class="infoTable">
+      <tr>
+        <th class="paddingT15">{$lang.owner_real_name}:</th>
+        <td class="paddingT15 wordSpacing5">{$store.owner_name|escape}</td>
+      </tr>
+      <tr>
+        <th class="paddingT15">{$lang.owner_card}:</th>
+        <td class="paddingT15 wordSpacing5">{$store.owner_card|escape}</td>
+      </tr>
+      <tr>
+        <th class="paddingT15">{$lang.store_name}:</th>
+        <td class="paddingT15 wordSpacing5">{$store.store_name|escape}</td>
+      </tr>
+      <tr>
+        <th class="paddingT15">{$lang.scategory}:</th>
+        <td class="paddingT15 wordSpacing5" >{foreach from=$scates item=cate}{$cate.cate_name|escape}&nbsp;{/foreach}</td>
+      </tr>
+      <tr>
+        <th class="paddingT15">{$lang.region}:</th>
+        <td class="paddingT15 wordSpacing5" >{$store.region_name|escape}</td>
+      </tr>
+      <tr>
+        <th class="paddingT15">{$lang.address}:</th>
+        <td class="paddingT15 wordSpacing5">{$store.address|escape}</td>
+      </tr>
+      <tr>
+        <th class="paddingT15">{$lang.zipcode}:</th>
+        <td class="paddingT15 wordSpacing5">{$store.zipcode|escape}</td>
+      </tr>
+      <tr>
+        <th class="paddingT15">{$lang.tel}:</th>
+        <td class="paddingT15 wordSpacing5">{$store.tel|escape}</td>
+      </tr>
+      <tr>
+        <th class="paddingT15">{$lang.sgrade}:</th>
+        <td class="paddingT15 wordSpacing5">{$store.sgrade}</td>
+      </tr>
+
+        <tr>
+            <th class="paddingT15">商家类型:</th>
+            <td class="paddingT15 wordSpacing5" style="color: red">
+                <!--{if $store.seller_type eq 0}-->厂商
+                <!--{elseif $store.seller_type eq 1}-->代理商
+                <!--{elseif $store.seller_type eq 2}-->零售商
+                <!--{elseif $store.seller_type eq 3}-->实体店
+                <!--{/if}-->
+            </td>
+        </tr>
+        <tr>
+            <th class="paddingT15">是否托管:</th>
+            <td class="paddingT15 wordSpacing5" style="color: red">
+                <!--{if $store.tuoguan eq 0}-->非托管
+                <!--{elseif $store.tuoguan eq 1}-->托管
+                <!--{/if}-->
+            </td>
+        </tr>
+      <tr>
+            <th class="paddingT15">提成比例:</th>
+            <td class="paddingT15 wordSpacing5">
+            <!--{if $store.ticheng>0}-->{$store.ticheng}<input type="hidden" name="ticheng" value="{$store.ticheng}"/><!--{else}--->
+
+                <!--{if $init_tichengs}-->
+                <select name="ticheng">
+                <!--{foreach from=$init_tichengs item=tichengs}-->
+                <!--{foreach from=$tichengs item=ticheng}-->
+                <option value="{$ticheng}">{$ticheng}</option>
+                <!--{/foreach}-->
+                <!--{/foreach}-->
+                </select>
+                <!--{/if}-->
+           <!--{/if}-->
+            </td>
+        </tr>
+
+      <tr>
+        <th class="paddingT15">{$lang.uploaded_image}:</th>
+        <td class="paddingT15 wordSpacing5">
+          {if $store.image_1}<a href="{$site_url}/{$store.image_1}" target="_blank">手持个人身份证扫描</a>{/if}
+          {if $store.image_2}<a href="{$site_url}/{$store.image_2}" target="_blank">营业执照</a>{/if}
+          {if $store.image_3}<a href="{$site_url}/{$store.image_3}" target="_blank">{$lang.view}</a>{/if}
+        </td>
+      </tr>
+
+        <!--{if $storeuploadedfile}-->
+        <tr>
+            <th class="paddingT15" valign="top">实体店内照片:</th>
+            <td class="paddingT15 wordSpacing5">
+                <!--{foreach from=$storeuploadedfile item=file}-->
+                <a href="{$site_url}/{$file.file_path}" target="_blank">查看</a>&nbsp;&nbsp;&nbsp;
+                <!--{/foreach}-->
+            </td>
+        </tr>
+        <!--{/if}-->
+
+        <tr>
+            <th class="paddingT15" valign="top">营业执照全称:</th>
+            <td class="paddingT15 wordSpacing5">
+               {$store.yyzz}</td>
+        </tr>
+
+        <tr>
+            <th class="paddingT15" valign="top">店铺简短描述:</th>
+            <td class="paddingT15 wordSpacing5">
+                {$store.description2}</td>
+        </tr>
+        <tr>
+            <th class="paddingT15" valign="top">经营时间:</th>
+            <td class="paddingT15 wordSpacing5">
+                <!--{if $store.yye_time}-->
+                {$store.yye_time}
+                <!--{else}-->
+                空
+                <!--{/if}-->
+                </td>
+        </tr>
+        <tr>
+            <th class="paddingT15" valign="top">是否服务中心/个人提交:</th>
+            <td class="paddingT15 wordSpacing5">
+            <!--{if $store_type eq 1}-->
+                个人提交
+            <!--{elseif $store_type eq 2}-->
+                服务中心提交
+            <!--{else}-->
+                采购提交
+            <!--{/if}-->
+            </td>
+        </tr>
+
+
+      <tr>
+        <th class="paddingT15" valign="top">{$lang.reject_reason}:</th>
+        <td class="paddingT15 wordSpacing5">
+        <textarea name="reject_reason" cols="60" rows="4" id="reject_reason"></textarea></td>
+      </tr>
+      <tr>
+        <th></th>
+        <td class="ptb20"><input class="formbtn" type="submit" name="agree" id="agree" value="{$lang.agree}" />
+          <input class="formbtn" type="submit" name="reject" id="reject" value="{$lang.reject}" /></td>
+      </tr>
+    </table>
+  </form>
+</div>
+{include file="footer.html"} 

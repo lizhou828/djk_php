@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>个人信息</title>
+    <link href="{$site_url}/weixin/templates/style/com.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/hone.css" rel="stylesheet" type="text/css" />
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+    <script type="text/javascript">
+        function bind_mobile(){
+            window.location ='{$site_url}/weixin/index.php?app=member_safecenter&act=bindIndex';
+        }
+    </script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+</head>
+<body>
+<div style=" width:320px; margin:0px auto;padding-top: 50px;">
+    <div class="enter-t">
+        <a href="javascript:history.go(-1)"><div class="enter-t1">返回</div></a>
+        <div class="enter-t222">个人信息</div>
+    </div>
+    <div class="enter-bg">
+        <div class="per1">我的集客小店基本信息</div>
+        <div class="per2">
+            <table width="307" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td  height="35">&nbsp;</td>
+                    <td >集客小店号</td>
+                    <td  height="35" align="right" style="font-size: 12px;color: #999999">{$shopOwner.user_id}</td>
+                    <td >&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="4"><img src="{$site_url}/weixin/templates/style/img/fen.jpg" width="307" height="1" /></td>
+                </tr>
+                <tr>
+                    <td height="27">&nbsp;</td>
+                    <td height="27">店铺名</td>
+                    <td height="27" align="right" style="font-size: 12px;color: #999999">
+                            {$shopOwner.shop_name}
+                    </td>
+                    <td height="27">&nbsp;</td>
+                </tr>
+
+                <!--<tr>-->
+                    <!--<td>&nbsp;</td>-->
+                    <!--<td  style="font-size:12px;color:#666;padding-bottom:7px;"colspan="3">(集客小店昵称只可修改一次)</td>-->
+                <!--</tr>-->
+                <tr>
+                    <td colspan="4"><img src="{$site_url}/weixin/templates/style/img/fen.jpg" width="307" height="1" /></td>
+                </tr>
+                <tr>
+                    <td height="35">&nbsp;</td>
+                    <td height="35" width="90">集客小店地址</td>
+                    <td height="35" align="right">
+                        <div style="float:right;width: 200px;font-size: 12px;color: #999999">{$jkxd_site_url}</div>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td colspan="4"><img src="{$site_url}/weixin/templates/style/img/fen.jpg" width="307" height="1" /></td>
+                </tr>
+                {if $shopOwner.im_qq != null  || $shopOwner.im_qq != ""}
+                    <tr>
+                        <td height="35">&nbsp;</td>
+                        <td height="35">绑定QQ号</td>
+                        <td  style="font-size:12px;color:#666;"height="35" align="right" style="font-size: 12px;color: #999999">已绑定(可直接使用QQ登录)</td>
+                        <td height="35">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"><img src="{$site_url}/weixin/templates/style/img/fen.jpg" width="307" height="1" /></td>
+                    </tr>
+                {/if}
+                <tr>
+                    <td height="35">&nbsp;</td>
+                    <td height="35">绑定手机</td>
+                    {if !$shopOwner.phone_mob || $shopOwner.phone_mob==""}
+                        <td height="35" align="right" style="font-size: 12px;color: #999999;cursor: pointer" onclick="bind_mobile()">
+                                未绑定
+                        </td>
+                    {else}
+                        <td height="35" align="right" style="font-size: 12px;color: #999999" >
+                            {$shopOwner.phone_mob}
+                        </td>
+                    {/if}
+                    <td height="35">&nbsp;</td>
+                </tr>
+                <!--<tr>-->
+                    <!--<td colspan="4"><img src="{$site_url}/weixin/templates/style/img/fen.jpg" width="307" height="1" /></td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td height="35">&nbsp;</td>-->
+                    <!--<td height="35">短信验证码</td>-->
+                    <!--<td height="35" colspan="2">&nbsp;</td>-->
+                <!--</tr>-->
+            </table>
+
+        </div>
+        <!--<a href="#"><div class="mmore22">保存</div> </a>-->
+    </div>
+    {include file=jkxd_portal.footer.html}
+</div>
+</body>
+</html>

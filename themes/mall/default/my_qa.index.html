@@ -1,0 +1,160 @@
+{include file=member.header.html}
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right">
+        {include file=member.submenu.html}
+        <script type="text/javascript" src="{lib file=jquery.plugins/jquery.validate.js}" charset="{$charset}"></script>
+        <div class="wrap">
+        	  	<!--{if $viewType}-->
+                <script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js"></script>
+                <script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js"></script>
+                <link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+
+        			 <div class="scarch_order">
+                            <form id="my_goods_form" method="get"> 
+                            <input type="hidden" name="app" value="service">
+                            <input type="hidden" name="act" value="spzx">
+                            <input type="hidden" name="p" value="service">                    
+                          
+                            商品名
+                            <input type="text" class="text_normal" name="item_name" value="{$smarty.get.item_name|escape}"/>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                            新增时间
+                            <input class="text_normal width2" type="text" name="add_time_from" id="add_time_from" value="{$smarty.get.add_time_from|escape}" /> &#8211;
+                            <input class="text_normal width2" id="add_time_to" type="text" name="add_time_to" value="{$smarty.get.add_time_to|escape}" />&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+                                &nbsp;&nbsp;&nbsp;&nbsp;按商家
+
+                            <select name="store_id" class="sgcategory">
+                                    <!--{if $stores}-->
+                                    <option value="-1">全部</option>
+                                    <!--{foreach from=$stores item=store}-->
+                                    <option value="{$store.store_id}" <!--{if $smarty.get.store_id == $store.store_id}-->selected="selected"<!--{/if}--> >{$store.store_name}</option>
+                                    <!-- {/foreach} -->
+                                    <!--{else}-->
+                                    <option value="-1">没有找到商家</option>
+                                    <!--{/if}-->
+                            </select>
+                                
+                            <input type="submit" class="btn" value="{$lang.soso}" />
+                            </form>
+                            </div>
+        
+        	<!--{/if}-->
+        
+        
+            <div class="public_index table">
+                	
+                    <div style="border:1px solid #D8D8D8; background-color:#F5F5F5; line-height:30px; padding-left:5px">
+                    <select name="if_new" onchange="location='index.php?app=my_qa&if_new='+this.value" >
+                    <option value="1" <!--{if $smarty.get.if_new && $smarty.get.if_new eq 1}-->selected="selected"<!--{/if}--> >已读</option>
+                    <option value="0" <!--{if $smarty.get.if_new eq 0}-->selected="selected"<!--{/if}--> >未读</option>
+                    </select>
+                    
+                    &nbsp;&nbsp;&nbsp;&nbsp;共<span style="color:#000066">{$if_all}</span>条<span style="color:red">{$if_new_flase}</span>条未读
+                    
+                    </div>
+                    
+                    <table>
+                    
+                    <tr class="line_bold">
+                    <th class="" colspan="4">
+                    </th>
+                	</tr>
+                    
+                	<tr class="gray">
+                      <td width="60px">发件人</td>
+                      <td width="250px">消息内容</td>
+                      <td width="150px">时间</td>
+                      <td width="100px">操作</td>
+                    </tr>                   
+                    <!-- {foreach from=$my_qa_data item=my_qa_list name=qa} -->
+                    
+                    
+                    <tr class="line">
+                        <td>
+                        <input type="checkbox"  value="{$my_qa_list.ques_id}" class="checkitem" />
+                        <!--{if $my_qa_list.user_name neq ''}-->{$my_qa_list.user_name|escape}<!--{else}-->{$lang.guest}<!--{/if}--></td>
+                        <td>
+                            <p><a href="<!--{if $my_qa_list.type eq 'goods'}-->{url app=$my_qa_list.type&id=$my_qa_list.item_id&act=qa}<!--{else}-->{url app=$my_qa_list.type&id=$my_qa_list.item_id}<!--{/if}-->" target="_blank" class="link3">{$my_qa_list.question_content|escape}</a>
+                            
+                            <!--{if $my_qa_list.reply_content neq ''}-->
+                            		<div style=" margin-top:10px ;padding-top:5px; padding-bottom:5px;border:1px solid #D8D8D8; background-color:#F5F5F5;">
+                                	<h3 style="margin-left:5px"><span class="color8">{$lang.my_reply}:</span></h3>
+                                    <br>
+                                    <p style="margin-left:5px"><span class="color3">{$my_qa_list.reply_content|escape}</span></p>
+                                   	<br>
+                                    <span class="time" style="margin-left:5px">{$my_qa_list.time_reply|date:complete}</span>
+                                   	</div>
+                                 <!--{/if}-->
+                            
+                            </p>
+                            
+                             
+                        </td>
+                        <td valign="top"><span class="time">{$my_qa_list.time_post|date:complete}</span></td>
+                        <td valign="top">
+                        
+                        
+                         <!--{if $viewType}-->							
+                            <!--{if $my_qa_list.reply_content eq ''}-->
+                            <a href="javascript:void(0);" class=" reply" ectype="dialog" style="color:#0000FF" dialog_id="my_qa_reply" dialog_title="{$lang.reply_question}" dialog_width="400" uri="index.php?app=service&amp;act=my_qa_reply&amp;ques_id={$my_qa_list.ques_id}">{$lang.reply}</a>
+                            <!--{else}-->
+                             <a href="javascript:void(0);" class=" reply" ectype="dialog" style="color:#0000FF" dialog_id="my_qa_edit_reply" dialog_title="{$lang.edit_reply}" dialog_width="400" uri="index.php?app=service&amp;act=my_qa_edit_reply&amp;ques_id={$my_qa_list.ques_id}">{$lang.edit_reply}</a>
+                            <!--{/if}-->
+                           &nbsp;|&nbsp;
+                            <a href="javascript:drop_confirm('{$lang.drop_confirm}', 'index.php?app=service&amp;act=my_qa_drop&id={$my_qa_list.ques_id}');"  class="delete2" style="color:#0000FF">{$lang.drop}</a>
+                    		<!--{else}-->
+
+							<!--{if $my_qa_list.reply_content eq ''}-->
+                            <a href="javascript:void(0);" class=" reply" ectype="dialog" style="color:#0000FF" dialog_id="my_qa_reply" dialog_title="{$lang.reply_question}" dialog_width="400" uri="index.php?app=my_qa&amp;act=reply&amp;ques_id={$my_qa_list.ques_id}">{$lang.reply}</a>
+                            <!--{else}-->
+                             <a href="javascript:void(0);" class=" reply" ectype="dialog" style="color:#0000FF" dialog_id="my_qa_edit_reply" dialog_title="{$lang.edit_reply}" dialog_width="400" uri="index.php?app=my_qa&amp;act=edit_reply&amp;ques_id={$my_qa_list.ques_id}">{$lang.edit_reply}</a>
+                            <!--{/if}-->
+                           &nbsp;|&nbsp;
+                            <a href="javascript:drop_confirm('{$lang.drop_confirm}', 'index.php?app=my_qa&amp;act=drop&id={$my_qa_list.ques_id}');" class="delete2" style="color:#0000FF">{$lang.drop}</a>
+                    	    <!--{/if}-->
+                           
+                    
+                        </td>
+                    </tr>
+                    
+                    
+                 
+                    <!-- {foreachelse} -->
+                    <tr><td colspan="4" class="member_no_records">没有找到记录</td></tr>
+                    <!-- {/foreach} -->
+                    <!--{if $my_qa_data}-->
+                    <tr>
+                        <th><input id="all2" type="checkbox" class="checkall" /></th>
+                        <th colspan="3">
+                            <p class="position1">
+                                <label for="all2"><span class="all">{$lang.checkall}</span></label>
+                                
+                                <!--{if $viewType}-->
+                                <a href="javascript:void(0);" class="delete" ectype="batchbutton" uri="index.php?app=service&amp;act=my_qa_drop" name="id" presubmit="confirm('{$lang.drop_confirm}')">删除选中项</a>
+                                <!--{else}-->
+                                <a href="javascript:void(0);" class="delete" ectype="batchbutton" uri="index.php?app=my_qa&amp;act=drop" name="id" presubmit="confirm('{$lang.drop_confirm}')">删除选中项</a>
+                                <!--{/if}-->
+                                
+                            </p>
+                            <p class="position2">
+                                {include file=member.page.bottom.html}
+                            </p>
+                        </th>
+                    </tr>
+                    <!--{/if}-->
+                </table>
+              </div>
+            <iframe name="pop_warning" style="display:none;"></iframe>
+            <div class="wrap_bottom"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<script>
+$('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+$('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+</script>
+{include file=footer.html}

@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>安全中心</title>
+    <link href="{$site_url}/weixin/templates/style/Safety.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+</head>
+<body>
+<div style="width: 320px;margin: 0px auto">
+    <div style="padding-top: 50px;">
+<div class="address-t">
+    <div class="address-l"><a href="javascript:history.go(-1)">返回</a></div>
+    <div class="address-c2" style="padding-left: 58px;">安全中心</div>
+    {include file=member.index_header.html}
+
+</div>
+<div class="Safety-cen">
+    <div class="Safety-cen-bg">
+        <a href="{$SITE_URL}/weixin/index.php?app=member&act=updatePw_yanzheng">
+        <div class="Safety-cen1">
+            <h3>修改登录密码<span>></span></h3>
+        </div>
+        </a>
+        <a href="{$SITE_URL}/weixin/index.php?app=member_safecenter&act=setPayPassword">
+        <div class="Safety-cen2">
+            <h3>
+                {if $user.password2 && $user.password2 != null && $user.password2 != ''}
+                    修改支付密码
+                {else}
+                    设置支付密码
+                {/if}
+
+                <span>></span>
+            </h3>
+            <p>使用账户中余额或积分等资产时，需输入支付密码。</p>
+        </div>
+        </a>
+    </div>
+</div>
+    </div>
+</div>
+{include file=cnzz.html}
+</body>
+</html>

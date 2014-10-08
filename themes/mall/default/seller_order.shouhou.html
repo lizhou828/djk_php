@@ -1,0 +1,220 @@
+{include file=member.header.html}
+
+<style type="text/css">
+.float_right {float: right;}
+</style>
+
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.plugins/jquery.validate.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/dialog/dialog.js" id="dialog_js"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js" ></script>
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+
+<script type="text/javascript">
+	function show(str){
+		if(str==1){
+		   document.getElementById("jine").disabled="";
+		}else{
+		   document.getElementById("jine").disabled="disabled";
+		}
+	}
+	
+	function quxiao(){
+        if(confirm('确定取消售后申请吗？')){
+            document.getElementById('quxiaoForm').submit()
+        }
+    }
+
+	$(function(){
+    $('#cancel_button').click(function(){
+        DialogManager.close('seller_order_cancel_order');
+    });
+
+
+	$("#shouhouForm").validate({
+		errorPlacement: function(error, element){
+			var error_td = element.parents('td').next('td');
+			error_td.find('.field_notice').hide();
+			error_td.find('.fontColor3').hide();
+			error_td.append(error);
+		},
+		success: function(label){
+			label.addClass('validate_right').text('OK!');
+		},
+		submitHandler : function(form) {
+				    $("#sh_submit").attr("disabled","disabled");		
+					form.submit();
+        },
+		onkeyup: false,
+		rules: {
+			content_reply: {
+				required: true
+			},
+			reply_img1: {
+				accept: "jpg|jpeg|png|gif"
+			},
+			reply_img2: {
+				accept: "jpg|jpeg|png|gif"
+			},
+			notice: {
+				required : true
+			}
+			
+		},
+		messages: {
+			content_reply: {
+				required: '请填写处理方案'
+			},
+			reply_img1: {
+				accept: '请选择jpg|jpeg|png|gif格式的图片'
+			},
+			reply_img2: {
+				accept: '请选择jpg|jpeg|png|gif格式的图片'
+			},
+			notice: {
+				required: '请阅读并同意退换货协议'
+			}
+		}
+	});
+});
+
+</script>
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right">
+         <ul class="tab">
+            <li class="active" >售后管理</li>
+		</ul>
+        <div class="wrap">
+            <div class="public">
+            	<center><div id="warning" name="warning" style="margin-top: 10px; margin-bottom: 10px"></div></center>
+                <!--{if $shouhou}-->                		
+            	<div style="border:1px solid 2px #0099CC; line-height:30px; padding:10px; color:#0033FF; margin-bottom:20px">		当前状态：<!--{if $shouhou.status eq 0}-->
+            			卖家暂未处理！
+                        <!--{elseif $shouhou.status eq 1}-->
+                        卖家已处理，等待买家确认！
+                        <!--{elseif $shouhou.status eq 2}-->
+                        订单售后处理完成
+                        <!--{elseif $shouhou.status eq -1}-->
+                        买家取消订单售后
+                		<!--{/if}-->
+                        
+                 <br> 买家要求：
+                     <div class="ble">
+                    <table border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="123" height="30" align="center" bgcolor="#f3f3f3" style="color:#333;">售后方式</td>
+                        <td width="162" align="center" bgcolor="#f3f3f3" style="color:#333;">希望退回金额</td>
+                        <td width="521" align="center" bgcolor="#f3f3f3" style="color:#333;">描述</td>
+                        <td width="221" align="center" bgcolor="#f3f3f3" style="color:#333;">其它描述</td>
+                      </tr>
+                      <tr>
+                        <td height="90" align="center" style=" padding-left:8px;">
+                        <!--{if !$shouhou || $shouhou.type eq 1}-->退货<!--{else}-->退款<!--{/if}-->
+                        </td>
+                        <td align="center" style="font-weight:bold; color:#ff0000">{$shouhou.jine}</td>
+                        <td align="center">{$shouhou.content_post}</td>
+                        <td align="center">
+                        <!--{if $shouhou.content_img1}-->
+                        <a href="{$site_url}/{$shouhou.content_img1}" target="_blank" style="color:#FF6600">查看</a>
+                        <!--{/if}-->
+                        
+                        <!--{if $shouhou.content_img2}-->
+                        <a href="{$site_url}/{$shouhou.content_img2}" target="_blank" style="color:#FF6600">查看</a>
+                        <!--{/if}-->
+                        
+                		</td>
+                      </tr>
+                    </table>
+                    </div>      
+                </div>        
+                <!--{/if}-->
+                
+                
+                <div class="dp">店铺名：<a href="index.php?app=store&id={$ordergoods.seller_id}"  target="_blank">{$ordergoods.seller_name}</a></div>
+                <div class="ble">
+                <table width="766" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="483" height="30" align="center" bgcolor="#f3f3f3" style="color:#333;">订单商品</td>
+                    <td width="162" align="center" bgcolor="#f3f3f3" style="color:#333;">数量</td>
+                    <td width="121" align="center" bgcolor="#f3f3f3" style="color:#333;">金额</td>
+                  </tr>
+                  <tr>
+                    <td height="90" align="center" style=" padding-left:8px;">
+                    <dl class="sp2">
+                    <dd>
+                    <a href="index.php?app=goods&id={$goods.goods_id}" target="_blank" title="{$goods.goods_name|escape}">
+<img width="60px" height="60px" title="1223" style="border: 0px" src="{$site_url}/{$ordergoods.goods_image}">
+</a>
+                    </dd>
+                    <dt><a href="index.php?app=goods&amp;id={$smarty.get.goods_id}" target="_blank">{$ordergoods.goods_name}
+                </a></dt></dl></td>
+                    <td align="center" style="font-weight:bold; color:#333">{$ordergoods.quantity}件</td>
+                    <td align="center" style="color:#ff0000"><span>¥{$ordergoods.price}</span></td>
+                  </tr>
+                </table>
+                </div>
+                <div class="cc">
+                   <h2>请确认处理方式</h2>
+                  <form id="shouhouForm" name="shouhouForm" enctype="multipart/form-data" method="post">
+                  <input type="hidden" name="order_id" value="{$ordergoods.order_id}" />
+                  <input type="hidden" name="goods_id" value="{$ordergoods.goods_id}" />
+                  <input type="hidden" name="shouhou_id" value="{$shouhou.id}" />
+                  <table width="766" border="0" cellspacing="0" cellpadding="0">                
+                  <tr>
+                    <td align="right" valign="top" style="line-height:25px;">处理方案/意见：</td>
+                    <td height="40"><textarea cols="45" id="content_reply" name="content_reply" rows="5">{$shouhou.content_reply}</textarea></td>
+                    <td>&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td align="right" valign="top" style="line-height:45px;">其它描述：</td>
+                    <td height="40"><input id="reply_img1"  name="reply_img1" type="file" /> <em>图片描述一</em>
+                    <!--{if $shouhou.reply_img1}-->
+                <a href="{$site_url}/{$shouhou.reply_img1}" target="_blank" style="color:#FF6600">查看</a>
+                <!--{/if}-->
+                    </td>
+                    <td>&nbsp;</td>
+                    <tr>
+                    <td align="right" valign="top" style="line-height:45px;"></td>
+                    <td height="20"><input id="reply_img2"  name="reply_img2" type="file" /> <em>图片描述二</em>
+                    <!--{if $shouhou.reply_img2}-->
+                <a href="{$site_url}/{$shouhou.reply_img2}" target="_blank" style="color:#FF6600">查看</a>
+                <!--{/if}-->
+                    </td>
+                    <td>&nbsp;</td>
+                  </tr>
+                  
+                  <!--{if $shouhou.status neq 2 && $shouhou.status neq -1}-->
+                  
+                  <tr>
+                    <td align="right" valign="top" style="line-height:45px;"></td>
+                    <td height="60"  style="color:#333"><input type="checkbox" name="notice" id="notice"  style="vertical-align:middle; margin-right:5px;"/>我已认真阅读和完全同意退换货流程中的所有条款</td>
+                    <td>&nbsp;</td>
+                    </tr>
+                     <tr>
+                    <td align="right" valign="top"></td>
+                    <td height="50">
+                  	<input type="submit" class="an1" id="sh_submit" name="sh_submit"  value=""/>
+                    </td>
+                    <td>&nbsp;</td>
+                  </tr>
+                  
+                   <!--{/if}-->
+                  
+                </table>
+                </form>
+                </div>
+           
+
+            <div class="wrap_bottom"></div>
+        </div>
+        <div class="clear"></div>
+        <div class="adorn_right1"></div>
+        <div class="adorn_right2"></div>
+        <div class="adorn_right3"></div>
+        <div class="adorn_right4"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+{include file=footer.html}

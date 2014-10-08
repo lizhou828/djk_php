@@ -1,0 +1,209 @@
+{include file=member.header.html}
+<script src="{lib file=mlselection.js}" charset="utf-8"></script>
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js"></script>
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js"></script>
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+
+<style>
+    .show_alert{
+        background-color: #F5F5F5;
+        border: 1px solid #D8D8D8;
+        margin-top: -20px;
+        margin-left: -52px;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        color: #919191;
+        line-height: 20px;
+        display: block;
+    }
+</style>
+
+<script type="text/javascript">
+//<!CDATA[
+$(function()
+{
+    regionInit("region");
+	$('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+    $('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+	
+});
+//]]>
+</script>
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right"> 
+    
+      <ul class="tab">
+      <li class="active" >
+      <a href="index.php?app=member&p=userInfo" >我的抢注</a></li>
+      </ul>
+    
+        <div class="wrap">
+            
+            <div class="public table">
+                <table id="my_category" server="{$site_url}/index.php?app=my_category&act=ajax_col">
+             
+                    <tr class="line_bold" >                       
+                        <th class="align1" colspan="7">
+                              <div class="scarch_order">
+                <form method="get">
+
+                    <div class="show_alert">
+                        <h1>什么是我的抢注？</h1><br>
+                        抢注服务中心后，在“我的抢注”栏目下，您可以查看您所抢注的服务中心。如果还未付款，您可以点击“现在付款”。付款成功后，我们会在2-3个工作日审核，审核通过后，我们会将服务中心帐号和密码发送到您的邮箱或者手机上。
+                        <br><font color="red">温馨提示：如果您在申请成功后10小时内还未付款，则将视为自动弃权并且该申请将予以作废！</font>
+                  </div>
+
+
+                    <div style="margin-left: -50px">
+
+                    <div class="select_add" id="region" style="width: 500px; display: inline">
+                        <input type="hidden" name="region_id" value="{$store.region_id}" class="mls_id" />
+                        <input type="hidden" name="region_name" value="{$store.region_name}" class="mls_names" />
+                        {if $smarty.get.region_name}
+                        <span>{$smarty.get.region_name|escape}</span>
+                        <input type="button" value="{$lang.edit}" class="edit_region" />
+                        {/if}
+                        <select class="d_inline"{if $smarty.get.region_name} style="display:none;"{/if}>
+                        <option value="0">--选择地区--</option>
+                        {html_options options=$regions}
+                        </select>
+                    </div>
+
+                    <br><br>
+
+                    <span class="title">申请时间:</span>
+                    <input class="text_normal width2" type="text" name="add_time_from" id="add_time_from" value="{$smarty.get.add_time_from|escape}" /> &#8211;
+                    <input class="text_normal width2" id="add_time_to" type="text" name="add_time_to" value="{$smarty.get.add_time_to|escape}" />
+
+                    <input type="hidden" name="app" value="member" />
+                    <input type="hidden" name="act" value="qiangzhu" />
+                    <input type="hidden" name="p" value="userInfo" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                		抢注状态:
+                            <select name="status" id="status">
+                            <option value="" selected="selected">全部</option>
+                            <option value="0" >审核中</option>
+                            <option value="1" >抢注成功</option>
+                            <option value="2" >抢注失败</option>
+                            <option value="-1" >已失效</option>                             
+                            </select>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="submit" class="btn" value="搜索" />
+
+                <input type="hidden" name="type" value="all_orders" />
+
+                <br><br><br>
+
+                </div>                
+                </form>
+                <!--{if $smarty.get.status!='' }-->
+                <script>
+                var status={$smarty.get.status};
+				var sta=document.getElementById("status");
+				
+				
+				for(var i=0;i<sta.options.length;i++)
+				{
+				  if(sta.options[i].value==status)
+				  {
+				   		sta.options[i].selected="selected";
+				  }
+				}
+                </script>
+  				<!-- {/if} -->
+                </div>
+                </th>
+                    </tr>
+                    <tr class="gray" ectype="table_header">                 
+                        <th width="300px">所在地</th>
+                        <th width="132px" coltype="editable" column="sort_order" checker="check_max" inputwidth="30px">
+                            订金(元)</th>
+                        <th width="112px" coltype="switchable" column="if_show" checker="" onclass="right_ico" offclass="wrong_ico">是否成功</th>
+                        <th width="180px" >抢注时间</th>
+                        <th width="180px" >付款期限</th>
+                        <th width="172px" >操作</th>
+                    </tr>
+                     
+                 <!-- {if $shenqings} -->
+                <tbody id="treet1">
+                <!-- {/if} -->
+
+                <!-- {foreach from=$shenqings item=shenqing name=v} -->
+                <tr class="line<!--{if $smarty.foreach.v.last}--> last_line<!--{/if}-->" ectype="table_item" idvalue="{$gcategory.cate_id}">
+                 
+                    <td>&nbsp;&nbsp;<span ectype="editobj">{$shenqing.regionName|escape}</span></td>
+                    <td><span ectype="editobj">{$shenqing.jine|number2}</span></td>
+                 	<td><span ectype="editobj">
+                    <!--{if $shenqing.type eq 0}-->
+                        <!--{if $shenqing.flag eq 0 }-->
+                        审核中
+                        <!--{elseif $shenqing.flag eq 1}-->
+                        已失效<label style="display: none">失效时间  {$shenqing.update_time|date:complete}</label>
+                        <!--{/if}-->
+                    <!--{elseif $shenqing.type eq 1}-->
+                    <font color="#FF0000">抢注成功</font> 
+                    <!--{elseif $shenqing.type eq 2}-->
+                    抢注失败
+                    <!--{/if}-->   
+                    </span></td>
+                    <td><span ectype="editobj">{$shenqing.add_time|date:Y-m-d H:i}</span></td>
+                    <td><span ectype="editobj">{$shenqing.fail_time|date:Y-m-d H:i}</span></td>
+                    <td width="152px" ><span ectype="editobj">
+                    <!--{if $shenqing.type eq 0 && $shenqing.flag eq 0}-->
+
+                            <!--{if $shenqing.paymentState eq 0}-->
+                            <a href="{$TO_QIANGZHU_URL}?qiangzhuId={$shenqing.id}&userId={$visitor.user_id}
+" title="您已抢注了该服务中心但未付款" target="_blank" style="color:#CC3300">现在付款</a>
+                            <!--{/if}-->
+
+                            <!--{if !$shenqing.yingyezhizhaoImg || $shenqing.shenfenzhengImg == null }-->
+                            <a href="index.php?app=service&act=queryByqiangzhu&serviceid={$shenqing.service_id}&id={$shenqing.id}" title="您已抢注了该服务中心且已付款但未提交营业执照，点击马上上传" style="color:#CC3300">上传营业执照</a>
+                            <!--{/if}-->
+
+                    <!--{elseif $shenqing.type eq 1}-->
+                            审核通过
+                            <!--{if !$shenqing.yingyezhizhaoImg || $shenqing.shenfenzhengImg == null }-->
+                            <br><br><a href="index.php?app=service&act=queryByqiangzhu&serviceid={$shenqing.service_id}&id={$shenqing.id}" title="您已抢注了该服务中心且已付款但未提交营业执照，点击马上上传" style="color:#CC3300">上传营业执照</a>
+                            <!--{/if}-->
+                    <!--{elseif $shenqing.type eq 2}-->
+                            审核未通过
+                    <!--{/if}-->
+                    </span></td>
+                </tr>
+                <!-- {foreachelse} -->
+                <tr>
+                    <td colspan="6" class="member_no_records padding6">您还没有抢注过服务中心，现在<a href="{$site_url}/index.php?app=service&act=register_service" style="color:blue" target="_blank">抢注</a></td>
+                </tr>
+                <!--{/foreach}-->
+
+                <!-- {if $shenqings} -->
+                </tbody>
+                <!-- {/if} -->
+                </table>
+            </div>
+            <div class="wrap_bottom"></div>
+        </div>
+
+        <!--{if $shenqings}-->
+        <div class="kandan_foot">
+            <div class="pageLinks">{include file=member.page.bottom.html}</div>
+        </div>
+        </div>
+        <div class="clear"></div>
+        <!--{/if}-->
+
+
+        <iframe name="pop_warning" style="display:none"></iframe>
+        <div class="clear"></div>
+        <div class="adorn_right1"></div>
+        <div class="adorn_right2"></div>
+        <div class="adorn_right3"></div>
+        <div class="adorn_right4"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+{include file=footer.html}

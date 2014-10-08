@@ -1,0 +1,132 @@
+{include file="header.html"}
+<script>
+
+
+    $(function(){
+        $('#begin_time').datepicker({dateFormat: 'yy-mm-dd'});
+        $('#end_time').datepicker({dateFormat: 'yy-mm-dd'});
+
+    });
+
+    function showDetail(id) {
+        var url = "index.php?app=order&act=fwzx_detail&id="+id;
+        window.open(url);
+    }
+
+    function showShouyi(id) {
+        var url = "index.php?app=order&act=fwzx_shouyi&id="+id;
+        window.open(url);
+    }
+
+
+</script>
+<div id="rightTop">
+    <ul class="subnav">
+        <li style="margin-right: 12px"><span style="font-weight: normal; color: #aaa;">服务中心营业额：</span><strong>{$yye[0].order_amount|price}</strong></li>
+        <li style="margin-right: 12px"><span style="font-weight: normal; color: #aaa;">佣金：</span><strong>{$yye[0].jine|price}</strong></li>
+        <li style="margin-right: 12px; display: none"><span style="font-weight: normal; color: #aaa;">奖池：</span><strong>{$jiangjin|price}</strong></li>
+        <li style="margin-right: 12px"><span style="font-weight: normal; color: #aaa;">- 实际抽奖：</span><strong>{$choujiang|price}</strong></li>
+        <li style="margin-right: 12px"><span style="font-weight: normal; color: #aaa;">- 提成金额：</span><strong>{$ticheng|price}</strong></li>
+        <li style="margin-right: 12px"><span style="font-weight: normal; color: #aaa;"> = 公司毛利润：</span><strong>{$毛|price}</strong></li>
+    </ul>
+</div>
+
+<div class="mrightTop">
+    <div style="float: left;margin-right: 20px;margin-top: 5px;">
+        <ul style=" float: left;margin-right: 20px;margin-top: 5px;">
+            <li style="margin-right: 20px;float: left;"><a class="btn1" href="javascript:isshow('yue')">按月统计</a></li>
+            <li style="float: left;"><a class="btn1" href="javascript:isshow('date')">按日统计</a></li>
+        </ul>
+    </div>
+    <div class="fontl">
+        <form method="get" name="form1" id="form1">
+             <div class="left">
+                <input type="hidden" name="app" value="order" />
+                <input type="hidden" name="act" value="fwzx" />
+                <input type="hidden" id="type" name="type" value="" />
+                 <span class="title">时间从:</span>&nbsp;&nbsp;&nbsp;
+                 <input type="text" value="{$begin_time}" style="width: 100px" id="begin_time" name="begin_time" class="pick_date" />至
+                 <input type="text" value="{$end_time}" style="width: 100px" id="end_time" name="end_time" class="pick_date" />
+                 <input type="submit" class="formbtn" value="{$lang.query}" />
+            </div>
+        </form>
+    </div>
+
+    <div class="fontr">
+        {if $orders}{include file=page.top.html}{/if}
+    </div>
+</div>
+<div class="tdare" >
+    <table width="100%" cellspacing="0" class="dataTable" id="yueTable">
+        <!--{if $orders}-->
+        <tr class="tatr1">
+            <td width="30%"><span fieldname="order_amount">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;服务中心</span></td>
+            <td width="20%" class="firstCell"><span ectype="order_by" fieldname="addTime">日期</span></td>
+            <td width="20%"><span ectype="order_by" fieldname="amount">总额</span></td>
+            <td width="10%"><span ectype="order_by" fieldname="jine">佣金</span></td>
+            <td width="20%">操作</td>
+        </tr>
+        <!--{/if}-->
+        <!--{foreach from=$orders item=order}-->
+
+        <tr class="tatr2">
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$order.fwzx}</td>
+            <td>{$order.addTime}</td>
+            <td>{$order.amount|price}</td>
+            <td>{$order.jine|price}</td>
+            <td><a href="javascript:showDetail('{$order.id}')">查看详细</a>&nbsp;&nbsp;<a href="javascript:showShouyi('{$order.id}')">服务中心收益</a></td>
+        </tr>
+        <!--{foreachelse}-->
+        <tr class="no_data">
+            <td colspan="5">{$lang.no_data}</td>
+        </tr>
+        <!--{/foreach}-->
+    </table>
+    <table width="100%" cellspacing="0" class="dataTable" id="dateTable"  style="display: none">
+        <!--{if $orders}-->
+        <tr class="tatr1" >
+            <td width="30%"><span fieldname="order_amount">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;服务中心</span></td>
+            <td width="30%" class="firstCell"><span ectype="order_by" fieldname="addTime">日期</span></td>
+            <td width="20%"><span ectype="order_by" fieldname="amount">总额</span></td>
+            <td width="20%"><span ectype="order_by" fieldname="jine">佣金</span></td>
+            <td width="15%">操作</td>
+        </tr>
+        <!--{/if}-->
+
+        <!--{foreach from=$orders item=order}-->
+        <tr class="tatr2">
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$order.fwzx}</td>
+            <td>{$order.addTime}</td>
+            <td>{$order.amount|price}</td>
+            <td>{$order.jine|price}</td>
+            <td><a href="javascript:showDetail('{$order.id}')">查看详细</a></td>
+        </tr>
+        <!--{foreachelse}-->
+        <tr class="no_data">
+            <td colspan="5">{$lang.no_data}</td>
+        </tr>
+        <!--{/foreach}-->
+    </table>
+    <div id="dataFuncs">
+        <div class="pageLinks">
+            {if $orders}{include file=page.bottom.html}{/if}
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<script>
+    function isshow(type){
+        if(type =='yue'){
+            $("#type").val("yue");
+            $("#yueTable").show();
+            $("#dateTable").hide();
+        }else{
+            $("#type").val("date");
+            $("#dateTable").show();
+            $("#yueTable").hide();
+        }
+        $("#form1").submit();
+    }
+
+</script>
+{include file="footer.html"}

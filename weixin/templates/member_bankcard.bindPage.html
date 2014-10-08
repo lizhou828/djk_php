@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>绑定银行卡</title>
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/binding.css" rel="stylesheet" type="text/css" />
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$SITE_URL}/weixin/templates/js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+    <script type="text/javascript">
+        function bank(bank_name){
+            $("#bank_name").val(bank_name);
+        }
+        function next_step(){
+            var bankCode = $("#bank_code").val();
+            if(bankCode == '请选择银行' ){
+                alert("请选择银行！");
+                return ;
+            }
+            var kaHao = $("#kahao").val();
+            if( !kaHao.match("^[0-9]{15,19}$") ){
+                alert("请输入15-19位数字的银行卡或者信用卡号");
+                return;
+            }
+            var real_name= "{$user.real_name}";
+            var username = $("#user_name").val();
+            //如果从没有填写过姓名的，就填写
+            if(!real_name || real_name==null || real_name==""){
+                if(username == '' || username =='请输入姓名'){
+                    alert("请输入姓名！");
+                    return ;
+                }
+                //4-20位的中文姓名：正则匹配
+                var reg = /^[\u4E00-\u9FA5]{2,10}$/;
+                if(!reg.test(username)){
+                    alert("请输入2-20个汉字的真实姓名！");
+                    return ;
+                }
+            }
+            var card_id= "{$user.card_id}";
+            var idCard = $("#id_card").val();
+            if(!card_id || card_id==null || card_id==""){
+                if(idCard == '' || idCard =='请输入身份证'){
+                    alert("请输入身份证！");
+                    return ;
+                }
+                if( !idCard.match("(^\\d{15}$)|(^\\d{18}$)|(^\\d{17}(\\d|X|x)$)") ){
+                    alert("请输入15位或者18位的身份证号码！");
+                    return;
+                }
+            }
+
+            $("#bankForm").submit();
+        }
+    </script>
+</head>
+<body>
+<div style="width: 320px;margin: 0px auto">
+    <div style="padding-top: 50px;">
+<div class="address-t">
+    <div class="address-l"><a href="javascript:history.go(-1)">返回</a></div>
+    <div class="address-c2" style="padding-left: 55px;">绑定银行卡</div>
+</div>
+<div class="binding-cen">
+    <form id="bankForm" action="{$site_url}/weixin/index.php?app=member_bankcard&act=bind&u_id={$user.user_id}" method="post">
+        <div>
+            <input id="bank_name"  name="bank_name" type="hidden" value=""/>
+            <select id="bank_code" name="bank_code" class="binding-cen-1" style="width:309px;" onchange="bank(this.options[this.selectedIndex].text)">
+                <option>请选择银行</option>
+                {foreach from=$payChannels item=payChannel}
+                    {if $payChannel.channel_name!='支付宝' && $payChannel.channel_name!='财付通' }
+                    <option value="{$payChannel.channel_code}">{$payChannel.channel_name}</option>
+                    {/if}
+                {/foreach}
+            </select>
+        </div>
+        <div>
+            <input class="binding-cen-1" id="kahao"  name="kahao" type="text" value="请输入银行卡号"
+                   onfocus="if(this.value=='请输入银行卡号' ){this.value='';this.style.color='#333'}"
+                   onblur="if(this.value==''){this.value='请输入银行卡号';this.style.color='#ccc'}"/>
+        </div>
+
+        {if !$user.real_name || $user.real_name == null || $user.real_name==''}
+        <div>
+            <input class="binding-cen-1" id="user_name" name="user_name" type="text" value="请输入姓名"
+                   onfocus="if(this.value=='请输入姓名'){this.value='';this.style.color='#333'}"
+                   onblur="if(this.value==''){this.value='请输入姓名';this.style.color='#ccc'}"/>
+        </div>
+        {/if}
+
+        {if !$user.card_id || $user.card_id == null || $user.card_id==''}
+        <div>
+            <input class="binding-cen-1" id="id_card" name="id_card" type="text" value="请输入身份证"
+                   onfocus="if(this.value=='请输入身份证'){this.value='';this.style.color='#333'}"
+                   onblur="if(this.value==''){this.value='请输入身份证';this.style.color='#ccc'}"/>
+        </div>
+        {/if}
+
+        <a href="#" onclick="next_step()"><div class="next-step" style="color: white">下一步</div></a>
+        </form>
+</div>
+    </div>
+</div>
+{include file=cnzz.html}
+</body>
+</html>

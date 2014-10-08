@@ -1,0 +1,22 @@
+
+                <!--{if $my_address}-->
+                <!--{foreach from=$my_address item=address name=address_select}-->
+                <ul class="receive_add address_item selected_address">
+                    <li class="radio"><input id="address_{$address.addr_id}" onclick="javascript:set_address('{$address.addr_id}')"  type="radio" name="address_options" value="{$address.addr_id}" /></li>
+                    <li class="particular">{$address.region_name|escape}&nbsp;&nbsp;{$address.address|escape}<input type="hidden" id="address_name_{$address.addr_id}" value="{$address.region_name|escape}">
+                    </li>
+                    <li class="name">{$lang.consignee}: {$address.consignee|escape}</li>
+                    <li class="mobile"><!--{if $address.phone_mob}-->{$address.phone_mob}<!--{else}-->{$address.phone_tel}<!--{/if}--></li>
+                </ul>
+                <!--{/foreach}-->
+                <!--{else}-->
+                <ul class="receive_add address_item selected_address">
+                    <li class="particular">没有找到收货地址</li>
+                </ul>
+                <!--{/if}-->
+                <ul class="receive_add address_item selected_address">
+                    <li class="radio"><input type="radio" name="address_options" onclick="javascript:set_address('')" id="use_new_address"  value="0" /></li>
+                    <li class="particular">使用新的收货地址<input type="txt" class="txt" name="new_address" id="new_address" style="display: none; width: 200px" /></li>
+                </ul>
+
+

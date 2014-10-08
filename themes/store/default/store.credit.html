@@ -1,0 +1,218 @@
+{include file=header.html}
+
+{include file=common.html}
+<link href="{res file=base.css}" rel="stylesheet" type="text/css">
+<link href="{res file=chaoshi.css}" rel="stylesheet" type="text/css">
+<link href="{res file=djk.css}" rel="stylesheet" type="text/css">
+<link href="{res file=shop.css}" rel="stylesheet" type="text/css">
+<link href="{res file=home_login.css}" rel="stylesheet" type="text/css">
+<link href="{res file=style.css}" rel="stylesheet" type="text/css">
+<link href="{res file=index.css}" rel="stylesheet" type="text/css">
+<link href="{res file=shop_2.css}" rel="stylesheet" type="text/css">
+<link href="{res file=home_tg.css}" rel="stylesheet" type="text/css">
+<div class="ncsl-nav">
+    <div class="banner"><a href="{r_url app=store&id=$store.store_id}" class="img">
+        <div class="ncs-default-banner pngFix">
+            <!--{if $store.store_banner}-->
+            <img src="{$img_url}/{$store.store_banner}" width="1200" height="325" />
+            <!--{else}-->
+            <img src="{res file=images/default.jpg}" width="1200" height="325" />
+            <!--{/if}-->
+        </div>
+    </a></div>
+    <nav id="nav" class="pngFix">
+        <ul class="pngFix">
+            <li><a class="active" href="{r_url app=store&id=$store.store_id}"><span>{$lang.store_index}</span></a></li>
+            <!--<li><a class="active" href="{r_url app=store&act=groupbuy&id=$store.store_id}"><span>{$lang.nav_groupbuy}</span></a></li>-->
+            <li><a class="active" href="{r_url app=store&act=article&id=$store.store_id}"><span>店铺详情</span></a></li>
+            <li><a class="active" href="{r_url app=store&act=credit&id=$store.store_id}"><span>{$lang.credit_evaluation}</span></a></li>
+        </ul>
+
+    </nav>
+</div>
+
+
+
+
+<article id="content">
+<section class="layout expanded mt10">
+<article class="nc-goods-main">
+    <!-- 商品评分统计信息S -->
+    <div class="nc-s-c-s2">
+        <div class="title">
+            <h4 style="font-size: 1em;">{$lang.praise_rate} ( 100 % )</h4>
+        </div>
+        <div class="content">
+            <table class="ncs-evaluation-tb" style="font-size: 1em;">
+                <thead>
+                <tr style="font-size: 1em;">
+                    <th style="font-size: 1em;"></th>
+                    <td class="ncse-good" style="font-size: 1em;"><span class="ico pngFix" style="font-size: 1em;"></span>好评</td>
+                    <td class="ncse-normal" style="font-size: 1em;"><span class="ico pngFix" style="font-size: 1em;"></span>中评</td>
+                    <td class="ncse-bad" style="font-size: 1em;"><span class="ico pngFix" style="font-size: 1em;"></span>差评</td>
+                    <td class="ncse-sum" style="font-size: 1em;">总计</td>
+                </tr>
+                </thead>
+                <tbody style="font-size: 1em;">
+                <tr style="font-size: 1em;">
+                    <th style="font-size: 1em;">最近1周</th>
+                    <td class="ncse-good" style="font-size: 1em;">{$stats.3.in_a_week}</td>
+                    <td class="ncse-normal" style="font-size: 1em;">{$stats.2.in_a_week}</td>
+                    <td class="ncse-bad" style="font-size: 1em;">{$stats.1.in_a_week}</td>
+                    <td class="ncse-sum" style="font-size: 1em;">{$stats.0.in_a_week}</td>
+                </tr>
+                <tr style="font-size: 1em;">
+                    <th style="font-size: 1em;">最近1个月</th>
+                    <td class="ncse-good" style="font-size: 1em;">{$stats.3.in_a_month}</td>
+                    <td class="ncse-normal" style="font-size: 1em;">{$stats.2.in_a_month}</td>
+                    <td class="ncse-bad" style="font-size: 1em;">{$stats.1.in_a_month}</td>
+                    <td class="ncse-sum" style="font-size: 1em;">{$stats.0.in_a_month}</td>
+                </tr>
+                <tr>
+                    <th style="font-size: 1em;">最近6个月</th>
+                    <td class="ncse-good" style="font-size: 1em;">{$stats.3.in_six_month}</td>
+                    <td class="ncse-normal" style="font-size: 1em;">{$stats.2.in_six_month}</td>
+                    <td class="ncse-bad" style="font-size: 1em;">{$stats.1.in_six_month}</td>
+                    <td class="ncse-sum" style="font-size: 1em;">{$stats.0.in_six_month}</td>
+                </tr>
+                <tr style="font-size: 1em;">
+                    <th style="font-size: 1em;">6个月前</th>
+                    <td class="ncse-good" style="font-size: 1em;">{$stats.3.six_month_before}</td>
+                    <td class="ncse-normal" style="font-size: 1em;">{$stats.2.six_month_before}</td>
+                    <td class="ncse-bad" style="font-size: 1em;">{$stats.1.six_month_before}</td>
+                    <td class="ncse-sum" style="font-size: 1em;">{$stats.0.six_month_before}</td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr style="font-size: 1em;">
+                    <th style="font-size: 1em;" >总计</th>
+                    <td style="font-size: 1em;" >{$stats.3.total}</td>
+                    <td style="font-size: 1em;" >{$stats.2.total}</td>
+                    <td style="font-size: 1em;" >{$stats.1.total}</td>
+                    <td style="font-size: 1em;" >{$stats.0.total}</td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</article>
+    <!-- 商品评分统计信息E -->
+    <aside class="nc-sidebar">
+        <!--店铺基本信息 S-->
+        <div>
+            <div class="ncs-info clearfix">
+                <div class="shop-card">
+                    <h4 style="font-size: 1em;" >{$store.store_name|escape}</h4>
+                    <dl>
+                        <dt><a href="{r_url app=store&id=$store.store_id}"><img src="{$img_url}/{$store.store_logo}" class="size60"
+                                                                              title="{$store.store_owner.user_name|escape}" alt="{$store.store_owner.user_name|escape}"/></a></dt>
+                        <dd><a href="" class="shopkeeper">{$store.store_owner.user_name|escape}</a> <a href="{r_url app=message&act=send&to_id=$store.store_owner.user_id|escape}"
+                                                                                                       class="message text-hidden" title="发站内信">发站内信</a></dd>
+                        <dd class="ncs-level">
+                            <span class="seller-crown level-5"></span>
+                        </dd>
+                        <dd><span>好评率：</span>{$store.praise_rate}%</dd>
+                    </dl>
+                </div>
+
+                <div class="shop-detail">
+                    <h4 style="font-size: 1em;" >店铺信息</h4>
+                    <!-- 店铺信息 -->
+                    <dl>
+                        <dt>{$lang.store_add_time}：</dt>
+                        <dd>{$store.add_time|date}</dd>
+                        <dt>{$lang.region}：</dt>
+                        <dd>{$store.region_name|escape}</dd>
+                        <dt>{$lang.goods_count}：</dt>
+                        <dd><strong style="font-size: 1em;" >{$store.goods_count}</strong>件商品</dd>
+                        <dt>{$lang.credit_value}：</dt>
+                        <dd>{$store.credit_value}
+
+                    </dl>
+                </div>
+                <div class="shop-im">
+                    <dl>
+                        <dt>在线客服：</dt>
+                        <dd>
+                            <!--{if $chat}-->
+                            <!--{foreach from=$chat item=haoma key=key}-->
+                            <a target=blank href=tencent://message/?uin=2880323938&Site=www.ik38.com&Menu=yes><img border="0" SRC="{res file=images/button_111.gif}" alt="点击联系"></a>
+                            <a target=blank href=tencent://message/?uin=2880323939&Site=www.ik38.com&Menu=yes><img border="0" SRC="{res file=images/button_111.gif}" alt="点击联系"></a>
+                            <a target=blank href=tencent://message/?uin=2880323940&Site=www.ik38.com&Menu=yes><img border="0" SRC="{res file=images/button_111.gif}" alt="点击联系"></a>
+                            <a target=blank href=tencent://message/?uin=2880323943&Site=www.ik38.com&Menu=yes><img border="0" SRC="{res file=images/button_111.gif}" alt="点击联系"></a>
+                            <!--{/foreach}-->
+                            <!--{else}-->
+                            暂无
+                            <!--{/if}-->
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="clear" style="height: 50px;">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+    </aside>
+    <div class="nc-s-c-s3 ncs-comment mt10">
+
+        <div class="content">
+            <div id="goodseval" class="ncs-loading">
+                <table width="998" cellspacing="0" cellpadding="0" border="0" id="t" class="nc-comment">
+                    <thead class="type">
+                    <tr style="font-size: 1em;" >
+                        <td colspan="2" style="font-size: 1em;" ><div>
+                            <input  type="radio" href="{r_url app=store&act=credit&id=$store.store_id}#module" nc_type="sform" checked="" value="0" id="allRate" name="evalscore">
+                            <label for="allRate" style="font-size: 1em;">全部评价</label>
+                            <input type="radio" href="{r_url app=store&act=credit&id=$store.store_id&eval=3}#module" nc_type="sform" value="1" id="goodRate" name="evalscore">
+                            <label for="goodRate" style="font-size: 1em;">好评</label>
+                            <input type="radio" href="{r_url app=store&act=credit&id=$store.store_id&eval=2}#module" nc_type="sform" value="2" id="mediumRate" name="evalscore">
+                            <label for="mediumRate" style="font-size: 1em;">中评</label>
+                            <input type="radio" href="{r_url app=store&act=credit&id=$store.store_id&eval=1}#module" nc_type="sform" value="3" id="worstRate" name="evalscore">
+                            <label for="worstRate" style="font-size: 1em;">差评</label>
+                        </div></td>
+                        <td class="tc w150" style="font-size: 1em;" ><div>{$lang.buyer}</div></td>
+                        <td class="w400" style="font-size: 1em;" ><div>{$lang.goods}</div></td>
+                    </tr>
+                    </thead>
+                    <tbody class="detail" style="font-size: 1em;">
+                    <!--{foreach from=$goods_list item=goods}-->
+                    <tr>
+                        <th class="w40 tc" style="font-size: 1em;" >
+                            <!--{if $goods.evaluation eq 1}-->
+                            <em class="pngFix ncse-good" style="font-size: 1em;" >{$lang.bad_eval}</em>
+                            <!--{elseif $goods.evaluation eq 2}-->
+                            <em class="pngFix ncse-good" style="font-size: 1em;" >{$lang.normal_eval}</em>
+                            <!--{else}-->
+                            <em class="pngFix ncse-good" style="font-size: 1em;" >{$lang.good_eval}</em>
+                            <!--{/if}-->
+                        </th>
+                        <td style="font-size: 1em;" ><p>{$goods.comment|escape|nl2br}</p></td>
+                        <td style="font-size: 1em;" ><dl class="ncs-fromm-ember"><dd>{$goods.buyer_name|escape}</dd><span class="buyer-heart level-1"></span></dl></td>
+                        <td style="font-size: 1em;" ><dl class="goodsinfo"><dd><a href="{r_url app=goods&id=$goods.goods_id}">{$goods.goods_name|escape}</a><br>{$goods.price|price}</dd></dl></td>
+                    </tr>
+                    <!--{foreachelse}-->
+                    <tr>
+                        <td colspan="4">暂无记录</td>
+                    </tr>
+                    <!--{/foreach}-->
+
+                    </tbody>
+
+                    <tfoot>
+                    <tr>
+                        <td colspan="10" style="text-align: right" style="font-size: 1em;" > <div class="clear"></div>
+                            <div class="pagination">
+                                {include file=page.bottom.html}
+                            </div></td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+</article>
+
+
+<div class="clear"></div>
+{include file=footer.html}

@@ -1,0 +1,140 @@
+{include file="header.html"}
+<script type="text/javascript">
+    function isshow(type) {
+        $(".dataTable").hide();
+        if (type == 'yueTab') {
+            $("#"+type).show();
+        }
+        if (type == 'unKouYueTab') {
+            $("#"+type).show();
+        }
+    }
+</script>
+<div id="rightTop">
+    <ul class="subnav">
+        <li><span>账户记录</span></li>
+    </ul>
+</div>
+<div class="mrightTop">
+    <div class="fontl">
+        <form method="get" name="form1" id="form1">
+             <div class="left">
+                 <ul class="subnav" style="float: left">
+                     <li style="margin-top: 5px;"><a class="btn1" href="javascript:isshow('yueTab')">缴税余额记录</a></li>
+                 </ul>
+                 <ul class="subnav" style="float: left;">
+                     <li style="margin-top: 5px;"><a class="btn1" href="javascript:isshow('unKouYueTab')">非缴税余额记录</a></li>
+                 </ul>
+            </div>
+        </form>
+
+    </div>
+</div>
+<div class="tdare">
+
+    <table width="100%" cellspacing="0" class="dataTable" style="table-layout:fixed;" id="yueTab">
+
+        <tr class="tatr1">
+            <td  class="firstCell" colspan="5" width="100%"><span>扣税余额记录</span></td>
+        </tr>
+        <tr class="tatr1" >
+            <td width="100%" class="firstCell" colspan = "5"><span>扣税账户余额:{$total|price}</span>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        </tr>
+        <tr class="tatr1">
+            <td width="25%" class="firstCell"><span>会员名</span></td>
+            <td width="25%" class="firstCell"><span>摘要</span></td>
+            <td width="25%" class="firstCell"><span>金额</span></td>
+            <td width="25%" class="firstCell"><span>备注</span></td>
+            <td width="25%" class="firstCell"><span>日期</span></td>
+        </tr>
+        <!--{foreach from=$ksyueLog item=user}-->
+        <tr class="tatr2">
+            <td class="firstCell">{$user.user_name}</td>
+
+            <td class="firstCell"><!--{if $user.type == -1}-->
+                未知
+                <!--{/if}-->
+                <!--{if $user.type == 2}-->
+                取消订单
+                <!--{/if}-->
+                <!--{if $user.type == 3}-->
+                提现
+                <!--{/if}-->
+                <!--{if $user.type == 4}-->
+                营业额
+                <!--{/if}-->
+                <!--{if $user.type == 5}-->
+                支付
+                <!--{/if}-->
+                <!--{if $user.type == 6}-->
+                收益
+                <!--{/if}--></td>
+            <td class="firstCell">{$user.jine}</td>
+            <td class="firstCell">{$user.beizhu}</td>
+            <td class="firstCell">{$user.create_time}</td>
+            <!--{foreachelse}-->
+        <tr class="no_data">
+            <td colspan="8">{$lang.no_data}</td>
+        </tr>
+        <!--{/foreach}-->
+    </table>
+
+    <table width="100%" cellspacing="0" class="dataTable" style="table-layout:fixed;display: none" id="unKouYueTab">
+        <tr class="tatr1">
+            <td  class="firstCell" colspan="5" width="100%"><span>非扣税余额记录</span></td>
+        </tr>
+        <tr class="tatr1" >
+            <td width="100%" class="firstCell" colspan = "5"><span>非扣税账户余额:{$untotal|price}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        </tr>
+        <tr class="tatr1">
+            <td width="25%" class="firstCell"><span>会员名</span></td>
+            <td width="25%" class="firstCell"><span>摘要</span></td>
+            <td width="25%" class="firstCell"><span>金额</span></td>
+            <td width="25%" class="firstCell"><span>备注</span></td>
+            <td width="25%" class="firstCell"><span>日期</span></td>
+        </tr>
+        <!--{foreach from=$unksyueLog item=user}-->
+        <tr class="tatr2">
+            <td class="firstCell">{$user.user_name}</td>
+
+            <td class="firstCell"> <!--{if $user.type == -1}-->
+                未知
+                <!--{/if}-->
+                <!--{if $user.type == 2}-->
+                取消订单
+                <!--{/if}-->
+                <!--{if $user.type == 3}-->
+                提现
+                <!--{/if}-->
+                <!--{if $user.type == 4}-->
+                营业额
+                <!--{/if}-->
+                <!--{if $user.type == 5}-->
+                支付
+                <!--{/if}-->
+                <!--{if $user.type == 6}-->
+                收益
+                <!--{/if}--></td>
+            <td class="firstCell">{$user.jine}</td>
+            <td class="firstCell">{$user.beizhu}</td>
+            <td class="firstCell">{$user.create_time}</td>
+            <!--{foreachelse}-->
+        <tr class="no_data">
+            <td colspan="8">{$lang.no_data}</td>
+        </tr>
+        <!--{/foreach}-->
+    </table>
+    <div id="dataFuncs">
+        <div class="pageLinks">
+            {if $orders}{include file=page.bottom.html}{/if}
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<script>
+    $("#export").bind("click",function(){
+        $("#exportFlag").val("1");
+        document.getElementById("form1").submit();
+    })
+</script>
+{include file="footer.html"}

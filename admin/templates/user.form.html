@@ -1,0 +1,360 @@
+{include file="header.html"}
+<script charset="utf-8" type="text/javascript" src="{lib file=mlselection.js}" ></script>
+<script type="text/javascript">
+$(function(){
+    regionInit("region");
+    $('#user_form').validate({
+        errorPlacement: function(error, element){
+            $(element).next('.field_notice').hide();
+            $(element).after(error);
+        },
+        success       : function(label){
+            label.addClass('right').text('OK!');
+        },
+        onkeyup    : false,
+        rules : {
+            user_name : {
+                required : true,
+                byteRange: [3,60,'{$charset}'],
+                remote   : {
+                    url :'index.php?app=user&act=check_user',
+                    type:'get',
+                    data:{
+                        user_name : function(){
+                            return $('#user_name').val();
+                        },
+                        id : '{$user.user_id}'
+                    }
+                }
+            },
+            password: {
+                <!--{if $smarty.get.act eq 'add'}-->
+                required : true,
+                <!--{/if}-->
+                maxlength: 20,
+                minlength: 6
+            },
+            email   : {
+                /*required : true,*/
+                email : true
+            }
+            {if !$set_avatar}
+            ,
+            portrait : {
+                accept : 'png|gif|jpe?g'
+            }
+            {/if}
+        },
+        messages : {
+            user_name : {
+                required : '{$lang.user_not_empty}',
+                byteRange: '{$lang.user_length_limit}',
+                remote   : '{$lang.name_exist}'
+            },
+            password : {
+                <!--{if $smarty.get.act eq 'add'}-->
+                required : '{$lang.password_empty}',
+                <!--{/if}-->
+                maxlength: '{$lang.password_limit}',
+                minlength: '{$lang.password_limit}'
+            },
+            email  : {
+                required : '{$lang.email_not_empty}',
+                email   : '{$lang.currect_email}'
+            }
+            {if !$set_avatar}
+            ,
+            portrait : {
+                accept : '{$lang.note_portrait}'
+            }
+            {/if}
+        }
+    });
+
+});
+
+
+</script>
+<style type="text/css">
+	.suggestionList li:hover {
+		background-color: #659CD8;
+	}
+	.suggestionsBox {
+		position: relative;
+		left: 185px;
+		margin: 10px 0px 0px 0px;
+		width: 200px;
+		background-color: #212427;
+		-moz-border-radius: 7px;
+		-webkit-border-radius: 7px;
+		/*border: 2px solid #000;*/
+		color: #fff;
+	}
+
+	.suggestionList {
+		margin:  -30px 0px 3px 0px;
+		padding: 0px;
+	/*	border: 2px solid #000;*/
+	}
+
+	.suggestionList li {
+
+		margin: 0px 0px 3px 0px;
+		padding: 3px;
+		cursor: pointer;
+	}
+</style>
+
+<div id="rightTop">
+  <p>
+  <!--{if $member_type =='01'}-->
+  {$lang.user}</p>
+  <!-- {else} -->
+  服务中心</p>
+  <!--{/if}-->
+
+  </p>
+  <ul class="subnav">
+    <li><a class="btn1" href="index.php?app={$smarty.get.app}&type={$member_type}">{$lang.manage}</a></li>
+    <li>
+      <!-- {if $user.user_id} -->
+      <a class="btn1" href="index.php?app={$smarty.get.app}&type={$member_type}&amp;act=add">{$lang.add}</a>
+      <!-- {else} -->
+      <span>{$lang.add}</span>
+      <!-- {/if} -->
+    </li>
+  </ul>
+</div>
+<div class="info">
+  <form method="post" enctype="multipart/form-data" id="user_form" name="user_form">
+    <!--{if $jiaose && $jiaose != '' }-->
+    <input type="hidden" name="jiaose" value="{$jiaose}"/>
+    <!--{/if}-->
+    <table class="infoTable">
+      <tr>
+        <th class="paddingT15">
+          <!--{if $member_type =='01'}-->
+		  {$lang.user_name}:
+		  <!-- {else} -->
+		  服务中心(会员)名称
+		  <!--{/if}-->
+        </th>
+        <td class="paddingT15 wordSpacing5"><!-- {if $user.user_id} -->
+          {$user.user_name|escape}
+          <!-- {else} -->
+          <input class="infoTableInput2" id="user_name" type="text" name="user_name" value="{$user.user_name|escape}" />
+          <label class="field_notice">{$lang.user_name}</label>
+          <!-- {/if} -->        </td>
+      </tr>
+      <tr>
+        <th class="paddingT15"> {$lang.password}:</th>
+        <td class="paddingT15 wordSpacing5"><input class="infoTableInput2" name="password" type="password"  id="password" />
+          <!--{if $user.user_id} -->
+          <span class="grey">{$lang.note_password}</span>
+          <!-- {/if} -->        </td>
+      </tr>
+      <tr>
+        <th class="paddingT15"> {$lang.email}:</th>
+        <td class="paddingT15 wordSpacing5">
+            <input class="infoTableInput2" name="email" type="text" id="email" value="<!--{if $user.email}-->{$user.email|escape}<!--{/if}-->" />
+            <label class="field_notice">{$lang.email}</label>        </td>
+      </tr>
+
+      <!--{if $act == "edit"} -->
+      <tr>
+        <th class="paddingT15"> {$lang.real_name}:</th>
+        <td class="paddingT15 wordSpacing5"><input class="infoTableInput2" name="real_name" type="text" id="real_name" value="{$user.real_name|escape}" />        </td>
+      </tr>
+      <tr>
+        <th class="paddingT15"> {$lang.gender}:</th>
+        <td class="paddingT15 wordSpacing5"><p>
+            <label>
+            <input name="gender" type="radio" value="0" {if $user.gender eq 0}checked="checked"{/if} />
+            {$lang.unknown}</label>
+            <label>
+            <input type="radio" name="gender" value="1" {if $user.gender eq 1}checked="checked"{/if} />
+            {$lang.male}</label>
+            <label>
+            <input type="radio" name="gender" value="2" {if $user.gender eq 2}checked="checked"{/if} />
+            {$lang.female}</label>
+          </p></td>
+      </tr>
+	  <!--{/if}-->
+     {if !$set_avatar}
+      <tr>
+        <th class="paddingT15">{$lang.portrait}:</th>
+        <td class="paddingT15 wordSpacing5"><input class="infoTableFile2" type="file" name="portrait" id="portrait" />
+          <label class="field_notice">{$lang.note_portrait}</label>
+          {if $user.portrait}<br /><img src="../{$user.portrait}" alt="" width="100" height="100" />{/if}           </td>
+      </tr>
+     {else}
+        <!--{if $smarty.get.act eq 'edit'}-->
+      <tr>
+        <th class="paddingT15">{$lang.portrait}:</th>
+        <td class="paddingT15 wordSpacing5">{$set_avatar}</td>
+      </tr>
+        <!--{/if}-->
+     {/if}
+
+
+     <!--{if $member_type =='02' }-->
+     <tr>
+            <th class="paddingT15">服务中心级别:</th>
+            <td class="paddingT15 wordSpacing5">
+                <select name="fwzx_jibie">
+                    <option value=""selected="selected">--请选择--</option>
+                    <!--{if $fwzx_jibie}-->
+                    <!--{foreach from=$fwzx_jibie item=jibie key=jibiekey }-->
+                    <option value="{$jibiekey}" <!--{if $user.service_jibie==$jibiekey }-->selected="selected"<!--{/if}-->>{$jibie}</option>
+                    <!--{/foreach}-->
+                    <!--{/if}-->
+                </select>
+                <font color="red" size='-1'>&nbsp;必须选择级别</font>
+            </td>
+     </tr>
+     <!-- {/if} -->
+     <tr>
+            <th class="paddingT15">账号状态:</th>
+            <td class="paddingT15 wordSpacing5">
+                <select name="status">
+                 <option value="0" <!--{if !$user ||  $user.status=='0'}-->selected="selected"<!--{/if}--> >待激活账号</option>
+                 <option value="2" <!--{if $user.status=='2'}-->selected="selected"<!--{/if}--> >正常账号</option>
+                 <option value="1" <!--{if $user.status=='1'}-->selected="selected"<!--{/if}--> >待审核账号</option>
+                 <option value="3" <!--{if $user.status=='3'}-->selected="selected"<!--{/if}--> >冻结账号</option>
+                </select>
+                <font color="red" size='-1'>如果不选中,默认为待激活</font>
+            </td>
+     </tr>
+
+     <!--{if $smarty.get.type=='02'}-->
+        <tr>
+            <th class="paddingT15"> 所在地:</th>
+            <td class="paddingT15 wordSpacing5" ><div id="region">
+                <input type="hidden" name="region_id" value="{$store.region_id}" class="mls_id" />
+                <input type="hidden" name="region_name" value="{$store.region_name|escape}" class="mls_names" />
+                <!-- {if $user.user_id} -->
+                <span>{$user.region_name|escape}</span>
+                <input type="button" value="{$lang.edit}" class="edit_region" />
+                <select style="display:none">
+                    <option>{$lang.select_pls}</option>
+                    {html_options options=$regions}
+                </select>
+                <!-- {else} -->
+                <select>
+                    <option>{$lang.select_pls}</option>
+                    {html_options options=$regions}
+                </select><font color="red" size='-1'>&nbsp;选择地区必填!</font>
+                <!-- {/if} -->
+            </div>
+            </td>
+        </tr>
+
+        <tr>
+            <th class="paddingT15"> 年龄:</th>
+            <td class="paddingT15 wordSpacing5"><input class="infoTableInput2" name="service_age" type="text" id="service_age" value="{$serviceInfo.service_age|escape}" />        </td>
+        </tr>
+
+        <tr>
+            <th class="paddingT15"> 联系电话:</th>
+            <td class="paddingT15 wordSpacing5"><input class="infoTableInput2" name="service_tel" type="text" id="service_tel" value="{$serviceInfo.service_tel|escape}" />        </td>
+        </tr>
+
+        <tr>
+            <th class="paddingT15"> 地址:</th>
+            <td class="paddingT15 wordSpacing5"><input class="infoTableInput2" name="service_address" type="text" id="service_address" value="{$serviceInfo.service_address|escape}" />        </td>
+        </tr>
+
+        <tr>
+            <th class="paddingT15"> 身份证号码:</th>
+            <td class="paddingT15 wordSpacing5"><input class="infoTableInput2" name="service_zhengjian" type="text" id="service_zhengjian" value="{$serviceInfo.service_zhengjian|escape}" />        </td>
+        </tr>
+
+        <tr>
+            <th class="paddingT15"> 手持身份证:</th>
+            <td class="paddingT15 wordSpacing5"><input class="infoTableInput2" name="shenfenzhengImg" type="file" id="shenfenzhengImg" />
+            <!--{if $serviceInfo.shenfenzhengImg !=null && $serviceInfo.shenfenzhengImg !=""}--><a href="{$site_uel}/{$serviceInfo.shenfenzhengImg}" target="_blank">查看</a><!--{/if}-->
+            </td>
+        </tr>
+
+        <tr>
+            <th class="paddingT15"> 营业执照:</th>
+            <td class="paddingT15 wordSpacing5"><input class="infoTableInput2" name="yingyezhizhaoImg" type="file" id="yingyezhizhaoImg" />
+                <!--{if $serviceInfo.yingyezhizhaoImg !=null && $serviceInfo.yingyezhizhaoImg !=""}--><a href="{$site_uel}/{$serviceInfo.yingyezhizhaoImg}" target="_blank">查看</a><!--{/if}-->
+            </td>
+        </tr>
+
+     <!--{/if}-->
+
+      <tr>
+        <th class="paddingT15">推荐人:</th>
+        <td class="paddingT15 wordSpacing5"><input type="text" size="30" value="{$user.t_id}" id="t_id" name="t_id" onkeyup="lookup(this.value);" onblur="fill();" /></td>
+      </tr>
+      <tr>
+	  <td colspan="2">
+	  <div class="suggestionsBox" id="suggestions" style="display: none;">
+				<img src="{$site_url}/data/system/upArrow.png" style="position: relative; top: -12px; left: 30px;" alt="upArrow" />
+				<div class="suggestionList" id="autoSuggestionsList">
+					&nbsp;
+				</div>
+	  </div>
+	  </td>
+	  </tr>
+
+
+
+      <tr>
+        <th></th>
+        <td class="ptb20"><input class="formbtn" type="button" name="SubmitBtn" id="SubmitBtn" value="{$lang.submit}" />
+          <input class="formbtn" type="reset" name="Reset" value="{$lang.reset}" />        </td>
+      </tr>
+    </table>
+  </form>
+
+</div>
+<script>
+function lookup(inputString) {
+		if(inputString.length == 0) {
+
+			$('#suggestions').hide();
+		} else {
+			$.post("index.php?app=store&act=get_RPC_User", {queryString: ""+inputString+""}, function(data){
+				if(data.length >0) {
+					$('#suggestions').show();
+					$('#autoSuggestionsList').html(data);
+				}
+			});
+		}
+	} // lookup
+
+	function fill(thisValue) {
+		$('#t_id').val(thisValue);
+		setTimeout("$('#suggestions').hide();", 200);
+	}
+
+    $("#SubmitBtn").bind("click",function()
+    {
+       var region_name= $("input[name='region_name']").val();
+        var region_id= $("input[name='region_id']").val();
+       if(typeof(region_name) != "undefined" && region_name!="")
+       {
+           $.post("index.php?app={$smarty.get.app}&type=02&act=checkRegion_name",{"region_name":region_name,"region_id":region_id},function(rs)
+           {
+              if(rs==1)
+              {
+                  $("#user_form").submit();
+
+              }else
+              {
+                 alert("该服务中心已经存在,同一个地区只能添加1个服务中心");
+              }
+
+             //
+          })
+       }else
+       {
+           $("#user_form").submit();
+       }
+
+   })
+</script>
+{include file="footer.html"}

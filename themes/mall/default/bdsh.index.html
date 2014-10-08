@@ -1,0 +1,482 @@
+{include file=header.html}
+<link href="{res file=css/other.css}" rel="stylesheet" type="text/css" />
+<link href="{res file=css/bdsh.css}" rel="stylesheet" type="text/css" />
+<style>
+    .nav-left:hover .fenlei{display: none}
+</style>
+<!--全部内容-->
+{include file=bdsh.common_search.html}
+<!--菜单-->
+{include file=bdsh.category_common.html}
+<!---------------内容一-------------->
+<div class="cotent1">
+    <div id="menuList">
+        <ul class="Allsort_mainmnu">
+        <!--{foreach from=$bdsh_category item=item name=bdsh_cat}-->
+        <!--{if $smarty.foreach.bdsh_cat.index<8}-->
+            <li class="c_tab" style="margin-top:5px;">
+                <a href="{r_url app=bdsh&act=get_category_goods&bdsh_reg_id=$filters.bdsh_reg_id&bdsh_subcateid=$category.id&bdsh_class=$item.id&bdsh_class_name=$item.value}">{$item.value|escape}</a>
+                <div class="c_submnu">
+                    <dl class="c_leftSub">
+                        <dt>{$item.value|escape}</dt>
+                        <!--{foreach from=$item.children  item=category}--><dd><a href="{r_url app=bdsh&act=get_category_goods&bdsh_reg_id=$filters.bdsh_reg_id&bdsh_subcateid=$category.id&bdsh_class_name=$filters.bdsh_class_name&bdsh_class=$item.id&bdsh_class_sub_name=$category.value}">{$category.value}</a></dd><!--{/foreach}-->
+                    </dl>
+                </div>
+            </li>
+        <!--{/if}-->
+        <!--{/foreach}-->
+       </ul>
+    <div class="clear"></div>
+   </div>
+    <div class="cotent-cent"><img src="{res file=images/bdsh/banner.jpg}" width="730" alt="本地生活" /></div>
+    <div class="cotent-right">
+        <div class="cotent-right-tit">
+            <div class="cotent-right-tit11"></div>
+            <div class="cotent-right-tit22">
+                <dl>
+                    <dd> <img src="{res file=images/bdsh/1.jpg}" width="55" height="40" /></dd>
+                    <dt>免费加入</dt>
+                </dl>
+                <dl>
+                    <dd> <img src="{res file=images/bdsh/2.jpg}" width="55" height="40" /></dd>
+                    <dt>免费推广</dt>
+                </dl>
+                <dl>
+                    <dd> <img src="{res file=images/bdsh/3.jpg}" width="55" height="40" /></dd>
+                    <dt>资源共享</dt>
+                </dl>
+                <dl>
+                    <dd> <img src="{res file=images/bdsh/4.jpg}" width="55" height="40" /></dd>
+                    <dt>立刻营销</dt>
+                </dl>
+            </div>
+        </div>
+        <div class="cotent-right-c">
+            <h3>最近有哪些好店推荐快和大家分享一下</h3>
+            <div class="cotent-right-c11">
+                <!--<span><a href="#"><strong>申请推广客</strong></a></span>-->
+                <b><a href="index.php?app=tuiguang&act=uploadStore&p=tuiguang">添加商家</a></b>
+            </div>
+        </div>
+        <div class="cotent-right-b">
+            <h3><strong>大家都在找：</strong></h3>
+            <span>
+                <a href="index.php?app=bdsh&act=get_category_goods&bdsh_reg_id={$filters.bdsh_reg_id}&bdsh_subcateid=2574&bdsh_class=2573&bdsh_class_name=餐饮住宿&bdsh_class_sub_name=火锅">火锅</a>
+                <a href="index.php?app=bdsh&act=get_category_goods&bdsh_reg_id={$filters.bdsh_reg_id}&bdsh_class=2573&bdsh_subcateid=2579&bdsh_class_name=餐饮住宿&bdsh_class_sub_name=东南亚美食">东南亚美食</a>
+                <a href="index.php?app=bdsh&act=get_category_goods&bdsh_reg_id={$filters.bdsh_reg_id}&bdsh_subcateid=2600&bdsh_class=2592&bdsh_class_name=美食特产&bdsh_class_sub_name=茶叶">茶叶</a>
+                <a href="index.php?app=bdsh&act=get_category_goods&bdsh_reg_id={$filters.bdsh_reg_id}&bdsh_subcateid=2604&bdsh_class=2603&bdsh_class_name=生活服务&bdsh_class_sub_name=房屋中介">房屋中介</a>
+                <a href="index.php?app=bdsh&act=get_category_goods&bdsh_reg_id={$filters.bdsh_reg_id}&bdsh_subcateid=1589&bdsh_class=1561&bdsh_class_name=休闲娱乐&bdsh_class_sub_name=真人CS">真人CS</a>
+                <br>
+                <a href="index.php?app=bdsh&act=get_category_goods&bdsh_reg_id={$filters.bdsh_reg_id}&bdsh_subcateid=1580&bdsh_class=1561&bdsh_class_name=休闲娱乐&bdsh_class_sub_name=足疗按摩" >足疗按摩</a>
+                <a href="index.php?app=bdsh&act=get_category_goods&bdsh_reg_id={$filters.bdsh_reg_id}&bdsh_subcateid=1590&bdsh_class=1561&bdsh_class_name=休闲娱乐&bdsh_class_sub_name=4D/5D电影" >4D/5D电影</a>
+                <a href="index.php?app=bdsh&act=get_category_goods&bdsh_reg_id={$filters.bdsh_reg_id}&bdsh_subcateid=2621&bdsh_class=2616&bdsh_class_name=文化生活&bdsh_class_sub_name=古董、工艺" >古董、工艺</a>
+                <a href="index.php?app=bdsh&act=get_category_goods&bdsh_reg_id={$filters.bdsh_reg_id}&bdsh_subcateid=2618&bdsh_class=2616&bdsh_class_name=文化生活&bdsh_class_sub_name=绿植园艺">绿植园艺</a>
+            </span>
+        </div>
+    </div>
+</div>
+<!-------内容2----->
+<div class="cotent2">
+    <div class="cotent2-left"><a href="javascript:void(0)"> 按区域查看</a></div>
+    <div class="cotent2-right">
+        <ul>
+            <!--{foreach from=$quyu item=qy key=key name=my_area}-->
+            <li>
+            <a href="{url app=bdsh&act=store&bdsh_reg_id=$filters.bdsh_reg_id&bdsh_diqu_id=$key&bdsh_diqu_name=$qy}" target="_blank">{$qy}</a>
+            </li>
+            <!--{/foreach}-->
+            <li style="float: right;"><a href="{url app=bdsh&act=store&bdsh_reg_id=$filters.bdsh_reg_id}" target="_blank" style="color:#cc0000;">更多>></a></li>
+        </ul>
+    </div>
+</div>
+<!-------小banner----->
+<div class="x-banner"><a href="{url app=service&act=register_service}"><img src="{res file=images/pic/banner_h1.png}" width="1200" height="100"/></a></div>
+<!-------内容3----->
+<div class="cotent3">
+    <div class="cotent3-t">
+        <div class="cotent3-t1">
+            <span><strong>
+             <!--{foreach from=$bd_gcategory item=cc name=my_father}-->
+                <!--{if $smarty.foreach.my_father.index==0}-->
+              {$cc.cate_name}
+                <!--{/if}-->
+             <!--{/foreach}-->
+            </strong></span>
+        </div>
+        <div class="cotent3-t2">
+            <!--{foreach from=$bd_gcategory item=cc name=my_father}-->
+            <!--{if $smarty.foreach.my_father.index==0}-->
+            <!--{foreach from=$cc.cate_id item=item name=child}-->
+            <!--{if $smarty.foreach.child.index<9}-->
+            <a href="{r_url app=bdsh&act=get_category_goods&bdsh_subcateid=$item.cate_id&bdsh_reg_id=$filters.bdsh_reg_id&bdsh_class_name=$cc.cate_name&bdsh_class_sub_name=$item.cate_name}">{$item.cate_name}</a><span>|</span>　
+            <!--{/if}-->
+            <!--{/foreach}-->
+            <!--{/if}-->
+            <!--{/foreach}-->
+    </div>
+    </div>
+    <div class="cotent3-c">
+        <!-- {foreach from=$goods_module1 item=goods name=goods1} -->
+        <!--{if $smarty.foreach.goods1.iteration<9}-->
+        <dl <!--{if $smarty.foreach.goods1.iteration %4 ==0}--> style="margin-right:0px;" <!--{/if}--> >
+            <dt><a href="{r_url app=bdsh&act=goods_detail&id=$goods.goods_id&bdsh_reg_id=$filters.bdsh_reg_id}"><img src="{img_url $img_url/$goods.default_image/280X200}" width="280" height="200" /></a></dt>
+            <dd>
+                <p>{$goods.goods_name|truncate:35:"……"}</p>
+                <h3 style="margin-top: 5px;">
+                    <b>{$goods.price|price}</b><span><a href="{r_url app=bdsh&act=goods_detail&id=$goods.goods_id&bdsh_reg_id=$filters.bdsh_reg_id}"><img src="{res file=images/x8.jpg}" width="48" height="18" alt="抢购" /></a></span>
+                </h3>
+            </dd>
+        </dl>
+        <!--{/if}-->
+        <!-- {/foreach} -->
+    </div>
+ </div>
+
+<div class="cotent3">
+    <div class="cotent3-t">
+        <div class="cotent3-t1">
+            <span><strong>
+                <!--{foreach from=$bd_gcategory item=cc name=my_father}-->
+                <!--{if $smarty.foreach.my_father.index==1}-->
+                {$cc.cate_name}
+                <!--{/if}-->
+                <!--{/foreach}-->
+            </strong></span>
+        </div>
+        <div class="cotent3-t2">
+            <!--{foreach from=$bd_gcategory item=cc name=my_father}-->
+            <!--{if $smarty.foreach.my_father.index==1}-->
+            <!--{foreach from=$cc.cate_id item=item name=child}-->
+            <!--{if $smarty.foreach.child.index<9}-->
+            <a href="{r_url app=bdsh&act=get_category_goods&bdsh_subcateid=$item.cate_id&bdsh_reg_id=$filters.bdsh_reg_id&bdsh_class_name=$cc.cate_name&bdsh_class_sub_name=$item.cate_name}">{$item.cate_name}</a><span>|</span>　
+            <!--{/if}-->
+            <!--{/foreach}-->
+            <!--{/if}-->
+            <!--{/foreach}-->
+        </div>
+
+    </div>
+    <div class="cotent3-c">
+        <!-- {foreach from=$goods_module2 item=goods name=goods2} -->
+        <!--{if $smarty.foreach.goods2.iteration<9}-->
+        <dl <!--{if $smarty.foreach.goods2.iteration %4 ==0}--> style="margin-right:0px;" <!--{/if}-->>
+            <dt><a href="{r_url app=bdsh&act=goods_detail&id=$goods.goods_id&bdsh_reg_id=$filters.bdsh_reg_id}"><img src="{img_url $img_url/$goods.default_image/280X200}" width="280" height="200" /></a></dt>
+            <dd>
+                <p>{$goods.goods_name|truncate:35:"……"}</p>
+                <h3>
+                    <b>{$goods.price|price}</b><span><a href="{r_url app=bdsh&act=goods_detail&id=$goods.goods_id&bdsh_reg_id=$filters.bdsh_reg_id}"><img src="{res file=images/x8.jpg}" width="48" height="18" alt="抢购" /></a></span>
+                </h3>
+            </dd>
+        </dl>
+        <!--{/if}-->
+        <!-- {/foreach} -->
+    </div>
+</div>
+
+<div class="cotent3">
+    <div class="cotent3-t">
+        <div class="cotent3-t1">
+            <span><strong>
+                <!--{foreach from=$bd_gcategory item=cc name=my_father}-->
+                <!--{if $smarty.foreach.my_father.index==2}-->
+                {$cc.cate_name}
+                <!--{/if}-->
+                <!--{/foreach}-->
+            </strong></span>
+        </div>
+        <div class="cotent3-t2">
+            <!--{foreach from=$bd_gcategory item=cc name=my_father}-->
+            <!--{if $smarty.foreach.my_father.index==2}-->
+            <!--{foreach from=$cc.cate_id item=item name=child}-->
+            <!--{if $smarty.foreach.child.index<9}-->
+            <a href="{r_url app=bdsh&act=get_category_goods&bdsh_subcateid=$item.cate_id&bdsh_reg_id=$filters.bdsh_reg_id&bdsh_class_name=$cc.cate_name&bdsh_class_sub_name=$item.cate_name}">{$item.cate_name}</a><span>|</span>　
+            <!--{/if}-->
+            <!--{/foreach}-->
+            <!--{/if}-->
+            <!--{/foreach}-->
+        </div>
+    </div>
+    <div class="cotent3-c">
+            <!-- {foreach from=$goods_module3 item=goods name=goods3} -->
+            <!--{if $smarty.foreach.goods3.iteration<9}-->
+            <dl <!--{if $smarty.foreach.goods3.iteration %4 ==0}--> style="margin-right:0px;" <!--{/if}-->>
+                <dt><a href="{r_url app=bdsh&act=goods_detail&id=$goods.goods_id&bdsh_reg_id=$filters.bdsh_reg_id}"><img src="{img_url $img_url/$goods.default_image/280X200}" width="280" height="200" /></a></dt>
+                <dd>
+                    <p>{$goods.goods_name|truncate:35:"……"}</p>
+                    <h3>
+                        <b>{$goods.price|price}</b><span><a href="{r_url app=bdsh&act=goods_detail&id=$goods.goods_id&bdsh_reg_id=$filters.bdsh_reg_id}"><img src="{res file=images/x8.jpg}" width="48" height="18" alt="抢购" /></a></span>
+                    </h3>
+                </dd>
+            </dl>
+            <!--{/if}-->
+            <!-- {/foreach} -->
+        </div>
+
+</div>
+
+<div class="cotent3">
+    <div class="cotent3-t">
+        <div class="cotent3-t1">
+            <span><strong>
+                <!--{foreach from=$bd_gcategory item=cc name=my_father}-->
+                <!--{if $smarty.foreach.my_father.index==3}-->
+                {$cc.cate_name}
+                <!--{/if}-->
+                <!--{/foreach}-->
+            </strong></span>
+        </div>
+        <div class="cotent3-t2">
+            <!--{foreach from=$bd_gcategory item=cc name=my_father}-->
+            <!--{if $smarty.foreach.my_father.index==3}-->
+            <!--{foreach from=$cc.cate_id item=item name=child}-->
+            <!--{if $smarty.foreach.child.index<9}-->
+            <a href="{r_url app=bdsh&act=get_category_goods&bdsh_subcateid=$item.cate_id&bdsh_reg_id=$filters.bdsh_reg_id&bdsh_class_name=$cc.cate_name&bdsh_class_sub_name=$item.cate_name}">{$item.cate_name}</a><span>|</span>　
+            <!--{/if}-->
+            <!--{/foreach}-->
+            <!--{/if}-->
+            <!--{/foreach}-->
+        </div>
+    </div>
+     <div class="cotent3-c">
+            <!-- {foreach from=$goods_module4 item=goods name=goods4} -->
+            <!--{if $smarty.foreach.goods4.iteration<9}-->
+            <dl <!--{if $smarty.foreach.goods4.iteration %4 ==0}--> style="margin-right:0px;" <!--{/if}-->>
+                <dt><a href="{r_url app=bdsh&act=goods_detail&id=$goods.goods_id&bdsh_reg_id=$filters.bdsh_reg_id}"><img src="{img_url $img_url/$goods.default_image/280X200}" width="280" height="200" /></a></dt>
+                <dd>
+                    <p>{$goods.goods_name|truncate:35:"……"}</p>
+                    <h3>
+                        <b>{$goods.price|price}</b><span><a href="{r_url app=bdsh&act=goods_detail&id=$goods.goods_id&bdsh_reg_id=$filters.bdsh_reg_id}"><img src="{res file=images/x8.jpg}" width="48" height="18" alt="抢购" /></a></span>
+                    </h3>
+                </dd>
+            </dl>
+            <!--{/if}-->
+            <!-- {/foreach} -->
+        </div>
+</div>
+
+<div class="cotent3">
+    <div class="cotent3-t">
+        <div class="cotent3-t1">
+            <span><strong>
+                <!--{foreach from=$bd_gcategory item=cc name=my_father}-->
+                <!--{if $smarty.foreach.my_father.index==4}-->
+                {$cc.cate_name}
+                <!--{/if}-->
+                <!--{/foreach}-->
+            </strong></span>
+        </div>
+        <div class="cotent3-t2">
+            <!--{foreach from=$bd_gcategory item=cc name=my_father}-->
+            <!--{if $smarty.foreach.my_father.index==4}-->
+            <!--{foreach from=$cc.cate_id item=item name=child}-->
+            <!--{if $smarty.foreach.child.index<9}-->
+            <a href="{r_url app=bdsh&act=get_category_goods&bdsh_subcateid=$item.cate_id&bdsh_reg_id=$filters.bdsh_reg_id&bdsh_class_name=$cc.cate_name&bdsh_class_sub_name=$item.cate_name}">{$item.cate_name}</a><span>|</span>　
+            <!--{/if}-->
+            <!--{/foreach}-->
+            <!--{/if}-->
+            <!--{/foreach}-->
+        </div>
+    </div>
+    <div class="cotent3-c">
+            <!-- {foreach from=$goods_module5 item=goods name=goods5} -->
+            <!--{if $smarty.foreach.goods5.iteration<9}-->
+            <dl <!--{if $smarty.foreach.goods5.iteration %4 ==0}--> style="margin-right:0px;" <!--{/if}-->>
+                <dt><a href="{r_url app=bdsh&act=goods_detail&id=$goods.goods_id&bdsh_reg_id=$filters.bdsh_reg_id}"><img src="{img_url $img_url/$goods.default_image/280X200}" width="280" height="200" /></a></dt>
+                <dd>
+                    <p>{$goods.goods_name|truncate:35:"……"}</p>
+                    <h3>
+                        <b>{$goods.price|price}</b><span><a href="{r_url app=bdsh&act=goods_detail&id=$goods.goods_id&bdsh_reg_id=$filters.bdsh_reg_id}"><img src="{res file=images/x8.jpg}" width="48" height="18" alt="抢购" /></a></span>
+                    </h3>
+                </dd>
+            </dl>
+            <!--{/if}-->
+            <!-- {/foreach} -->
+        </div>
+</div>
+
+<div class="cotent3">
+    <div class="cotent3-t">
+        <div class="cotent3-t1">
+            <span><strong>
+                <!--{foreach from=$bd_gcategory item=cc name=my_father}-->
+                <!--{if $smarty.foreach.my_father.index==5}-->
+                {$cc.cate_name}
+                <!--{/if}-->
+                <!--{/foreach}-->
+            </strong></span>
+        </div>
+        <div class="cotent3-t2">
+            <!--{foreach from=$bd_gcategory item=cc name=my_father}-->
+            <!--{if $smarty.foreach.my_father.index==5}-->
+            <!--{foreach from=$cc.cate_id item=item name=child}-->
+            <!--{if $smarty.foreach.child.index<9}-->
+            <a href="{r_url app=bdsh&act=get_category_goods&bdsh_subcateid=$item.cate_id&bdsh_reg_id=$filters.bdsh_reg_id&bdsh_class_name=$cc.cate_name&bdsh_class_sub_name=$item.cate_name}">{$item.cate_name}</a><span>|</span>　
+            <!--{/if}-->
+            <!--{/foreach}-->
+            <!--{/if}-->
+            <!--{/foreach}-->
+        </div>
+    </div>
+    <div class="cotent3-c">
+        <!-- {foreach from=$goods_module6 item=goods name=goods6} -->
+        <!--{if $smarty.foreach.goods6.iteration<9}-->
+        <dl <!--{if $smarty.foreach.goods6.iteration %4 ==0}--> style="margin-right:0px;" <!--{/if}-->>
+            <dt><a href="{r_url app=bdsh&act=goods_detail&id=$goods.goods_id&bdsh_reg_id=$filters.bdsh_reg_id}"><img src="{img_url $img_url/$goods.default_image/280X200}" width="280" height="200" /></a></dt>
+            <dd>
+                <p>{$goods.goods_name|truncate:35:"……"}</p>
+                <h3>
+                    <b>{$goods.price|price}</b><span><a href="{r_url app=bdsh&act=goods_detail&id=$goods.goods_id&bdsh_reg_id=$filters.bdsh_reg_id}"><img src="{res file=images/x8.jpg}" width="48" height="18" alt="抢购" /></a></span>
+                </h3>
+            </dd>
+        </dl>
+        <!--{/if}-->
+        <!-- {/foreach} -->
+    </div>
+</div>
+
+<div class="cotent3">
+    <div class="cotent3-t">
+        <div class="cotent3-t1">
+            <span><strong>
+                <!--{foreach from=$bd_gcategory item=cc name=my_father}-->
+                <!--{if $smarty.foreach.my_father.index==6}-->
+                {$cc.cate_name}
+                <!--{/if}-->
+                <!--{/foreach}-->
+            </strong></span>
+        </div>
+        <div class="cotent3-t2">
+            <!--{foreach from=$bd_gcategory item=cc name=my_father}-->
+            <!--{if $smarty.foreach.my_father.index==6}-->
+            <!--{foreach from=$cc.cate_id item=item name=child}-->
+            <!--{if $smarty.foreach.child.index<9}-->
+            <a href="{r_url app=bdsh&act=get_category_goods&bdsh_subcateid=$item.cate_id&bdsh_reg_id=$filters.bdsh_reg_id&bdsh_class_name=$cc.cate_name&bdsh_class_sub_name=$item.cate_name}">{$item.cate_name}</a><span>|</span>　
+            <!--{/if}-->
+            <!--{/foreach}-->
+            <!--{/if}-->
+            <!--{/foreach}-->
+        </div>
+    </div>
+    <div class="cotent3-c">
+        <!-- {foreach from=$goods_module7 item=goods name=goods7} -->
+        <!--{if $smarty.foreach.goods7.iteration<9}-->
+        <dl <!--{if $smarty.foreach.goods7.iteration %4 ==0}--> style="margin-right:0px;" <!--{/if}-->>
+            <dt><a href="{r_url app=bdsh&act=goods_detail&id=$goods.goods_id&bdsh_reg_id=$filters.bdsh_reg_id}"><img src="{img_url $img_url/$goods.default_image/280X200}" width="280" height="200" /></a></dt>
+            <dd>
+                <p>{$goods.goods_name|truncate:35:"……"}</p>
+                <h3>
+                    <b>{$goods.price|price}</b><span><a href="{r_url app=bdsh&act=goods_detail&id=$goods.goods_id&bdsh_reg_id=$filters.bdsh_reg_id}"><img src="{res file=images/x8.jpg}" width="48" height="18" alt="抢购" /></a></span>
+                </h3>
+            </dd>
+        </dl>
+        <!--{/if}-->
+        <!-- {/foreach} -->
+    </div>
+</div>
+
+<div class="cotent3">
+    <div class="cotent3-t">
+        <div class="cotent3-t1">
+            <span><strong>
+                <!--{foreach from=$bd_gcategory item=cc name=my_father}-->
+                <!--{if $smarty.foreach.my_father.index==7}-->
+                {$cc.cate_name}
+                <!--{/if}-->
+                <!--{/foreach}-->
+            </strong></span>
+        </div>
+        <div class="cotent3-t2">
+            <!--{foreach from=$bd_gcategory item=cc name=my_father}-->
+            <!--{if $smarty.foreach.my_father.index==7}-->
+            <!--{foreach from=$cc.cate_id item=item name=child}-->
+            <!--{if $smarty.foreach.child.index<9}-->
+            <a href="{r_url app=bdsh&act=get_category_goods&bdsh_subcateid=$item.cate_id&bdsh_reg_id=$filters.bdsh_reg_id&bdsh_class_name=$cc.cate_name&bdsh_class_sub_name=$item.cate_name}">{$item.cate_name}</a><span>|</span>　
+            <!--{/if}-->
+            <!--{/foreach}-->
+            <!--{/if}-->
+            <!--{/foreach}-->
+        </div>
+    </div>
+    <div class="cotent3-c">
+        <!-- {foreach from=$goods_module8 item=goods name=goods8} -->
+        <!--{if $smarty.foreach.goods8.iteration<9}-->
+        <dl <!--{if $smarty.foreach.goods8.iteration %4 ==0}--> style="margin-right:0px;" <!--{/if}-->>
+            <dt><a href="{r_url app=bdsh&act=goods_detail&id=$goods.goods_id&bdsh_reg_id=$filters.bdsh_reg_id}"><img src="{img_url $img_url/$goods.default_image/280X200}" width="280" height="200" /></a></dt>
+            <dd>
+                <p>{$goods.goods_name|truncate:35:"……"}</p>
+                <h3>
+                    <b>{$goods.price|price}</b><span><a href="{r_url app=bdsh&act=goods_detail&id=$goods.goods_id&bdsh_reg_id=$filters.bdsh_reg_id}"><img src="{res file=images/x8.jpg}" width="48" height="18" alt="抢购" /></a></span>
+                </h3>
+            </dd>
+        </dl>
+        <!--{/if}-->
+        <!-- {/foreach} -->
+    </div>
+</div>
+
+<div class="cotent3">
+    <div class="cotent3-t">
+        <div class="cotent3-t1">
+            <span><strong>
+                <!--{foreach from=$bd_gcategory item=cc name=my_father}-->
+                <!--{if $smarty.foreach.my_father.index==8}-->
+                {$cc.cate_name}
+                <!--{/if}-->
+                <!--{/foreach}-->
+            </strong></span>
+        </div>
+        <div class="cotent3-t2">
+            <!--{foreach from=$bd_gcategory item=cc name=my_father}-->
+            <!--{if $smarty.foreach.my_father.index==8}-->
+            <!--{foreach from=$cc.cate_id item=item name=child}-->
+            <!--{if $smarty.foreach.child.index<9}-->
+            <a href="{r_url app=bdsh&act=get_category_goods&bdsh_subcateid=$item.cate_id&bdsh_reg_id=$filters.bdsh_reg_id&bdsh_class_name=$cc.cate_name&bdsh_class_sub_name=$item.cate_name}">{$item.cate_name}</a><span>|</span>　
+            <!--{/if}-->
+            <!--{/foreach}-->
+            <!--{/if}-->
+            <!--{/foreach}-->
+        </div>
+    </div>
+    <div class="cotent3-c">
+        <!-- {foreach from=$goods_module9 item=goods name=goods9} -->
+        <!--{if $smarty.foreach.goods9.iteration<9}-->
+        <dl <!--{if $smarty.foreach.goods9.iteration %4 ==0}--> style="margin-right:0px;" <!--{/if}-->>
+            <dt><a href="{r_url app=bdsh&act=goods_detail&id=$goods.goods_id&bdsh_reg_id=$filters.bdsh_reg_id}"><img src="{img_url $img_url/$goods.default_image/280X200}" width="280" height="200" /></a></dt>
+            <dd>
+                <p>{$goods.goods_name|truncate:35:"……"}</p>
+                <h3>
+                    <b>{$goods.price|price}</b><span><a href="{r_url app=bdsh&act=goods_detail&id=$goods.goods_id}"><img src="{res file=images/x8.jpg}" width="48" height="18" alt="抢购" /></a></span>
+                </h3>
+            </dd>
+        </dl>
+        <!--{/if}-->
+        <!-- {/foreach} -->
+    </div>
+</div>
+{include file=footer.html}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

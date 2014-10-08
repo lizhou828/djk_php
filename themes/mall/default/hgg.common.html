@@ -1,0 +1,27 @@
+<div class="login" style="margin: 0px auto;">
+    <div class="logo">
+        <!--{if $smarty.get.app =='hgg'}-->
+        <a href="/"><img src="{res file=images/hg_logo.png}" width="269" height="47" /></a>
+        <!--{else}-->
+        <a href="/"><img src="{res file=images/logo.png}" width="269" height="47" /></a>
+        <!--{/if}-->
+    </div>
+    <div class="search" id="search">
+
+        <div class="k1">
+            <form action="{r_url app=hgg&act=search}" onSubmit="return searchInput();" method="GET">
+                <input type="hidden" name="act" value="search"/>
+                <input type="hidden" name="app" value="hgg"/>
+                <span class="sp1"><input type="text"  class="text" lang="zh-CN"  value="{$ky[0]}" onblur="searchBlur(this)" onfocus="searchFocus(this)" maxlength="60" x-webkit-speech="" onwebkitspeechchange="foo()" x-webkit-grammar="builtin:search" id="keyword" name="keyword" style="color: rgb(153, 153, 153);" /></span>
+                <span class="sp2"><input name="" type="submit" value="搜索" class="buttom"  <!--{if $kw }--> value="{$ky}"<!--{/if}-->/></span>
+            </form>
+        </div>
+        <div class="resou">热搜：
+            <!--{foreach from=$hot_keywords item=keyword name=my_kw}-->
+            <a href="{r_url app=hgg&act=search&keyword=$keyword}" {if $smarty.foreach.my_kw.index==0} class="cd0281e" {elseif $smarty.foreach.my_kw.index==1}class="c1d5b9f"{elseif $smarty.foreach.my_kw.index==2}class="ceaac44"{elseif $smarty.foreach.my_kw.index==3}class="c92bd49"{else}class="c27a196"{/if}>{$keyword}</a>
+            <!--{/foreach}--></div>
+    </div>
+    <div class="car"><a href="{url app=cart}"></a><span class="span01"><span>{$cart_goods_kinds}</span></span></div>
+    <div style=" width:153px; height:38px; background:url('{res file=images/pic/kf.jpg}') no-repeat; float:right; " ></div>
+</div>
+

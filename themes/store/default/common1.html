@@ -1,0 +1,27 @@
+<header id="topHeader">
+    <div class="site-logo"><a href="index.php"><img src="{res file=images/logo.png}" class="pngFix"></a></div>
+    <div id="search" class="search">
+        <div class="details" id="details">
+
+            <div id="a1" class="form">
+                <form action="{r_url app=search}" onSubmit="return searchInput();" method="GET">
+                    <input type="hidden" name="act" value="index"/>
+                    <input type="hidden" name="app" value="search"/>
+                    <div class="formstyle">
+                        <input type="text" lang="zh-CN" value="" onblur="searchBlur(this)" onfocus="searchFocus(this)" maxlength="60" x-webkit-speech="" onwebkitspeechchange="foo()" x-webkit-grammar="builtin:search" class="textinput" id="keyword" name="keyword" style="color: rgb(153, 153, 153);">
+                        <input type="submit" value="" class="search-button" name="">
+                    </div>
+                </form>
+            </div>
+            <div class="tag">
+                <!--{foreach from=$hot_keywords item=keyword}-->
+                <a href="{r_url app=search&keyword=$keyword}">{$keyword}</a>
+                <!--{/foreach}-->
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+{include file=pd_common.html}

@@ -1,0 +1,1 @@
+{"appid":"100551691","appkey":"b49b7567fd0812a5c924a24f5b5857f7","callback":"www.dajike.com/common.php","scope":"get_user_info,add_share,get_other_info","errorReport":true,"storageType":"file","host":"localhost","user":"root","password":"root","database":"test"}

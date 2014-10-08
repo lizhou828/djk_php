@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{$c_member.nick_name}的专属链接</title>
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/Safety.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/show_share_button.js"></script>
+</head>
+<body>
+<div style="width: 320px;margin: 0px auto">
+    <div style="padding-top: 50px;">
+        <div class="address-t">
+            <div class="address-l"><a href="{$site_url}/weixin/index.php?app=goods&act=index1">返回</a></div>
+            <div class="address-c" style="width:172px;padding-left: 0px;text-align: center">{$c_member.nick_name}的专属链接</div>
+            {include file=member.index_header.html}
+        </div>
+        <div class="pay-5">
+            <div class="pay-5-1">
+
+                　{$c_member.nick_name}的专属链接是：<br>
+                <span><a href="http://www.dajike.com/reg/{$userId}.html">http://www.dajike.com/reg/{$userId}.html</a></span>
+
+                <br> 您可以发送给您的好友，注册后，永久被您锁定，成为您推荐的会员哦！
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

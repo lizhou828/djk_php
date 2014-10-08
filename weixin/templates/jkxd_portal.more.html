@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>集客小店-更多</title>
+    <link href="{$site_url}/weixin/templates/style/com.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/hone.css" rel="stylesheet" type="text/css" />
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript">
+        function jkxd_order_all(){
+            window.location='{$site_url}/weixin/index.php?app=jkxd_portal&act=order_all&status=11&id={$shopOwner.user_id}';
+        }
+        function tuijian_store(){
+            window.location='{$site_url}/weixin/index.php?app=jkxd_portal&act=tuijian_store';
+        }
+        function member_safecenter(){
+            window.location='{$site_url}/weixin/index.php?app=member_safecenter';
+        }
+        function about_djk(){
+            window.location='http://www.dajike.com/weixin/index.php?app=help&act=show&article_id=78';
+        }
+        function contact_djk(){
+            window.location='http://www.dajike.com/weixin/index.php?app=help&act=show&article_id=77';
+        }
+        function my_jkxd(){
+            window.location='{$site_url}/weixin/index.php?app=jkxd_portal&act=my_jkxd&id={$member.user_id}';
+        }
+        function logout(){
+            window.location='{$site_url}/weixin/index.php?app=default&act=logout&ret_url=%2Fweixin%2Findex.php%3Fapp%3Djkxd_portal';
+        }
+    </script>
+</head>
+<body>
+<div style=" width:320px; margin:0px auto;padding-top: 50px;">
+    <div class="enter-t">
+        <a href="javascript:history.go(-1)"><div class="enter-t1">返回</div></a>
+        <div class="enter-t2">更多</div>
+    </div>
+    <div class="clear"></div>
+    <div class="enter-bg" style="margin-bottom: 100px">
+        <div class="my-more" onclick="my_jkxd()" style="cursor: pointer">
+            <dl>
+                <dt><img src="{$site_url}/weixin/templates/style/img/logo2.jpg" width="73" height="65" alt="头像" /></dt>
+                <dd>
+                    <h3><span>></span>{$user.shop_name}的集客小店</h3>
+                    <p>{$jkxd_site_url}</p>
+                </dd>
+            </dl>
+        </div>
+        <div class="mmore1">
+            <table width="307" border="0" cellspacing="0" cellpadding="0">
+                    <tr onclick="jkxd_order_all()" style="cursor: pointer">
+                        <td width="53" height="33"><img src="{$site_url}/weixin/templates/style/img/xt-1.jpg" width="53" height="33" /></td>
+                        <td width="237" height="33">订单管理</td>
+                        <td height="33">&gt;</td>
+                    </tr>
+                <div class="clear"></div>
+                <tr>
+                    <td colspan="3"><img src="{$site_url}/weixin/templates/style/img/fen.jpg" width="307" height="1" /></td>
+                </tr>
+                <tr style="cursor: pointer" onclick="tuijian_store()">
+                    <td width="53" height="33"><img src="{$site_url}/weixin/templates/style/img/x-2.jpg" width="53" height="33" /></td>
+                    <td width="237" height="33">商家管理 </td>
+                    <td height="33">&gt;</td>
+                </tr>
+            </table>
+        </div>
+        <div class="mmore2">
+            <table width="307" border="0" cellspacing="0" cellpadding="0">
+                <tr onclick="member_safecenter()" style="cursor:pointer">
+                    <td width="53" height="33"><img src="{$site_url}/weixin/templates/style/img/xt-3.jpg" width="53" height="33" /></td>
+                    <td width="237" height="33">账户安全</td>
+                    <td height="33">></td>
+                </tr>
+            </table>
+        </div>
+        <div class="mmore1">
+            <table width="307" border="0" cellspacing="0" cellpadding="0">
+                <tr onclick="about_djk()" style="cursor:pointer">
+                    <td width="53" height="33"><img src="{$site_url}/weixin/templates/style/img/xt-4.jpg" width="53" height="33" /></td>
+                    <td width="237" height="33">关于大集客</td>
+                    <td height="33">&gt;</td>
+                </tr>
+                <div class="clear"></div>
+                <tr>
+                    <td colspan="3"><img src="{$site_url}/weixin/templates/style/img/fen.jpg" width="307" height="1" /></td>
+                </tr>
+                <tr onclick="contact_djk()" style="cursor:pointer">
+                    <td width="53" height="33"><img src="{$site_url}/weixin/templates/style/img/xt-5.jpg" width="53" height="33" /></td>
+                    <td width="237" height="33">联系大集客 </td>
+                    <td height="33">&gt;</td>
+                </tr>
+            </table>
+        </div>
+        <div class="mmore22" style="cursor: pointer" onclick="logout()">退出</div>
+    </div>
+
+    {include file=jkxd_portal.footer.html}
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+
+</div>
+</body>
+</html>

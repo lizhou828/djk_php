@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>订单列表</title>
+    <link href="{res file=common.css}" rel="stylesheet" type="text/css" />
+    <link href="{res file=order-inquiry.css}" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/hone.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/com.css" rel="stylesheet" type="text/css" />
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+
+</head>
+<body>
+<script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+<script type="text/javascript">
+    $(function(){
+        var pass_status = "{$status}";
+
+        var order_count = "{$page.item_count}"
+        var id="#"+pass_status+" li";
+        $(".sale-t li").css({"background":"#ccc","color":"#333"});
+        if(parseInt(pass_status)==11){
+            if(order_count > 0  ){
+                $(".sale-t #11 em").css({"display":""});
+                $(".sale-t #11 em").html(order_count);
+            }else{
+                $(".sale-t #11 em").css({"display":"none"});
+            }
+
+
+        }else if(parseInt(pass_status)==10){
+            if( order_count > 0  ){
+                $(".sale-t #10 em").css({"display":""});
+                $(".sale-t #10 em").css({"left":"133px"});
+                $(".sale-t #10 em").html(order_count);
+            }else{
+                $(".sale-t #10 em").css({"display":"none"});
+            }
+
+
+        }else if(parseInt(pass_status)==30){
+            if(order_count > 0  ){
+                $(".sale-t #30 em").css({"display":""});
+                $(".sale-t #30 em").css({"left":"210px"});
+                $(".sale-t #30 em").html(order_count);
+            }else{
+                $(".sale-t #30 em").css({"display":"none"});
+            }
+
+        }else if(parseInt(pass_status)==40){
+            if(order_count > 0  ){
+                $(".sale-t #40 em").css({"display":""});
+                $(".sale-t #40 em").css({"left":"287px"});
+                $(".sale-t #40 em").html(order_count);
+            }else{
+                $(".sale-t #40 em").css({"display":"none"});
+            }
+        }
+        $(id).css({"background":"#999","color":"#fff"});
+    });
+
+    function order_inquiry(status){
+        var id='{$user_id}';
+        window.location.href='index.php?app=jkxd_portal&act=order_all&status='+status;
+    }
+</script>
+<div style="width: 320px;margin: 0px auto">
+    <div style="padding-top: 45px;padding-bottom:70px;">
+        <div class="address-t" >
+            <div class="address-l">
+                <a href="javascript:history.go(-1)">返回</a>
+            </div>
+            <div class="address-c2" style="text-align: center">
+                <span style="margin-left: auto;margin-right: auto">订单列表</span>
+            </div>
+        </div>
+        <div class="Safety-cen-1">
+            <div class="sale">
+                <div class="sale-t">
+                    <ul>
+                        <div id="11">
+                            <em style="display: none">0</em>
+                            <a href="javascript:order_inquiry(11)"><li>待付款</li></a>
+                        </div>
+                    </ul>
+                    <ul>
+                        <div id="10">
+                            <em style="display: none">0</em>
+                            <a href="javascript:order_inquiry(10)"><li >已付款</li></a>
+                        </div>
+                    </ul>
+                    <ul>
+                        <div id="30">
+                            <em style="display: none">0</em>
+                            <a href="javascript:order_inquiry(30)"><li >已发货</li></a>
+                        </div>
+                    </ul>
+                    <ul style="border-right:0px;">
+                        <div id="40">
+                            <em style="display: none">0</em>
+                            <a href="javascript:order_inquiry(40)"><li>已完成</li></a>
+                        </div>
+                    </ul>
+                </div>
+                <div class="sale-c">
+                    {if $orders && count($orders) > 0}
+                    {foreach from=$orders item=order name=_order}
+                    <a href="{$site_url}/weixin/index.php?app=jkxd_portal&act=order_detail&order_id={$order.order_id}">
+                        <dl style="height: 150px;" {if $smarty.foreach._order.last}style="border-bottom:0px;"{/if}>
+                        {if !$order.order_goods  || count($order.order_goods) == 0}
+                            <dt>
+
+                                <img src="{$site_url}/data/system/default_goods_image.gif" width="100" height="100" />
+
+                            </dt>
+                        {else}
+                            <dt style="height: 150px; width: 100px;">
+                                {foreach from=$order.order_goods item=goods name=o_goods}
+                                    <!--取第一个商品的图片为默认图片-->
+                                    {if $smarty.foreach.o_goods.first}
+                                        <img src="{if !$goods.goods_image}{$site_url}/data/system/default_goods_image.gif{else}{$site_url}/{$goods.goods_image}{/if}" width="100" height="100" />
+                                    {/if}
+                                {/foreach}
+                                <br/>
+                                <span style="line-height: 20px;">来源:</span> <br/>
+                                <span style="line-height: 20px;">
+                                    {if strstr($order.type,'vshop')}
+                                        精品集客小店
+                                    {else}
+                                        集客小店
+                                    {/if}
+                                </span>
+                            </dt>
+
+                        {/if}
+
+                        <dd>
+                            <p>订单编号：{$order.order_sn}</p>
+                            <p>
+                                    <strong>
+                                        卖家:{$order.seller_name|truncate:30}
+                                    </strong>
+                            </p>
+                            <p>
+                                    <strong>
+                                        买家:{$order.buyer_name|truncate:30}
+                                    </strong>
+                            </p>
+                            <p>
+                                下单时间：{$order.add_time|date:Y-m-d H:i:s}
+                            </p>
+                            <p>订单金额：{$order.order_amount}</p>
+                        </dd>
+                        </dl>
+                    </a>
+                    {/foreach}
+
+                    <!--分页开始-->
+                    <script type="text/javascript">
+                        function formerPage(curr_page,page_count){
+//                alert(curr_page-1);
+                            var page = parseInt(curr_page)-1
+                            if( page> 0 ){
+                                window.location ="{$site_url}/weixin/index.php?app=jkxd_portal&act=order_all&id={$shopOwner.user_id}&status={$status}&page="+page;
+                            }else{
+                                alert("已经到了首页！");
+                                return;
+                            }
+                        }
+                        function nextPage(curr_page,page_count){
+                            var page = parseInt(curr_page)+1;
+                            if(page > page_count){
+                                alert("已经到了最后一页！");
+                            }else{
+                                window.location ="{$site_url}/weixin/index.php?app=jkxd_portal&act=order_all&id={$shopOwner.user_id}&status={$status}&page="+page;
+                            }
+                        }
+                    </script>
+                    <div class="ddi">
+                        <div class="left" style="width: 235px; padding-left: 75px;">
+                            <a href="javascript:formerPage('{$page.curr_page}','{$page.page_count}')" class="a1" style="margin-right: 20px;"></a>
+                            <a style="float: left; height: 26px; line-height: 26px; font-family: tahoma; font-size: 14px; margin-right: 20px;">{$page.curr_page}/{$page.page_count}</a>
+                            <a href="javascript:nextPage('{$page.curr_page}','{$page.page_count}')" class="a2"></a>
+                        </div>
+                    </div>
+                    <!--分页结束-->
+                    {else}
+                    <div style="height:150px;font-size: 14px;padding-top: 100px;padding-bottom: 10px;text-align: center">
+                        <span >没有相关订单！</span>
+                    </div>
+                    {/if}
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {include file=jkxd_portal.footer.html}
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+</div>
+</body>
+</html>

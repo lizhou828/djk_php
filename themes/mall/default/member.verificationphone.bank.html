@@ -1,0 +1,92 @@
+<link href="style/else.css" rel="stylesheet" type="text/css">
+<link href="{res file=css/else.css}" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="{res file=js/jquery.js}" charset="utf-8"></script>
+<script type="text/javascript" src="{res file=js/common.js}" charset="utf-8"></script>
+
+
+
+<script type="text/javascript">
+    $(function(){
+        $('#cancel_button').click(function(){
+            DialogManager.close('member_bank_verification');
+        });
+
+    });
+
+    $(function(){
+        $('#quxiao').click(function(){
+            DialogManager.close('member_bank_verification');
+        });
+    });
+
+//    function sendcode(){
+//        var phone = $('#phone').val();
+//        var code = $('#kahao').val();
+//        var bt = $('#b1');
+//        bt.val('重新发送');
+//        $.post("index.php?app=member&act=send_code&phone",{phone:phone,code:code},function(data){
+//            if(data.flag == 'ok'){
+//                alert('发送成功！');
+//            }
+//            if(data.flag == 'error'){
+//                alert('发送失败！');
+//            }
+//        },'json');
+//    }
+</script>
+
+<script type="text/javascript">
+
+    function submit(){
+        if($('#password2').val()=="") {
+            alert("请填写支付密码");
+            return;
+        }
+        $.post("index.php?app=member&act=deletebank",
+                {'code':$('#password2').val(),'kahao':$('#kahao').val()},
+                function(data){
+                  if(data.flag == 'error'){
+                       alert('解绑失败，请联系客服！');
+                   } else if (data.flag == "ok"){
+                       alert('解绑成功！');
+                       location.href = "index.php?app=member&act=bank&p=userInfo";
+                   }else {
+                      alert((data.flag));
+                  }
+                }
+        ,'json');
+    }
+</script>
+
+
+<!--{if $flag == '1'}-->
+<script type="text/javascript">
+//    $(function(){
+//        alert('请先绑定手机');
+//        location.href = "index.php?app=member&act=aqzx_manager&type=changerphonemob";
+//    });
+</script>
+<!--{/if}-->
+
+
+<div class="fw_tc">
+
+    <div class="title">删除银行卡账户<span></span></div>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="bol">
+            <tr>
+                <td align="right" width="150"><span style="color: red">*&nbsp;</span>请输入支付密码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td align="left">
+                    <input type="password" name = "password2" id = "password2" value="">&nbsp;&nbsp; 还没设置支付密码？<a href="index.php?app=member&act=aqzx&p=userInfo" target="_blank">立即设置</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td align="right" width="150"></td><td align="left"><input type="button" value="确定" id = 'queding' onclick="submit();">
+                &nbsp;&nbsp;&nbsp;<input type="button" value="取消" id = 'quxiao' >
+            </td>
+            </tr>
+        </table>
+        <input type="hidden" value="{$code}" id = "kahao">
+    <br>
+</div>

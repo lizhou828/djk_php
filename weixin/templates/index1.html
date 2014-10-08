@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>大集客-移动商城</title>
+    <link href="{$site_url}/weixin/templates/style/public.css" rel="stylesheet" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/show_share_button.js"></script>
+    <style type="text/css">
+        *{margin:0;padding:0;}
+        body{font-size:12px;color:#222;font-family:Verdana,Arial,Helvetica,sans-serif;background:#f0f0f0;}
+        .clearfix:after{content: ".";display: block;height: 0;clear: both;visibility: hidden;}
+        .clearfix{zoom:1;}
+        ul,li{list-style:none;}
+        img{border:0;}
+        .wrapper{width:310px;margin:0 auto;padding-bottom:50px;}
+        h1{height:50px;line-height:50px;font-size:22px;font-weight:normal;font-family:"Microsoft YaHei",SimHei;margin-bottom:20px;}
+            /* focus */
+        #focus{width:310px;height:212px;overflow:hidden;position:relative;}
+        #focus ul{height:212px;position:absolute;}
+        #focus ul li{float:left;width:310px;height:212px;overflow:hidden;position:relative;background:#000;}
+        #focus ul li div{position:absolute;overflow:hidden;}
+        #focus .btnBg{position:absolute;width:310px;height:20px;left:0;bottom:0;background:#000;}
+        #focus .btn{position:absolute;width:290px;height:10px;padding:5px 10px;right:0;bottom:0;text-align:right;}
+        #focus .btn span{display:inline-block;_display:inline;_zoom:1;width:25px;height:10px;_font-size:0;margin-left:5px;cursor:pointer;background:#fff;}
+        #focus .btn span.on{background:#fff;}
+        #focus .preNext{width:45px;height:100px;position:absolute;top:55px;background:url({$site_url}/weixin/templates/images/sprite.png) no-repeat 0 0;cursor:pointer;}
+        #focus .pre{left:0;}
+        #focus .next{right:0;background-position:right top;}
+    </style>
+
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            var sWidth = $("#focus").width(); //获取焦点图的宽度（显示面积）
+            var len = $("#focus ul li").length; //获取焦点图个数
+            var index = 0;
+            var picTimer;
+
+            //以下代码添加数字按钮和按钮后的半透明条，还有上一页、下一页两个按钮
+            var btn = "<div class='btnBg'></div><div class='btn'>";
+            for(var i=0; i < len; i++) {
+                btn += "<span></span>";
+            }
+            btn += "</div><div class='preNext pre'></div><div class='preNext next'></div>";
+            $("#focus").append(btn);
+            $("#focus .btnBg").css("opacity",0.5);
+
+            //为小按钮添加鼠标滑入事件，以显示相应的内容
+            $("#focus .btn span").css("opacity",0.4).mouseover(function() {
+                index = $("#focus .btn span").index(this);
+                showPics(index);
+            }).eq(0).trigger("mouseover");
+
+            //上一页、下一页按钮透明度处理
+            $("#focus .preNext").css("opacity",0.2).hover(function() {
+                $(this).stop(true,false).animate({"opacity":"0.5"},300);
+            },function() {
+                $(this).stop(true,false).animate({"opacity":"0.2"},300);
+            });
+
+            //上一页按钮
+            $("#focus .pre").click(function() {
+                index -= 1;
+                if(index == -1) {index = len - 1;}
+                showPics(index);
+            });
+
+            //下一页按钮
+            $("#focus .next").click(function() {
+                index += 1;
+                if(index == len) {index = 0;}
+                showPics(index);
+            });
+
+            //本例为左右滚动，即所有li元素都是在同一排向左浮动，所以这里需要计算出外围ul元素的宽度
+            $("#focus ul").css("width",sWidth * (len));
+
+            //鼠标滑上焦点图时停止自动播放，滑出时开始自动播放
+            $("#focus").hover(function() {
+                clearInterval(picTimer);
+            },function() {
+                picTimer = setInterval(function() {
+                    showPics(index);
+                    index++;
+                    if(index == len) {index = 0;}
+                },2000); //此4000代表自动播放的间隔，单位：毫秒
+            }).trigger("mouseleave");
+
+            //显示图片函数，根据接收的index值显示相应的内容
+            function showPics(index) { //普通切换
+                var nowLeft = -index*sWidth; //根据index值计算ul元素的left值
+                $("#focus ul").stop(true,false).animate({"left":nowLeft},300); //通过animate()调整ul元素滚动到计算出的position
+                //$("#focus .btn span").removeClass("on").eq(index).addClass("on"); //为当前的按钮切换到选中的效果
+                $("#focus .btn span").stop(true,false).animate({"opacity":"0.4"},300).eq(index).stop(true,false).animate({"opacity":"1"},300); //为当前的按钮切换到选中的效果
+            }
+        });
+
+    </script>
+
+
+
+    <script type="text/javascript">
+        $(function(){
+            $("#top").click(function(){
+                $('body,html').animate({scrollTop:0},1000);
+                return false;
+            });
+        })
+    </script>
+</head>
+
+<body>
+<div id="w_320">
+    <div class="logo"><img src="{$site_url}/weixin/templates/images/logo.png" width="173" height="31" /></div>
+    <div class="banner_pic">
+        <div class="wrapper">
+            <div id="focus">
+                <ul>
+                    <li><a href="http://www.17sucai.com/" target="_blank"><img src="{$site_url}/weixin/templates/images/pic/pic1.png" alt="1" /></a></li>
+                    <li><a href="http://www.17sucai.com/" target="_blank"><img src="{$site_url}/weixin/templates/images/pic/11.png" alt="2" /></a></li>
+                    <!--<li><a href="http://www.17sucai.com/" target="_blank"><img src="{$site_url}/weixin/templates/images/pic/03.jpg" alt="3" /></a></li>-->
+                    <!--<li><a href="http://www.17sucai.com/" target="_blank"><img src="i{$site_url}/weixin/templates/images/pic/04.jpg" alt="4" /></a></li>-->
+                    <!--<li><a href="http://www.17sucai.com/" target="_blank"><img src="i{$site_url}/weixin/templates/images/pic/05.jpg" alt="5" /></a></li>-->
+                </ul>
+            </div><!--focus end-->
+        </div><!-- wrapper end -->
+    </div>
+    <div class="float1">
+        <dl class="gos">
+            <dd class="dfont"><a href="index.php?app=service&act=service_form"><img src="{$site_url}/weixin/templates/images/ico1.png" width="60" height="60" /></a></dd>
+            <dt class="txtt"><a href="index.php?app=service&act=service_form">服务中心</a></dt>
+        </dl>
+        <dl class="gos">
+            <dd class="dfont"><a href="#"><img src="{$site_url}/weixin/templates/images/ico2.png" width="60" height="60" /></a></dd>
+            <dt class="txtt"><a href="#">附近商家</a></dt>
+        </dl>
+        <dl class="gos">
+            <dd class="dfont"><a href="index.php?app=goods&act=index1"><img src="{$site_url}/weixin/templates/images/ico3.png" width="60" height="60" /></a></dd>
+            <dt class="txtt"><a href="index.php?app=goods&act=index1">移动商城</a></dt>
+        </dl>
+        <dl class="gos">
+            <dd class="dfont"><a href="#"><img src="{$site_url}/weixin/templates/images/ico4.png" width="60" height="60" /></a></dd>
+            <dt class="txtt"><a href="#">我要抽奖</a></dt>
+        </dl>
+        <dl class="gos">
+            <dd class="dfont"><a href="#"><img src="{$site_url}/weixin/templates/images/ico5.png" width="60" height="60" /></a></dd>
+            <dt class="txtt"><a href="#">提现</a></dt>
+        </dl>
+        <dl class="gos">
+            <dd class="dfont"><a href="#"><img src="{$site_url}/weixin/templates/images/ico6.png" width="60" height="60" /></a></dd>
+            <dt class="txtt"><a href="#">本地生活</a></dt>
+        </dl>
+        <dl class="gos">
+            <dd class="dfont"><a href="#"><img src="{$site_url}/weixin/templates/images/ico7.png" width="60" height="60" /></a></dd>
+            <dt class="txtt"><a href="#">我要分享</a></dt>
+        </dl>
+        <dl class="gos">
+            <dd class="dfont"><a href="#"><img src="{$site_url}/weixin/templates/images/ico8.png" width="60" height="60" /></a></dd>
+            <dt class="txtt"><a href="#">帮助</a></dt>
+        </dl>
+    </div>
+    <div class="float2">
+        <h2 class="title"><span class="ico_x"></span>快捷通道</h2>
+        <ul class="kuaijie">
+            <!--<li class="c_92bd49"><a href="#">积分查询</a></li>-->
+            <li class="c_1d5b9f"><a href="#">余额查询</a></li>
+            <li class="c_eaac44"><a href="{$site_url}/weixin/index.php?app=member_safecenter&act=bindIndex">绑定手机</a></li>
+            <li class="c_27a196"><a href="{$site_url}/weixin/index.php?app=member&act=updatePw_yanzheng">登录密码重设</a></li>
+            <li class="c_d0281e"><a href="{$site_url}/weixin/index.php?app=member_safecenter&act=index">支付密码设置</a></li>
+            <li class="c_92bd49"><a href="#">意见反馈</a></li>
+        </ul>
+    </div>
+    <!--<div class="float3">-->
+        <!--<h2 class="title"><span class="ico_x"></span>积分换购</h2>-->
+        <!--<div class="gos">-->
+            <!--<ul>-->
+                <!--<li class="lis">-->
+                    <!--<div class="pic"><img src="{$site_url}/weixin/templates/images/pic/02.jpg" width="100" height="100" /></div>-->
+                    <!--<div class="font">奥利奥心脆威化饼干20g</div>-->
+                    <!--<div class="font2">市场价：￥12.00</div>-->
+                    <!--<div class="an1">兑换积分：300</div>-->
+                <!--</li>-->
+                <!--<li class="lis">-->
+                    <!--<div class="pic"><img src="{$site_url}/weixin/templates/images/pic/03.jpg" width="100" height="100" /></div>-->
+                    <!--<div class="font">奥利奥心脆威化饼干20g</div>-->
+                    <!--<div class="font2">市场价：￥12.00</div>-->
+                    <!--<div class="an1">兑换积分：30000</div>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</div>-->
+    <div class="float4">
+        <ul>
+            <li class="lis"><a href="index.php?app=member&act=about">关于大集客</a></li>
+            <li class="lis"><a href="#">联系我们</a></li>
+            <li class="lis2"><a href="javascript:;" id = "top"></a></li>
+        </ul>
+    </div>
+    <div class="float5">上海酷鸟网络科技有限公司<br />版权所有 沪ICP备13035566号</div>
+</div>
+</body>
+</html>

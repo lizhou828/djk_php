@@ -1,0 +1,137 @@
+{include file=member.header.html}
+<style type="text/css">
+.bgwhite { background: #FFFFFF; }
+
+  	.top_bs{ width:789px; margin:0px auto; margin-top:55px; margin-left:55px;height:120px;}
+    .top_bs dl{}
+    .top_bs dl dd{ width:68px; height:63px; float:left; margin-right:20px;}
+    .top_bs dl dt{ float:left;}
+    .top_bs dl dt h5{ color:#5e8f0a; font-size:18px; font-weight:normal; font-family:"微软雅黑"; line-height:40px;}
+    .top_bs dl dt p{ color:#666;}
+    .top_bs dl dt p span{ color:#d0281e; font-family:Verdana, Geneva, sans-serif;}
+    .top_bs dl dt p a{ color:#1d5b9f; text-decoration:none; font-size: 14px}
+    .top_bs dl dt .bot{ color:#4f4f4f; font-size:14px; width:102px; height:32px; border:1px solid #d2d2d2; background:#ededed; line-height:32px; text-align:center; margin-top:12px;		}
+    .top_bs dl dt .bot a{color:#4f4f4f; }
+	
+</style>
+<script type="text/javascript">
+$(function(){
+   /* $('#password_form').validate({
+        errorPlacement: function(error, element){
+            $(element).next('.field_notice').hide();
+            $(element).after(error);
+        },
+        success       : function(label){
+            label.addClass('validate_right').text('OK!');
+        },
+        rules : {
+            orig_password : {
+                required : true
+            },
+            new_password : {
+                required   : true,
+                minlength  : 6,
+                maxlength  : 20
+            },
+            confirm_password : {
+                required   : true,
+                equalTo    : '#new_password'
+            },
+            phone_mob : {
+                remote   : {
+                    url : 'index.php?app=captcha&act=check_captcha',
+                    type: 'get',
+                    data:{
+                        phone_mob : function(){
+                            return $('#phone_mob').val();
+                        }
+                    }
+                }
+            },
+            verifyCode : {
+                required   : true
+            }
+        },
+        submitHandler : function(form) {
+            if(check_phone_or_tel()){
+                $("#msg").html("");
+                alert("aaa");
+                $.get("index.php?app=sendcode&act=checkCode",{yanzhengma:$("#verifyCode").val()},function(rs){
+                    alert(rs);
+                    if(rs!=1){
+                        $("#msg").html("验证码验证错误");
+                        $("#verifyCode").val("");
+                        return;
+                    } else {
+                        //alert("验证成功，开始提交表单");
+                        form.submit();
+                    }
+                })
+            }
+        },
+        messages : {
+            orig_password : {
+                required : '请输入登入密码'
+            },
+            new_password  : {
+                required   : '二级密码必填',
+                minlength  : '二级密码最低20位长度'
+            },
+            confirm_password : {
+                required   : '确认密码必填',
+                equalTo    : '二级密码和确认密码不一致'
+            },
+            phone_mob : {
+                remote   : '手机号码已经存在'
+            },
+            verifyCode : {
+                required   : '短信验证码必填'
+            }
+        }
+    });*/
+});
+
+
+
+
+</script>
+<style>
+.borline td { padding:10px 0px; }
+.ware_list th { text-align:left; }
+</style>
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right" >
+        <ul class="tab">
+            <li class="active" > <a href="index.php?app={$smarty.get.app}&act=aqzx&p={$smarty.get.p}">安全中心</a></li>
+		</ul>
+
+        <div class="eject_con bgwhite" style="padding: 30px 0 50px">        
+        <center><div id="warning" name="warning" style="width:92%;"></div></center>
+        
+        
+        
+    <div class="top_bs">
+    <dl>
+        <dd><img src="{$site_url}/themes/mall/default/styles/default/images/gou.png" width="68" height="63" /></dd>
+        <dt>
+        <h5>恭喜，{$user.user_name}
+        <!--{if $smarty.get.type=='changerpassword'}-->修改密码成功
+        <!--{elseif $smarty.get.type=='changeremail' }-->设置邮箱成功，请登入邮箱完成验证
+        <!--{elseif $smarty.get.type=='changerphonemob' }-->修改安全手机成功
+        <!--{elseif $smarty.get.type=='changerpassword2' }-->修改支付密码成功
+        <!--{/if}-->
+        ！</h5>
+        <p class="bot"><a href="{$site_url}">立即购物</a></p>
+        </dt>
+    </dl>
+</div>
+        
+       
+      
+      </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+{include file=footer.html}

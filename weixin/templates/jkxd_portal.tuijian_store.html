@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>商家管理</title>
+    <link href="{$site_url}/weixin/templates/style/com.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/hone.css" rel="stylesheet" type="text/css" />
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+
+</head>
+<body>
+<div style=" width:320px; margin:0px auto;padding-top: 50px;">
+    <div class="enter-t">
+        <a href="javascript:history.go(-1)"><div class="enter-t1">返回</div></a>
+        <div class="enter-t2">商家管理</div>
+    </div>
+    <div class="clear"></div>
+    <div class="enter-bg">
+        <div class="shops1">我推荐的商家数量：{if !$page.item_count}0{else}{$page.item_count}{/if}</div>
+
+        {if !$stores || count($stores) <= 0 }
+            <div style="margin-top: 100px;margin-bottom: 100px;text-align: center;font-size: 14px;">没有推荐的商家！</div>
+        {else}
+            {foreach from = $stores item=store name=_store}
+            <div class="shops2" {if $smarty.foreach._store.last} style="border:0px;margin-bottom:70px;"{/if}>
+                <dl>
+                    <dt>
+                        {if !$store.store_logo || $store.store_logo==''}
+                            <img src="{$site_url}/weixin/templates/style/img/default_store_logo.gif" width="100" height="100" />
+                        {else}
+                            <img src="{$site_url}/{$store.store_logo}" width="100" height="100" />
+                        {/if}
+                    </dt>
+                    <dd>
+                        <p><strong>店铺名：</strong>{$store.store_name}</p>
+                        <p><strong>用户名：</strong>{$store.user_name}</p>
+                        <p><strong>所在地区：</strong></p>
+                        <p>{$store.region_name}</p>
+                        <p><strong>推荐日期：</strong>{$store.reg_time|date:Y-m-d H:i:s}</p>
+                    </dd>
+                </dl>
+                <div class="clear"></div>
+            </div>
+            {/foreach}
+        {/if}
+
+    </div>
+    {include file=jkxd_portal.footer.html}
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+</div>
+</body>
+</html>

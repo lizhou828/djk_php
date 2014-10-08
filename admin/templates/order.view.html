@@ -1,0 +1,134 @@
+{include file="header.html"}
+<div id="rightTop">
+    <p><b>{$lang.order_detail}</b></p>
+</div>
+<div class="info">
+    <div class="demand">
+    </div>
+    <div class="order_form">
+        <h1>{$lang.order_status}</h1>
+        <ul>
+            <li><b>{$lang.order_sn}:</b>{$order.order_sn}{if $order.extension eq 'groupbuy'}[{$lang.groupbuy}]{/if}&nbsp;&nbsp;&nbsp;<!--{if $order.group_id}-->[<a href="{$site_url}/index.php?app=groupbuy&id={$order.group_id}" target="_blank">{$lang.groupbuy_detail}</a>]<!--{/if}--></li>
+            <li><b>{$lang.order_status}:</b> {$order.status|modifier:order_status}</li>
+            <li><b>{$lang.order_amount}:</b> <span class="red_common">{$order.order_amount|price}</span>({$lang.preference}:{$order.discount|price})</li>
+        </ul>
+        <div class="clear"></div>
+    </div>
+    <div class="order_form">
+        <h1>{$lang.order_detail}</h1>
+        <h2>{$lang.order_info}</h2>
+        <ul>
+            <li><b>{$lang.buyer_name} :</b> {$order.buyer_name|escape}</li>
+            <li><b>{$lang.seller_name} :</b> {$order.seller_name|escape}</li>
+            <!--{if $order.payment_code}-->
+            <li><b>{$lang.payment_name}:</b>{$order.payment_name|escape}</li>
+            <!--{/if}-->
+            <!--{if $order.pay_message}-->
+            <li><b>{$lang.pay_message}:</b>{$order.pay_message|escape}</li>
+            <!--{/if}-->
+            <li><b>{$lang.add_time}:</b>{$order.add_time|date:complete}</li>
+            <!--{if $order.pay_time}-->
+            <li><b>{$lang.pay_time}:</b>{$order.pay_time|date:complete}</li>
+            <!--{/if}-->
+            <!--{if $order.ship_time}-->
+            <li><b>{$lang.ship_time}:</b>{$order.ship_time|date:complete}</li>
+            <!--{/if}-->
+            <!--{if $order.finished_time}-->
+            <li><b>{$lang.finished_time}:</b>{$order.finished_time|date:complete}</li>
+            <!--{/if}-->
+            <!--{if $order.postscript}-->
+            <li><b>{$lang.postscript}:</b>{$order.postscript|escape}</li>
+            <!--{/if}-->
+            <!--{if $order.yue >0 }-->
+            <li><b>结算/充值账户支付：</b><span style="color: red">{$order.yue|price}</span>元
+                <!--{if $order.koushui_yue >0 }-->
+                <b>收益账户支付：</b><span style="color: red">{$order.koushui_yue|price}</span>元
+                <!--{/if}-->
+            </li>
+            <!--{elseif $order.koushui_yue >0 }-->
+            <li><b>收益账户支付：</b><span style="color: red">{$order.koushui_yue|price}</span>元
+                <!--{if $order.yue >0 }-->
+                <b>结算/充值账户支付：</b><span style="color: red">{$order.yue|price}</span>元
+                <!--{/if}-->
+            </li>
+            <!--{/if}-->
+
+        </ul>
+        <div class="clear"></div>
+    </div>
+
+    <div class="order_form">
+        <h2>{$lang.consignee_info}</h2>
+        <ul>
+            <li><b>{$lang.consignee}:</b> {$order_extm.consignee|escape}</li>
+            <li><b>{$lang.region}:</b> {$order_extm.region_name|escape}</li>
+            <li><b>{$lang.zipcode}:</b> {$order_extm.zipcode|escape}</li>
+            <li><b>{$lang.phone_tel}:</b> {$order_extm.phone_tel|escape}</li>
+            <li><b>{$lang.phone_mob}:</b> {$order_extm.phone_mob|escape}</li>
+            <li><b>{$lang.address}:</b> {$order_extm.address|escape}</li>
+            <li><b>{$lang.shipping_name}:</b> {$order_extm.shipping_name|escape}</li>
+        </ul>
+        <div class="clear"></div>
+    </div>
+
+    <!--{if $order.invoice_no}-->
+    <div class="order_form">
+    <h2>物流信息</h2>
+    快递公司&nbsp;:&nbsp;{$kd}<br>
+    {$lang.invoice_no}&nbsp;:&nbsp;{$order.invoice_no|escape}<!--&nbsp;&nbsp;&nbsp;&nbsp;<a href="{$shipping_info.query_url}&amp;{$order.invoice_no}" target="_blank">{$lang.query_logistics}</a>-->
+    <br />
+    </div>
+    <!--{/if}-->
+
+    <!--{if $ordershouhou}-->
+    <div class="order_form" style="color: red">
+        <h2>售后信息</h2>
+        <!--{foreach from=$ordershouhou item=shouhou}-->
+        <ul>
+            <li><b>买家：</b> {$shouhou.buyer_name|escape}</li>
+            <li><b>卖家：</b> {$shouhou.seller_name|escape}</li>
+            <li><b>商品：</b> <a href="{$site_url}/index.php?app=goods&id={$shouhou.goods_id}" target="_blank">{$shouhou.goods_name|escape}</a></li>
+            <li><b>商品价格：</b> {$shouhou.goods_price|escape}</li>
+
+            <li><b>买家意见：</b> {$shouhou.content_post}</li>
+            <li><b>图片附件1：</b> <!--{if $shouhou.content_img1}--><a href="{$site_url}/{$shouhou.content_img1}" target="_blank">附件1</a><!--{else}-->暂无<!--{/if}--></li>
+            <li><b>图片附件2：</b> <!--{if $shouhou.content_img2}--><a href="{$site_url}/{$shouhou.content_img2}" target="_blank">附件2</a><!--{else}-->暂无<!--{/if}--></li>
+            <li><b>提交时间：</b> {$shouhou.time_post|date:complete}</li>
+
+            <li><b><hr></b> </li>
+            <li><b><hr></b> </li>
+
+            <li><b>商家回复意见：</b> <!--{if $shouhou.content_reply}-->{$shouhou.content_reply|escape}<!--{else}-->暂无<!--{/if}--></li>
+            <li><b>图片附件1：</b> <!--{if $shouhou.reply_img1}--><a href="{$site_url}/{$shouhou.reply_img1}" target="_blank">附件1</a><!--{else}-->暂无<!--{/if}--></li>
+            <li><b>图片附件2：</b> <!--{if $shouhou.reply_img2}--><a href="{$site_url}/{$shouhou.reply_img2}" target="_blank">附件2</a><!--{else}-->暂无<!--{/if}--></li>
+            <li><b>回复时间：</b> <!--{if $shouhou.time_reply}-->{$shouhou.time_reply|date:complete}<!--{else}-->暂无<!--{/if}--></li>
+
+            <li><b>售后状态：</b><!--{if $shouhou.status eq 0}-->卖家未处理<!--{elseif $shouhou.status eq 1}-->卖家已处理<!--{elseif $shouhou.status eq 2}-->成功完成<!--{elseif $shouhou.status eq -1}-->买家取消<!--{/if}--></li>
+
+        </ul>
+        <div class="clear"></div><br><br>
+        <!--{/foreach}-->
+    </div>
+    <!--{/if}-->
+
+
+    <div class="order_form">
+        <h2>{$lang.goods_info}</h2>
+        <!--{foreach from=$goods_list item=goods}-->
+        <div class="order_info">
+            <a href="{$site_url}/index.php?app=goods&amp;id={$goods.goods_id}" target="_blank" class="order_info_pic"><img width="50" height="50" alt="{$lang.goods_pic}" src="{$goods.goods_image}" /></a>
+            <div class="order_info_text"><a href="{$site_url}/index.php?app=goods&amp;id={$goods.goods_id}" target="_blank">{$goods.goods_name|escape}</a><br />{$goods.specification|escape}</div>
+            <p><b>{$lang.price} :</b> <span class="red_common">{$goods.price|price}</span></p>
+            <p><b>{$lang.quantity} :</b> {$goods.quantity}</p>
+
+            <p><b></b> {$goods.specification}</p>
+            <p><b>供货价：</b> {$goods.org_price}</p>
+            <p><b>佣金比例：</b> {$goods.bili|number2}%</p>
+
+        </div>
+        <!--{/foreach}-->
+        <div class="clear"></div>
+    </div>
+</div>
+
+{include file="footer.html"}

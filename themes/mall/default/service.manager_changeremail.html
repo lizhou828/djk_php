@@ -1,0 +1,112 @@
+{include file=member.header.html}
+<style type="text/css">
+.bgwhite { background: #FFFFFF; }
+</style>
+
+<style>
+.borline td { padding:10px 0px; }
+.ware_list th { text-align:left; }
+</style>
+
+<!--[if IE]><style type="text/css">
+    .content #right .kuang3 .item .f1 .a1{margin-left:5px}
+</style><![endif]-->
+
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right" >
+        <ul class="tab">
+            <li class="active" > <a href="index.php?app={$smarty.get.app}&act=aqzx&p={$smarty.get.p}">安全中心</a></li>
+            </ul>
+
+        <div class="eject_con bgwhite" style="padding: 30px 0 50px">        
+        <center><div id="warning" name="warning" style="width:92%;"></div></center>
+       <!--修改邮箱-->
+         <div class="kuang2">
+         <div <!--{if $user.im_qq }--> class="ttp2"<!--{else}-->  class="ttp1"<!--{/if}-->>
+             <span class="spa1">1.验证身份</span>
+             <span <!--{if $user.im_qq }--> class="spa1"<!--{else}-->  class="spa2"<!--{/if}-->>2.进入邮箱验证</span>
+             <span class="spa3">3.完成</span>
+          </div>        
+          <div class="kuang3">
+          	 <form method="post" id="sava_form" name="sava_form"> <br><br>
+             <input type="hidden" name="type" id="type" value="{$smarty.get.type}" />         
+                 <input type="hidden" name="step" id="step" value="2" />
+                 <!--{if $user.email}-->
+                 <div class="item" style="padding-top:0px;">
+                     <span class="label">原始邮箱地址：</span>
+                     <div class="f1"><div style=" margin-top:10px">{$user.show_email}</div></div>
+                     <div style=" margin-top:10px">&nbsp;&nbsp;&nbsp;</div>
+                 </div>
+                 <div class="item" style="padding-top:0px;">
+                     <span class="label">请输入新邮箱地址：</span>
+                     <div class="f1"><input name="new_email" id="new_email" onblur="check_email(this.value,'new_email')" type="txt" class="input1" />
+                     <span id="new_email_lbl" class="fontColor3">&nbsp;*</span></div>
+                  </div>
+                 <!--{else}-->
+                 <div class="item" style="padding-top:0px;">
+                     <span class="label">请输入邮箱地址：</span>
+                     <div class="f1"><input name="email" id="email" type="txt" onblur="check_email(this.value,'email')" value="{$post_data.email}" class="input1" />
+                     <span id="email_lbl" class="fontColor3">&nbsp;*</span></div>
+                 </div>
+                 <!--{/if}-->            
+             <div class="item" style="padding-top:0px;">
+                <span class="label"></span>
+                <div class="f1"><input class="a1" value="提交" type="button" onclick="submit_form()" style=" cursor:pointer; border:0px" /></div>
+             </div>
+             </form>
+          </div>
+       </div>
+    
+      </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<script>
+function submit_form(){
+
+	<!--{if $user.email}-->
+	var new_email		=$("#new_email").val();
+	if(new_email==""){		
+		$('#new_email_lbl').html('<label class=\"error\" for=\"captcha\" generated=\"true\">请输入新邮箱！</label>');
+		return;
+	}
+	<!--{else}-->
+	var email		=$("#email").val();
+	if(email==""){		
+		$('#email_lbl').html('<label class=\"error\" for=\"captcha\" generated=\"true\">请输入邮箱！</label>');
+		return;
+	}
+	<!--{/if}-->
+	$(".a1").attr("disabled","disabled");
+	$(".a1").css("background","");
+	$(".a1").val("处理中...");
+	document.getElementById('sava_form').submit();
+    
+}
+
+function check_email(val,inputName){
+    if(val!=""){
+        var regu ='^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+@[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$';
+        var re = new RegExp(regu);
+        var flag = re.test(val);
+		
+		$("#"+inputName+"_lbl").html('');
+
+        if(!flag){
+            $("#"+inputName).val("");
+			$("#"+inputName+"_lbl").html('<label class=\"error\" for=\"captcha\" generated=\"true\">邮箱格式错误！</label>');
+            return;
+        }
+
+        $.get("index.php?app=member&act=check_user_or_phone_mob&ajax=1","user_name="+val,function(rs){
+            if(eval(rs) == false || eval(rs) == "false"){
+                $("#"+inputName).val("");              
+				$("#"+inputName+"_lbl").html('<label class=\"error\" for=\"captcha\" generated=\"true\">邮箱已经存在，请更换！</label>');
+            }
+        })
+    }
+}
+
+</script>
+{include file=footer.html}

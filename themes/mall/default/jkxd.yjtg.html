@@ -1,0 +1,92 @@
+{include file=member.header.html}
+
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js"></script>
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js"></script>
+<script type="text/javascript" src="{$site_url}/includes/libraries/javascript/mlselection.js" charset="utf-8"></script>
+
+<script type="text/javascript" src="{$site_url}/includes/libraries/javascript/ZeroClipboard.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var clip = null;
+    function $(id) {return document.getElementById(id);}
+    window.onload=function(){init();}
+    function init() {
+        clip = new ZeroClipboard.Client();
+        clip.setHandCursor( true );
+        clip.addEventListener('load', my_load);
+        clip.addEventListener('mouseOver', my_mouse_over);
+        clip.addEventListener('complete', my_complete);
+        clip.glue( 'd_clip_button' );
+    }
+
+    function my_load(client) {
+        debugstr("Flash movie loaded and ready.");
+    }
+
+    function my_mouse_over(client) {
+        clip.setText( $('copy_html').value );
+    }
+
+    function my_complete(client, text) {
+
+        alert("复制成功!\n"+text);
+    }
+
+    function debugstr(msg) {
+
+    }
+</script>
+
+<style>
+.copy_btn{
+    cursor: pointer;background: none repeat scroll 0 0 #009de6;border: medium none;
+    color: #FFFFFF;font-weight: bold;height: 28px;margin-left: -423px;;vertical-align: middle;
+    width: 80px;margin-top: 110px;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+
+<div class="content">
+  {include file=member.menu.html}
+   <div id="right">
+       <ul class="tab">
+           <li class="active" ><a href="index.php?app=tuiguang&act=tuiguang_member&p=tuiguang" style="padding:0px">一键分享</a></li>
+        </ul>
+
+       <div class="wrap">
+            <div class="public">
+<!-- 中间部分 -->
+<div class="public table" id="serviceTable" name="serviceTable">
+
+
+
+    <div class="scarch_order" style=" line-height: 20px">
+        <br>
+        <font style='color: #666666;font-size: 14px;margin-left: -13px'>我的集客小店号：<font color="orange">{$visitor.user_id}</font><br><br>
+
+        <!--<font style='color: #666666;font-size: 17px; margin-left: -13px'>一键推广集客小店，赚取更多奖励</font>-->
+        <!--<p style="float: right;padding-right: 200px;*margin-top: -20px"><a href="index.php?app=tuiguang&act=view" style="color: dodgerblue" target="_blank">申请成为签约业务员</a>，您就能获得<font color="orange">现金</font>奖励！</p><br><br>-->
+
+        <textarea id="copy_html" name="copy_html" style="width: 400px; height: 100px; margin-left: -10px;float: left;color: #666666;line-height: 20px;border: 2px solid #009DE6;overflow: hidden;padding: 10px">亲!快来看看我的集客小店，多多捧场哦!顺便悄悄的告诉你，你也可以免费拥有哦!{$jkxd_site_url}</textarea>
+        <br>
+        <input type="button" id="d_clip_button" value="复制内容"  class="copy_btn" />
+        <div style="float: left; line-height: 20px;    margin-left: 80px;*margin-left:107px; width: 630px;  margin-top: -30px;font-size: 12px;">
+            复制后粘贴到QQ群、QQ、微博、博客，论坛、或者通过邮件，均可推广！点击链接进入你的集客小店并购买商品，您就可以活动响应奖励(积分或现金)！如果用户是通过您的链接注册成为大集客会员，此会员以后在大集客所有
+            的有效消费行为您都将获得相应奖励！
+        </div>
+
+    </div>
+
+
+</div>
+<div class="wrap_bottom"></div>
+</div>
+
+        <div class="clear"></div>
+        <div class="adorn_right1"></div>
+        <div class="adorn_right2"></div>
+        <div class="adorn_right3"></div>
+        <div class="adorn_right4"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+{include file=footer.html}

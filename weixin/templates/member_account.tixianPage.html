@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>提取余额到银行卡</title>
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/binding.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{$SITE_URL}/weixin/templates/js/jquery-1.6.2.min.js"></script>
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            if($("#channel_code").val()=="ZHIFUBAO" && $("#channel_name").val()=="支付宝"){
+                $("#kahao").html("支付宝账号:");
+                $("#channel_card").val("请输入支付宝账号");
+                $("#name").html("姓名:");
+            }else if($("#channel_code").val()=="CAIFUTONG" && $("#channel_name").val()=="财付通"){
+                $("#kahao").html("财付通账号：");
+                $("#channel_card").val("请输入财付通账号");
+                $("#name").html("姓名：");
+            }else{
+                $("#kahao").html("银行卡号：");
+                $("#channel_card").val("请输入银行卡号");
+                $("#name").html("姓名：");
+            }
+        });
+        //发送短信验证码
+        var count = 90;
+        function sendCode(){
+            $.get(
+                    "/weixin/index.php?app=sendcode&act=sendMsgCode",
+                    {"phone_mob":$("#phone_mob").val()},
+                    function(rs){
+                        alert(rs);
+                        SetRemainTime();
+                    }
+            );
+        }
+        function SetRemainTime(){
+            if (count < 1) {
+                $("#codeButton").removeAttr("disabled")
+                $("#codeButton").val("重新发送验证码");
+                $(".extract5-b").css({"background-color":"#C40000"});
+            } else {
+                $("#codeButton").attr("disabled","disabled");
+                $("#codeButton").val(count +"秒后重新获取");
+                $(".extract5-b").css({"background-color":"#999"});
+                count--;
+                setTimeout(SetRemainTime, 1000);
+            }
+        }
+
+        function changeBank(_channel){
+            if( _channel.value != 0 ){
+               $("#channel_code").val(_channel.value);
+               $("#channel_name").val(_channel.options[_channel.selectedIndex].text);
+            }else{
+                $("#channel_code").val(0);
+                $("#channel_name").val(0);
+            }
+            //提现卡是支付宝类型
+            if($("#channel_code").val()=="ZHIFUBAO" && $("#channel_name").val()=="支付宝"){
+                $("#kahao").html("支付宝账号:");
+                $("#channel_card").val("请输入支付宝账号");
+                $("#name").html("姓名:");
+            }else if($("#channel_code").val()=="CAIFUTONG" && $("#channel_name").val()=="财付通"){
+                $("#kahao").html("财付通账号：");
+                $("#channel_card").val("请输入财付通账号");
+                $("#name").html("姓名：");
+            }else{
+                $("#kahao").html("银行卡号：");
+                $("#channel_card").val("请输入银行卡号");
+                $("#name").html("银行卡姓名：");
+            }
+        }
+
+
+        function submit(){
+            var channel_code = $("#channel_code").val();
+            var channel_name = $("#channel_name").val();
+            if(channel_name== 0 || channel_code==0){
+                alert("请选择银行！");
+                return
+            }
+
+            var channel_card = $("#channel_card").val();
+            if(channel_code && (channel_code =="ZHIFUBAO" || channel_code && channel_code =="CAIFUTONG")   ){
+                if(channel_code =="ZHIFUBAO" && (channel_card==null ||channel_card== "" ||channel_card== "请输入支付宝账号" ) ){
+                    alert("请输入支付宝账号");
+                    return;
+                }else if(channel_code =="CAIFUTONG"  && (channel_card==null ||channel_card== "" ||channel_card== "请输入财付通账号" )){
+                    alert("请输入财付通账号");
+                    return;
+                }
+            }else{
+                if(!channel_card.match("^[0-9]{19}$")){
+                    alert("请输入19位数字的银行卡号");
+                    return;
+                }
+            }
+
+            var user_name = $("#user_name").val();
+            if(user_name==''|| user_name=='请输入姓名'){
+                alert("请输入姓名");
+                return
+            }
+
+            var jine = $("#jine").val();
+            if(jine==null || jine==""  || jine=='请输入金额'){
+                alert("输入的金额不能为空");
+                return;
+            }
+            if(!jine.match("^[0-9]+([\\.]{1}[0-9]{1,2})?$")){
+                alert("请输入合法数字,非负整数或小数(小数最多精确到小数点后两位)！");
+                return;
+            }
+            var password2 = $("#password2").val();
+            if(!password2 || password2=="" || password2=='请输入支付密码'){
+                alert("支付密码不能为空！");
+                return;
+            }
+
+            var verifyCode = $("#verifyCode").val();
+            if(!verifyCode || verifyCode==""){
+                alert("验证码不能为空！");
+                return;
+            }
+            $.get(
+                    "{$site_url}/weixin/index.php?app=member_account&act=checkCode",
+                    {"verifyCode":verifyCode,"password2":password2},
+                    function(result){
+                        result = eval("("+result+")");
+                        if(parseInt(result.retval) == 0){
+                           $("#tixianForm").submit();
+                        }else{
+                            alert(result.msg)
+                        }
+                    }
+            );
+        }
+    </script>
+</head>
+<body>
+<div style="width: 320px;margin: 0px auto">
+    <div style="padding-top: 50px;">
+<div class="address-t">
+    <div class="address-l"><a href="javascript:history.go(-1)">返回</a></div>
+    <div class="address-c" style="padding-left: 30px;width: 130px;">提取余额到银行卡</div>
+    {include file=member.index_header.html}
+</div>
+<div class="binding-cen1">
+    <form id="tixianForm" action="{$site_url}/weixin/index.php?app=member_account&act=tixian" method="post">
+        <input type="hidden" name="type" value="{$type}">
+        {if $tixianCard }
+            <div class="extract2">
+                银行名称：{$tixianCard.channel_name}<s>(2小时到账)</s>
+                <a href="{$site_url}/weixin/index.php?app=member_account&act=historyTixianCards">
+                    <div class="extract1-r" style="width: 50px;">
+                        <img src="{$site_url}/weixin/templates/style/img/ti-x.jpg" width="22" height="22" />
+                    </div>
+                </a>
+            </div>
+
+            <div class="extract3">
+                <div class="extract3-l">
+                    <span id="kahao">银行卡号：</span>
+                    <input class="extract1-text" id="channel_card" name="channel_card" type="text"
+                               value="{$tixianCard.channel_card}"/>
+                </div>
+            </div>
+        <input type="hidden" name="channel_code" value="{$tixianCard.channel_code}"/>
+        <input type="hidden" name="channel_name" value="{$tixianCard.channel_name}"/>
+
+        {else}
+            <div class="extract3">
+                <div class="extract3-l">
+                    <span>银行卡名称：</span>
+                    <div style="float: right;margin-top: 5px;">
+                        <select onchange="changeBank(this)" style="float:right;font-size: 14px;margin-top: 25px;">
+                            <option value="0">请选择银行</option>
+                            {foreach from=$channels item=c}
+                            <option value="{$c.channel_code}">{$c.channel_name}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+
+                    <input type="hidden" id="channel_code" name="channel_code"/>
+                    <input type="hidden" id="channel_name" name="channel_name"/>
+                </div>
+            </div>
+
+            <div class="extract3">
+                <div class="extract3-l">
+                    <span id="kahao">银行卡号：</span>
+                    <input class="extract1-text" id="channel_card" name="channel_card" type="text"
+                           value="请输入卡号"
+                           onfocus="if(this.value=='请输入银行卡号'||this.value=='请输入支付宝账号'||this.value=='请输入财付通账号' ){this.value='';this.style.color='#333'}"
+                           onblur="if(this.value==''){this.value='';this.style.color='#ccc'}"/>
+                </div>
+
+            </div>
+
+        {/if}
+
+        <div class="extract3">
+            <div class="extract3-l">
+                <span id="name">银行卡姓名：</span>
+                <input class="extract3-text" name="user_name" id="user_name" type="text" value="请输入姓名" onfocus="if(this.value=='请输入姓名'){this.value='';this.style.color='#333'}" onblur="if(this.value==''){this.value='请输入姓名';this.style.color='#ccc'}"/>
+            </div>
+        </div>
+        <div class="extract3">
+            <div class="extract3-l">
+                <span>提现金额：</span>
+                <input class="extract4-text" name="jine" id="jine" type="text" value="请输入金额" onfocus="if(this.value=='请输入金额'){this.value='';this.style.color='#333'}" onblur="if(this.value==''){this.value='请输入金额';this.style.color='#ccc'}"/>
+            </div>
+        </div>
+        <div class="extract3">
+            <div class="extract3-l">
+                <span>支付密码：</span>
+                <input class="extract4-text" name="password2" id="password2" type="password" value="" onfocus="if(this.value==''){this.value='';this.style.color='#333'}" onblur="if(this.value==''){this.value='';this.style.color='#ccc'}"/>
+            </div>
+        </div>
+        <div class="extract5">
+            <div class="extract5-l">手机验证码：</div>
+            <div class="extract5-c">
+                <input class="extract5-t" id="verifyCode" name="verifyCode" type="text" />
+                <input name="" id="codeButton" type="button" class="extract5-b" onclick="sendCode()" value="获取短信验证码" />
+            </div>
+            <div class="extract5-r">{$user.phone_mob}</div>
+            <input type="hidden" id = "phone_mob" value="{$user.phone_mob}">
+        </div>
+        <a href="#" style="color: white" onclick="submit()"><div class="bottom">提交</div></a>
+    </form>
+</div>
+    </div>
+</div>
+{include file=cnzz.html}
+
+</body>
+</html>

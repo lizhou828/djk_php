@@ -1,0 +1,259 @@
+<!--{if $pd_id eq 6}-->
+<div id="navBargc" class="mb10" >
+    <div class="content" style="margin: 0px auto;width: 1000px;">
+        <div id="all-categorybd">
+            <div class="title" style="background:#144e92">
+                <h2 title="商品全部分类"><a href="{r_url app=category}">商品全部分类</a></h2>
+                <i></i></div>
+            <div id="category" class="category pngFix">
+                <ul class="menu">
+                    <!--{foreach from=$gcategorys_left item=gcategory name=gcategory}-->
+                    <!-- {if $smarty.foreach.gcategory.index<7 }-->
+                    <!-- {if !empty($gcategory) }-->
+                    <li id="cat_{$smarty.foreach.gcategory.index}">
+                        <h3 style="font-size: 1em;"><span class="block" style="font-size: 1em;"><a href="{r_url app=search&cate_id=$gcategory.id}" title="{$gcategory.value|escape}">{$gcategory.value|escape}</a>   </span>
+                         <span style="font-size: 1em;">
+                                <a href="{r_url app=search&cate_id=$gcategory.children[0].id}">{$gcategory.children[0].value}</a>
+                                <a href="{r_url app=search&cate_id=$gcategory.children[1].id}">{$gcategory.children[1].value}</a>
+                               <a href="{r_url app=search&cate_id=$gcategory.children[2].id}">{$gcategory.children[2].value}</a>
+                         </span>
+                        </h3>
+                        <div class="cat-menu" id="cat_{$smarty.foreach.gcategory.index}_menu">
+                            <dl>
+                                <dt> {$gcategory.value|escape} </dt>
+                                <dd><!--{foreach from=$gcategory.children item=child}--><a href="{r_url app=search&cate_id=$child.id}">{$child.value|escape}</a> <!--{/foreach}--> </dd>
+                            </dl>
+
+                        </div>
+                    </li>
+                    <!--{/if}-->
+                    <!--{/if}-->
+                    <!--{/foreach}-->
+
+                    <div class="clear"></div>
+                </ul>
+            </div>
+
+        </div>
+        <ul class="nc-nav-menu">
+            <li <!--{if !$smarty.get.act}--> class = "current" <!--{else}-->class="link"<!--{/if}-->><a href="/" target="_blank"><span>首页</span></a></li>
+            <li <!--{if $brands}--> class="current" <!--{else}--> class="link"<!--{/if}-->><a href="{r_url app=gczg&act=get_brand_goods&pd_id=6}"><span>品牌集</span></a></li>
+            <li class="link"><a class="pngFix" href="{r_url app=gczg&act=get_yushou_goods&pd_id=6&type=1}"><span class="pngFix">集市预售</span></a></li>
+            <li class="link"><a href="{r_url app=gczg&act=get_yushou_goods&pd_id=6&type=2}"><span>集市特卖</span></a></li>
+            <li class="link"><a href="#"><span>分销代理</span></a></li>
+            <li class="link"><a href="{url app=service&act=register_service}" target='_blank'><span>抢注服务中心</span></a><em class="em1"></em></li>
+        </ul>
+    </div>
+</div>
+<!--{elseif $pd_id eq 3}-->
+<div id="navBarts" class="mb10">
+    <div class="content" style="margin: 0px auto;width: 1000px;">
+        <div id="all-categoryts">
+            <div class="title">
+                <h2 title="商品全部分类"><a href="{r_url app=category}">商品全部分类</a></h2>
+                <i></i></div>
+            <div id="category" class="category pngFix">
+                <ul class="menu">
+                    <!--{foreach from=$gcategorys_left item=gcategory name=gcategory}-->
+                    <!-- {if $smarty.foreach.gcategory.index<7 }-->
+                    <!-- {if !empty($gcategory) }-->
+                    <li id="cat_{$smarty.foreach.gcategory.index}">
+                        <h3 style="font-size: 1em;"><span class="block" style="font-size:1em;"><a href="{r_url app=search&cate_id=$gcategory.id}" title="{$gcategory.value|escape}">{$gcategory.value|escape}</a>   </span>
+                         <span style="font-size: 1em;">
+                                <a href="{r_url app=search&cate_id=$gcategory.children[0].id}">{$gcategory.children[0].value}</a>
+                                <a href="{r_url app=search&cate_id=$gcategory.children[1].id}">{$gcategory.children[1].value}</a>
+                               <a href="{r_url app=search&cate_id=$gcategory.children[2].id}">{$gcategory.children[2].value}</a>
+                         </span>
+                        </h3>
+                        <div class="cat-menu" id="cat_{$smarty.foreach.gcategory.index}_menu">
+                            <dl>
+                                <dt> {$gcategory.value|escape} </dt>
+                                <dd><!--{foreach from=$gcategory.children item=child}--><a href="{r_url app=search&cate_id=$child.id}">{$child.value|escape}</a> <!--{/foreach}--> </dd>
+                            </dl>
+
+                        </div>
+                    </li>
+                    <!--{/if}-->
+                    <!--{/if}-->
+                    <!--{/foreach}-->
+
+                    <div class="clear"></div>
+                </ul>
+            </div>
+
+        </div>
+        <ul class="nc-nav-menu">
+            <li <!--{if !$smarty.get.act }--> class="current"<!--{else}--> class="link"<!--{/if}-->><a href="/" target="_blank"><span>首页</span></a></li>
+            <li <!--{if $smarty.get.act =='get_techan_goods' }--> class="current"<!--{else}--> class="link"<!--{/if}-->><a href="{r_url app=tese&act=get_techan_goods&tese_cate_id=1613&pd_id=3}"><span>当地土特产</span></a></li>
+            <li class="link"><a class="pngFix" href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=1614&pd_id=3}"><span class="pngFix">蔬果菜市</span></a></li>
+            <li class="link"><a href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=1615&pd_id=3}"><span>营养健康</span></a></li>
+            <li class="link"><a href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=1616&pd_id=3}"><span>有机食品</span></a></li>
+            <li class="link"><a href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=1617&pd_id=3}"><span>休闲食品</span></a></li>
+            <li class="link"><a href="{r_url app=tese&act=get_goods_qianggou}"><span>限时抢购</span></a></li>
+            <li class="link"><a href="{url app=service&act=register_service}" target='_blank'><span>抢注服务中心</span></a><em class="em1"></em></li>
+        </ul>
+    </div>
+</div>
+<!--{elseif $pd_id eq 5}-->
+<div id="navBarbd" class="mb10">
+    <div class="content" style="margin: 0px auto;width: 1000px;">
+        <div id="all-categorybd">
+            <div class="title" style="background:#5ea600">
+                <h2 title="商品全部分类"><a href="{r_url app=category}">商品全部分类</a></h2>
+                <i></i></div>
+            <div id="category" class="category pngFix">
+                <ul class="menu">
+                    <!--{foreach from=$gcategorys_left item=gcategory name=gcategory}-->
+                    <!-- {if $smarty.foreach.gcategory.index<7 }-->
+                    <!-- {if !empty($gcategory) }-->
+                    <li id="cat_{$smarty.foreach.gcategory.index}">
+                        <h3 style="font-size: 1em;"><span class="block" style="font-size: 1em;"><a href="{r_url app=search&cate_id=$gcategory.id}" title="{$gcategory.value|escape}">{$gcategory.value|escape}</a>   </span>
+                         <span>
+                                <a href="{r_url app=search&cate_id=$gcategory.children[0].id}">{$gcategory.children[0].value}</a>
+                                <a href="{r_url app=search&cate_id=$gcategory.children[1].id}">{$gcategory.children[1].value}</a>
+                               <a href="{r_url app=search&cate_id=$gcategory.children[2].id}">{$gcategory.children[2].value}</a>
+                         </span>
+                        </h3>
+                        <div class="cat-menu" id="cat_{$smarty.foreach.gcategory.index}_menu">
+                            <dl>
+                                <dt> {$gcategory.value|escape} </dt>
+                                <dd><!--{foreach from=$gcategory.children item=child}--><a href="{r_url app=search&cate_id=$child.id}">{$child.value|escape}</a> <!--{/foreach}--> </dd>
+                            </dl>
+
+                        </div>
+                    </li>
+                    <!--{/if}-->
+                    <!--{/if}-->
+                    <!--{/foreach}-->
+
+                    <div class="clear"></div>
+                </ul>
+            </div>
+
+        </div>
+        <ul class="nc-nav-menu">
+            <li <!--{if !$smarty.get.act}--> class="current" <!--{else}--> class="link"<!--{/if}-->><a href="/" target="_blank"><span>首页</span></a></li>
+            <li class="link"><a class="pngFix" href="{r_url app=bdsh&act=get_category_goods&bdsh_class=1559}"><span class="pngFix">丽人</span></a></li>
+            <li class="link"><a href="{r_url app=bdsh&act=get_category_goods&bdsh_class=1528}"><span>美食</span></a></li>
+            <li class="link"><a href="{r_url app=bdsh&bdsh_class=1560&act=get_category_goods}"><span>生活服务</span></a></li>
+            <li class="link"><a href="{r_url app=bdsh&bdsh_class=1561&act=get_category_goods}"><span>休闲娱乐</span></a></li>
+            <!--<li class="link"><a href="{r_url app=bdsh&bdsh_class=1562&act=get_category_goods}"><span>购物</span></a></li>-->
+            <li class="link"><a href="{r_url app=bdsh&act=get_brand_goods&pd_id=5}"><span>品牌秀</span></a></li>
+            <li class="link"><a href="{url app=service&act=register_service}" target='_blank'><span>抢注服务中心</span></a><em class="em1"></em></li>
+        </ul>
+    </div>
+</div>
+<!--{elseif $pd_id eq 4}-->
+<div id="navBarly" class="mb10">
+    <div class="content" style="margin: 0px auto;width: 1000px;">
+        <div id="all-categorybd">
+            <div class="title" style="background:#0088bc">
+                <h2 title="商品全部分类"><a href="{r_url app=category}">商品全部分类</a></h2>
+                <i></i></div>
+            <div id="category" class="category pngFix">
+                <ul class="menu">
+                    <!--{foreach from=$gcategorys_left item=gcategory name=gcategory}-->
+                    <!-- {if $smarty.foreach.gcategory.index<7 }-->
+                    <!-- {if !empty($gcategory) }-->
+                    <li id="cat_{$smarty.foreach.gcategory.index}">
+                        <h3 style="font-size: 1em;"><span class="block" style="font-size: 1em;"><a href="{r_url app=search&cate_id=$gcategory.id}" title="{$gcategory.value|escape}">{$gcategory.value|escape}</a>   </span>
+                         <span style="font-size: 1em;">
+                                <a href="{r_url app=search&cate_id=$gcategory.children[0].id}">{$gcategory.children[0].value}</a>
+                                <a href="{r_url app=search&cate_id=$gcategory.children[1].id}">{$gcategory.children[1].value}</a>
+                               <a href="{r_url app=search&cate_id=$gcategory.children[2].id}">{$gcategory.children[2].value}</a>
+                         </span>
+                        </h3>
+                        <div class="cat-menu" id="cat_{$smarty.foreach.gcategory.index}_menu">
+                            <dl>
+                                <dt> {$gcategory.value|escape} </dt>
+                                <dd><!--{foreach from=$gcategory.children item=child}--><a href="{r_url app=search&cate_id=$child.id}">{$child.value|escape}</a> <!--{/foreach}--> </dd>
+                            </dl>
+
+                        </div>
+                    </li>
+                    <!--{/if}-->
+                    <!--{/if}-->
+                    <!--{/foreach}-->
+
+                    <div class="clear"></div>
+                </ul>
+            </div>
+
+        </div>
+        <ul class="nc-nav-menu">
+            <li <!--{if !$filters.lydj_class}--> class="current" <!--{else}--> class="link"<!--{/if}-->><a href="/" target="_blank"><span>首页</span></a></li>
+            <li <!--{if $filters.lydj_class eq 1665}--> class="current" <!--{else}-->class="link"<!--{/if}-->><a class="pngFix" href="{r_url app=lydj&lydj_class=1665&act=get_goods_category}"><span class="pngFix">旅游度假</span></a></li>
+            <li <!--{if $filters.lydj_class eq 1666}--> class="current" <!--{else}-->class="link"<!--{/if}-->><a href="{r_url app=lydj&lydj_class=1666&act=get_goods_category}"><span>酒店</span></a></li>
+            <li <!--{if $filters.lydj_class eq 1667}--> class="current" <!--{else}-->class="link"<!--{/if}-->><a href="{r_url app=lydj&lydj_class=1667&act=get_goods_category}"><span>经济客栈</span></a></li>
+            <!--<li &lt;!&ndash;{if $filters.lydj_class eq 1668}&ndash;&gt; class="current" &lt;!&ndash;{else}&ndash;&gt;class="link"&lt;!&ndash;{/if}&ndash;&gt;><a href="{r_url app=lydj&lydj_class=1668&act=get_goods_category}"><span>机票</span></a></li>-->
+            <li <!--{if $filters.lydj_class eq 1669}--> class="current" <!--{else}-->class="link"<!--{/if}-->><a href="{r_url app=lydj&lydj_class=1669&act=get_goods_category}"><span>团购</span></a></li>
+            <li <!--{if $filters.lydj_class eq 1670}--> class="current" <!--{else}-->class="link"<!--{/if}-->><a href="{r_url app=lydj&lydj_class=1670&act=get_goods_category}"><span>旅游特色</span></a></li>
+            <li class="link"><a href="{url app=service&act=register_service}" target='_blank'><span>抢注服务中心</span></a><em class="em1"></em></li>
+        </ul>
+    </div>
+</div>
+<!--{else}-->
+<div id="navBar">
+    <div class="content_index">
+        <div id="all-category">
+            <div class="title">
+                <h2 title="商品全部分类"><a href="{r_url app=category}">商品全部分类</a></h2>
+                <i></i></div>
+            <div id="category" class="category pngFix">
+                <ul class="menu">
+                    <!--{foreach from=$gcategorys_left item=gcategory name=gcategory}-->
+                    <!-- {if $smarty.foreach.gcategory.index<7 }-->
+                    <!-- {if !empty($gcategory) }-->
+                    <li id="cat_{$smarty.foreach.gcategory.index}">
+                        <h3 style="font-size: 1em;"><span class="block" style="font-size: 1em;"><a href="{r_url app=search&cate_id=$gcategory.id}" title="{$gcategory.value|escape}">{$gcategory.value|escape}</a>   </span>
+                         <span style="font-size: 1em;">
+                                <a href="{r_url app=search&cate_id=$gcategory.children[0].id}">{$gcategory.children[0].value}</a>
+                                <a href="{r_url app=search&cate_id=$gcategory.children[1].id}">{$gcategory.children[1].value}</a>
+                               <a href="{r_url app=search&cate_id=$gcategory.children[2].id}">{$gcategory.children[2].value}</a>
+                         </span>
+                        </h3>
+                        <div class="cat-menu" id="cat_{$smarty.foreach.gcategory.index}_menu">
+                            <dl>
+                                <dt> {$gcategory.value|escape} </dt>
+                                <dd><!--{foreach from=$gcategory.children item=child}--><a href="{r_url app=search&cate_id=$child.id}">{$child.value|escape}</a> <!--{/foreach}--> </dd>
+                            </dl>
+
+                        </div>
+                    </li>
+                    <!--{/if}-->
+                    <!--{/if}-->
+                    <!--{/foreach}-->
+
+                    <div class="clear"></div>
+                </ul>
+            </div>
+
+        </div>
+        <ul class="nc-nav-menu">
+            <li class="current"><a href="/"><span>{$lang.first_page}</span></a></li>
+            <li class="link"><a href="{r_url app=market&pd_id=2}" ><span>超市</span></a></li>
+            <li class="link"><a class="pngFix" href="{r_url app=tese&pd_id=3}" ><span class="pngFix" target='_blank'>特色大集</span></a></li>
+            <li class="link"><a href="{r_url app=bdsh&pd_id=5}" ><span>本地生活</span></a></li>
+            <li class="link"><a href="{r_url app=gczg&pd_id=6}" ><span>工厂直供</span></a></li>
+            <li class="link"><a href="{r_url app=search&act=groupbuy}"><span>团购</span></a></li>
+            <!--<li class="link"><a href="#"><span>优惠券</span></a></li>-->
+            <li class="link"><a href="{r_url app=jifen}" target='_blank'><span>积分中心</span></a></li>
+            <!--<li class="link"><a href="#" target='_blank'><span>微商城</span></a></li>-->
+            <li class="link"><a href="{r_url app=service&act=register_service}" target='_blank'><span>抢注服务中心</span></a></li>
+            <li class="link"><a href="#" target='_blank'><span>国际馆</span></a>
+                <!--<em class="em1"></em>-->
+            </li>
+            <li class="link"><a href="javascript:;" id="cj_link">我要抽奖</a></li>
+        </ul>
+    </div>
+</div>
+<!--{/if}-->
+
+<form method="post" name="cj_form" id="cj_form" action="{$TO_PLCHOUJIANG_URL}">
+    <input type="hidden" name="userId" value="{$visitor.user_id}">
+</form>
+<script type="text/javascript">
+    $("#cj_link").bind("click",function(){
+        $("#cj_form").submit();
+    })
+</script>

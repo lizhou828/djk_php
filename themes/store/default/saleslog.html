@@ -1,0 +1,34 @@
+<div class="x_con">
+    <!-- 商品评价内容部分 -->
+    <div id="goodseval">
+
+<table width="950" border="0" cellspacing="0" cellpadding="0" style="border-bottom:2px solid #ddd; font-weight:bold;">
+    <tr>
+        <td width="142" height="40" align="center">{$lang.buyer}</td>
+        <td width="178" align="center">{$lang.buy_price}</td>
+        <td width="264" align="center">{$lang.evaluation}</td>
+        <td width="152" align="center">{$lang.quantity}</td>
+        <td width="214" align="center">{$lang.add_time}</td>
+    </tr>
+</table>
+<table width="950" border="0" cellspacing="0" cellpadding="0" class="x_line">
+    <!--{foreach from=$sales_list.sales_list item=sales}-->
+    <tr>
+        <td width="142" align="center">{if $sales.anonymous}***{else}{$sales.buyer_name|escape}{/if}</td>
+        <td width="178" align="center">{$sales.price|price}</td>
+        <td width="264" align="center">{$sales.spec}</td>
+        <td width="152" align="center">{$sales.quantity}</td>
+        <td width="214" align="center">{$sales.add_time|date}</td>
+    </tr>
+
+    <!--{foreachelse}-->
+    <tr style="font-size: 1em;">
+        <td colspan="5">{$lang.no_records}</td>
+    </tr>
+    <!--{/foreach}-->
+</table>
+</div>
+    </div>
+
+
+

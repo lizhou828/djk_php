@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>大集客-移动商城</title>
+    <link href="{$site_url}/weixin/templates/style/public.css" rel="stylesheet" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script type="text/javascript" src="{$site_url}/includes/libraries/javascript/mlselection.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{$site_url}/themes/mall/default/styles/default/js/common.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+    <script type="text/javascript" src="index.php?act=jslang"></script>
+    <script type="text/javascript">
+        var SITE_URL = "{$site_url}";
+        var REAL_SITE_URL = "{$real_site_url}";
+        var REAL_BACKEND_URL = "{$real_backend_url}";
+
+
+
+        function reflash() {
+            var a = $("input[name=address_options][checked]").val();
+            if (a==0) {
+                alert("请填写收货地址");
+            } else {
+                changeshipping(a);
+            }
+        }
+        $(function(){
+            regionInit("region");
+            // check_address();
+        });
+        function check_channel_id(){
+            return ($('#channel_id').val() == '' && $('#channel_id').val() == '请选择开户行名称');
+        }
+
+        function hide_error(){
+            $('#region').find('.error').hide();
+        }
+
+    </script>
+
+    <script type="text/javascript">
+        //                    var addresses = {$address};
+        //<![CDATA[
+        $(function(){
+            $("input[name='address_options']").click(set_address);
+            $('.address_item').click(function(){
+                $(this).find("input[name='address_options']").attr('checked', true);
+                $('.address_item').removeClass('selected_address');
+                $(this).addClass('selected_address');
+                set_address();
+            });
+            //init
+            set_address();
+        });
+        function set_address(){
+            var addr_id = $("input[name='address_options']:checked").val();
+            if(addr_id == 0)
+            {
+                $('#consignee').val("");
+                $('#region_name').val("");
+                $('#region_id').val("");
+                $('#region_select').show();
+                $("#edit_region_button").hide();
+                $('#region_name_span').hide();
+
+                $('#address').val("");
+                $('#zipcode').val("");
+                $('#phone_tel').val("");
+                $('#phone_mob').val("");
+
+                $('#newaddress_div').show();
+            }
+            else
+            {
+                $('#newaddress_div').hide();
+//                            fill_address_form(addr_id);
+            }
+        }
+
+
+        function submit1(){
+            if($('#user_name').val()==""||$('#region_id').val()==""||$('#region_name').val()==""||$('#phone_mob').val()==""
+                    ||$('#address1').val()=="") {
+                alert("请完善收货信息");
+                return;
+            }
+            var reg = /^1[3|4|5|8][0-9]\d{8}$/;
+            if (!reg.test($('#phone_mob').val())) {
+                alert("请填写正确的手机号码！");
+                return  false;
+            }
+            var reg1 = /^\d{6}$/;
+            if (!reg1.test($('#code').val()) && $('#code').val() != "") {
+                alert("请填写正确的邮编！");
+                return  false;
+            }
+            var url1 = "index.php?app=order&act=phoneList&spec_id=" + $("#spec_ids").val();
+            $.post("index.php?app=order&act=save_address",
+                    {'user_name':$('#user_name').val(),'region_id':$('#region_id').val(),
+                        'region_name':$('#region_name').val(),'address':$('#address1').val(),
+                        'zipcode':$('#code').val(),'email':$('#email').val(),
+                        'phone_tel':$('#phone_tel').val(),'phone_mob':$('#phone_mob').val()}, function(data){
+                        if(data.flag == 'error'){
+                            alert('新增出错，请重新新增！');
+                        }
+                        if(data.flag == 'ok'){
+                            alert('添加成功！');
+                            location.href = url1;
+                        }
+                    },'json')
+        }
+
+    </script>
+</head>
+
+<body>
+<div id="w_3202" style="width: 295px;">
+    <div class="sf">
+        <h2 class="biaoh">新增收货地址</h2>
+        <dl class="nnr">
+            <dd>收货人姓名：</dd>
+            <dt><input name="user_name" type="text"  class="yu" id = "user_name"/><span class="xingx">*</span></dt>
+        </dl>
+        <dl class="nnr" style="height: 45px">
+            <dd>收货地区：</dd>
+            <!--<dt><select name="" style="margin-right:3px; vertical-align:middle;">-->
+                <!--<option>上海市</option>-->
+            <!--</select><select name="" style=" vertical-align:middle;">-->
+                <!--<option>浦东新区</option>-->
+            <!--</select><span class="xingx">*</span></dt>-->
+            <div id="region">
+                <span style="display:none;" id="region_name_span"></span>
+                <input id="edit_region_button" type="button" class="edit_region" value="{$lang.edit}" style="display:none;" />
+                <select onchange="hide_error();">
+                    <option value="0">{$lang.select_pls}</option>
+                    {html_options options=$regions}
+                </select>
+                <input type="hidden" class="mls_id" name="region_id" id="region_id"/><input type="hidden" name="region_name" class="mls_names" id="region_name"/>
+                <b style="font-weight:normal;" class="field_message explain"><span class="field_notice">{$lang.region_desc}</span><span class="red">*</span></b>
+            </div>
+        </dl>
+        <dl class="nnr">
+            <dd>详细地址：</dd>
+            <dt><input name="address" type="text"  class="yu" id = "address1"/><span class="xingx">*</span></dt>
+        </dl>
+        <dl class="nnr">
+            <dd>邮政编码：</dd>
+            <dt><input name="code" type="text"  class="yu" id = "code"/></dt>
+        </dl>
+        <dl class="nnr">
+            <dd>电话号码：</dd>
+            <dt><input name="phone_tel" type="text"  class="yu" id = "phone_tel"/></dt>
+        </dl>
+        <dl class="nnr">
+            <dd>手机号码：</dd>
+            <dt><input name="phone_mob" type="text"  class="yu" id = "phone_mob"/><span class="xingx">*</span></dt>
+        </dl>
+        <div class="big"><input name="" value="确认" type="button" class="aab" onclick="submit1()"/></div>
+        <input type="hidden" value="{$spec_ids}" id = "spec_ids">
+    </div>
+</div>
+</body>
+</html>

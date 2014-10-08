@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>填写物流号</title>
+    <link href="{res file=common.css}" rel="stylesheet" type="text/css" />
+    <link href="{res file=order-inquiry.css}" rel="stylesheet" type="text/css" />
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery-1.6.2.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+    <script type="text/javascript">
+
+        $(function(){
+            $("#wuliudanhao").focus(function(){
+                if(this.value=='请输入物流单号'||this.value==''){this.value='';this.style.color='#333'}
+            });
+            $("#wuliudanhao").blur(function(){
+                if(this.value=='请输入物流单号'||this.value==''){this.value='';this.style.color='#ccc'}
+            });
+        });
+
+
+        //表单提交
+        function sendGoods(){
+            var sendMethod = $("#sendMethod").val();
+            var kdgs= $("#kdgs_chosen").val();
+            var wuliudanhao = $("#wuliudanhao").val();
+            var order_id = $("#order_id").val();
+
+            if( !sendMethod  || sendMethod ==null || sendMethod == "" ||  typeof sendMethod =="undefined"  ){
+                alert("发货参数丢失,发货失败!");
+                return;
+            }else if(sendMethod == "kuaidi"){
+                if(!wuliudanhao || wuliudanhao=="" || wuliudanhao=="请输入物流单号"){
+                    alert("请输入物流单号");
+                    return;
+                }
+                if(!kdgs || kdgs =="" || kdgs == null){
+                    alert("未选择快递公司");
+                    return;
+                }
+            }
+            $.post(
+                    '{$site_url}/weixin/index.php?app=member_order&act=sendGoods',
+                    {"order_id":order_id,"sendMethod":sendMethod,"kdgs":kdgs,"wuliudanhao":wuliudanhao},
+                    function(result){
+                        result = eval("("+result+")");
+                        alert(result.msg);
+                        if(result.retval == "1"){
+                            window.location = "{$site_url}/weixin/index.php?app=member_order&act=detail&type=seller&order_id="+order_id;
+                        }
+
+                    }
+            );
+
+        }
+
+    </script>
+</head>
+<body>
+<div style="width: 320px;margin: 0px auto">
+
+
+    <div class="ord-t">
+        <div class="ord-l"><a href="javascript:history.go(-1)">返回</a></div>
+        <div class="ord-c5" style="padding-left: 44px;">填写物流号</div>
+        <div class="ord-r1"><a href="index.php?app=member">会员中心</a></div>
+    </div>
+
+    <div style="padding-top: 50px;">
+        <div class="Safety-cen-1">
+            <form method="post" id="sendGoodsForm" enctype="application/x-www-form-urlencoded">
+                <input type="hidden" name="order_id" id="order_id" value="{$order_id}"/>
+                <div class="deliver">
+
+                    <input type="hidden" name="sendMethod" id="sendMethod" value="{$sendMethod}"/>
+                </div>
+
+
+                <div id="kdgs" class="deliver">
+                    <ul >
+                        <li id="deliverr">
+                            <p>快递公司</p>
+                        </li>
+                        <div id="companies">
+                            <li onclick="gongsi('{$kdgs}')">
+                                <span id="{$kdgs}"><img src="{$site_url}/weixin/templates/images/da-g.jpg" width="30" height="29" /></span>
+                                {$kdgs}
+                            </li>
+
+                        </div>
+                    </ul>
+                    <input type="hidden" name="kdgs" id="kdgs_chosen" value="{$kdgs}"/>
+                </div>
+
+
+                <div id="invoice_no" class="deliver2">
+                    <div class="deliver2-t">物流单号</div>
+                    <div>
+                        <input class="deliver2-c" id="wuliudanhao" name="wuliudanhao" type="text" value="请输入物流单号"/>
+                    </div>
+                </div>
+
+
+                <div style="text-align: center;margin-top: 20px;">
+                    <input type="button" style="width: 60px;" onclick="javascript:history.go(-1)"  value="上一步">&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="button" style="width: 60px;" onclick="sendGoods()"  value="发货">
+                </div>
+            </form>
+
+        </div>
+
+
+    </div>
+</div>
+{include file=cnzz.html}
+</body>
+
+</html>

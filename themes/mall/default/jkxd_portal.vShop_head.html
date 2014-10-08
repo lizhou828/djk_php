@@ -1,0 +1,227 @@
+<script type="text/javascript" src="{res file=js/jquery-1.6.2.min.js}"></script>
+<script type="text/javascript">
+    $(function(){
+        $.get("index.php?app=cart&act=cart_kinds",function(data){
+            $("#cart_kinds").html(data);
+        });
+        var keyword = $("#keyword").val();
+        $("#keyword").blur(function(){
+            keyword = $("#keyword").val();
+            if( !keyword || keyword == null || keyword==" " || keyword.trim()=="" || typeof keyword =="undefined"){
+                $("#keyword").val("请输入商品关键字，多个关键字以空格隔开");
+            }
+        });
+        $("#keyword").focus(function(){
+            $("#keyword").val("");
+        });
+        if('{$type}'=='localHot'){
+            $('#localHot').css({"background":"#7c0000"});
+            $('#shopIndex').css({"background":"#331900"});
+            $('#jingpin').css({"background":"#331900"});
+        }else if('{$type}'=='jingpin'){
+            $('#localHot').css({"background":"#331900"});
+            $('#shopIndex').css({"background":"#331900"});
+            $('#jingpin').css({"background":"#7c0000"});
+        }else if('{$type}'=='search'){
+        }else{
+            $('#localHot').css({"background":"#331900"});
+            $('#shopIndex').css({"background":"#7c0000"});
+            $('#jingpin').css({"background":"#331900"});
+        }
+    });
+    function search_in_shop(){
+        var keywords =  $("#keyword").val();
+        if(keywords==null || keywords =="" || keywords=="请输入商品关键字，多个关键字以空格隔开"){
+            alert("请填写商品名称或关键字!");
+            return;
+        }else{
+            var keyword=$("#keyword").val();
+            $("#shop").val(keyword);
+            $("#search_in_shop").submit();
+        }
+    }
+    function search_in_website(){
+        var keywords =  $("#keyword").val();
+        if(keywords==null || keywords ==""){
+            alert("请填写商品名称或关键字!");
+            return;
+        }else{
+            var keyword=$("#keyword").val();
+            $("#website").val(keyword);
+            $("#search_in_website").submit();
+        }
+    }
+</script>
+
+<script type="text/javascript">
+    function enterPress(e){ //传入 event
+        var e = e || window.event;
+        if(e.keyCode == 13){
+            search_in_shop();
+        }
+    }
+</script>
+
+
+
+
+<div id="xiaod_bg">
+    <div class="login">
+        <div class="logo_shop">
+
+            <div class="fe1">
+
+                <a href="{$site_url}/index.php?app=jkxd_portal&act=vshop&id={$shopOwner.user_id}" title="{$shopOwner.shop_name}的精品集客小店">
+                    { if strlen($shopOwner.shop_name) >14}{$shopOwner.shop_name|truncate:10}{else}{$shopOwner.shop_name}{/if}<span>的精品集客小店</span>
+                </a>
+                <img src="{$site_url}/themes/mall/default/styles/default/images/v2.png" title="已认证">
+            </div>
+            <div class="fe2">
+                <div class="xiaoh">集客小店号：<span style="font-family: '微软雅黑', Tahoma, Arial">{$shopOwner.user_id}</span></div>
+                <div class="shouc" onclick=""><a href="javascript:void(0);" onmousedown="www_zzjs_net(this,'{$jkxd_site_url}','{$shopOwner.shop_name}的集客小店');">收藏小店</a></div>
+                <div class="fenx">
+                    一键分享
+                    <em class="fenx2">
+                        <div id="promotion_txt">
+                            <div id="text1">
+                                <span id="zxxTestArea">亲!快来看看我的集客小店，多多捧场哦!顺便悄悄的告诉你，你也可以免费拥有哦!{$jkxd_site_url}</span>
+                            </div>
+                            <div class="div1">
+                                <!--<a href="javascript:copy_clip(document.getElementById('text1').innerText)"><div class="div11">复制内容</div></a>-->
+                                <div class="div11" id="forLoadSwf">复制内容</div>
+                                <span class="div22">您可以粘贴到QQ、QQ群，或者通过邮件，均可推广！</span>
+                            </div>
+                        </div>
+                    </em>
+                </div>
+            </div>
+        </div>
+
+        <!--flash 复制 开始-->
+        <script src="{res file=js/swfobject.js}" type="text/javascript"></script>
+        <script type="text/javascript">
+            var copyCon = document.getElementById("zxxTestArea").innerHTML;
+            var flashvars = {
+                content: encodeURIComponent(copyCon),
+                uri: '{res file=images/copy_button.png}'
+            };
+            var params = {
+                wmode: "transparent",
+                allowScriptAccess: "always"
+            };
+            swfobject.embedSWF("{res file=js/clipboard.swf}", "forLoadSwf", "64", "25", "9.0.0", null, flashvars, params);
+
+            function copySuccess(){
+
+                alert("复制成功！");
+            }
+        </script>
+        <!--flash 复制 结束-->
+
+
+        <!--搜索开始-->
+        <div class="search">
+            <div class="k1">
+                <form action="{r_url app=jkxd_portal&act=vshop_list&type=search}" method="get" id="search_in_shop" >
+                     <span class="sp1">
+                        <input type="text" id="keyword" name="keyword" lang="zh-CN" value="{if $keyword && $keyword !=' ' }{$keyword}{else}请输入商品关键字，多个关键字以空格隔开{/if}" class="text" />
+                    </span>
+                    <input type="hidden"  name="app" value="jkxd_portal" />
+                    <input type="hidden"  name="act" value="vshop_list" />
+                    <input type="hidden" id="shop" name="keyword" />
+                    <input type="hidden" id="shop" name="type" value="search" />
+                    <input type="hidden" name="id" id="id" value="{$shopOwner.user_id}"/>
+                    <span class="sp2_shop">
+                        <input type="button" onclick="search_in_shop()" value="搜 索" class="buttom" />
+                    </span>
+                </form>
+            </div>
+            <div class="resou_shop">
+                热搜：
+                <a href="index.php?app=jkxd_portal&act=vshop_list&type=search&id={$shopOwner.user_id}&keyword=韩国">韩国</a>&nbsp;
+                <a href="index.php?app=jkxd_portal&act=vshop_list&type=search&id={$shopOwner.user_id}&keyword=钱包">钱包</a>&nbsp;
+                <a href="index.php?app=jkxd_portal&act=vshop_list&type=search&id={$shopOwner.user_id}&keyword=ipad">ipad</a>&nbsp;
+                <a href="index.php?app=jkxd_portal&act=vshop_list&type=search&id={$shopOwner.user_id}&keyword=三星">三星</a>&nbsp;
+            </div>
+        </div>
+        <!--搜索结束-->
+
+        <div class="r0p">
+            <div class="car"><a href="index.php?app=cart"></a><span class="span01"><span id="cart_kinds">0</span></span></div>
+            <div class="font">
+                <a href="index.php?app=jkxd_portal" target="_blank">集客小店是什么？</a>
+                <a href="javascript:void(0)" onclick="apply_jkxd()" style=" text-align:left; padding-left:10px; width:106px;background:url('{res file=images/shop_ico33.png}') no-repeat;">我要开集客小店</a>
+            </div>
+        </div>
+    </div>
+
+    <!--频道开始-->
+    <script type="text/javascript">
+         //   alert( " document.compatMode="+document.compatMode+"  , window.pageYOffset="+window.pageYOffset+" ,navigator.userAgent="+navigator.userAgent);
+                var toTopDistance=148;//滚动条距离顶部的距离
+                if(/Firefox/gi.test(navigator.userAgent)){
+                    toTopDistance = 148;
+                }else if(/Chrome/gi.test(navigator.userAgent)){
+                    toTopDistance = 280;
+                }
+                window.onscroll=function(){
+                    if( document.body.scrollTop + document.documentElement.scrollTop >= toTopDistance){
+                        $(".pindao").css({"position":"fixed","top":"0","width":"100%","z-index":9999});
+                    }else{
+                        $(".pindao").css({"position":"","top":"","width":"100%"});
+                    }
+                };
+    </script>
+    <div class="pindao" style="background: none repeat scroll 0 0 #331900;">
+        <div class="wshop_1200">
+                    <ul>
+                        <a href="{$site_url}/index.php?app=jkxd_portal&act=vshop&id={$shopOwner.user_id}">
+                            <li id="shopIndex" {if $type =='localHot' || $type =='jingpin'  || $type =='search'} onmouseover="this.style.background='#7c0000'" onmouseout="this.style.background='#331900'" {/if}>店铺首页</li>
+
+                        </a>
+                        {if $temaiGoodsCount && $temaiGoodsCount > 0 }
+                        <a href="{$site_url}/index.php?app=jkxd_portal&act=vshop_list&type=localHot&id={$shopOwner.user_id}">
+                            <li id="localHot" {if $type !='localHot'} onmouseover="this.style.background='#7c0000'" onmouseout="this.style.background='#331900'" {/if}>本地特卖
+                            </li>
+                        </a>
+                        {/if}
+                        <a href="{$site_url}/index.php?app=jkxd_portal&act=vshop_list&type=jingpin&id={$shopOwner.user_id}">
+                            <li id="jingpin" {if $type !='jingpin'} onmouseover="this.style.background='#7c0000'" onmouseout="this.style.background='#331900'" {/if}>大集客精品
+                            </li>
+                        </a>
+                        <li style="float:right; background:#331900;" >积分收益：
+                            <span id="jifen">
+                                {if $jifen && $jifen > 0 }
+                                    {$jifen}
+                                {else}
+                                    0
+                                {/if}
+                            </span>
+                        </li>
+                        <li style="float:right; background:#331900;">店主收益：￥
+                            {if $jkxd_shouyi && $jkxd_shouyi> 0}
+                                {$jkxd_shouyi|number2}
+                            {else}
+                                0
+                            {/if}
+                        </li>
+                        <li style="font-family:Tahoma, Geneva, sans-serif; float:right; font-size:12px;">客服热线：400-728-1117</li>
+                    </ul>
+        </div>
+    </div>
+    <!--频道结束-->
+
+</div>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.plugins/jquery.validate.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/dialog/dialog.js" id="dialog_js"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js" ></script>
+<script type="text/javascript">
+    function apply_jkxd(){
+        var uri =encodeURI("index.php?app=jkxd_portal&act=apply_jkxd");
+        var id = 'apply_jkxd_page';
+        var title = "申请开通集客小店";
+        var width = '755';
+        ajax_form(id, title, uri, width);
+    }
+</script>

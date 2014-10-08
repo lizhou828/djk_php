@@ -1,0 +1,108 @@
+{include file=tuiguang_header.html}
+
+<!--banner-->
+<div id="banner">
+  <div class="ban1">
+    <div class="k1000">
+      <div class="k334">
+         <h2>欢迎来到大集客</h2>
+         
+         <!--{if $visitor.user_id}-->
+         <div style="width:334px; height:35px; line-height:35px; padding-top:35px; font-size:14px; text-align:center">
+         <span style="font-family:Verdana, Arial, Helvetica, sans-serif;">{$visitor.nick_name} </span>,
+         <!--{if $qianyue && $qianyue.status eq 0}-->您的申请状态【审核中】<!--{elseif $qianyue.status eq 1}-->您的申请状态【审核成功】<!--{elseif $qianyue.status eq 2}-->您的申请状态【审核失败】<!--{/if }-->
+             <a href='{url app=member&act=logout}'><span style="color:#eaac44">[{$lang.logout}]</span></a>
+         <br>
+         <!--{if $qianyue && $qianyue.status eq 1}-->
+         <!--{else}-->
+             <!--<div class="ann"><a href="index.php?app=tuiguang&act=shenqing">在线申请业务员</a></div>-->
+         <!--{/if}-->
+         </div>
+         <!--{else}-->
+         <div class="ann"><a href="index.php?app=member&act=login">立刻去登入</a></div>
+         <!--{/if}-->
+         
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--内容-->
+<div id="con">
+   <div class="w1000">
+     <div class="fl1">
+       <h2 class="title1"></h2>
+       <div class="noci">
+          <dl>
+            <dd><img src="{$site_url}/themes/mall/default/styles/default/images/lianmengke/pic1.png" width="134" height="153" /></dd>
+            <dt>终身享受通过其专属代码链接锁定的会员在大集客网站消费额<span>0.4%</span>的积分奖励</dt>
+            <dt class="an">秒结制</dt>
+          </dl>
+          <dl>
+            <dd><img src="{$site_url}/themes/mall/default/styles/default/images/lianmengke/pic2.png" width="134" height="153" /></dd>
+            <dt>终身享受通过其专属代码链接锁定的商家在大集客网站营业额<span>0.4%-3%</span>的积分奖励</dt>
+            <dt class="an1">秒结制</dt>
+          </dl>
+          <dl>
+            <dd><img src="{$site_url}/themes/mall/default/styles/default/images/lianmengke/pic3.png" width="134" height="153" /></dd>
+            <dt>每个会员和签约业务员都将享有独立的后台数据独享，管理非常简单，便于操作，复制容易</dt>
+            <dt class="an2">聚宝盆</dt>
+          </dl>
+          <dl style="margin-right:0px;">
+            <dd><img src="{$site_url}/themes/mall/default/styles/default/images/lianmengke/pic4.png" width="134" height="153" /></dd>
+            <dt>会员的消费额和商家的营业额您都享受有积分奖励，"收益稳定"入账财富源源不断</dt>
+            <dt class="an3">小金库</dt>
+          </dl>
+       </div>
+     </div>
+    
+     <div class="fl3">
+        <div class="on1">
+          <h2>新晋业务员</h2>
+          <ul>
+            <li>- djkzhuce***</li>
+            <li>- djk5615***</li>
+            <li>- djk15***</li>
+            <li>- sdf***</li>
+            <li>- djkzhuce***</li>
+            <li>- djk5615***</li>
+            <li>- djk15***</li>
+            <li>- sdf***</li>
+            <li>- djkzhuce***</li>
+            <li>- djk5615***</li>
+          </ul>
+        </div>
+        <div class="on2">
+           <h2>常见问题</h2>
+           <ul>
+             <li><a href="javascript:;">·如何才能申请成为大集客的签约业务员？</a></li>
+             <li><a href="javascript:;">·网站在线申请签约业务员后多久可以知道审核结果？</a></li>
+             <li><a href="javascript:;">·申请成为签约业务员需要提交哪些资料？</a></li>
+             <li><a href="javascript:;">·普通业务员和签约业务员有什么区别？</a></li>
+           </ul>
+        </div>
+        <div class="on3">
+           <h2>月收入排行榜</h2>
+           <ul>
+            <li style=" color:#d8271c">djkzhuce***</li>
+            <li>djk5615***</li>
+            <li style=" color:#eaac44">djk15***</li>
+            <li>sdf***</li>
+            <li style=" color:#1d5b9f">djkzhuce***</li>
+            <li>djk5615***</li>
+            <li>djk15***</li>
+            <li>sdf***</li>
+            <li>djkzhuce***</li>
+            <li>djk5615***</li>
+          </ul>
+        </div>
+     </div>
+   </div>
+</div>
+
+<!--底部-->
+<div class="clear"></div>
+{include file=tuiguang_footer.html}
+</body>
+</html>

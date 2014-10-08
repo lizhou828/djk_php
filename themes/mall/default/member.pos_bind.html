@@ -1,0 +1,88 @@
+{include file=member.header.html}
+<script type="text/javascript">
+    function if_delete(id,val){
+        if(id == ""){
+            alert("请选择银行卡！");
+            return;
+        }
+        var str= (val==0)?"删除":"恢复";
+        if(confirm("确认"+str+"吗")){
+            location = "index.php?app=member&act=pos_bind_delete&p=userInfo&id="+id+"&val="+val;
+        }
+    }
+</script>
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right">
+        <ul class="tab">
+            <li class="<!--{if $smarty.get.act=='pos_bind'}-->active<!--{else}-->normal<!--{/if}-->"><a href="index.php?app=member&act=pos_bind&p=userInfo">刷POS机的银行卡</a></li>
+            <li class="<!--{if $smarty.get.act=='pos_view'}-->active<!--{else}-->normal<!--{/if}-->"><a href="index.php?app=member&act=pos_view&p=userInfo">POS机刷卡记录</a></li>
+        </ul>
+        <script type="text/javascript" src="{lib file=jquery.plugins/jquery.validate.js}" charset="{$charset}"></script>
+        <div class="wrap">
+            <div class="public table">
+
+                <div class="user_search">
+                    <form method="get">
+                        <span>银行卡号:</span>
+                        <input type="text" class="text1 width_normal" name="bank_card_number" value="{$smarty.get.bank_card_number|escape}">
+                        <input type="hidden" name="app" value="member" />
+                        <input type="hidden" name="act" value="pos_bind" />
+                        &nbsp;&nbsp;&nbsp;
+                        <input type="submit" class="btn" value="搜索" />
+                    </form>
+                    <div style="float: right;">
+                        <a href="/index.php?app=pos&act=bind" target="_blank"><font color='red'>去绑定刷pos机的银行卡</font></a>(绑定成功后请刷新该页面)
+                        <!--<input class="btn1" type="button" onclick="go('index.php?app=pos&act=bind');" value=""></div>-->
+                </div>
+
+                <table class="table_head_line">
+
+                    <tr class="line_bold">
+                        <th class="" colspan="7">
+                        </th>
+                    </tr>
+
+                    <tr class="gray">
+                        <th class="width13">银行名称</th>
+                        <th class="width4">银行卡卡号</th>
+                        <th class="width4">真实姓名</th>
+                        <th class="width13">身份证号码</th>
+                        <th class="width13">手机号码</th>
+                        <th class="width13" style="display: none">状态</th>
+                        <th class="width13">操作</th>
+                    </tr>
+
+                    <!-- {foreach from=$data item=view name=v} -->
+                    <!--{if $view.state eq 1}-->
+                    <tr <!--{if $smarty.foreach.v.last}-->class="line_bold"<!--{else}-->class="line"<!--{/if}-->>
+                    <td><span class="padding1">{$view.bank_name|escape}</span></td>
+                    <td>{$view.bank_card|escape}</td>
+                    <td class="align2">{$view.real_name|escape}</td>
+                    <td class="width13">{$view.shenfenzheng|escape}</td>
+                    <td class="width13">{$view.m_phone|escape}</td>
+                    <td class="width13" style="display: none"><!--{if $view.state eq 0}--><font color='red'>已删除</font><!--{else}-->正常<!--{/if}--></td>
+                    <td class="width13"><a href="javascript:if_delete({$view.id},<!--{if $view.state eq 0}-->1<!--{else}-->0<!--{/if}-->)"><!--{if $view.state eq 0}-->恢复<!--{else}-->删除<!--{/if}--></a></td>
+                     </tr>
+                    <!--{/if}-->
+                        <!-- {foreachelse} -->
+                        <tr>
+                            <td colspan="6" class="member_no_records padding6">
+                                没找到刷卡记录！
+                            </td>
+                        </tr>
+                        <!--{/foreach}-->
+                </table>
+
+                <!--{if $data}-->
+                <div class="kandan_foot">
+                    <div class="pageLinks">{include file=member.page.bottom.html}</div>
+                </div>
+                <div class="clear"></div>
+                <!--{/if}-->
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="clear"></div>
+    {include file=footer.html}

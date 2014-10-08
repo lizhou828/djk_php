@@ -1,0 +1,190 @@
+
+错误url=http://192.168.0.137/index.php?app=jkxd_portal&act=goodsList&type=search&id=119&keyword=%E9%9F%A9%E5%9B%BD
+2014-05-13 15:39:03  	[2]join() [<a href='function.join'>function.join</a>]: Invalid arguments passed	\app\search.app.php	1197
+
+错误url=http://192.168.0.137/index.php?app=jkxd_portal&act=goodsList&keyword=%E5%B0%8F%E5%AD%90+%E5%AE%9E%E9%AA%8C&type=search&id=119
+2014-05-13 15:50:01  	[2]Invalid argument supplied for foreach()	\app\jkxd_portal.app.php	676
+
+错误url=http://192.168.0.137/weixin/index.php?app=store
+2014-05-13 16:46:45  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 5
+MySQL Query:SELECT g.goods_id,g.goods_name,g.store_id,g.price,g.org_price,gi.image_url,g.default_image
+                FROM ecm_goods g JOIN ecm_goods_image gi ON g.goods_id=gi.goods_id
+                WHERE  g.TYPE='material'
+                AND g.if_show = 1  AND g.closed=0
+                AND g.dropState =1 AND g.store_id =
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[532]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=member&act=register
+2014-05-13 16:57:39  	[256]MySQL Error[1062]: Duplicate entry '13712312312' for key 2
+MySQL Query:INSERT INTO ecm_member(user_name,nick_name,password,member_type,dropState,t_id,reg_time) VALUES('13712312312','13712312312','e10adc3949ba59abbe56e057f20f883e','01','1','119','1399971458')
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[295]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=member&act=register
+2014-05-13 16:57:39  	[256]MySQL Error[1062]: Duplicate entry '13712312312' for key 2
+MySQL Query:INSERT INTO ecm_member(user_name,nick_name,password,member_type,dropState,t_id,reg_time) VALUES('13712312312','13712312312','e10adc3949ba59abbe56e057f20f883e','01','1','119','1399971455')
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[295]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:48:53  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:48:55  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:48:55  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:48:56  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:48:56  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:49:08  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:49:44  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:49:45  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:49:45  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:49:46  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:49:46  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:50:25  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:50:26  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:50:26  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:50:40  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:50:41  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:50:42  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:50:42  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:50:42  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:50:42  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:50:42  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:50:43  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:50:43  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:50:43  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:50:43  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:50:54  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	19
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:50:55  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	19
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:50:55  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	19
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:50:56  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	19
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:50:56  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	19
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:50:56  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	19
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:51:28  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:51:29  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:51:29  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:51:29  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:51:44  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:51:45  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:51:45  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:52:07  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:52:08  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:52:28  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:52:29  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:52:30  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:52:51  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:53:25  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:53:26  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:53:26  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:53:36  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:53:37  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:54:08  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:54:09  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Empty regular expression	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:54:34  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Delimiter must not be alphanumeric or backslash	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:54:36  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Delimiter must not be alphanumeric or backslash	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=test
+2014-05-13 17:54:48  	[2]preg_split() [<a href='function.preg-split'>function.preg-split</a>]: Delimiter must not be alphanumeric or backslash	\app\test.app.php	22
+
+错误url=http://192.168.0.137/index.php?app=default&act=get_vistor
+2014-05-13 17:57:34  	[2]filemtime() [<a href='function.filemtime'>function.filemtime</a>]: stat failed for D:\wamp\www/data/crond.lock	\includes\libraries\cron.lib.php	132

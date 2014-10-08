@@ -1,0 +1,290 @@
+{include file=header1.html}
+<div id="navBartg" class="mb10" >
+    <div class="content">
+        <div id="all-category">
+            <div class="title" style="background:#119f92">
+                <h2 title="商品全部分类"><a href="{r_url app=category}">商品全部分类</a></h2>
+                <i></i></div>
+            <div id="category" class="category pngFix">
+                <ul class="menu">
+                    <!--{foreach from=$gcategorys_left item=gcategory name=gcategory}-->
+                    <!-- {if $smarty.foreach.gcategory.index<7 }-->
+                    <!-- {if !empty($gcategory) }-->
+                    <li id="cat_{$smarty.foreach.gcategory.index}">
+                        <h3><span class="block"><a href="{r_url app=search&cate_id=$gcategory.id}" title="{$gcategory.value|escape}">{$gcategory.value|escape}</a>   </span>
+                         <span>
+                                <a href="{r_url app=search&cate_id=$gcategory.children[0].id}">{$gcategory.children[0].value}</a>
+                                <a href="{r_url app=search&cate_id=$gcategory.children[1].id}">{$gcategory.children[1].value}</a>
+                               <a href="{r_url app=search&cate_id=$gcategory.children[2].id}">{$gcategory.children[2].value}</a>
+                         </span>
+                        </h3>
+                        <div class="cat-menu" id="cat_{$smarty.foreach.gcategory.index}_menu">
+                            <dl>
+                                <dt> {$gcategory.value|escape} </dt>
+                                <dd><!--{foreach from=$gcategory.children item=child}--><a href="{r_url app=search&cate_id=$child.id}">{$child.value|escape}</a> <!--{/foreach}--> </dd>
+                            </dl>
+
+                        </div>
+                    </li>
+                    <!--{/if}-->
+                    <!--{/if}-->
+                    <!--{/foreach}-->
+
+                    <div class="clear"></div>
+                </ul>
+            </div>
+
+        </div>
+        <ul class="nc-nav-menu">
+            <li <!--{if  $smarty.get.app == 'search' && !$brand}-->class="current" <!--{else}--> class="link" <!--{/if}--> ><a href="{r_url app=search&act=groupbuy}" ><span>首页</span></a></li>
+            <li <!--{if $filters.pd_id  eq 8 }-->class="current" <!--{else}--> class="link" <!--{/if}--> ><a href="{r_url app=groupbuy&act=get_pindao_goods&pd_id=8}"><span>家装集</span></a></li>
+            <li  <!--{if $filters.pd_id  eq 9 }-->class="current" <!--{else}--> class="link" <!--{/if}--> ><a class="pngFix" href="{r_url app=groupbuy&act=get_pindao_goods&pd_id=9}"><span class="pngFix">生活集</span></a></li>
+            <li <!--{if $smarty.get.act == 'get_pindao_goods' && !$filters.pd_id && !$brands }-->class="current" <!--{else}--> class="link" <!--{/if}--> ><a href="{r_url app=groupbuy&act=get_pindao_goods}"><span>定制集</span></a></li>
+            <li <!--{if $smarty.get.app == 'search' &&  $brand }-->class="current" <!--{else}--> class="link" <!--{/if}--> ><a href="{r_url app=search&act=groupbuy&groupbuy_brand_id=0}"><span>品牌集</span></a></li>
+            <li class="link"><a href="{url app=service&act=register_service}" target='_blank'><span>抢注服务中心</span></a><em class="em1"></em></li>
+            <!--<li class="link"><a href="#"><span>购物</span></a></li>-->
+            <!--&lt;!&ndash;<li class="link"><a href="#"><span>优惠券</span></a></li>&ndash;&gt;-->
+            <!--<li class="link"><a href="#"><span>品牌秀</span></a></li>-->
+        </ul>
+    </div>
+</div>
+<script type="text/javascript" src="{res file=js/goodsinfo.js}"></script>
+<script type="text/javascript">
+    function increase() {
+        num = parseInt($('#quantity').val());
+        max = parseInt(document.getElementById("stock").value);
+        if(num < max){
+            $('#quantity').val(num+1);
+        }
+    }
+    function decrease() {
+        num = parseInt($('#quantity').val());
+        if(num > 1){
+            $('#quantity').val(num-1);
+        }
+    }
+//    function buy(id) {
+////        var B = false;
+////        $('ul[nctyle="ul_sign"]').each(function () {
+////            if (!$(this).find('a').hasClass('hovered')) {
+////                B = true;
+////            }
+////        });
+////
+////        if (goodsspec.getSpec() == null || B) {
+////            alert('请选择相关规格');
+////            return;
+////        }
+////        var spec_id = goodsspec.getSpec().id;
+////        var quantity = parseInt($("#quantity").val());
+////        if (!quantity >= 1) {
+////            alert("请填写购买数量");
+////            $("#quantity").val('1');
+////            return;
+////        }
+////        max = parseInt($('[nctype="goods_stock"]').text());
+////        if (quantity > max) {
+////            alert("您购买的商品数量，超出了该商品库存，请您重新选择商品数量");
+////            return;
+////        }
+//        add_to_cart(spec_id,quantity);
+//    }
+    function add_to_order()
+    {
+        $("#qt").val($('#quantity').val());
+        $('#groupbuyform').attr('method','post');
+        $("#groupbuyform").submit();
+
+    }
+    // 立即购买js
+    function buynow(spec_id, quantity, type) {
+        login_dialog();
+    }
+
+//    var specs = new Array();
+//    <!--{foreach from=$goods._specs item=spec}-->
+//    specs.push(new spec({$spec.spec_id}, '{$spec.spec_1|escape}', '{$spec.spec_2|escape}',{$spec.price},{$spec.stock}));
+//    <!--{/foreach}-->
+//    var specQty ={$goods.spec_qty};
+//    var defSpec ={$goods.default_spec|escape};
+//    var goodsspec = new goodsspec(specs, specQty, defSpec);
+</script>
+<form id="groupbuyform">
+    <input type="hidden" name="app" value="order">
+    <input type="hidden" name="goods" value="groupbuy">
+    <input type="hidden" name="group_id" value="{$group.group_id}">
+    <input type="hidden" name="quantity" value="" id="qt">
+</form>
+<div class="mbm warp-all">
+<div class="group-nav">
+    <h2>商品团购</h2>
+</div>
+<div class="mbm warp-all content">
+<div class="left2">
+<div class="group">
+<h1><a href="#" target="_blank" title="{$group.group_name}">{$group.group_name}</a></h1>
+<div class="box"><div class="buy-now"><span>{$group.groupbuy_price|price}</span><a href="javascript:add_to_order()">我要团</a></div>
+    <div class="info">
+        <div class="prices">
+            <dl>
+                <dt>市场价</dt>
+                <dd>{$group.price|price}</dd>
+            </dl>
+            <dl>
+                <dt>折扣</dt>
+                <dd>{$group.discount}折</dd>
+            </dl>
+            <dl>
+                <dt>节省</dt>
+                <dd>{$group.jiesheng|price}</dd>
+            </dl>
+        </div>
+
+        <div class="time">
+
+            <!-- 倒计时 距离本期结束 -->
+            <h3>距离本期结束</h3>
+            <p>{$group.lefttime}</p>
+        </div>
+        <div class="require">
+            <h3>本商品已被团购                            <em>
+               {$group.quantity}                          </em>
+                件</h3>
+        </div>
+        <article class="nc-wrap">
+        <div class="nc-spec">
+            <!--&lt;!&ndash; S 商品规格值&ndash;&gt;-->
+            <!--&lt;!&ndash;{if $goods.spec_qty gt 0}&ndash;&gt;-->
+            <!--<dl>-->
+                <!--<dt>{$goods.spec_name_1|escape}:</dt>-->
+                <!--<dd>-->
+                    <!--<ul nctyle="ul_sign"></ul>-->
+                <!--</dd>-->
+            <!--</dl>-->
+            <!--&lt;!&ndash;{/if}&ndash;&gt;-->
+            <!--&lt;!&ndash;{if $goods.spec_qty gt 1}&ndash;&gt;-->
+            <!--<dl>-->
+                <!--<dt>{$goods.spec_name_2|escape}:</dt>-->
+                <!--<dd>-->
+                    <!--<ul nctyle="ul_sign"></ul>-->
+                <!--</dd>-->
+            <!--</dl>-->
+            <!--&lt;!&ndash;{/if}&ndash;&gt;-->
+            <!--&lt;!&ndash; E 商品规格值&ndash;&gt;-->
+            <dl style="padding-left: 20px;">
+                <dt>购买数量：<a href="javascript:decrease()"  style="background-position: 0 -60px;margin: 10px 5px 9px 0;">-</a>
+                    <input type="text" name="" id="quantity" value="1" size="3" maxlength="6"
+                           style="border-radius:0;">
+                    <a href="javascript:increase(0)">+</a> <em >(当前库存<strong
+                            nctype="goods_stock">
+                        <!--{foreach from=$goods._specs item=goods_stock}-->
+                        {$goods_stock.stock}</strong>件)<input type="hidden" id="stock" value="{$goods_stock.stock}"></em>
+                    <!--{/foreach}-->
+                </dt>
+
+            </dl>
+
+            <!--&lt;!&ndash; E 购买数量及库存 &ndash;&gt;-->
+            <!--&lt;!&ndash; S 提示已选规格及库存不足无法购买 &ndash;&gt;-->
+            <!--<dl class="nc-point" nctype="goods_prompt" style="display:none;">-->
+            <!--</dl>-->
+
+
+        </div>
+        <!-- S 购买数量及库存 -->
+       </article>
+    </div>
+    <div class="pic" style="text-align: center">
+        <img src="{img_url $img_url/$goods.default_image/$lang.big_img}">
+        </div>
+</div>
+<div class="clear"></div>
+<div class="content">
+<div class="side-left">
+    <div class="intro"><h3>商品信息</h3><div class="default">
+        <!--{if  $goods.spec_name_1  }-->
+         {$goods.spec_name_1|escape}:<!--{foreach from=$goods._specs item=spec}-->{$spec.spec_1}<!--{/foreach}-->
+        <br><br>
+        {$goods.spec_name_2|escape}:<!--{foreach from=$goods._specs item=spec}-->{$spec.spec_2}<!--{/foreach}-->
+        <br>
+        <!--{/if}-->
+        {$goods.description|escape:editor}</div></div>
+    <div class="buyer"><h3>他们已经买了</h3><table width="100%" border="0" cellspacing="0" cellpadding="0"><thead><tr>
+        <th width="25%" style="text-align:center">买家</th>
+        <th width="15%" style="text-align:center">购买数量</th>
+        <th width="15%" style="text-align:center">单价</th>
+        <th style="text-align:center">下单时间</th>
+    </tr></thead>
+    <tbody>
+    <tr>
+        <td>q123***</td>
+        <td>1</td>
+        <td>&yen;69.00</td>
+        <td>2013-07-10 17:28:16</td>
+    </tr>
+    </tbody>
+        <tfoot><tr><td colspan="4">
+            <span>{$group.groupbuy_price|price}</span>
+            <a href="javascript:add_to_order()"><em>立即购买</em></a>
+        </td></tr></tfoot>
+    </table>
+    </div></div>
+<div class="store">
+    <!-- 店铺信息 -->
+    <h3>店铺信息</h3>
+    <dl>
+        <dt>商品所在店铺</dt>
+        <dd class="store-name">
+
+            <a href="{url app=store&id=$store.store_id}" target="_blank">{$store.store_name}</a>
+
+        </dd>
+    </dl>
+    <!-- 店铺推荐商品 -->
+    <dl>
+        <dt>店铺推荐商品</dt>
+        <!--{foreach from=$recommended_goods item=goods}-->
+        <dd>
+            <p class="pic">
+                        <span class="thumb size120"><i></i>
+                            <a href="{r_url app=goods&id=$goods.goods_id&pd_id=7}" target="_blank">
+                                <img src="{img_url $img_url/$goods.default_image/80X80}" onload="javascript:DrawImage(this,120,120);"></a>
+                        </span>
+            </p>
+            <p class="name"><a href="{r_url app=goods&id=$goods.goods_id&pd_id=7}" target="_blank">{$goods.goods_name}</a></p>
+            <p class="store_price">商城价：<span>&yen;{$goods.price|price}</span></p>
+        </dd>
+      <!--{/foreach}-->
+    </dl>
+</div>
+</div>
+</div>
+</div>
+<div class="right2"><div class="group-hot">
+    <div class="module_sidebar">
+        <h2 style=" font-size: 14px; color: #C00;">本期热门团购</h2>
+        <ul>
+            <!-- {foreach from=$recommended_groupbuy item=groupbuy} -->
+            <li style=' border:none' ><div class="name"><a href="{r_url app=groupbuy&id=$group.group_id}" target="_blank">{$groupbuy.group_name|escape}</a></div>
+                <div class="box">
+                    <div class="price"><span class="l">{$groupbuy.price|price}</span><span class="r">{$groupbuy.goods_price|price}</span></div>
+                    <div class="mask"></div>
+                    <div class="pic"><span class="thumb size168x123"><i></i><a href="{r_url app=groupbuy&id=$group.group_id}" target="_blank"><img src="{$img_url}/{$groupbuy.default_image}" alt="" onload="javascript:DrawImage(this,168,123);"></a></span></div>
+                </div>
+                <div class="info"><span>已购买<em>
+                   {$groupbuy.quantity}        </em>件</span><a href="{r_url app=groupbuy&id=$group.group_id}" target="_blank">去看看</a></div>
+            </li>
+            <!-- {/foreach} -->
+        </ul>
+    </div></div>
+    <div class="group-top10">
+        <div class="module_sidebar">
+            <h2 style=" font-size: 14px; color: #C00;">往期热销排行</h2>
+            <ol>
+            </ol>
+        </div></div>
+</div>
+</div>
+<div class="clear"></div>
+
+{include file=footer1.html}

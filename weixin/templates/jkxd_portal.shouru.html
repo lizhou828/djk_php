@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>我的收入</title>
+    <link href="{$site_url}/weixin/templates/style/com.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/hone.css" rel="stylesheet" type="text/css" />
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+
+    <script type="text/javascript">
+        function jkxd_shouyi(_type){
+            if(_type=="vshop"){
+                window.location='index.php?app=jkxd_portal&act=jkxd_shouyi&type='+_type;
+            }else{
+                window.location='index.php?app=jkxd_portal&act=jkxd_shouyi';
+            }
+
+        }
+        function yue(){
+            window.location='index.php?app=member_account&act=shouyi';
+        }
+        function bank_cards(){
+            window.location='index.php?app=member_bankcard&act=cards';
+        }
+    </script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+</head>
+<body>
+<div style=" width:320px; margin:0px auto;padding-top: 50px;">
+    <div class="enter-t">
+        <a href="javascript:history.go(-1)"><div class="enter-t1">返回</div></a>
+        <div class="enter-t222">我的收入</div>
+    </div>
+    <div class="clear"></div>
+    <div class="enter-bg">
+        <div class="mmore2">
+            <table width="307" border="0" cellspacing="0" cellpadding="0">
+                <tr style="cursor: pointer" onclick="jkxd_shouyi()">
+                    <td width="56" height="33"><img src="{$site_url}/weixin/templates/style/img/xt-6.jpg" width="53" height="33" /></td>
+                    <td width="101" height="33">集客小店收益</td>
+                    <td width="136" align="right" style="font-size: 12px;color: #999999">昨日收益{if !$yesterdayShouyi}0{else}{$yesterdayShouyi|number2}{/if}元 </td>
+                    <td width="17" height="33" align="center">></td>
+                </tr>
+            </table>
+        </div>
+        {if $vshop && $vshop.user_id &&  $vshop.user_id > 0 }
+            <br/>
+            <div class="mmore2">
+                <table width="307" border="0" cellspacing="0" cellpadding="0">
+                    <tr style="cursor: pointer" onclick="jkxd_shouyi('vshop')">
+                        <td width="56" height="33"><img src="{$site_url}/weixin/templates/style/img/xt-6.jpg" width="53" height="33" /></td>
+                        <td width="130" height="33">精品集客小店收益</td>
+                        <td width="100" align="right" style="font-size: 12px;color: #999999">昨日收益{if !$vshopYesterdayShouyi}0{else}{$vshopYesterdayShouyi|number2}{/if}元 </td>
+                        <td width="17" height="33" align="center">></td>
+                    </tr>
+                </table>
+            </div>
+        {/if}
+
+        <div class="mmore1">
+            <table width="307" border="0" cellspacing="0" cellpadding="0">
+                <tr style="cursor: pointer" onclick="yue()">
+                    <td width="55" height="33"><img src="{$site_url}/weixin/templates/style/img/1.png" width="53" height="33" /></td>
+                    <td width="160" height="33">收益/抽奖账户余额</td>
+                    <td width="66" align="right" style="font-size: 12px;color: #999999">{if !$member_finance.koushui_yue}0{else}{$member_finance.koushui_yue|number2}{/if}元</td>
+                    <td width="26" height="33" align="center">&gt;</td>
+                </tr>
+                <div class="clear"></div>
+                <tr>
+                    <td colspan="4"><img src="{$site_url}/weixin/templates/style/img/fen.jpg" width="307" height="1" /></td>
+                </tr>
+                <tr onclick="bank_cards()" style="cursor: pointer">
+                    <td width="55" height="33"><img src="{$site_url}/weixin/templates/style/img/2.png" width="53" height="33" /></td>
+                    <td height="33">我的银行卡 </td>
+                    <td height="33" align="right" style="font-size: 12px;color: #999999">共{$user.bank}张</td>
+                    <td height="33" align="center">&gt;</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    {include file=jkxd_portal.footer.html}
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+</div>
+</body>
+</html>

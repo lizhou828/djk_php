@@ -1,0 +1,190 @@
+{include file=header.html}
+
+<link href="{res file=css/home_tg.css}" rel="stylesheet" type="text/css">
+<script language="JavaScript">
+    //鼠标触及更替li样式
+    $(document).ready(function(){
+        $("#list").hide();
+        $("#button_show").click(function(){
+            $("#list").toggle();
+        });
+        $("#button_close").click(function(){
+            $("#list").hide();
+        });
+        $('.group-list').children('ul').children('li').bind('mouseenter',function(){
+            $('.group-list').children('ul').children('li').attr('class','c1');
+            $(this).attr('class','c2');
+        });
+        $('.group-list').children('ul').children('li').bind('mouseleave',function(){
+            $('.group-list').children('ul').children('li').attr('class','c1');
+        });
+        var area = $("#market_area").val();
+        if(area == null || area =="") {
+            $("#show_area_name").html("全国");
+            $("#market_area").val('');
+        }
+        else {
+            $("#show_area_name").html(area);
+            $("#market_area").val(area);
+        }
+    });
+
+    //提交查询
+    function submit_search() {
+        $('#search_form').attr('method','get');
+        $('#search_form').submit();
+    }
+    //超市地区筛选
+    function set_market_area(area,reg_id) {
+        if(area == '') {
+            $("#market_area").val('');
+        }
+        else {
+            $("#market_area").val(area);
+            $("#market_reg_id").val(reg_id);
+        }
+        submit_search();
+    }
+    //超市分类筛选
+    function set_market_class(class_id) {
+        $("#market_class").val(class_id);
+        submit_search();
+    }
+    //超市价格筛选
+    function set_market_price(price_range) {
+        $("#market_price").val(price_range);
+        submit_search();
+    }
+    //超市价格筛选
+    function set_market_order(order_key) {
+        if(order_key == $("#market_order_key").val()) {
+            change_market_order();
+        }
+        else {
+            $("#market_order").val('asc');
+        }
+        $("#market_order_key").val(order_key);
+        submit_search();
+    }
+    //超市排序筛选
+    function change_market_order() {
+        if($("#market_order").val() == 'asc') {
+            $("#market_order").val('desc');
+        }
+        else {
+            $("#market_order").val('asc');
+        }
+    }
+</script>
+<div id="center_w1200">
+{include file=common_search.html}
+{include file=common.html}
+
+    <!--<div id="headRelative">-->
+        <!--<div class="title">-->
+            <!--<h1></h1>-->
+            <!--<div class="city"> <a href="javascript:void(0)" id="button_show">-->
+                <!--<h2 id="show_area_name">切换</h2>-->
+            <!--</a> </div>-->
+        <!--</div>-->
+        <!--<div id="list" class="list" style="display:none;"><a id="button_close" class="close" href="javascript:void(0)" >x</a>-->
+            <!--<ul>-->
+                <!--<li><a href="javascript:void(0)" onClick="set_market_area('')" >全国</a></li>-->
+                <!--&lt;!&ndash;{foreach from=$region item=reg key=key}&ndash;&gt;-->
+                <!--<li><a href="javascript:void(0)" onClick="set_market_area('{$reg}','{$key}')" >{$reg}</a></li>-->
+                <!--&lt;!&ndash;{/foreach}&ndash;&gt;-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</div>-->
+<form id="search_form">
+    <input name="app" type="hidden" value="market">
+    <input name="act" type="hidden" value="get_market_sub">
+    <input name="pd_id" type="hidden" value="5">
+    <input id="market_area" name="market_area" type="hidden" value="{$filter.market_area}"/>
+    <input id="market_class" name="market_class" type="hidden" value=""/>
+    <input id="market_reg_id" name="market_reg_id" type="hidden" value="{$filter.market_reg_id}"/>
+</form>
+
+<!--超市内容1-->
+<div class="chaoshi_1">
+    <div class="left">
+        <ul class="lul">
+            <!--{foreach from=$market_category item=gcategory name=gcategory}-->
+            <!-- {if $smarty.foreach.gcategory.index<7 }-->
+            <!-- {if !empty($gcategory) }-->
+            <li style="border-top:none">
+                <span class="span1">{$gcategory.value|truncate:22:"……"} </span>
+                         <span class="span2">
+                               <a href="{r_url app=search&cate_id=$gcategory.children[0].id}">{$gcategory.children[0].value}</a>
+                               <a href="{r_url app=search&cate_id=$gcategory.children[1].id}">{$gcategory.children[1].value}</a>
+                               <a href="{r_url app=search&cate_id=$gcategory.children[2].id}">{$gcategory.children[2].value}</a>
+                         </span>
+
+                <div class="fl cat-menu" id="market_{$smarty.foreach.gcategory.index}_menu" style="width: 500px;height: 287px;">
+                    <dl>
+                        <dt> {$gcategory.value|escape} </dt>
+                        <dd><!--{foreach from=$gcategory.children item=child}--><a href="{r_url app=search&cate_id=$child.id}">{$child.value|escape}</a> <!--{/foreach}--> </dd>
+                    </dl>
+
+                </div>
+            </li>
+            <!--{/if}-->
+            <!--{/if}-->
+            <!--{/foreach}-->
+
+        </ul>
+    </div>
+    <div class="right"><a href="{url app=article&act=view&article_id=28}" target="_blank"><img src="{res file=images/ch_banner.jpg}"></a></div>
+</div>
+<!--超市内容1-->
+<div class="chaoshi_2">
+    <div class="left">
+        <div class="chtitle">最新商品</div>
+        <div class="chnei">
+            <ul class="fl">
+                <!--{foreach from=$new_goods item=goods}-->
+                <li>
+                    <a href="{r_url app=goods&id=$goods.goods_id}" target="_blank" title="{$goods.goods_name|escape}"><img src="{img_url $img_url/$goods.default_image/160X160}" onload="javascript:DrawImage(this,168,168);" width="168" height="168"></a>
+                    <a href="{r_url app=goods&id=$goods.goods_id}" class="name" target="_blank" title="{$goods.goods_name|escape}">{$goods.goods_name|escape}</a>
+                    <p><strong>{$goods.price|price}</strong></p>
+                </li>
+                <!--{/foreach}-->
+            </ul>
+        </div>
+    </div>
+    <div class="right">
+        <div class="top"><img src="{res file=images/ch_pic5.jpg}" width="237" height="139"></div>
+        <div class="bottom"><img src="{res file=images/ch_pic6.jpg}" width="237" height="139"></div>
+    </div>
+</div>
+
+<!--楼层1-->
+<!--{foreach from=$goods_list item=goods name=my_goods}-->
+<!--{if $smarty.foreach.my_goods.iteration <5}-->
+<div class="chaoshi_3">
+    <div class="title{$smarty.foreach.my_goods.iteration}">
+        <div class="ti{$smarty.foreach.my_goods.iteration}">{$goods.cate_name|truncate:20:"…"}</div>
+        <span class="txt">
+            <a href="{r_url app=search&cate_id=$goods.children_cate[0].cate_id}">{$goods.children_cate[0].cate_name}</a><a href="{r_url app=search&cate_id=$goods.children_cate[1].cate_id}">{$goods.children_cate[1].cate_name}</a><a href="{r_url app=search&cate_id=$goods.children_cate[2].cate_id}">{$goods.children_cate[2].cate_name}</a><a href="{r_url app=search&cate_id=$goods.children_cate[3].cate_id}">{$goods.children_cate[3].cate_name}</a><a href="{r_url app=search&cate_id=$goods.children_cate[4].cate_id}">{$goods.children_cate[4].cate_name}</a>
+        </span>
+    </div>
+    <div class="nor">
+        <div class="left"><a href="{r_url app=search&cate_id=$goods.cate_id}"><img src="{res file=images/ch_f1.jpg}" width="213" height="339"></a></div>
+        <div class="right">
+            <ul>
+                <!--{foreach from=$goods.goods item=gd }-->
+                <li>
+                    <div class="p_img"><a href="{r_url app=goods&id=$gd.goods_id}" target="_blank" title="{$gd.goods_name}"><img src="{img_url $img_url/$gd.default_image/160X160}" target="_blank" onload="javascript:DrawImage(this,100,100);" width="100" height="100"></a></div>
+                    <div class="p_name"><a href="{r_url app=goods&id=$gd.goods_id}" target="_blank" title="{$gd.goods_name}">{$gd.goods_name}</a></div>
+                    <div class="p_price"><strong>{$gd.price|price}</strong></div>
+                </li>
+                <!--{/foreach}-->
+
+            </ul>
+        </div>
+    </div>
+</div>
+<!--{/if}-->
+<!--{/foreach}-->
+
+{include file=footer.html}

@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>订单列表</title>
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/order-inquiry.css" rel="stylesheet" type="text/css" />
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$SITE_URL}/weixin/templates/js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+    <script type="text/javascript">
+        function deleteOrder(order_id){
+            var flag = confirm("删除订单后无法找回，你确定要删除该订单吗?");
+            if(flag){
+                $.get(
+                        "{$site_url}/weixin/index.php?app=member_order&act=delete",
+                        {"order_id":order_id},
+                        function(result){
+                            var result = eval("("+result+")");
+                            alert(result.msg);
+                            window.location.reload();
+                        })
+            }
+        }
+        $(function(){
+            var status= "{$time}";
+            if(status == 'recentThreeMonths' || status == ""){
+                $(".cancel1-r").css({"background":"none repeat scroll 0 0 #CCCCCC"});
+                $(".cancel1-l").css({"background":"none repeat scroll 0 0 #999999"});
+            }else{
+                $(".cancel1-1").css({"background":"none repeat scroll 0 0 #CCCCCC"});
+                $(".cancel1-r").css({"background":"none repeat scroll 0 0 #999999"});
+            }
+        });
+    </script>
+</head>
+<body>
+<div style="width: 320px;margin: 0px auto">
+<div style="padding-top: 50px;">
+<div class="address-t" >
+    <div class="address-l"><a href="javascript:history.go(-1)">返回</a></div>
+    <div class="address-c2" style="padding-left: 55px;">订单列表</div>
+    {include file=member.index_header.html}
+</div>
+<div class="Safety-cen-1">
+    <div class="cancel1">
+        <a href="{$site_url}/weixin/index.php?app=member_order&act=all&user_id={$user.user_id}&status={$status}&time=recentThreeMonths"><div class="cancel1-l">近3个月的订单</div></a>
+        <a href="{$site_url}/weixin/index.php?app=member_order&act=all&user_id={$user.user_id}&status={$status}&time=threeMonthsAgo"><div class="cancel1-r">3个月前的订单</div></a>
+    </div>
+    {if !$orders || count($orders) == 0}
+        {if $time=='threeMonthsAgo'}
+            <div class="my1">
+                <p><img src="{$site_url}/weixin/templates/style/images/k-n.png" width="93" height="93" alt="哭脸" /></p>
+                <p style="text-align: center">没有符合条件的结果!</p>
+            </div>
+        {else}
+            <div class="my1">
+                <p><img src="{$site_url}/weixin/templates/style/images/k-n.png" width="93" height="93" alt="哭脸" /></p>
+                <p style="text-align: center">您最近还没购买过任何商品，快去购物吧!</p>
+            </div>
+        {/if}
+    {else}
+        {foreach from=$orders item=order}
+            <div class="image-text0">
+
+                <div class="image-text-t">
+                    <div class="image-text-t1">
+                        <p>订单编号：{$order.order_sn}</p>
+                        <p>下单时间：{$order.add_time|date:Y-m-d H:i:s}
+                        </p>
+                    </div>
+                    <div class="image-text-t2">
+                        <a href="javascript:void(0)" onclick="deleteOrder('{$order.order_id}')">
+                            <img src="{$site_url}/weixin/templates/style/images/la-ji.jpg" width="23" height="27" />
+                        </a>
+                    </div>
+                </div>
+                <a href="{$site_url}/weixin/index.php?app=member_order&act=detail&order_id={$order.order_id}">
+                <div class="image-text-c">
+                    {foreach from=$order.order_goods item=goods}
+                        <dl>
+                            <dt>
+                                {if !$goods.goods_image}
+                                    <img src="{$site_url}/data/system/default_goods_image.gif" width="100" height="100" alt="{$goods.goods_name|truncate:30:.....}" />
+                                {else}
+                                    <img src="{$site_url}/{$goods.goods_image}" width="100" height="100" alt="{$goods.goods_name|truncate:30:.....}" />
+                                {/if}
+                            </dt>
+                            <dd>
+                                <h3>{$goods.goods_name}</h3>
+                                <p>{$goods.specification}</p>
+                                <strong>￥{$goods.price|number2}×{$goods.quantity}</strong>
+                            </dd>
+                        </dl>
+                    {/foreach}
+                </div>
+                </a>
+                <div class="image-text-b">
+                    <div class="image-text-b1">
+                        <p>订单金额：<span>{$order.order_amount|number2}</span></p>
+                        <p>订单状态：<span>
+                            {if $order.status==0}
+                                已取消
+                            {elseif $order.status==10}
+                                已付款
+                            {elseif $order.status==11}
+                                待付款
+                            {elseif $order.status==20}
+                                待发货
+                            {elseif $order.status==30}
+                                已发货
+                            {elseif $order.status==40}
+                                订单完成
+                            {/if}
+                        </span>
+                        </p>
+                    </div>
+                    {if $user.member_type == 01 && $order.status == 11  && $order.is_daifu != 1}
+                        <a href="{$site_url}/weixin/index.php?app=member_order&act=detail&order_id={$order.order_id}">
+                            <div class="image-text-b2">
+                                {if $order.yue + $order.koushui_yue > 0 }
+                                    支付余款
+                                {else}
+                                    立即支付
+                                {/if}
+                            </div>
+                        </a>
+                    {else}
+                        <div class="image-text-b2" style="background: none repeat scroll 0 0 #CCCCCC">商家代付</div>
+                    {/if}
+                </div>
+
+            </div>
+            <div class="blank" style="height:10px;"></div>
+        {/foreach}
+
+
+    <!--分页开始-->
+        <script type="text/javascript">
+            function formerPage(curr_page,page_count){
+//                alert(curr_page-1);
+                var page = parseInt(curr_page)-1
+                if( page> 0 ){
+                    window.location ="{$site_url}/weixin/index.php?app=member_order&act=all&user_id={$user_id}&time={$time}&status={$status}&page="+page;
+                }else{
+                    alert("已经到了首页！");
+                    return;
+                }
+            }
+            function nextPage(curr_page,page_count){
+                var page = parseInt(curr_page)+1;
+                if(page > page_count){
+                    alert("已经到了最后一页！");
+                }else{
+                    window.location ="{$site_url}/weixin/index.php?app=member_order&act=all&user_id={$user_id}&time={$time}&status={$status}&page="+page;
+                }
+            }
+        </script>
+        <div class="ddi">
+            <div class="left" style="width: 235px; padding-left: 75px;">
+                <a href="javascript:formerPage('{$page.curr_page}','{$page.page_count}')" class="a1" style="margin-right: 20px;"></a>
+                <a style="float: left; height: 26px; line-height: 26px; font-family: tahoma; font-size: 14px; margin-right: 20px;">{$page.curr_page}/{$page.page_count}</a>
+                <a href="javascript:nextPage('{$page.curr_page}','{$page.page_count}')" class="a2"></a>
+            </div>
+        </div>
+    <!--分页结束-->
+    {/if}
+
+    <div class="00" style="height:50px;"></div>
+
+</div>
+</div>
+</div>
+{include file=cnzz.html}
+</body>
+</html>

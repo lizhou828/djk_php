@@ -1,0 +1,88 @@
+{include file="header.html"}
+<script charset="utf-8" type="text/javascript" src="{lib file=mlselection.js}" ></script>
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js"></script>
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js"></script>
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+<div id="rightTop">
+  <p>编辑奖池奖品</p>
+  <ul class="subnav">
+  </ul>
+</div>
+<div class="info">
+  <form method="post"  action="index.php?app=prize2&act=save" >
+    <table class="infoTable">
+
+      <tr>
+          <th></th>
+        <td class="paddingT15"><span style="color: red">{$error6}</span></td>
+      </tr>
+      <!--{foreach from=$prize item=prize2 name=pr}-->
+      <!--{if $smarty.foreach.pr.index == 0}-->
+      <tr>
+        <th class="paddingT15"> 级别:</th>
+        <td class="paddingT15 wordSpacing5">
+               <!--{foreach from=$level item=lv key=k}-->
+               <!--{if $prize2.jibie == $k}-->{$lv}<!--{/if}-->
+               <!--{/foreach}-->
+        <span style="color: red">{$error1}</span>
+        </td>
+      </tr>
+      <tr>
+        <th class="paddingT15"> 金额:</th>
+        <td class="paddingT15 wordSpacing5"><input class="infoTableInput2" name="jine" type="text" id="jine"  value="{$prize2.jine}"/>
+            <span style="color: red">{$error2}</span>
+        </td>
+      </tr>
+        <tr>
+            <th class="paddingT15"> 抽奖时间:</th>
+            <td class="paddingT15 wordSpacing5">
+                {$prize2.choujiang_date}
+                <span style="color: red">{$error3}</span>
+            </td>
+        </tr>
+        <tr>
+            <th class="paddingT15"> 奖品数量:</th>
+            <td class="paddingT15 wordSpacing5"><input class="infoTableInput2" name="count" type="text" id="count" value="{$prize2.count}"/>
+                <span style="color: red">{$error4}</span>
+            </td>
+        </tr>
+        <tr>
+            <th class="paddingT15"> 该级总奖金:</th>
+            <td class="paddingT15 wordSpacing5">
+                <input class="infoTableInput2" name="sum_jine" type="text" id="sum_jine" value="{$prize2.sum_jine}" />
+                <span style="color: red">{$error5}</span>
+            </td>
+        </tr>
+        <tr>
+            <th class="paddingT15"> 该级奖池总奖金:</th>
+            <td class="paddingT15 wordSpacing5">
+                <input class="infoTableInput2" name="sum_jine2" type="text" id="sum_jine2" value="{$prize2.sum_jine2}" />
+                <span style="color: red">{$error7}</span>
+            </td>
+        </tr>
+        <tr>
+            <th class="paddingT15"> 奖池数量:</th>
+            <td class="paddingT15 wordSpacing5">
+                <input class="infoTableInput2" name="pool_count" type="text" id="pool_count" value="{$prize2.pool_count}" />
+                <span style="color: red">{$error8}</span>
+            </td>
+        </tr>
+      <tr>
+          <!--{/if}-->
+          <!--{/foreach}-->
+        <th></th>
+        <td class="ptb20">
+          <input type="hidden" name="jibie" value="{$prize2.jibie}">
+          <input type="hidden" name="choujiang_date" value="{$prize2.choujiang_date}">
+          <input class="formbtn" type="submit" value="{$lang.submit}"/>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
+<script>
+    regionInit("region");
+    $('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+    $('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+</script>
+{include file="footer.html"} 

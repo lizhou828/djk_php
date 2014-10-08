@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>手机绑定</title>
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/Safety.css" rel="stylesheet" type="text/css" />
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$SITE_URL}/weixin/templates/js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+</head>
+<body>
+<div style="width: 320px;margin: 0px auto">
+    <div style="padding-top: 50px;">
+<div class="address-t">
+    <div class="address-l"><a href="javascript:history.go(-1)">返回</a></div>
+    <div class="address-c2">手机绑定</div>
+    {include file=member.index_header.html}
+</div>
+<div class="Safety-cen">
+    <form>
+        <div class="pay">
+            <dl>
+                <dd><img src="{$site_url}/weixin/templates/style/images/safety/1-bg.png" width="35" height="35" alt="身份验证" /><dd>
+                <dt>身份验证<dt>
+            </dl>
+            <dl>
+                <dd><img src="{$site_url}/weixin/templates/style/images/safety/2-bg-h.png" width="35" height="35" alt="身份验证" /><dd>
+                <dt>输入手机<dt>
+            </dl>
+            <dl>
+                <dd><img src="{$site_url}/weixin/templates/style/images/safety/3-bg-h.png" width="35" height="35" alt="身份验证" /><dd>
+                <dt style="color:#c40000;">绑定成功<dt>
+            </dl>
+        </div>
+        <div class="clear"></div>
+        <div class="phone4">
+            <span><img src="{$site_url}/weixin/templates/style/images/safety/phone-bg.jpg" width="41" height="69" alt="手机" /></span>
+            <p>您的手机已经绑定该帐号</p>
+            <p><s>绑定的手机号码：</s><strong>{$user.phone_mob}</strong></p>
+        </div>
+        <div class="phone1-hint">绑定手机不收取任何费用，一个手机只能绑定一个帐号。若需修改或解除已绑定的手机，请联系大集客客服</div>
+        <a href="index.php?app=member"><div class="next-step">返回个人主页</div></a>
+        <form/>
+</div>
+    </div>
+</div>
+{include file=cnzz.html}
+</body>
+</html>

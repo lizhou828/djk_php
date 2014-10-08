@@ -1,0 +1,394 @@
+{include file=member.header.html}
+<style>
+    .show_alert{
+        /*background-color: #F5F5F5;*/
+        border: 1px solid #D8D8D8;
+        margin-top: -10px;
+        margin-left: 2px;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        color:#919191;
+        line-height: 20px;
+        display: block;
+    }
+    .show_alert strong{ color:red}
+
+    .p1 span {
+        color: red;
+        font-size: 14px;
+        font-weight: bold;
+    }
+    .remind dd span {
+        color: red;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+</style>
+<div class="content" style="position: relative;">
+<div style="position:fixed!important; position:absolute;bottom:35px!important; bottom:auto; top: expression(eval(document.compatMode && document.compatMode=='CSS1Compat') ? documentElement.scrollTop+(documentElement.clientHeight - this.clientHeight):document.body.scrollTop+(document.body.clientHeight - this.clientHeight));left: 1150px; width: 92px;height: 82px;z-index:9999"><a href="index.php?app=jkxd_portal" target="_blank" style="color: #285ACB; margin-left:20px"><img src="{$site_url}/themes/mall/default/styles/default/images/member/00025.png"></a></div>
+    {include file=member.menu.html}
+    <div id="right">
+
+        <ul class="tab">
+            <li class="<!--{if !$smarty.get.act }-->active<!--{else}-->normal<!--{/if}-->"  ><a href="index.php?app=member&p=userInfo">账户概览</a></li>
+        </ul>
+
+        <div class="wrap">
+            <div class="public">
+
+                <div class="tsh" style="margin-top: 0px;">
+                    <dl>
+                        
+                        <!--{if !$user.phone_mob || $user.phone_mob=='' || $user.phone_mob_bind_status==0 || !$user.email || $user.email==''}-->
+                        <dd style="background:url({$site_url}/themes/mall/default/styles/default/images/member/ico_0009.png) no-repeat;"></dd>
+                        <dt>
+                        <p class="p1">&nbsp;&nbsp;&nbsp;&nbsp;您的账户&nbsp;&nbsp;  <span style="color: red">安全系数 一般</span></p>
+                        <!--{else}-->
+                        <dd style="background:url({$site_url}/themes/mall/default/styles/default/images/member/ico_0009_1.png) no-repeat;"></dd>
+                        <dt>
+                        <p class="p1">&nbsp;&nbsp;&nbsp;&nbsp;您的账户&nbsp;&nbsp;  <span style="color: red">安全系数 很高</span></p>
+                        <!--{/if}-->
+                        </dt>
+                        
+                         <!--{if !$user.phone_mob || $user.phone_mob==''}-->
+                        <p class="p2" style="margin-left: 35px">
+                        <span class="field_notice" style="float: right; margin-right: 15px">未设置</span>
+                        <a href="index.php?app=member&act=aqzx&p=userInfo" style="float:right; margin-right:200px; color:blue">[点击马上设置]</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;您还没有绑定安全手机，请尽快设置安全手机！
+                        </p>
+                        
+                        <!--{else}-->
+                            <!--{if $user.phone_mob_bind_status eq 0 }-->
+                            <p class="p2">
+                            <span class="field_notice" style="float: right; margin-right: 15px">未验证</span>
+                            <a href="index.php?app=member&act=aqzx&p=userInfo" style="float:right; margin-right:200px; color:blue">[点击马上验证]</a>
+                            &nbsp;&nbsp;&nbsp;&nbsp;手机号： {$user.phone_mob|hidden} &nbsp;&nbsp;
+                            &nbsp;&nbsp;
+                            </p>
+                            <!--{else}-->
+                            <p class="p2" style="margin-top:5px;">  
+                            <span class="field_notice" style="float: right; margin-right: 15px">已绑定</span>
+                            <a href="index.php?app=member&act=aqzx&p=userInfo" style="float:right; margin-right:200px; color:blue">[点击马上修改]</a>
+                            &nbsp;&nbsp;&nbsp;&nbsp;手机号： {$user.phone_mob|hidden} &nbsp;&nbsp;
+                                </p>
+                            <!--{/if}-->
+                        <!--{/if}-->
+                        
+                         <!--{if !$user.email || $user.email==''}-->                        
+                        <p class="p2" style="margin-left: 35px">
+                        <span class="field_notice" style="float: right; margin-right: 15px">未设置</span>
+                        <a href="index.php?app=member&act=aqzx&p=userInfo" style="float:right; margin-right:200px; color:blue">[点击马上设置]</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;您还没有绑定安全邮箱，请尽快设置安全邮箱！
+                        </p>
+                        
+                        <!--{else}-->
+                            <!--{if $user.email_bind_status eq 0 }-->
+                            <p class="p2">
+                            <span class="field_notice" style="float: right; margin-right: 15px">未验证</span>
+                            <a href="index.php?app=member&act=aqzx&p=userInfo" style="float:right; margin-right:200px; color:blue">[点击马上验证]</a>
+                            &nbsp;&nbsp;&nbsp;&nbsp;邮箱： {$user.email|hidden}  &nbsp;&nbsp;
+                            &nbsp;&nbsp;
+                            </p>
+                            <!--{else}-->
+                            <p class="p2">
+                            <span class="field_notice" style="float: right; margin-right: 15px">已绑定</span>
+                            <a href="index.php?app=member&act=aqzx&p=userInfo" style="float:right; margin-right:200px; color:blue">[点击马上修改]</a>
+                            &nbsp;&nbsp;&nbsp;&nbsp;邮箱：{$user.email|hidden} &nbsp;&nbsp; &nbsp;&nbsp;
+                                </p>
+                            <!--{/if}-->
+
+                        <!--{/if}-->
+                        
+                        
+                        
+                        <!--{if !$user.password2 || $user.password2==''}-->
+                     	<p class="p2" style="margin-left: 35px">
+                        <span class="field_notice" style="float: right; margin-right: 15px">未设置</span>
+                        <a href="index.php?app=member&act=aqzx&p=userInfo" style="float:right; margin-right:200px; color:blue">[点击马上设置]</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;您还没有设置支付密码，请尽快设置支付密码！
+                        </p>
+                        <!--{else}-->
+                        <!--{if $user.email_bind_status eq 0 }-->
+                        <p class="p2" style="margin-left: 35px">
+                        <span class="field_notice" style="float: right; margin-right: 15px">未验证</span>
+                        <a href="index.php?app=member&act=aqzx&p=userInfo" style="float:right; margin-right:200px; color:blue">[点击马上验证]</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;支付密码： **********  &nbsp;&nbsp; &nbsp;&nbsp;
+                        </p>
+                        <!--{else}-->                        
+                        <p class="p2" style="margin-left: 35px">
+                        <span class="field_notice" style="float: right; margin-right: 15px">已设置</span>
+                        <a href="index.php?app=member&act=aqzx&p=userInfo" style="float:right; margin-right:200px; color:blue">[点击马上修改]</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;支付密码： **********  &nbsp;&nbsp; &nbsp;&nbsp;
+                        </p>
+                        <!--{/if}-->
+                        <!--{/if}-->
+                        	
+                        
+                    </dl>
+                </div>
+
+                <div class="mumber_g">
+                    <dl>
+                        <dd>
+                            <img src="{img_url $img_url/$user.portrait/130X130}" style="border:1px solid #a0a0a0;" width="130" height="130" alt="" /><br><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.php?app=member&act=profile&p=userInfo" style="color: #285ACB;">编辑个人资料</a>
+                            </dd>
+                        <dt>
+
+                        <div class="k1" style="height: 150px;">
+                            <div class="lt">
+
+                                <span class="sp3" style="width: 433px; text-align: left;">
+                                    <img src="{$site_url}/themes/mall/default/styles/default/images/help-round.png" title="包括抽奖现金所得及集客小店的收益。现金收益余额可以随时在线购物交易；收益余额达到100元可以随时申请提现，申请提现金额除去应扣除的国家规定的税金部分和银行手续费后,3-5个工作日内完成结算。"  style="padding-right:6px;vertical-align: middle;"/>收益/抽奖账户余额：
+                                   <!--{if  $user.koushui_yue >=0}--> <strong id="koushui" style="color: #D0281E; font-family: tahoma;">  {$user.koushui_yue|number2}</strong> <em>元</em> &nbsp;&nbsp;&nbsp;
+                                    <!--{if $noTixian}-->
+                                    <!--{else}-->
+                                        <!--{if $user.koushui_yue >=100 }-->
+                                            <a href="javascript:;" ectype="dialog"  uri="index.php?app=member&act=tixian&p=koushui" ectype="dialog" dialog_id="tixian_page" dialog_tixian dialog_width="550" style="color: #285ACB;">提现</a>
+                                        <!--{else}-->
+                                            <a href="javascript:alert('提现金额必须大于100');void(0)"  style="color: #285ACB;">提现</a>
+                                        <!--{/if}-->
+                                    <!--{/if}-->
+                                    <!--{else}--> <i style="color: #666666">服务器繁忙，获取用户信息失败，请稍后再试... </i> <!--{/if}-->
+
+                                </span>
+                                <span class="sp3" style="width: 433px; text-align: left;">
+                                    <img src="{$site_url}/themes/mall/default/styles/default/images/help-round.png" title="{if $storeFlg}营业额/{/if}充值金额可随时在线支付交易或申请提现。申请提现金额扣除银行手续费后3-5个工作日完成结算。"  style="padding-right:6px;vertical-align: middle;" />{if $storeFlg}营业额/{/if}充值账户余额：
+                                    <!--{if  $user.unkoushui_yue >=0}--> <strong id="unkoushui" style="color: #D0281E; font-family: tahoma;"> {$user.unkoushui_yue|number2}</strong> <em>元</em>
+                                    <!--{if $noTixian}-->
+                                    <!--{else} -->
+                                          <!--{if $user.unkoushui_yue >=100 }-->
+                                            <a href="javascript:;" ectype="dialog" title="提取不扣税账户（包括营业额/充值）的余额" uri="index.php?app=member&act=tixian&p=unkoushui" ectype="dialog" dialog_id="tixian_page" dialog_tixian dialog_width="550" style="color: #285ACB;">提现</a>
+                                          <!--{else}-->
+                                            <a href="javascript:alert('提现金额必须大于100');void(0)"  style="color: #285ACB;">提现</a>
+                                         <!--{/if}-->
+                                    <!--{/if}-->
+                                    <!--{else}--> <i style="color: #666666">服务器繁忙，获取用户信息失败，请稍后再试... </i> <!--{/if}-->
+                                </span>
+                                <!--&lt;!&ndash;{if $storeFlg}&ndash;&gt;-->
+                                <!--<span class="sp3">营业额：</span>-->
+                                <!--<span class="sp4"><strong style="color:#333" id="yye">{$user.yye|number2}</strong> <em>元</em></span>-->
+                                <!--&lt;!&ndash;{/if}&ndash;&gt;-->
+                                <span class="sp3" >我的积分：</span>
+
+                                <span class="sp4">
+                                      <!--{if  $user.jifen >=0 }-->
+                                    <strong style="color:#333" id="jifen">{$user.jifen}</strong>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.php?app=jifen" target="_blank" style="color: #285ACB;">去积分商城兑换 >>
+                                </a>
+                                 <!--{else}--><i style="color: #666666">服务器繁忙，获取用户信息失败，请稍后再试... </i> <!--{/if}-->
+                                </span>
+
+                                <span class="sp3">抽奖权：</span>
+                                <span class="sp4">共有<strong style="color:#333"><!--{if $user.all_choujiang}-->{$user.all_choujiang}<!--{else}-->0<!--{/if}--></strong>个，其中可用抽奖权有<strong style="color:#333"><!--{if $user.choujiang}-->{$user.choujiang}<!--{else}-->0<!--{/if}--></strong>个
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/index.php?app=member&act=cj" class="cj_link" style="color: #285ACB;">现在去抽奖 >></a>
+                                </span>
+                                <span class="sp3">消费金额：</span>
+                                <span class="sp4"><!--{if  $user.xiaofei_jine >=0}--><strong style="color:#333" id="xiaofei_jine">{$user.xiaofei_jine|number2}</strong> <em>元</em><!--{else}--><i style="color: #666666">服务器繁忙，获取用户信息失败，请稍后再试...</i><!--{/if}--></span>
+                            </div>
+                            <div class="rt">
+                                <span><a href="index.php?app=member&p=userinfo&act=showYueLog&o=koushui" style="color: #285ACB;">[查看详细]</a></span>
+                                <span><a href="index.php?app=member&p=userinfo&act=showYueLog&o=unkoushui" style="color: #285ACB;">[查看详细]</a></span>
+                                <!--&lt;!&ndash;{if $seller_stat}&ndash;&gt;-->
+                                <!--<span style="display: block; height: 20px;"><span><a href="index.php?app=member&p=userinfo&act=showYueLog&type=4" style="color: #285ACB;">[查看详细]</a></span></span>-->
+                                <!--&lt;!&ndash;{/if}&ndash;&gt;-->
+                                <span><a href="index.php?app=member&p=userinfo&act=showJifenLog" style="color: #285ACB;">[查看详细]</a></span>
+                                <span>&nbsp;</span>
+                                <span><a href="index.php?app=member&p=userinfo&act=showChoujiangquanLog" style="color: #285ACB;">[查看详细]</a></span>
+
+                            </div>
+                        </div>
+                        </dt>
+                    </dl>
+                </div>
+                <div class="clear"></div>
+                <div class="bot"><input id="chouzhi_btn" name="chouzhi_btn" style="cursor: pointer" type="button" value="充值"  class="input1"/>
+                    <!--<a href="javascript:;" ectype="dialog" uri="index.php?app=member&act=tixian" ectype="dialog" dialog_id="tixian_page" dialog_tixian dialog_width="550">提现</a></div>-->
+
+
+
+
+                <div class="wrap_bottom" ></div>
+        </div>
+                </div>
+        <div class="wrap_line margin1" >
+            <div class="public_index">
+                <div class="information_index">
+                    <h3 class="title">{$lang.buyer_remind}</h3>
+                    <br><br>
+
+                    <!--{if $flag}-->
+                        <!--{if $user.member_type = 1}-->
+                            <div style="text-align: center;color: #27A196">亲爱的{$user.nick_name}您好，欢迎您成为大集客认证会员</div>
+                        <!--{else}-->
+                            <div>亲爱的{$user.user_name}您好，欢迎您成为大集客服务中心</div>
+                        <!--{/if}-->
+                        <br><div style="text-align: center;color: red">！您还未绑定银行卡，请先绑定银行卡，方便大集客与您进行资金结算
+                                <input type="button" value="现在绑定" onclick="bindbank();">
+                            </div>
+                    <!--{/if}-->
+                    <!--{if $buyer_stat && $buyer_stat.sum}-->
+
+                    <div class="remind">
+                        <dl>
+                            <dt>{$lang.order_remind}</dt>
+                            <dd>{sprintf lang=order_for_pay_remind var1=buyer_stat.pending}</dd>
+                            <dd>{sprintf lang=order_for_confirm_remind var1=buyer_stat.shipped}</dd>
+                            <dd>{sprintf lang=order_for_evaluate_remind var1=buyer_stat.finished}</dd>
+                        </dl>
+                        <a href="{url app=buyer_order}" class="btn pos1" title="{$lang.look_order}"><span class="pic1">{$lang.look_order}</span></a>
+                    </div>
+                    <!--{else}-->
+                    <div class="awoke">
+                        {$lang.go_shopping}
+                    </div>
+                    <!--{/if}-->
+                </div>
+
+            </div>
+            <div class="wrap_bottom"></div>
+        </div>
+<!--{if $store}-->
+        <div class="wrap_line">
+            <div class="public_index">
+                <div class="information_index">
+                    <h3 class="title">{$lang.seller_remind}
+                    </h3>
+                    <div class="remind">
+                        <dl>
+                            <dt>{$lang.order_remind}</dt>
+                            <dd>{sprintf lang=order_for_settle_remind var1=seller_stat.submitted}</dd>
+                            <dd>{sprintf lang=order_for_ship_remind var1=seller_stat.accepted}</dd>
+                        </dl>
+
+                        <a href="{url app=store&id=$store.store_id}" title="{$lang.look_store}" target="_blank" class="btn1 pos2"><span class="pic2">{$lang.look_store}</span></a>
+                        <a href="{url app=seller_order}" class="btn pos3" title="{$lang.manage_order}"><span class="pic1">{$lang.manage_order}</span></a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="wrap_bottom"></div>
+        </div>
+<!--{/if}-->
+<!--{if $applying}-->
+        <div class="wrap_line">
+            <div class="public_index">
+                <div class="information_index">
+                    <h3 class="title">{$lang.apply_remind}</h3>
+                    <div class="remind">
+                        <dl>
+                            <dt>{$lang.apply_state}</dt>
+                            <dd>{sprintf lang=store_applying var1=user.sgrade}</dd>
+                        </dl>
+                        <a href="index.php?app=apply&step=2&id={$user.sgrade}" title="{$lang.edit_store_info}" class="btn1 pos2"><span class="pic2">{$lang.edit_store_info}</span></a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="wrap_bottom"></div>
+        </div>
+<!--{/if}-->
+			<br>
+            <div class="wrap_line">
+            <div class="public_index">
+                <div class="information_index">
+                    <h3 class="title">温馨提示</h3>
+                   
+                        <div class="remind">
+                        <dl>
+                            <dt>您当前是<!--{if $user.spreader_type eq 0}-->普通会员
+
+                           <!--{elseif $user.spreader_type eq 1}-->
+                                <!--签约业务员-->
+                                <!--{/if}-->
+                            </dt>
+                            
+                            <!--{if $tuiguang_flag}-->
+                            <dd>消费满500即可获得100次抽奖机会哦！如何通过分享专属代码获得积分奖励？<a href="index.php?app=tuiguang&act=product" style="color: #285ACB;">新手上路</a></dd>
+                            <!--{else}-->
+                            
+                                <!--{if $ourders_member eq 0 && $ourders_store eq 0}-->
+                                <dd>您邀请的会员和引荐的商家目前还没有产生消费额和营业额！<strong style="color:red">继续努力哦！</strong></dd>
+                                <!--{else}-->
+                                <dd>您推广的会员中有 <font color="#FF0000">{$ourders_member}</font> 个订单已经交易完成，请尽快到<a href="index.php?app=tuiguang&act=shouyi" style="color: #285ACB;">“我的收益”</a>中查看</dd>
+                            	<dd>您推广的商家中有 <font color="#FF0000">{$ourders_store}</font> 个订单已经交易完成，请尽快到<a href="index.php?app=tuiguang&act=shouyi" style="color: #285ACB;">“我的收益”</a>中查看</dd>
+                                <!--{/if}-->                          
+                            
+                            	<!--{if $user.spreader_type eq 0}-->
+                                <!--<dd>&lt;!&ndash;<a href="index.php?app=tuiguang&act=view" style="color:#0099CC"><strong>成为签约业务员</strong></a> &ndash;&gt; 立即享受丰厚的现金提成！</dd>-->
+                                <!--{/if}-->                            	
+	
+                            <!--{/if}-->
+                            
+                            
+                            
+                        </dl>
+                    </div>
+               
+                </div>
+
+            </div>
+            <div class="wrap_bottom"></div>
+        </div>	
+
+
+
+        <div class="clear"></div>
+        <div class="adorn_right1"></div>
+        <div class="adorn_right2"></div>
+        <div class="adorn_right3"></div>
+        <div class="adorn_right4"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<form id="chouzhiform1" name="chouzhiform1" method="post" action="{$TO_CHONGZHI_URL}" target="_blank">
+    <input type="hidden" name="userId" value="{$visitor.user_id}"/>
+</form>
+<form method="post" name="cj_form" id="cj_form" action="{$TO_PLCHOUJIANG_URL}">
+    <input type="hidden" name="userId" value="{$visitor.user_id}">
+</form>
+<script>
+
+//    $(".cj_link").bind("click",function(){
+//        $("#cj_form").submit();
+//    })
+
+    $("#chouzhi_btn").bind("click",function(){
+        //window.open("","do_chouzhi");
+        document.getElementById("chouzhiform1").submit();
+    })
+
+    <!--{if $smarty.get.type=='first'}-->
+    var uri =encodeURI("index.php?app=member&act=first");
+    var id = 'reg_first';
+    var title = "欢迎首页!";
+    var width = '400';
+    ajax_form(id, title, uri, width);
+    <!--{/if}-->
+
+    function bindbank(){
+        var uri =encodeURI("index.php?app=member&act=bankform");
+        var id = 'member_bank_bind';
+        var title = "绑定银行卡";
+        var width = '700';
+        ajax_form(id, title, uri, width);
+    }
+//	window.onload = function(){
+//        //$('.k1').showLoading({'addClass': 'loading-indicator-bars'});
+//        $.post("index.php?app=member&act=get_user_api","",function(data){
+//           var rs =  data;
+//           if(rs.code!=200){
+//               alert("服务器繁忙，获取用户信息失败");
+//           }
+//		   //$('.k1').hideLoading();
+//        },"json");
+//	}
+</script>
+
+<iframe name="do_tixian" style="display:none;"></iframe>
+ </div>
+{include file=footer.html}

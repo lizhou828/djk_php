@@ -1,0 +1,49 @@
+<html>
+<head>
+    <script type="text/javascript">
+        function pay_method(_value){
+            var use_koushui_yue = $("#use_koushui_yue").val();
+            var use_unkoushui_yue = $("#use_unkoushui_yue").val();
+            var is_enough_pay = $("#is_enough_pay").val();
+            var payMethodName = $("#payMethodName").html();
+            payMethodName = payMethodName.trim();
+            var payMethodCode = $("#payMethodCode").val();
+            var act="alliyPay";
+            if(_value=="ZHIFUBAO"){
+                $("#payMethodName").html("支付宝");
+                $("#payMethodCode").val("ZHIFUBAO");
+                DialogManager.close("choose_pay_method");
+            }else if(_value=="unionPay"){
+                $("#payMethodName").html("银联手机支付");
+                $("#payMethodCode").val("unionPay");
+                DialogManager.close("choose_pay_method");
+            }
+//            if(payMethodName =="支付宝" && payMethodCode && payMethodCode=="ZHIFUBAO"){
+//                if(is_enough_pay =="false" && ( use_unkoushui_yue=="true" || use_koushui_yue=="true")){
+//                    window.location = "{$site_url}/weixin/index.php?app=member_order&act=alliyPay&orderSn={$orderAll.orderSnAll}";
+//                }
+//            }else if(is_enough_pay =="false" && use_unkoushui_yue=="false" && use_koushui_yue=="false"){
+//                window.location = "{$site_url}/weixin/index.php?app=member_order&act="+act+"&orderSn={$orderSn}";
+//            }
+
+        }
+    </script>
+</head>
+<body>
+<div  style="padding-bottom: 20px;">
+    <div class="card-1">
+        <div class="card-1-c" style="margin-top: 30px;">
+
+            <div class="card-1-c1" style="border-bottom:0px;line-height: 30px;" onclick="pay_method('ZHIFUBAO')">
+                <input class="radio-1" name="kahao" type="radio" onclick="pay_method(this.value)" value="ZHIFUBAO" />
+                <span style="padding-top:5px;">支付宝(支持信用卡和储蓄卡快捷支付)</span>
+            </div>
+            <!--<div class="card-1-c1" style="border-bottom:0px;line-height: 30px;" onclick="pay_method('unionPay')">-->
+                <!--<input class="radio-1" name="kahao" type="radio" onclick="pay_method(this.value)" value="unionPay" />-->
+                <!--<span style="padding-top:5px;">银联手机支付</span>-->
+            <!--</div>-->
+        </div>
+    </div>
+</div>
+</body>
+</html>

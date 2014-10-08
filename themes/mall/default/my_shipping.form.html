@@ -1,0 +1,109 @@
+<script type="text/javascript">
+//<!CDATA[
+$(function(){
+
+
+   $('#shipping_form').validate({
+         errorLabelContainer: $('#warning'),
+        invalidHandler: function(form, validator) {
+           var errors = validator.numberOfInvalids();
+           if(errors)
+           {
+               $('#warning').show();
+           }
+           else
+           {
+               $('#warning').hide();
+           }
+        },
+        onkeyup : false,
+        rules : {
+            shipping_name : {
+                required : true
+            }
+        },
+        messages:{
+            shipping_name : {
+                required : '{$lang.name_not_null}.'
+            }
+        }
+    });
+});
+
+//]]>
+</script>
+<style>
+.borline td { padding:10px 0px; }
+.ware_list th { text-align:left; }
+</style>
+<ul class="tab">
+    <li class="active"><!--{if $smarty.get.act eq edit}-->{$lang.edit_shipping}<!--{else}-->{$lang.add_shipping}<!--{/if}--></li>
+</ul>
+<div class="eject_con">
+    <div class="info_table_wrap">
+        <div id="warning"></div>
+        <!--{if $peisong}-->
+        <form method="post" action="index.php?app=service&amp;act=<!--{if $shipping_id}-->edit_shipping&id={$store_id}<!--{else}-->add_shipping<!--{/if}--><!--{if $smarty.get.shipping_id neq ''}-->&amp;shipping_id={$smarty.get.shipping_id}<!--{/if}-->"
+              target="my_shipping"  id="shipping_form">
+        <!--{else}-->
+        <form method="post" action="index.php?app=my_shipping&amp;act={$smarty.get.act}<!--{if $smarty.get.shipping_id neq ''}-->&amp;shipping_id={$smarty.get.shipping_id}<!--{/if}-->" target="my_shipping" id="shipping_form">
+        <!--{/if}-->
+        <h3>{$lang.shipping_info}</h3>
+        <ul class="info_table">
+        
+        	<!--{if $peisong}-->
+        	<li>
+                <h4>商家用户:</h4>
+                <p>
+                	<!--{if $stores}-->
+                    <select name="store_id" class="sgcategory">                              
+                    <!--{foreach from=$stores item=store}-->
+                    <!--{if $smarty.get.store_id == $store.store_id}-->selected="selected"<!--{/if}--> >{$store.store_name}<option value="{$store.store_id}" <!--{if $store_id == $store.store_id}-->selected="selected"<!--{/if}--> >{$store.store_name}</option>
+                    <!-- {/foreach} -->                  
+            		</select>
+                    <!--{else}-->
+                    <select name="store_id" disabled="disabled" class="sgcategory">
+                    <option value="-1">没有找到商家</option>
+            		</select>
+
+                    &nbsp;&nbsp;&nbsp;<a href="index.php?app=service&act=uploadStore2&tuoguan=1&p=service" style='color:green' target="_blank">没有商家？点击去新增商家</a>
+                    <!--{/if}-->
+                </p>
+            </li>	
+        	<!--{/if}-->	
+            <li>
+                <h4>{$lang.shipping_name}:</h4>
+                <p><input type="text" class="text width_normal" name="shipping_name" value="{$shipping.shipping_name|escape}" /><b>*</b></p>
+            </li>
+            <li>
+                <h4>{$lang.shipping_desc}:</h4>
+                <p><textarea class="text" name="shipping_desc">{$shipping.shipping_desc|escape}</textarea>
+                    <br><br>
+                    <span>{$lang.shipping_desc_desc}</span></p>
+            </li>
+
+            <li>
+                <h4>{$lang.enabled}:</h4>
+                <p>
+                   {html_radios options=$yes_or_no checked=$shipping.enabled name=enabled}
+                </p>
+            </li>
+            <li>
+                <h4>{$lang.sort_order}:</h4>
+                <p><input type="text" class="text width_short" name="sort_order" value="{$shipping.sort_order}"/></p>
+            </li>
+        </ul>
+        </ul>
+
+        <!--{if $peisong}-->
+            <!--{if $stores}-->
+            <div class="submit"><input type="submit" class="btn" value="{$lang.submit}" /></div>
+            <!--{else}-->
+            <div class="submit"><input type="submit" class="btn" disabled="disabled" value="{$lang.submit}" /></div>
+            <!--{/if}-->
+        <!--{else}-->
+        <div class="submit"><input type="submit" class="btn" value="{$lang.submit}" /></div>
+        <!--{/if}-->
+        </form>
+    </div>
+</div>

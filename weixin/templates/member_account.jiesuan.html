@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>结算明细</title>
+    <link href="{$site_url}/weixin/templates/style/address.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{$SITE_URL}/weixin/templates/js/jquery-1.6.2.min.js"></script>
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+</head>
+<body>
+<div style="width: 320px;margin: 0px auto">
+    <div style="padding-top: 50px;">
+<div class="address-t">
+    <div class="address-l"><a href="javascript:history.go(-1)">返回</a></div>
+    <div class="address-c">结算明细</div>
+</div>
+<div class="address-cen">
+    {if $jiesuans && count($jiesuans) > 0 }
+        <div class="clearing-1">
+            <table width="308" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="98" height="36" align="center" bgcolor="#d2d2d2">结算日期</td>
+                    <td height="36" align="center" bgcolor="#d2d2d2">结算银行卡</td>
+                    <td width="98" height="36" align="center" bgcolor="#d2d2d2">结算金额</td>
+                </tr>
+                {foreach from=$jiesuans item=jiesuan }
+                    <tr>
+                        <td width="98" height="36" align="center" bgcolor="#d2d2d2">{$jiesuan.add_time}</td>
+                        <td height="36" align="center" bgcolor="#d2d2d2">{$jiesuan.channel_card}</td>
+                        <td width="98" height="36" align="center" bgcolor="#d2d2d2">{$jiesuan.jine}</td>
+                    </tr>
+                {/foreach}
+            </table>
+        </div>
+    {else}
+        <div class="clearing-2">您暂时没有结算数据</div>
+    {/if}
+</div>
+    </div>
+</div>
+{include file=cnzz.html}
+</body>
+</html>

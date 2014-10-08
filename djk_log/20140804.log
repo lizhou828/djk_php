@@ -1,0 +1,8 @@
+
+错误url=http:///
+2014-08-04 08:53:29  	[2]parse_url(http://) [<a href='function.parse-url'>function.parse-url</a>]: Unable to parse URL	\includes\subdomain.inc.php	50
+
+错误url=http://192.168.0.155/index.php?app=member&p=userInfo
+2014-08-04 16:18:39  	[256]MySQL Error[1054]: Unknown column '9satus' in 'where clause'
+MySQL Query:SELECT *,member.user_id FROM ecm_member member WHERE user_id= 9satus=2 and dropState=1 and ( member_type='02' or member_type='03' or member_type='04')
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310

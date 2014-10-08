@@ -1,0 +1,495 @@
+{include file=member.header.html}
+<style>
+.information .info table{ width :auto;}
+.show_alert{
+    /*border: 1px solid #00a9d1;*/
+    line-height: 11px;
+    padding: 5px;
+    width: 730px;
+    margin-bottom: 10px;
+}
+.show_alert div{
+    line-height: 15px;
+    margin-top: -23px;
+    margin-left: 30px;
+    color: #9D9D9D; 
+}
+</style>
+
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js" ></script>
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+
+
+<script type="text/javascript">
+
+//<!CDATA[
+$(function(){
+        $('input[ectype="change_store_logo"]').click(function(){
+            var src = getFullPath($(this)[0]);
+            $('img[ectype="store_logo"]').attr('src', src);
+            $('input[ectype="change_store_logo"]').removeAttr('name');
+            $(this).attr('name', 'store_logo');
+        });
+        $('input[ectype="change_store_banner"]').click(function(){
+            var src = getFullPath($(this)[0]);
+            $('img[ectype="store_banner"]').attr('src', src);
+            $('input[ectype="change_store_banner"]').removeAttr('name');
+            $(this).attr('name', 'store_banner');
+        });
+
+        $('#my_store_form').validate({
+            errorPlacement: function(error, element){
+                $(element).next('.field_notice').hide();
+                if($(element).parent().parent().is('b'))
+                {
+                    $(element).parent().parent('b').next('.explain').hide();
+                    $(element).parent().parent('b').after(error);
+                }
+                else
+                {
+                    $(element).after(error);
+                }
+            },
+            success       : function(label){
+                if($(label).attr('for') != 'store_logo' && $(label).attr('for') != 'store_banner'  ){
+                    label.addClass('validate_right').text('OK!');
+                    }
+            },
+            rules : {
+                store_name : {
+                    required   : true,
+                    remote : {
+                        url  : 'index.php?app=apply&act=check_name&ajax=1',
+                        type : 'get',
+                        data : {
+                            store_name : function(){
+                             return $('#store_name').val();
+                            },
+                            store_id : $("#store_id").val()
+                        }
+                    },
+                    maxlength: 20
+                },
+                tel      : {
+                    required     : true,
+                    checkTel     : true
+                },
+                store_banner : {
+                    accept   : 'png|jpe?g|gif'
+                },
+                store_logo   : {
+                    accept   : 'png|jpe?g|gif'
+                },
+                description2 :{
+                    required: true
+                },
+                description :{
+                    required: true
+                }
+            },
+            messages : {
+                store_name  : {
+                    required   : '{$lang.not_empty}',
+                    remote: '{$lang.name_exist}',
+                    maxlength: '{$lang.note_for_store_name}'
+                },
+                tel      : {
+                    required   : '{$lang.not_empty}',
+                    checkTel   : '{$lang.allow_tel}'
+                },
+                store_banner : {
+                    accept  : '{$lang.pic_limit}'
+                },
+                store_logo  : {
+                    accept : '{$lang.pic_limit}'
+                },
+                 description2 :{
+                    required: '简短描述不能空！'
+              },
+                description :{
+                    required: '店铺简介不能为空！'
+        }
+            }
+    });
+   regionInit("region");
+        $(".right").mouseover(function(){
+            $(this).next("div").show();
+        });
+        $(".right").mouseout(function(){
+            $(this).next("div").hide();
+        });
+});
+function add_uploadedfile(file_data)
+{
+        $('#desc_images').append('<li file_name="'+ file_data.file_name +'" file_path="'+ file_data.file_path +'" ectype="handle_pic" file_id="'+ file_data.file_id +'"><input type="hidden" name="desc_file_id[]" value="'+ file_data.file_id +'"><div class="pic" style="z-index: 2;"><img src="{$site_url}/'+ file_data.file_path +'" width="50" height="50" alt="'+ file_data.file_name +'" /></div><div ectype="handler" class="bg" style="z-index: 3;display:none"><img src="{$site_url}/'+ file_data.file_path +'" width="50" height="50" alt="'+ file_data.file_name +'" /><p class="operation"><a href="javascript:void(0);" class="cut_in" ectype="insert_editor" ecm_title="{$lang.insert_editor}"></a><span class="delete" ectype="drop_image" ecm_title="{$lang.drop}"></span></p><p class="name">'+ file_data.file_name +'</p></div></li>');
+        trigger_uploader();
+        if(EDITOR_SWFU.getStats().files_queued == 0){
+                window.setTimeout(function(){
+                        $('#editor_uploader').hide();
+                },5000);
+        }
+}
+function drop_image(file_id)
+{
+    if (confirm(lang.uploadedfile_drop_confirm))
+        {
+            var url = SITE_URL + '/index.php?app=my_store&act=drop_uploadedfile';
+            $.getJSON(url, {'file_id':file_id}, function(data){
+                if (data.done)
+                {
+                    $('*[file_id="' + file_id + '"]').remove();
+                }
+                else
+                {
+                    alert(data.msg);
+                }
+            });
+        }
+}
+    function add_tel(type){
+        if (type == "show") {
+            $("#tel_text").show();
+            $("#tr_add").hide();
+        } else {
+            $("#tel_text").hide();
+            $("#tr_add").show();
+            $("#add_tel").val("");
+        }
+    }
+//]]>
+
+function show_photo_img(val){
+    if (val == "") {
+        alert("请上传图片");
+        return;
+    }
+    if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(val)) {
+        alert("图片类型必须是.gif,jpeg,jpg,png中的一种");
+        return;
+    }
+    $("#my_store_form").submit();
+}
+  function show_div_time() {
+      $("#div_time").removeAttr("style");
+  }
+</script>
+{$editor_upload}
+ <!--{if $store.seller_type !=3}-->
+{$build_editor}
+ <!--{/if}-->
+<div class="content">
+  <div class="totline"></div>
+  <div class="botline"></div>
+  {include file=member.menu.html}
+  <div id="right">
+  <ul class="tab">
+      <!--{if $visitor.member_type == '04' && $visitor.user_name == 'djk11001'}-->
+
+          <li <!--{if $smarty.get.act=='store_edit' }-->class="active"<!--{else}-->class="normal"<!--{/if}-->>
+          <a href="index.php?app=service&act=store_edit&id={$smarty.get.id}">店铺基本设置</a>
+          </li>
+      <!--{if $store.seller_type ==3 }-->
+          <li <!--{if $smarty.get.act=="store_set_image" }-->class="active"<!--{else}-->class="normal"<!--{/if}-->>
+          <a href="index.php?app=service&act=store_set_image&li=bq&p=service&id={$smarty.get.id}">店铺相册设置</a>
+          </li>
+      <!--{/if}-->
+      <!--{else}-->
+          <li <!--{if !$smarty.get.act }-->class="active"<!--{else}-->class="normal"<!--{/if}-->>
+          <a href="index.php?app=my_store&op=seller">店铺基本设置</a>
+          </li>
+      <!--{if $store.seller_type ==3 }-->
+          <li <!--{if $smarty.get.act=="set_image" }-->class="active"<!--{else}-->class="normal"<!--{/if}-->>
+          <a href="index.php?app=my_store&act=set_image&li=bq&p=service">店铺相册设置</a>
+          </li>
+      <!--{/if}-->
+      <!--{/if}-->
+  </ul>
+   <!--<ul class="tab" ><li><a href="#">查看我的店铺</a></li></ul>-->
+    <div class="wrap">
+        <div class="public">
+            <div class="information">
+            <form method="post" enctype="multipart/form-data" id="my_store_form">
+            <input type="hidden" id="store_id" value="<!--{if $store.store_id}-->{$store.store_id}<!--{else}-->{$smarty.get.id}<!--{/if}-->">
+                    <div class="setup">
+
+                            <div class="show_alert"><img src="{$site_url}/themes/mall/default/styles/default/images/alert-round.png"/>
+                             <div>为了让用户方便快捷的了解并联系您，以下信息请如实填写，它们将显示在您的店铺首页。<font color='red' size='+2' style="color: #FF4D00;font-family: '宋体';
+                                 padding-right: 5px;">*</font>为必填项</div>
+                            </div>
+
+
+                            <div class="photo relative1" <!--{if $store.seller_type eq 3}--> style="margin-left:200px;" <!--{/if}-->>
+                            <p><img src="<!--{if $store.store_logo neq ''}-->{img_url $img_url/$store.store_logo/100X100}<!--{else}-->data/system/default_store_logo.gif<!--{/if}-->" width="120" height="120" ectype="store_logo" /></p>
+                            <!--<b class="ie6hack">
+                                <span class="file1"><input type="file" size="1" maxlength="0" hidefocus="true" ectype="change_store_logo" /></span>
+                                <span class="file2" style="_right: -22px;"><input type="file" ectype="change_store_logo" size="1" maxlength="0" hidefocus="true" /></span>
+                                <div class="txt">{$lang.change_store_logo}</div>
+                            </b>-->
+                            <div class="fileInputContainer2">
+                                <input class="fileInput" type="file" onchange="show_photo_img(this.value)" name="store_logo" id="store_logo" />
+                            </div>
+                            <span class="explain">{$lang.change_store_logo_des}</span>
+                        </div>
+                        <!--{if $store.seller_type neq 3}-->
+                        <div class="photo relative2">
+
+                            <p><img src="<!--{ if $store.store_banner neq ''}-->{img_url $img_url/$store.store_banner/1000X120}<!--{else}-->{res file=images/member/banner.gif}<!--{/if}-->" width="607" height="120" ectype="store_banner" /></p>
+                            <!--<b>
+                                <span class="file1"><input type="file" size="1" maxlength="0" hidefocus="true" ectype="change_store_banner"/></span>
+                                <span class="file2" style="_right: -22px;"><input type="file" size="1" maxlength="0" hidefocus="true" ectype="change_store_banner"/></span>
+                                <div class="txt">{$lang.change_store_banner}</div>
+                            </b>-->
+                            <div class="fileInputContainer3">
+                                <input class="fileInput" type="file" onchange="show_photo_img(this.value)" name="store_banner" id="store_banner" />
+                            </div>
+                            <span class="explain">{$lang.change_store_banner_des}</span>
+
+                        </div>
+                        <!--{/if}-->
+                        <div class="clear"></div>
+                        <div class="setup info shop">
+                        <table style="width: 100%">
+                            <!--{if $subdomain_enable}-->
+                            <tr>
+                              <th>{$lang.subdomain}:</th>
+                              <td><input type="text" name="domain" value="{$store.domain|escape}"{if $store.domain} disabled{/if} class="text width11" />&nbsp;{if !$store.domain}{$lang.subdomain_note}{$domain_length}{else}{/if}</td>
+                            </tr>
+                            <!--{/if}-->
+                            <tr>
+                                <th class="width2" style="text-align: right">{$lang.store_name}:</th>
+                                <td>
+                                    <p class="td_block"><input id="store_name" type="text" class="text width_normal" name="store_name" value="{$store.store_name|escape}"/>&nbsp;<span style="color: #cc0000;">*</span><label class="field_notice">{$lang.store_name}</label></p>
+                                    <!--{if $store.seller_type eq 3}--> <a href="{url app=bdsh&act=list_detail&id=$id}" target="_blank" class="btn1"><!--{else}--> <a href="{url app=store&id=$store.store_id}" target="_blank" class="btn1"><!--{/if}-->预览我的店铺</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="width2"  style="text-align: right">所属分类:</th>
+                                <td>
+                                    <p class="td_block"><span>{$scategory_str}</span></p>&nbsp;<span style="color: #cc0000;">*</span>
+                                </td>
+                            </tr>
+                            <tr>
+                            <th class="width2"  style="text-align: right">标签:</th>
+                            <td>
+                                <p class="td_block"><input id="tag" type="text" class="text width_normal" name="tag" value="{$store.tag|escape}"/><label class="field_notice">多个标签请用逗号","隔开</label></p>
+                            </td>
+                        </tr>
+
+                            <tr>
+                                <th  style="text-align: right">{$lang.region}:</th>
+                                <td><div id="region">
+                                    <input type="hidden" name="region_id" value="{$store.region_id}" class="mls_id" />
+                                    <input type="hidden" name="region_name" value="{$store.region_name|escape}" class="mls_names" />
+                                    <!-- {if $store.store_id} -->
+                                    <span>{$store.region_name|escape}</span>
+                                    <input type="button" value="{$lang.edit}" class="edit_region" />
+                                    <select style="display:none">
+                                      <option>{$lang.select_pls}</option>
+                                      {html_options options=$regions}
+                                    </select>
+                                    <!-- {else} -->
+                                    <select class="select">
+                                      <option>{$lang.select_pls}</option>
+                                      {html_options options=$regions}
+                                    </select>
+                                    <!-- {/if} --></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th  style="text-align: right">{$lang.address}:</th>
+                                <td>
+                                    <p class="td_block"><input type="text" name="address" class="text width_normal" id="address" value="{$store.address|escape}" /><span class="field_notice">请填写详细路名及门牌号</span>&nbsp;<span style="color: #cc0000;">*</span></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" >
+                                    <a href="javascript:void(0)" style="margin-left: 100px;">查看地图上标注</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="width2"  style="text-align: right">邮政编码:</th>
+                                <td>
+                                    <p class="td_block"><input id="zcode" type="text" class="text width_normal" name="zipcode" value="{$store.zipcode|escape}"/><label class="field_notice">请填写所在区的邮政编码</label></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th  style="text-align: right">手机号码:</th>
+                                <td><input name="tel" type="text" class="text width_normal" id="tel" value="{$store.tel|escape}" />&nbsp;<span style="color: #cc0000;">*</span></td>
+                            </tr>
+                            <tr>
+                                <th  style="text-align: right">固定电话:</th>
+                                <td>
+                                    <input name="tel2" type="text" class="text width_normal" id="tel2" value="{$store.tel2|escape}" />
+                                </td>
+                            </tr>
+                            <tr id="tr_add">
+                                <td colspan="2">
+                                    <a href="javascript:add_tel('show')" style="margin-left: 100px;">再添加一个电话</a>
+                                </td>
+                            </tr>
+                            <tr id="tel_text" style="display: none">
+                                <th  style="text-align: right"></th>
+                                <td>
+                                    <input name="tel_add" type="text" id="add_tel" class="text width_normal" value="{$tel_add|escape}" />
+                                    <br/>
+                                    <br/>
+                                    <a href="javascript:add_tel('none')">删除电话</a>
+                                </td>
+                            </tr>
+
+                            <!--{if $store.seller_type eq 3}-->
+                            <tr>
+                                <th  style="text-align: right">营业时间:</th>
+                                <td>
+                                    {$store.yye_time} <a href="javascript:show_div_time()">编辑</a>
+                                   <div id="div_time" <!--{if $store.yye_time}--> style="display:none"<!--{/if}-->>
+                                   <select name="add_time" >
+                                       <option value="1:00">1:00</option>
+                                       <option value="2:00">2:00</option>
+                                       <option value="3:00">3:00</option>
+                                       <option value="4:00">4:00</option>
+                                       <option value="5:00">5:00</option>
+                                       <option value="6:00">6:00</option>
+                                       <option value="7:00">7:00</option>
+                                       <option value="8:00">8:00</option>
+                                       <option value="9:00">9:00</option>
+                                       <option value="10:00">10:00</option>
+                                       <option value="11:00">11:00</option>
+                                       <option value="12:00">12:00</option>
+                                   </select>--
+                                    <select  name="end_time"  class="sgcategory">
+                                        <option value="13:00">13:00</option>
+                                        <option value="14:00">14:00</option>
+                                        <option value="15:00">15:00</option>
+                                        <option value="16:00">16:00</option>
+                                        <option value="17:00">17:00</option>
+                                        <option value="18:00">18:00</option>
+                                        <option value="19:00">19:00</option>
+                                        <option value="20:00">20:00</option>
+                                        <option value="21:00">21:00</option>
+                                        <option value="22:00">22:00</option>
+                                        <option value="23:00">23:00</option>
+                                        <option value="00:00">00:00</option>
+                                    </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th  style="text-align: right">付款方式:</th>
+                                <td>
+                                    <select name="pay_type">
+                                    <option value="1" <!--{if $store.pay_type eq 1}--> selected="selected"<!--{/if}--> >可刷卡</option>
+                                    <option value="2" <!--{if $store.pay_type eq 2}--> selected="selected"<!--{/if}-->>现金</option>
+                                    <option value="3" <!--{if $store.pay_type eq 3}--> selected="selected"<!--{/if}-->>网上支付</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th  style="text-align: right">公交信息:</th>
+                                <td><textarea cols="80" style="margin-bottom: 10px;" name="gongjiao_info">{$store.gongjiao_info}</textarea></td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: right">店铺简短描述:</th>
+                                <td><textarea cols="80" name="description2" style="padding: 3px;line-height: 18px;height: 50px;"  >{$store.description2}</textarea></td>
+                            </tr>
+                         <!--{/if}-->
+
+                            <!--<tr>-->
+                                  <!--<th>{$lang.im_ww}:</th>-->
+                                  <!--<td><input name="im_ww" type="text" class="text width_normal" id="im_ww" value="{$store.im_ww|escape}" /></td>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                                  <!--<th>{$lang.im_msn}:</th>-->
+                                  <!--<td>{if $store.im_msn}{$store.im_msn|escape} <a target="_blank" href="{url app=my_store&act=drop_im_msn}">{$lang.disable_msn}</a>{else}<a target="_blank" href="{$msn_active_url}">{$lang.active_msn}</a><span class="padding1">{$lang.msn_info}</span>{/if}</td>-->
+                             <!--</tr>-->
+                             {if $store.functions.enable_radar}
+                              goods radar
+                             <tr>
+                                  <th  style="text-align: right">{$lang.enable_radar}:</th>
+                                  <td><label>
+					                 <input type="radio" name="enable_radar" value="1" {if $store.enable_radar}checked="checked"{/if} />
+					                {$lang.yes}</label>
+					                <label>
+					                <input type="radio" name="enable_radar" value="0" {if !$store.enable_radar}checked="checked"{/if} />
+					                {$lang.no}</label></td>
+                             </tr>
+                             <!-- goods radar -->
+                             {/if}
+            <!--{if $store.seller_type neq 3}-->
+                             <tr>
+                                <th class="align3"  style="text-align: right">{$lang.description}:</th>
+                                <td>
+                                    <div class="editor"><div>
+                                    <textarea name="description" id="description" style="width:100%; height:350px;">{$store.description|escape}</textarea></div>
+                                   <div style=" position: relative; top: 10px; z-index: 5;"><a class="btn3" id="open_editor_uploader">{$lang.uploadedfile}</a>
+                                   <div class="upload_con" id="editor_uploader" style="display:none">
+                                            <div class="upload_con_top"></div>
+                                            <div class="upload_wrap">
+                                                <ul>
+                                                    <li>
+                                                        <div id="divSwfuploadContainer">
+                                                            <div id="divButtonContainer">
+                                                                <span id="editor_upload_button"></span>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li><iframe src="index.php?app=comupload&act=view_iframe&id={$id}&belong={$belong}&instance=desc_image" width="86" height="30" scrolling="no" frameborder="0"></iframe></li>
+                                                    <li id="open_editor_remote" class="btn4">{$lang.rem_upload}</li>
+                                                </ul>
+                                                <div id="editor_remote" class="upload_file" style="display:none">
+                                                <iframe src="index.php?app=comupload&act=view_remote&id={$id}&belong={$belong}&instance=desc_image" width="272" height="39" scrolling="no" frameborder="0"></iframe>
+                                                </div>
+                                                <div id="editor_upload_progress"></div>
+                                                <div class="upload_txt">
+                                                    <span>{$lang.note_for_upload}</span>
+                                                </div>
+
+                                            </div>
+                                            <div class="upload_con_bottom"></div>
+                                        </div>
+                                    </div>
+                                    <div style="margin-left: 120px; margin-top: -10px; color: #9D9D9D">详细的介绍下您的店铺，让更多的用户了解您，增加商品销售机会！</div>
+
+                                    <ul id="desc_images" class="preview">
+                                        <!--{foreach from=$files_belong_store item=file}-->
+                                        <li ectype="handle_pic" file_name="{$file.file_name|escape}" file_path="{$file.file_path}" file_id="{$file.file_id}">
+                                        <input type="hidden" name="file_id[]" value="{$file.file_id}">
+                                            <div class="pic">
+                                            <img src="{$site_url}/{$file.file_path}" width="50" height="50" alt="{$file.file_name|escape}" title="{$file.file_name|escape}" /></div>
+                                            <div ectype="handler" class="bg">
+                                            <img src="{$site_url}/{$file.file_path}" width="50" height="50" alt="{$file.file_name|escape}" title="{$file.file_name|escape}" />
+                                                <p class="operation">
+                                                    <a href="javascript:void(0);" class="cut_in" ectype="insert_editor" ecm_title="{$lang.insert_editor}"></a>
+                                                    <span class="delete" ectype="drop_image" ecm_title="{$lang.drop}"></span>
+                                                </p>
+                                                <p title="{$file.file_name|escape}" class="name">{$file.file_name|escape}</p>
+                                            </div>
+                                        </li>
+                                        <!--{/foreach}-->
+                                    </ul>
+                                    <div class="clear"></div>
+                                    </div>
+
+                                 </td>
+                             </tr>
+            <!--{/if}-->
+                         </table>
+                     </div>
+            <div class="issuance"><input type="submit" class="btn" value="{$lang.submit}" /></div>
+            </form>
+                </div>
+
+            </div>
+            <div class="wrap_bottom"></div>
+        </div>
+
+        <div class="clear"></div>
+        <div class="adorn_right1"></div>
+        <div class="adorn_right2"></div>
+        <div class="adorn_right3"></div>
+        <div class="adorn_right4"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+{include file=footer.html}

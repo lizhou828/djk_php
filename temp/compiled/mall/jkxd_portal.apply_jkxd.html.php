@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>申请开通集客小店</title>
+    <link href="<?php echo $this->_var['site_url']; ?>/weixin/templates/style/com.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $this->_var['site_url']; ?>/weixin/templates/style/hone.css" rel="stylesheet" type="text/css" />
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="<?php echo $this->_var['site_url']; ?>/weixin/templates/js/jquery.js" charset="utf-8"></script>
+    <script type="text/javascript" src="<?php echo $this->_var['site_url']; ?>/weixin/templates/js/show_share_button.js"></script>
+    <script type="text/javascript">
+        function h_yuan1(){
+            $(".h-yuan2").css({"background":"none repeat scroll 0 0 #F2F2F2","color":"#999999","border-bottom":"2px solid #D5D5D5"});
+            $(".h-yuan1").css({"background":"none repeat scroll 0 0 #FFFFFF","color":"#000000","border-bottom":"2px solid #C40000"});
+            $("#h_yuan1").css({"display":"block"});
+            $("#h_yuan2").css({"display":"none"});
+        }
+        function h_yuan2(){
+            $(".h-yuan1").css({"background":"none repeat scroll 0 0 #F2F2F2","color":"#999999","border-bottom":"2px solid #D5D5D5"});
+            $(".h-yuan2").css({"background":"none repeat scroll 0 0 #FFFFFF","color":"#000000","border-bottom":"2px solid #C40000"});
+            $("#h_yuan2").css({"display":"block"});
+            $("#h_yuan1").css({"display":"none"});
+        }
+
+        function apply(user_id){
+            var user_name = $("#user_name").val();
+            var shop_name = $("#shop_name").val();
+            var password="";
+
+            //未登录的用户，判断是否输入用户名和密码
+            if(!user_id || user_id == "" || typeof user_id =="undefined"){
+                //判断是否填了用户名
+                if(user_name ==null || user_name == '' || user_name=='请输入会员账号'){
+                    alert("请输入会员账号！");
+                    return;
+                }
+                //判断是否填了密码
+                password = $("#password").val();
+                if(password == null || password == "" || typeof password =="undefined" || password=='请输入密码'){
+                    alert("请输入登录密码!");
+                    return;
+                }
+            }
+            //判断是否填写好店铺名称
+            if(shop_name == null || shop_name == "" || shop_name=='请输入集客小店店铺名'){
+                alert("请输入集客小店店铺名!");
+                return;
+            }
+
+
+            //申请集客小店
+            if(user_name != ''&& user_name != null && shop_name !='' && shop_name !=null){
+                $.post('index.php?app=jkxd_portal&act=apply',
+                        {user_name:user_name,password:password,shop_name:shop_name},
+                        function(data){
+                            data= eval("("+data+")");
+                            if( data.retval == 0){
+                                alert(data.msg);
+                            }else if(data.retval > 0 ){
+                                alert(data.msg);
+                                window.location="index.php?app=jkxd_portal&act=my_jkxd&id="+data.retval;
+                            }
+
+                        }
+                );
+            }else{
+                alert("会员账号和集客小店店铺名不能为空!");
+            }
+        }
+
+
+        function qq_apply(){
+//            if(document.getElementById('protocol').checked){
+                window.location.href='<?php echo $this->_var['site_url']; ?>/weixin/index.php?app=jkxd_portal&act=qq_apply&shopOwnerId=<?php echo $this->_var['shopOwnerId']; ?>';
+//            }else{
+//                alert("您必须阅读并同意该协议,否则无法申请");
+//                return;
+//            }
+        }
+
+    </script>
+</head>
+<body>
+<div style=" width:320px; margin:0px auto;padding-top: 50px;">
+<div class="enter-t">
+    <a href="javascript:history.go(-1)"><div class="enter-t1">返回</div></a>
+    <div class="enter-t2">申请开通</div>
+    <a href="index.php?app=jkxd_portal"><div class="enter-t3">首页</div></a>
+</div>
+<div class="clear"></div>
+<div class="enter-bg">
+
+    <div class="h-yuan">
+        <div class="h-yuan1" onclick="h_yuan1()">会员申请</div>
+        <div class="h-yuan2" onclick="h_yuan2()">QQ一键申请</div>
+    </div>
+
+    
+    <div id="h_yuan1">
+        <div class="kuang">
+            <form id="apply_jkxd" method="post" action="index.php?app=jkxd_portal&act=apply">
+                <input type="hidden" name="shopOwnerId" value="<?php echo $this->_var['shopOwnerId']; ?>"/>
+                <table width="307" border="0" cellspacing="0" cellpadding="0">
+                    <?php if (! $this->_var['user']): ?>
+                        <tr>
+                            <td width="8">&nbsp;</td>
+                            <td width="120" height="35"><strong>账号：</strong></td>
+                            <td height="35" colspan="2">
+                                <input class="kuang-text" id="user_name" name="user_name" type="text" value="请输入会员账号" onfocus="if(this.value=='请输入会员账号'){this.value='';this.style.color='#333'}" onblur="if(this.value==''){this.value='请输入会员账号';this.style.color='#666'}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"><img src="<?php echo $this->_var['site_url']; ?>/weixin/templates/style/img/fen.jpg" width="307" height="1" /></td>
+                        </tr>
+                        <tr>
+                            <td width="8">&nbsp;</td>
+                            <td width="120" height="35"><strong>密码：</strong></td>
+                            <td height="35" colspan="2">
+                                <input class="kuang-text" id="password" name="password" type="password" value="请输入密码" onfocus="if(this.value=='请输入密码'){this.value='';this.style.color='#333'}" onblur="if(this.value==''){this.value='请输入密码';this.style.color='#666'}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <img src="<?php echo $this->_var['site_url']; ?>/weixin/templates/style/img/fen.jpg" width="307" height="1" />
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                    <input type="hidden" id="user_name" name="user_name" value="<?php echo $this->_var['user']['user_name']; ?>"/>
+                    <tr>
+                        <td width="8">&nbsp;</td>
+                        <td width="120" height="35" colspan="2"><strong>集客小店店铺名：</strong></td>
+                        <td width="179" height="35"><input class="kuang-text" id="shop_name" name="shop_name" type="text" value="请输入集客小店店铺名" onfocus="if(this.value=='请输入集客小店店铺名'){this.value='';this.style.color='#333'}" onblur="if(this.value==''){this.value='请输入集客小店店铺名';this.style.color='#666'}"/></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="shenqing">提示：集客小店是大集客会员专享而免费申请开通的网上商城。</div>
+        <a href="javascript:void(0)" onclick="apply('<?php echo $this->_var['user']['user_id']; ?>')"><div class="mmore22">申请开通</div></a>
+        <div class="enter22">
+            <?php if ($this->_var['user']['user_id'] <= 0): ?>
+                <p>
+                    我有集客小店，
+                    <a href="<?php echo $this->_var['site_url']; ?>/weixin/index.php?app=member&act=login&ret_url=%2Fweixin%2Findex.php%3Fapp%3Djkxd_portal%26act%3Dmy_jkxd">
+                        <span style="font-size:14px;font-weight: bold">直接登录</span>
+                    </a>
+                </p>
+
+            <br/>
+            <p>还不是大集客会员？<a href="index.php?app=member&act=register_form&returnUrl=register_for_jkxd"><span style="font-size:14px;font-weight: bold">点击注册</span></a></p>
+            <br/>
+            <?php endif; ?>
+
+        </div>
+    </div>
+    
+
+
+    
+    <div id="h_yuan2" style="display: none">
+        <div class="clear"></div>
+            <a href="javascript:qq_apply()"><div class="shenqing2"><img src="<?php echo $this->_var['site_url']; ?>/weixin/templates/style/img/qqzh.jpg" width="170" height="32" /></div></a>
+            <div class="shenqing">提示：您的QQ昵称即您的集客小店店铺名。</div>
+    </div>
+    
+    <?php echo $this->fetch('cnzz.html'); ?>
+</div>
+</div>
+</body>
+</html>

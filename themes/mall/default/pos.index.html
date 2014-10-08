@@ -1,0 +1,83 @@
+{include file=pos.header.html}
+<script>
+
+    function showFocus(obj){
+        if(obj.value=="请输入POS机刷卡银行卡卡号"){
+            obj.value="";
+        }
+    }
+
+    function showBlur(obj) {
+        if(obj.value==""){
+            obj.value="请输入POS机刷卡银行卡卡号";
+        }
+    }
+
+    function show_list(){
+        var card_num = $.trim($("#card_num").val());
+        if(card_num == "" || card_num =="请输入POS机刷卡银行卡卡号"){
+            alert("请输入卡号!");
+            return;
+        }
+        location = "index.php?app=pos&act=show_list&card_num="+card_num;
+
+    }
+
+</script>
+
+<!--banner-->
+<div id="banner">
+  <div class="ban1">
+    <div class="k1000">
+      <div class="k334">
+         <h2></h2>
+         <div class="txt"><input name="card_num" id="card_num" type="text" onblur="showBlur(this)" onfocus="showFocus(this)"  value="请输入POS机刷卡银行卡卡号" class="ipt"/></div>
+         <div class="ann"><a href="javascript:show_list()" style="text-decoration: none">立即查询</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--内容-->
+<div id="con">
+   <div class="w1000">
+     <div class="fl1">
+       <h2 class="title1"></h2>
+       <div class="noci">
+          <dl>
+            <dd><img src="{$site_url}/themes/mall/default/styles/default/images/pos/pic1.png" width="134" height="153" /></dd>
+            <dt>什么时间，什么地点，消费多少统统帮你搞定！</dt>
+            <dt class="an">只要您是在大集客商城商家店铺消费您都可以使用卡号查询交易明细。<a href="index.php?app=pos&act=show_list">现在查询</a></dt>
+          </dl>
+          <dl>
+            <dd><img src="{$site_url}/themes/mall/default/styles/default/images/pos/pic2.png" width="134" height="153" /></dd>
+            <dt>多次消费，多次累计。积分不浪费，适合最精明的你！</dt>
+            <dt class="an">只要您绑定大集客会员帐号，您在大集
+客所有商家店铺刷卡消费都累计积分。<a href="index.php?app=pos&act=bind">我要绑定</a></dt>
+          </dl>
+          <dl>
+            <dd><img src="{$site_url}/themes/mall/default/styles/default/images/pos/pic3.png" width="134" height="153" /></dd>
+            <dt>多样商品，缤纷兑换，积分带给你！</dt>
+            <dt class="an">绑定大集客帐号，所有消费累计积分，有了积分就能兑换缤纷商品。<a href="index.php?app=jifen">去兑换</a></dt>
+          </dl>
+          <dl style="margin-right:0px;">
+            <dd><img src="{$site_url}/themes/mall/default/styles/default/images/pos/pic4.png" width="134" height="153" /></dd>
+            <dt>刷卡累计消费满500元即可享受100次抽奖机会！</dt>
+            <dt class="an">绑定大集客帐号，所有消费累计满500元即可抽奖100次！<br /><a href="javascript:;" class="cj_link">去抽奖</a></dt>
+          </dl>
+       </div>
+     </div>
+   </div>
+</div>
+<form method="post" name="cj_form" id="cj_form" action="{$TO_PLCHOUJIANG_URL}">
+    <input type="hidden" name="userId" value="{$visitor.user_id}">
+</form>
+<script>
+    $(".cj_link").bind("click",function(){
+        $("#cj_form").submit();
+    })
+</script>
+
+
+{include file=pos.footer.html}

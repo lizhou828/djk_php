@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>订单支付结果</title>
+    <link href="{$SITE_URL}/weixin/templates/style/address.css" rel="stylesheet" type="text/css" />
+    <link href="{$SITE_URL}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{$SITE_URL}/weixin/templates/js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            var payStatus = "{$code}";
+            if(payStatus == true || payStatus == "true"){
+                $(".succ").css({"background":"url(templates/style/img/gou.png) no-repeat scroll 28px 2px rgba(0, 0, 0, 0)"});
+            }else{
+                $(".succ").css({"background":"url(templates/style/img/cuo.png) 28px 2px no-repeat"})
+            }
+        });
+    </script>
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+</head>
+<body>
+<div style="width: 320px;margin: 0px auto">
+    <div style="padding-top: 50px;">
+        <div class="address-t">
+            <div class="address-l"><a href="javascript:history.go(-1)">返回</a></div>
+            <div class="address-c1">
+            {if $code == true || $code == 'true'}
+                订单支付成功
+            {else}
+                订单支付失败
+            {/if}
+
+            </div>
+            <div class="address-r"><a href="{$SITE_URL}/weixin/index.php?app=member">会员中心</a></div>
+        </div>
+        <div class="address-cen">
+            <div class="succ">
+                {if $code == true || $code == 'true'}
+                    付款成功，我们将尽快发货给您！
+                {else}
+                    付款失败，请稍后再付款...
+                {/if}
+
+            </div>
+            <div class="succ1">
+                <p>订单编号：</p>
+                <p style="width: 270px;">
+                    {if $ordersAll.orders && count($ordersAll.orders) > 0}
+                        {foreach from = $ordersAll.orders item= order }
+                            {$order.order_sn}<br/>
+                        {/foreach }
+                    {/if}
+                </p>
+                <p>订单总金额：<strong>￥{$ordersAll.orderAmount}</strong></p>
+                <div class="succ2"></div>
+            </div>
+            <div class="succ3">
+                {if $code == true || $code == 'true'}
+                    请您在收货时确认商品后再签收，祝您购物愉快，谢谢！
+                {else}
+                    付款失败，请稍后再付款...
+                {/if}
+
+            </div>
+        </div>
+
+    </div>
+</div>
+{include file=cnzz.html}
+</body>
+</html>

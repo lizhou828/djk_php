@@ -1,0 +1,197 @@
+<link href="style/else.css" rel="stylesheet" type="text/css">
+<link href="{res file=css/else.css}" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="{res file=js/jquery.js}" charset="utf-8"></script>
+<script type="text/javascript" src="{res file=js/common.js}" charset="utf-8"></script>
+<script type="text/javascript" src="{lib file=mlselection.js}" charset="utf-8"></script>
+
+
+<script type="text/javascript">
+    $(function(){
+        $('#cancel_button').click(function(){
+            DialogManager.close('member_bank_delete');
+        });
+
+    });
+
+    function reflash() {
+        var a = $("input[name=address_options][checked]").val();
+        if (a==0) {
+            alert("请填写收货地址");
+        } else {
+            changeshipping(a);
+        }
+    }
+    $(function(){
+        regionInit("region");
+        check_address();
+    });
+    function check_channel_id(){
+        return ($('#channel_id').val() == '' && $('#channel_id').val() == '请选择开户行名称');
+    }
+
+    function hide_error(){
+        $('#region').find('.error').hide();
+    }
+
+    function bj(){
+        $("#d1").hide();
+        $("#s1").show();
+    }
+
+</script>
+
+<script type="text/javascript">
+    //                    var addresses = {$address};
+    //<![CDATA[
+    $(function(){
+        $("input[name='address_options']").click(set_address);
+        $('.address_item').click(function(){
+            $(this).find("input[name='address_options']").attr('checked', true);
+            $('.address_item').removeClass('selected_address');
+            $(this).addClass('selected_address');
+            set_address();
+        });
+        //init
+        set_address();
+    });
+    function set_address(){
+        var addr_id = $("input[name='address_options']:checked").val();
+        if(addr_id == 0)
+        {
+            $('#consignee').val("");
+            $('#region_name').val("");
+            $('#region_id').val("");
+            $('#region_select').show();
+            $("#edit_region_button").hide();
+            $('#region_name_span').hide();
+
+            $('#address').val("");
+            $('#zipcode').val("");
+            $('#phone_tel').val("");
+            $('#phone_mob').val("");
+
+            $('#newaddress_div').show();
+        }
+        else
+        {
+            $('#newaddress_div').hide();
+//                            fill_address_form(addr_id);
+        }
+    }
+    function address_submit(){
+        if($('#user_name').val()==""||$('#region_id').val()==""||$('#region_name').val()==""||$('#bank_code').val()==""||
+           $('#kaihuhang').val()==""||$('#channel_id').val() == "") {
+            alert("请完善收货信息");
+            return;
+        }
+        var flag = $('#default').is(':checked');
+        $.post("index.php?app=member&act=updatebank",
+                {'channel_id':$('#channel_id').val(),'region_id':$('#region_id').val(),
+                    'region_name':$('#region_name').val(),'user_name':$('#user_name').val(),
+                    'bank_code':$('#bank_code').val(),'kaihuhang':$('#kaihuhang').val(),
+                    'default':flag,'id':$('#id').val()},
+                function(data){
+                  if(data.flag == 'error'){
+                       alert('此卡号已经被绑定！');
+                   }
+                   if(data.flag == 'login'){
+                       alert('请先登录！');
+                   }
+                   if(data.flag == 'null'){
+                       alert('请填写完整的信息！');
+                   }
+                   if(data.flag == "ok"){
+                       alert('修改成功！');
+                       location.href = "index.php?app=member&act=bank&p=userInfo";
+                   }
+                   if(data.flag == 'no'){
+                       alert('没有找到该银行！');
+                   }
+                }
+        ,'json');
+    }
+
+
+</script>
+
+<div class="fw_tc">
+
+    <div class="title">银行卡信息<span></span></div>
+    <div style="color: red;text-align: center">
+        <img src="{$site_url}/themes/mall/default/styles/default/images/gantanhao.gif" title="" />
+        注：请确保以下填入的银行信息准确无误，否则影响资金结算
+    </div>
+    <div id="warning"></div>
+    <form id = "bank_form" name="bank_form">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="bol">
+        <tr style="font-weight:bold;">
+            <td  align="right" width="150"><span style="color: red">*&nbsp;</span>开户银行名称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </td>
+            <td align="left">
+                <select name="channel_id" id="channel_id" >
+                    <option value="">请选择开户行名称</option>
+                    <!--{if $channels}-->
+                    <!--{foreach from=$channels item=channel}-->
+                    <option value="{$channel.channel_id}" <!--{if $channel1.channel_id == $channel.channel_id}-->selected<!--{/if}-->>{$channel.channel_name}</option>
+                    <!--{/foreach}-->
+                    <!--{else}-->
+                    <option value="">没有找到银行信息</option>
+                    <!--{/if}-->
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td align="right" width="150"></td><td align="left" style="color: #999">请选择您的开户银行名称</td>
+        </tr>
+        <tr>
+            <td align="right" width="150"><span style="color: red">*&nbsp;</span>银行开户名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td align="left"><input type="text" name = "user_name" id = "user_name" value="{$bank.user_name}"></td>
+        </tr>
+        <tr>
+            <td align="right" width="150"></td><td align="left" style="color: #999">请填写您的银行开户名。银行开户名必须与营业执照上公司名称相同</td>
+        </tr>
+        <tr>
+            <td align="right" width="150"><span style="color: red">*&nbsp;</span>银行卡卡号：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td align="left"><input type="text" name = "bank_code" id = "bank_code" value="{$bank.kahao}"></td>
+        </tr>
+        <tr>
+            <td align="right" width="150"></td><td align="left" style="color: #999">请填写以您自己真实姓名开户的银行卡卡号</td>
+        </tr>
+        <tr>
+            <td align="right" width="150"><span style="color: red">*&nbsp;</span>开户银行支行名称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td align="left"><input type="text" name = "kaihuhang" id = "kaihuhang" value="{$bank.kaihuhang}"></td>
+        </tr>
+        <tr>
+            <td align="right" width="150"></td><td align="left" style="color: #999">请填写您的开户银行支行名称</td>
+        </tr>
+        <tr>
+            <td align="right" width="150"><span style="color: red">*&nbsp;</span>开户银行所在地：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td >
+                <div id="region">
+                <span style="display:none;" id="region_name_span"></span>
+                <input id="edit_region_button" type="button" class="edit_region" value="{$lang.edit}" style="display:none;" />
+                <div id = "d1">{$bank.region_name}<input type="button" value="编辑" onclick="bj();" id = "b1"></div>
+                <select onchange="hide_error();" style="display: none" id = "s1">
+                    <option value="0">{$lang.select_pls}</option>
+                    {html_options options=$regions}
+                </select>
+                <input type="hidden" class="mls_id" name="region_id" id="region_id" value="{$bank.region_id}"/>
+                <input type="hidden" name="region_name" class="mls_names" id="region_name" value="{$bank.region_name}"/>
+                </div>
+            </td>
+        </tr>
+        <tr><td align="right" width="150"></td><td><input type="checkbox" name="default" id = "default" <!--{if $bank.if_default == '1'}-->checked<!--{/if}-->>&nbsp;
+            默认将此账号作为结算账号&nbsp;&nbsp;&nbsp;
+        </td>
+        </tr>
+        <tr><td align="right" width="150"></td>
+        <td>
+            <input type="hidden" value="{$bank.id}" id = "id">
+            <input type="button" value="保存" onclick="javascript:address_submit()">
+        </td>
+        </tr>
+    </table>
+    </form>
+    <br>
+</div>

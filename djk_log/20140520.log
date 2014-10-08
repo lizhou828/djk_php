@@ -1,0 +1,55 @@
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_recomGoods
+2014-05-20 17:29:30  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '中国	上海	上海	宝山区,02014-05-20 09:29:30,1)' at line 1
+MySQL Query:insert into ecm_recommended_goods (goods_id,region_id,region_name, status,create_time,position) values(5152,2717,中国	上海	上海	宝山区,02014-05-20 09:29:30,1)
+Wrong File:  D:\wamp\www\app\service.app.php[5113]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_recomGoods
+2014-05-20 17:30:41  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '请选择推荐位置 limit 0, 30' at line 1
+MySQL Query:select * from ecm_vshop_recom_goods where region_id=2717 and status=1 and position=请选择推荐位置 limit 0, 30
+Wrong File:  D:\wamp\www\includes\models\vshopRecommend.model.php[27]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_recomGoods
+2014-05-20 17:32:08  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '中国	上海	上海	宝山区,0,2014-05-20 09:32:08,1)' at line 1
+MySQL Query:insert into ecm_recommended_goods (goods_id,region_id,region_name, status,create_time,position) values(5152,2717,中国	上海	上海	宝山区,0,2014-05-20 09:32:08,1)
+Wrong File:  D:\wamp\www\app\service.app.php[5113]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_recomGoods
+2014-05-20 17:33:09  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '09:33:09,1)' at line 1
+MySQL Query:insert into ecm_recommended_goods (goods_id,region_id,region_name, status,create_time,position) values(5152,2717,'中国	上海	上海	宝山区',0,2014-05-20 09:33:09,1)
+Wrong File:  D:\wamp\www\app\service.app.php[5113]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_recomGoods
+2014-05-20 17:38:11  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '09:38:11,1)' at line 1
+MySQL Query:insert into ecm_vshop_recom_goods (goods_id,region_id,region_name, status,create_time,position) values(5152,2717,'中国	上海	上海	宝山区',0,2014-05-20 09:38:11,1)
+Wrong File:  D:\wamp\www\app\service.app.php[5113]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_recomGoods
+2014-05-20 17:54:23  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.goods_namefrom ecm_vshop_recom_goods vg right join ecm_goods g on vg.good_id=g.' at line 1
+MySQL Query:select g.goods_id.g.goods_namefrom ecm_vshop_recom_goods vg right join ecm_goods g on vg.good_id=g.goods_idwhere vg.region_id=2717 and vg.status=1 and vg.position=1 limit 0, 30
+Wrong File:  D:\wamp\www\includes\models\vshopRecommend.model.php[27]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_recomGoods
+2014-05-20 17:58:27  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.goods_namefrom ecm_vshop_recom_goods vg right join ecm_goods g on vg.good_id=g.' at line 1
+MySQL Query:select g.goods_id.g.goods_namefrom ecm_vshop_recom_goods vg right join ecm_goods g on vg.good_id=g.goods_idwhere vg.region_id=2717 and vg.status=1 and vg.position=1 limit 0, 30
+Wrong File:  D:\wamp\www\includes\models\vshopRecommend.model.php[27]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_recomGoods
+2014-05-20 18:03:53  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.goods_namefrom ecm_vshop_recom_goods vg right join ecm_goods g on vg.good_id=g.' at line 1
+MySQL Query:select g.goods_id.g.goods_namefrom ecm_vshop_recom_goods vg right join ecm_goods g on vg.good_id=g.goods_idwhere vg.region_id=2717 and vg.status=1 and vg.position=1 limit 0, 30
+Wrong File:  D:\wamp\www\includes\models\vshopRecommend.model.php[34]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_recomGoods
+2014-05-20 18:04:23  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.goods_name  from ecm_vshop_recom_goods vg right join ecm_goods g on vg.good_id=' at line 1
+MySQL Query:select g.goods_id.g.goods_name  from ecm_vshop_recom_goods vg right join ecm_goods g on vg.good_id=g.goods_id where vg.region_id=2717 and vg.status=1 and vg.position=1 limit 0, 30
+Wrong File:  D:\wamp\www\includes\models\vshopRecommend.model.php[34]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_recomGoods
+2014-05-20 18:06:19  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.goods_name  from ecm_vshop_recom_goods vg join ecm_goods g on vg.good_id=g.good' at line 1
+MySQL Query:select g.goods_id.g.goods_name  from ecm_vshop_recom_goods vg join ecm_goods g on vg.good_id=g.goods_id where vg.region_id=2717 and vg.status=1 and vg.position=1 limit 0, 30
+Wrong File:  D:\wamp\www\includes\models\vshopRecommend.model.php[34]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_recomGoods
+2014-05-20 18:10:09  	[256]MySQL Error[1054]: Unknown column 'g.goods_id' in 'field list'
+MySQL Query:SELECT * FROM ecm_goods WHERE goods_id IN( select g.goods_id  from ecm_vshop_recom_goods vg where vg.region_id=2717 and vg.status=1 and vg.position=1) limit 0, 30
+Wrong File:  D:\wamp\www\includes\models\vshopRecommend.model.php[34]	\eccore\model\mysql.php	310

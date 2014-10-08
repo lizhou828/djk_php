@@ -1,0 +1,190 @@
+{include file=member.header.html}
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js"></script>
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js"></script>
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+<div class="content">
+  {include file=member.menu.html}
+   <div id="right">
+
+       <!--{if $visitor.member_type == '04' && $visitor.user_name == 'djk11001'}-->
+           <ul class="tab">
+               <li class="active"><a href="index.php?app=service&act=service">全部商家</a></li>
+           </ul>
+       <!--{else}-->
+           <ul class="tab">
+               <li class="active">商家管理</li>
+           </ul>
+       <!--{/if}-->
+        <div class="wrap">
+            <!--{if $visitor.member_type == '04' && $visitor.user_name == 'djk11001'}-->
+                <div class="eject_btn_two eject_pos1" title="新增商家">
+                    <b class="ico2" onclick="go('index.php?app=service&act=uploadStore&p=service');">新增商家</b>
+                </div>
+            <!--{else}-->
+                <div class="eject_btn_two eject_pos2" title="<!--{if $visitor.member_type == '04'}-->新增商家<!--{else}-->新增本区商家<!--{/if}-->">
+                    <b class="ico2" onclick="go('index.php?app=service&act=uploadStore&p=service');">
+                        <!--{if $visitor.member_type == '04'}-->新增商家<!--{else}-->新增本区商家<!--{/if}--></b>
+                </div>
+                <div class="eject_btn_two eject_pos1" title="新增托管商家">
+                    <b class="ico1" onclick="go('index.php?app=service&act=uploadStore2&tuoguan=1&p=service');">新增托管商家</b>
+                </div>
+            <!--{/if}-->
+
+            <div class="public" style="padding-top: 80px">
+            <!-- 服务中心 对应的 店铺 列表 -->
+            <div class="public_index table" id="serviceTable" name="serviceTable">
+
+                <div class="scarch_order" style=" margin-left: -18px">
+                    <form method="get">
+                          <input type="hidden" name="app" value="service" />
+                          <input type="hidden" name="act" value="service" />
+                          <span class="title">商家 / 用户名 / {$lang.store_name}</span>
+                          <input class="queryInput" type="text" name="owner_name" value="{$smarty.get.owner_name|escape}" />&nbsp;&nbsp;&nbsp;&nbsp;
+                          <span class="title">注册时间:</span>&nbsp;&nbsp;&nbsp;
+                          <input class="text_normal width2" type="text" name="add_time_from" id="add_time_from" value="{$smarty.get.add_time_from|escape}" /> &#8211;
+                          <input class="text_normal width2" id="add_time_to" type="text" name="add_time_to" value="{$smarty.get.add_time_to|escape}" />&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        <!-- {if $visitor.member_type == '02' && ($smarty.get.tuoguan==1 || $smarty.get.tuoguan==0) }-->
+                        <br><br>
+                        按子账号
+                        <select name="users" class="sgcategory">
+                            <option value="-1">全部</option>
+                            <!--{if $users}-->
+                            <!--{foreach from=$users item=user}-->
+                            <option value="{$user.user_id}" <!--{if $smarty.get.users == $user.user_id}-->selected="selected"<!--{/if}--> >{$user.user_name}</option>
+                            <!-- {/foreach} -->
+                            <!--{/if}-->
+                        </select>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <!--{/if}-->
+                          按商家类型
+                          <select name="tuoguan">
+                              <option value="-1">全部</option>
+                              <option value="1" <!--{if $smarty.get.tuoguan == 1}-->selected="selected"<!--{/if}-->>托管商家</option>
+                              <option value="2" <!--{if $smarty.get.tuoguan == 2}-->selected="selected"<!--{/if}-->>非托管商家</option>
+                              <option value="3" <!--{if $smarty.get.tuoguan == 3}-->selected="selected"<!--{/if}-->>实体店</option>
+                          </select>
+
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          <input type="submit" class="btn" value="查询" />
+                    </form>
+                </div>
+                <div class="public_index table">
+                    <table width="100%" class="table_head_line">
+
+               
+                     <!--<tr class="line_bold">
+                        <th class="" colspan="6"></th>
+                     </tr>-->
+                    <tr class="gray">
+                      <th>&nbsp;&nbsp;&nbsp;商家帐号</td>
+                      <th>&nbsp;&nbsp;&nbsp;<span ectype="order_by" fieldname="store_name">{$lang.store_name}</span></td>
+
+                      <th>商品数量</td>
+                      <th>订单数量</td>
+                      <th>推广会员</td>
+                       <th>营业额</td>
+
+                      <th><span ectype="order_by" fieldname="region_id">
+                        <!--{if $smarty.get.tuoguan eq 0 || $smarty.get.tuoguan eq 1 }-->
+                        所属子账号
+                        <!--{else}-->
+                        {$lang.region}
+                        <!--{/if}-->
+
+                      </span></td>
+                      <th width="80px"><span ectype="order_by" fieldname="sgrade">佣金比例</span></td>
+                      <th width="80px" class="table-center"><span ectype="order_by" fieldname="state">{$lang.state}</span></td>
+                      <th class="handler">操作</td>
+                    </tr>
+             
+                    <!--{foreach from=$stores item=store}-->
+                    <tr class="line">
+                       <td>&nbsp;&nbsp;&nbsp;<a target="_blank" href="{$site_url}/index.php?app=store&amp;id={$store.store_id}"> <!--{if $store.im_qq }-->{$store.nick_name|truncate:20:"……"}<!--{else}-->{$store.user_name|truncate:20:"……"}<!--{/if}--></a></td>
+                      <td><a target="_blank" href="{$site_url}/index.php?app=store&amp;id={$store.store_id}">{$store.store_name|escape}</a></td>
+
+                     <!--{if $visitor.user_id==$store.fwzx}-->
+                        <td><a href="index.php?app=service&act=my_goods&p=service&view=goods&store_id={$store.store_id}">{$store.goodsCount|escape}件</a></td>
+                        <td><a href="index.php?app=service&act=orders&type=all_orders&store_id={$store.store_id}">{$store.orderCount|escape}条</a></td>
+                     <!--{else}-->
+                        <td>{$store.goodsCount|escape}件</td>
+                        <td>{$store.orderCount|escape}条</td>
+                     <!--{/if}-->
+
+                      <td>{$store.tuserCount}位</td>
+                        <td>{$store.jine|price}</td>
+                      <td>
+                          <!--{if $smarty.get.tuoguan eq 0 || $smarty.get.tuoguan eq 1 }-->
+                          <!--{if $store.fwzx==$visitor.user_id}-->--<!--{else}-->{$store.service_user}<!--{/if}-->
+                          <!--{else}-->
+                          {$store.region_name|escape}
+                          <!--{/if}-->
+
+                      </td>
+                      <td><!--{if $store.seller_type eq 3}--> <!--{if $visitor.member_type != '03'}-->  {$store.ticheng|changerStr:100}% <!--{/if}--> <!--{/if}--></td>
+                      <td class="table-center">
+                          <!--{if $store.state == "审核不通过" }-->
+                          <label title="审核不通过原因：{$store.unpass_reason}" style="cursor:pointer; color: red">{$store.state}</label>
+                          <!--{else}-->
+                          {$store.state}
+                          <!--{/if}-->
+
+                      </td>
+                      <td class="handler">
+                       <!--{if $visitor.member_type == '04' && $visitor.user_name == 'djk11001'}-->
+                          <a href="{$site_url}/index.php?app=service&amp;act=store_edit&amp;id={$store.store_id}">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                          <a href="{$site_url}/index.php?app=service&amp;act=service_view&amp;id={$store.store_id}">查看</a>
+                       <!--{else}-->
+                          <!--{if $smarty.get.tuoguan eq 1}-->
+                                    <a href="{$site_url}/index.php?app=service&amp;act=service_edit&amp;id={$store.store_id}&tuoguan=1">修改</a>
+                          <!--{else}-->
+                                    <a href="{$site_url}/index.php?app=service&amp;act=service_view&amp;id={$store.store_id}">查看</a>
+                          <!--{/if}-->
+                          <!--{if $store.seller_type == 3 && $store.state == '开启'}-->
+                                    <a href="{$site_url}/index.php?app=service&amp;act=mentie&amp;store_id={$store.store_id}" target="_blank">下载门贴</a>
+                          <!--{/if}-->
+                       <!--{/if}-->
+                      </td>
+                    </tr>
+                    <!--{foreachelse}-->
+                    <tr class="no_data">
+                      <td colspan="9" class="member_no_records">没有查询到数据</td>
+                    </tr>
+                    <!--{/foreach}-->
+                  </table>
+            <!--{if $stores}-->
+            <div class="kandan_foot">
+                <div class="pageLinks">{include file=member.page.bottom.html}</div>
+            </div>
+            </div>
+            <div class="clear"></div>
+            <!--{/if}-->
+            </div>
+		</div>
+		<!-- 服务中心 对应的 店铺 列表 结束 -->
+        </div>
+
+
+        </div>
+
+        <div class="clear"></div>
+        <div class="adorn_right1"></div>
+        <div class="adorn_right2"></div>
+        <div class="adorn_right3"></div>
+        <div class="adorn_right4"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<script>
+$('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+$('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+function colse_confirm(url)
+{
+  if(confirm("确认关闭该店铺吗？"))
+  {
+    location=url;
+  }
+}
+</script>
+{include file=footer.html}

@@ -1,0 +1,173 @@
+<script type="text/javascript">
+$(function(){
+    $('#cancel_button').click(function(){
+        DialogManager.close('seller_order_cancel_order');
+    });
+
+
+        $("#shouhouForm").validate({
+            errorPlacement: function(error, element){
+                var error_td = element.parents('td').next('td');
+                error_td.find('.field_notice').hide();
+                error_td.find('.fontColor3').hide();
+                error_td.append(error);
+            },
+            success: function(label){
+                label.addClass('validate_right').text('OK!');
+            },
+            onkeyup: false,
+            rules: {
+                content_post: {
+                    required: true
+                },
+                content_img1: {
+                    accept: "jpg|jpeg|png|gif"
+                },
+                content_img2: {
+                    accept: "jpg|jpeg|png|gif"
+                },
+				content_reply: {
+                    required: true
+                }				
+				,
+                notice: {
+                    required : true
+                }
+				
+            },
+            messages: {
+                content_post: {
+                    required: '请填写退换货原因'
+                },
+                content_img1: {
+                    required: '请选择图片证明',
+                    accept:   '请选择图片格式为jpg|jpeg|png|gif'
+                },
+                content_img2: {
+                    required: '请选择图片证明',
+                    accept:   '请选择图片格式为jpg|jpeg|png|gif'
+                },
+                notice: {
+                    required: '请阅读并同意退换货协议'
+                }
+				,
+                content_reply: {
+                    required: '处理方案不能为空'
+                }
+				
+				
+            }
+        });
+
+
+
+
+});
+
+function show(str){
+if(str==1)
+{
+   document.getElementById("jine1").disabled="";
+}else{
+   document.getElementById("jine1").disabled="disabled";
+}
+
+}
+
+</script>
+<ul class="tab">
+    <li class="active">申请退换货</li>
+</ul>
+<div class="content1">
+<div id="warning"></div>
+<!--{if $orderType}-->
+<form method="post" id="shouhouForm" name="shouhouForm"  action="index.php?app=service&amp;act=chulishouhou" enctype="multipart/form-data" method="post">
+<!--{else}-->
+<form method="post" id="shouhouForm" name="shouhouForm"  action="index.php?app=ordershouhou&amp;act=chulishouhou" enctype="multipart/form-data" method="post">
+<!--{/if}-->
+	<input type="hidden" name="order_id" value="{$ordergoods.order_id}" />
+    <input type="hidden" name="goods_id" value="{$ordergoods.goods_id}" />    
+    <input type="hidden" name="shouhou_id" value="{$shouhou.id}" />
+   
+    
+    <table class="shouhouTbl">
+    <tr>
+    <td><label for="d1">请选择售后方式</label></td>
+    <td><input type="radio" name="type" disabled="disabled" onclick="show(1)" class="text" <!--{if $shouhou.type eq 1}-->checked<!--{/if}--> id="d1" value="1" /> <label for="d1">退货</label>
+        <input type="radio" name="type" disabled="disabled" onclick="show(2)" class="text"  <!--{if !$shouhou || $shouhou.type eq 2 }-->checked<!--{/if}--> value="2" /> <label for="d2">换货</label></td>
+    </tr>
+    
+    <tr>
+    <td>希望退还金额: </td>
+    <td>
+    	<input type="text" class="text" 
+        disabled="disabled"
+      value="<!--{if $shouhou.jine}-->{$shouhou.jine}<!--{else}-->0<!--{/if}-->"  />
+    	<font color="#FF0000">(商品金额:¥{$ordergoods.price})</font>
+    </td>
+    </tr>
+    
+    <tr>
+    <td>申请原因:</td>
+    <td><textarea disabled="disabled" class="text width_normal" style="width:600px; height:130px">{$shouhou.content_post}</textarea>
+   	 </tr>
+    
+    <!--{if $shouhou.content_img1 || $shouhou.content_img2}-->
+    <tr>
+    <td colspan="2">&nbsp;</td>
+    </tr>
+    <tr>
+    <td>证明:</td>
+    <td>		
+    		
+                
+                <!--{if $shouhou.content_img1}-->图片证明1&nbsp;&nbsp;&nbsp;
+                <a href="{$site_url}/{$shouhou.content_img1}" target="_blank">{$site_url}/{$shouhou.content_img1}</a>
+                <!--{/if}-->
+                 <!--{if $shouhou.content_img2}--><br>图片证明2&nbsp;&nbsp;&nbsp;
+                <a href="{$site_url}/{$shouhou.content_img2}" target="_blank" >{$site_url}/{$shouhou.content_img2}</a>
+                <!--{/if}-->
+                
+                </td>
+    </tr>
+    <!--{/if}-->
+    
+	<tr>
+    <td colspan="2"><br><hr /><br></td>
+    </tr>
+    <tr>
+    
+    <!---卖家处理-->
+    
+    
+    <td>处理内容 :</td>
+    <td><textarea id="content_post" name="content_reply" class="text width_normal" style="width:600px; height:130px">{$shouhou.content_reply}</textarea>
+   		<font color="#FF0000">处理方案必填</font>
+   </td>
+    </tr>
+    
+    <tr>
+    <td>证明:</td>
+    <td>		<input type="file"  class="file" id="reply_img1"  name="reply_img1" /> 图片证明1
+                <!--{if $shouhou.reply_img1}-->
+                <a href="{$site_url}/{$shouhou.reply_img1}" target="_blank">{$site_url}/{$shouhou.reply_img1}</a>
+                <!--{/if}-->
+                
+                <br>
+                <input type="file"  class="file" id="reply_img2"  name="reply_img2" />  图片证明2
+                 <!--{if $shouhou.reply_img2}-->
+                <a href="{$site_url}/{$shouhou.reply_img2}" target="_blank" >{$site_url}/{$shouhou.reply_img2}</a>
+                <!--{/if}-->
+                </td>
+    </tr>
+	</table>	
+    <br>
+    <div class="btn">
+        <input type="submit" id="confirm_button" class="btn1" value="{$lang.confirm}" />
+    </div>
+    <br>
+    </form>
+    
+
+</div>
+

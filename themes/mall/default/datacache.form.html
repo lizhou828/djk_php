@@ -1,0 +1,339 @@
+<script type="text/javascript">
+    var is_depth =false;
+    var pd_category_json = {$pd_category_json};
+    var category_brand_json = {$category_brand_json};
+    var category_attrs_json = {$category_attrs_json};
+    $(function(){
+        $('.zl_title a').click(function(){
+            $(this).parent().each(function () {
+                $('.zl_title a').removeAttr("style");
+            });
+            $(this).attr("style","background:#4c96dc; color:#fff; font-weight:bold;");
+        });
+
+        <!--{if $store.seller_type eq 3 }-->
+        get_category(5);
+        <!--{elseif $hanguo == 'hanguo'}-->
+        get_category(10);
+        <!--{else}-->
+        get_category(0);
+        <!--{/if}-->
+    });
+
+
+     //一级分类
+    function get_category(pd_id){
+        $("#pd_id").val(pd_id);
+        $("#brand_dt").html("");
+        $("#attrs_dl").html("");
+//            $("#pd_"+pd_id).attr("style","background:#4c96dc; color:#fff; font-weight:bold;");
+        var str ="<div class='div1' id='div_0'><ul>";
+        for (var i=0;i<pd_category_json.length;i++) {
+            var pds = pd_category_json[i].pds;
+            if (pds!=null && pds.indexOf('-')>0) {
+                var pd_ids  = pds.split('-');
+                for(var j=0;j<pd_ids.length;j++) {
+                    if(pd_id ==pd_ids[j]) {
+                        if (is_leaf(pd_category_json[i].cate_id)) {
+                            str += "<li id='li_"+pd_category_json[i].cate_id+"'>" +
+                                    "<a href=\"javascript:get_son_category("+pd_category_json[i].cate_id+",0,0)\" title="+"厂商："+pd_category_json[i].changshang_ticheng+",代理商："+pd_category_json[i].dailishang_ticheng+",零售商："+pd_category_json[i].lingshoushang_ticheng+">"+pd_category_json[i].cate_name+"</a>" +
+                                    "</li>";
+                        } else {
+                            str += "<li id='li_"+pd_category_json[i].cate_id+"'>" +
+                                    "<a href=\"javascript:get_brand_attrs("+pd_category_json[i].cate_id+",0,0"+")\" title="+"厂商："+pd_category_json[i].changshang_ticheng+",代理商："+pd_category_json[i].dailishang_ticheng+",零售商："+pd_category_json[i].lingshoushang_ticheng+">"+pd_category_json[i].cate_name+"</a>" +
+                                    "</li>";
+                        }
+                    }
+                }
+            }else{
+                if(pd_id == pds) {
+                    if (is_leaf(pd_category_json[i].cate_id)) {
+                        str += "<li id='li_"+pd_category_json[i].cate_id+"'>" +
+                                "<a href=\"javascript:get_son_category("+pd_category_json[i].cate_id+","+"0,0)\" title="+"厂商："+pd_category_json[i].changshang_ticheng+",代理商："+pd_category_json[i].dailishang_ticheng+",零售商："+pd_category_json[i].lingshoushang_ticheng+">"+pd_category_json[i].cate_name+"</a>" +
+                                "</li>";
+                } else {
+                        str += "<li id='li_"+pd_category_json[i].cate_id+"'>" +
+                                "<a href=\"javascript:get_brand_attrs("+pd_category_json[i].cate_id+","+"0,0"+")\" title="+"厂商："+pd_category_json[i].changshang_ticheng+",代理商："+pd_category_json[i].dailishang_ticheng+",零售商："+pd_category_json[i].lingshoushang_ticheng+">"+pd_category_json[i].cate_name+"</a>" +
+                                "</li>";
+                    }
+                }
+            }
+        }
+        str+="</ul></div>";
+        $("#div_first").html(str);
+    }
+//判断是否是最后一级
+    function is_leaf(cate_id){
+        var level = false;
+        for (var i=0;i<pd_category_json.length;i++) {
+           if(pd_category_json[i].parent_id == cate_id){
+               level = true;
+               break;
+           }
+        }
+        return level;
+    }
+
+    //获取下级分类
+    function get_son_category(cate_id, level){
+        if (level==0) {
+            $("#div_"+(level+1)).remove();
+            $("#div_"+(level+2)).remove();
+            $("#div_"+(level+3)).remove();
+        } else {
+            $("#div_"+(level+1)).remove();
+            $("#div_"+(level+2)).remove();
+        }
+        level += 1;
+        var category_arr = $("#li_" + cate_id).parent().find("li").each(function(){
+            $(this).removeClass("category_selected");
+        });
+        $("#li_" + cate_id).addClass("category_selected");
+        var son_str="<div class='div1' id='div_"+level+"' ><ul>";
+        for (var i=0;i<pd_category_json.length;i++ ) {
+            if (pd_category_json[i].parent_id == cate_id) {
+                if (is_leaf(pd_category_json[i].cate_id)) {
+                    son_str += "<li id='li_" + pd_category_json[i].cate_id + "'>" +
+                            "<a href=\"javascript:get_son_category("+pd_category_json[i].cate_id+","+level
+                            +")\" title="+"厂商："+pd_category_json[i].changshang_ticheng+",代理商："+pd_category_json[i].dailishang_ticheng+",零售商："+pd_category_json[i].lingshoushang_ticheng+">"+pd_category_json[i].cate_name+"</a>" +
+                            "</li>";
+                } else {
+                    son_str += "<li id='li_" + pd_category_json[i].cate_id + "'>" +
+                            "<a href=\"javascript:get_brand_attrs("+pd_category_json[i].cate_id+","+cate_id+","+level
+                            +")\" title="+"厂商："+pd_category_json[i].changshang_ticheng+",代理商："+pd_category_json[i].dailishang_ticheng+",零售商："+pd_category_json[i].lingshoushang_ticheng+">"+pd_category_json[i].cate_name+"</a>" +
+                            "</li>";
+                }
+
+            }
+        }
+        son_str+="</ul></div>";
+
+        $("#div_first").append(son_str);
+
+    }
+
+    function get_cate_name(cate_id) {
+        var cate_name = "";
+        for (var i=0;i<pd_category_json.length;i++) {
+            if (pd_category_json[i].cate_id == cate_id){
+                cate_name +=pd_category_json[i].cate_name +"\t";
+               if (pd_category_json[i].parent !=0){
+                for (var j=0;j<pd_category_json.length;j++) {
+                    if (pd_category_json[j].cate_id == pd_category_json[i].parent_id) {
+                        cate_name +=pd_category_json[j].cate_name +"\t";
+                        if (pd_category_json[j].parent_id !=0) {
+                            for (var h=0;h<pd_category_json.length;h++) {
+                                if (pd_category_json[h].cate_id == pd_category_json[j].parent_id){
+                                    cate_name +=pd_category_json[h].cate_name +"\t";
+                                    if (pd_category_json[h].parent_id != 0) {
+                                        for (var g=0;g<pd_category_json.length;g++) {
+                                            if (pd_category_json[g].cate_id==pd_category_json[h].parent_id) {
+                                                cate_name +=pd_category_json[g].cate_name +"\t";
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                }
+            }
+        }
+        var v;
+        var cate_desc ="";
+        var cate_name_str = cate_name.split("\t");
+        for (v=cate_name_str.length-1;v>=0;v--) {
+            cate_desc+= cate_name_str[v]+"\t";
+        }
+        return $.trim(cate_desc);
+    }
+    //获取品牌
+    function get_brand_attrs(cate_id,parent_id,level) {
+        $("#div_"+(level+1)).remove();
+        $("#div_"+(level+2)).remove();
+        $("#div_"+(level+3)).remove();
+        var category_arr = $("#li_" + cate_id).parent().find("li").each(function(){
+            $(this).removeClass("category_selected");
+        });
+        $("#li_" + cate_id).addClass("category_selected");
+        is_depth = true;
+        $("#ms_id").val(cate_id);
+        $("#cate_name").val(get_cate_name(cate_id));
+
+        var brand_str="<input type='hidden' id='brand_name' value=''><em><input type=\"radio\" name=\"brand_id\">不限</em>";
+        var attr_str=null;
+        for (var i=0;i<category_brand_json.length;i++ ) {
+            var cate_ids = category_brand_json[i].cat_ids;
+            if (cate_ids!=null && cate_ids.indexOf('-')>0) {
+                var cate_arr  = cate_ids.split('-');
+                for(var j=0;j<cate_arr.length;j++) {
+//                    alert(category_brand_json[i].brand_name);
+                    if(cate_id ==cate_arr[j]) {
+                        var value1 = category_brand_json[i].brand_name.replace("\'","\\\'");
+                        value1 = value1.replace("\"","\\\"");
+                        brand_str += "<em><input type=\"radio\" name=\"brand_id\" onclick=\"set_brand("+"'"+value1+"'"+")\"  value='"+category_brand_json[i].brand_id+"' />"+category_brand_json[i].brand_name+"</em>";
+                    }
+                }
+            }else{
+                if(cate_id == cate_ids) {
+                    var value1 = category_brand_json[i].brand_name.replace("\'","\\\'");
+                    value1 = value1.replace("\"","\\\"");
+                    brand_str += "<em><input type=\"radio\" name=\"brand_id\" onclick=\"set_brand("+"'"+value1+"'"+")\" value='"+category_brand_json[i].brand_id+"'/>"+category_brand_json[i].brand_name+"</em>";
+                }
+            }
+        }
+        if (brand_str == null) {
+            brand_str =" ";
+        }
+        $("#brand_dt").html(brand_str);
+        //获取属性
+        for (var h=0;h<category_attrs_json.length;h++) {
+            if(cate_id ==category_attrs_json[h].cat_ids || parent_id==category_attrs_json[h].cat_ids){
+                var def_values = category_attrs_json[h].def_value;
+                var def_str = null;
+                if (def_values!=null && def_values.indexOf(',')>0) {
+                    var strs = def_values.split(',');
+                    for (var f=0;f<strs.length;f++) {
+                        if (def_str==null) {
+                            def_str ="<em><input type='radio' class='attrs'   value='' name='attr_value_"+category_attrs_json[h].attr_id+"'/>不限</em><em><input class='attrs' name='attr_value_"+category_attrs_json[h].attr_id+"' type='radio' value='"+strs[f]+"' />"+strs[f]+"</em>";
+                        } else {
+                            def_str +="<em><input class='attrs'   name='attr_value_"+category_attrs_json[h].attr_id+"' type='radio' value='"+strs[f]+"' />"+strs
+                                    [f]+"</em>";
+                        }
+                    }
+                } else {
+                    def_str =  "<em><input type='radio' class='attrs' name='attr_value_"+category_attrs_json[h].attr_id+"'>不限</em><em><input class='attrs' name='attr_value_"+category_attrs_json[h].attr_id+"' type='radio' value='"+def_values+"' />"+def_values+"</em>";
+                }
+                if (attr_str==null) {
+                    attr_str = "<dd>"+category_attrs_json[h].attr_name+":</dd><dt>" +def_str+"</dt>";
+                } else {
+                    attr_str += "<dd>"+category_attrs_json[h].attr_name+":</dd><dt>"+def_str+"</dt>";
+                }
+                attr_str+="<input type='hidden'  name='attr_id' value='"+category_attrs_json[h].attr_id+"'><input type='hidden' name='attr_name' value='"+category_attrs_json[h].attr_name+"' >";
+            }
+        }
+
+        $("#attrs_dl").html(attr_str);
+    }
+
+    function set_brand(brand) {
+        $("#brand_name").val(brand);
+    }
+
+
+    function submit_ok() {
+        if (is_depth == false) {
+            alert("请选择最后一级分类");
+            return;
+        }
+
+        var data_info=new Object();
+        data_info.cate_id = $("#ms_id").val();
+
+        data_info.cate_name= $("#cate_name").val();
+        data_info.pd_id = $("#pd_id").val();
+        var attr_ids = $("input[name=attr_id]");
+        var attr_names = $("input[name=attr_name]");
+        var attr_values_str = null;
+        var attr_id_str = null;
+        var attr_name_str = null;
+        if (attr_ids.length >0 && attr_ids !=null) {
+            for(var i=0;i<attr_ids.length;i++) {
+                if ($("input:radio[name='attr_value_"+attr_ids[i].value+"']:checked").val() !=undefined &&$("input:radio[name='attr_value_"+attr_ids[i].value+"']:checked").val() !="") {
+                    if (attr_values_str == null) {
+                        attr_values_str = $("input:radio[name='attr_value_"+attr_ids[i].value+"']:checked").val();
+                        attr_id_str = attr_ids[i].value;
+                        attr_name_str = attr_names[i].value;
+                    } else {
+                        attr_values_str +=","+$("input:radio[name='attr_value_"+attr_ids[i].value+"']:checked").val();
+                        attr_id_str +=","+attr_ids[i].value;
+                        attr_name_str +=","+attr_names[i].value;
+                    }
+                }
+            }
+            data_info.attr_ids = attr_id_str;
+            data_info.attr_names = attr_name_str;
+            data_info.attr_value = attr_values_str;
+        }
+        if ($('#brand_name').val()=="" ||$('#brand_name').val()==null) {
+            data_info.brand_id =null;
+            data_info.brand_name = $('#brand_name').val();
+        } else {
+            data_info.brand_id =$('input:radio[name="brand_id"]:checked').val();
+            data_info.brand_name = $('#brand_name').val();
+        }
+
+        parent.window.fuzhi(data_info);
+        DialogManager.close('categoryForm')
+    }
+</script>
+<style>
+    html, body, div, ul, ol, li, dl, dt, dd, h1, h2, h3, h4, h5, h6, pre, form, p, blockquote, fieldset, input {
+        margin: 0;
+        padding: 0;font-style:normal; list-style:none; font-family:"宋体";
+    }
+    .zl_gg{width:880px; height:381px;}
+    .zl_title{ width:880px; height:31px;}
+    .zl_title a{ width:90px; height:30px; border:1px solid #7bb2e8; border-bottom:none;float:left; line-height:30px; text-align:center; font-family:"宋体"; font-size:14px; text-decoration:none; margin-right:3px;}
+    .zl_title a:hover{ background:#4c96dc; color:#fff; font-weight:bold;}
+    .zl_bg{ width:880px; height:350px; background:#f6fbff; border:1px solid #7bb2e8;border-bottom: none;border-left:none; border-right:none;}
+    .zl_bg .div1{ width:200px; height:320px; float:left; border:1px solid #7bb2e8; margin-top:15px; margin-left:15px; overflow:scroll;overflow-x:hidden;word-break:break-all;}
+    .zl_bg .div1 ul{width:180px; margin-left:10px; margin-top:10px;}
+    .zl_bg .div1 ul li{ font-size:12px; color:#3e3a39; line-height:28px; height:28px;width:172px;
+        overflow: hidden;  border:1px dotted #fff; padding-left:8px;}
+    .zl_bg .div1 ul li:hover{ font-size:12px; cursor: pointer; color:#3e3a39; line-height:28px; height:28px;width:172px; background:#dff1ff; border:1px dotted #7bb2e8;
+        padding-left:8px;}
+    .zl_gg .div2{width:884px; background: #ffffff; padding-top:5px; padding:8px;margin-left: -6px;  float:left;}
+    .zl_gg .div2 dl{ font-size:12px; margin-right:8px; line-height:25px;width:884px;}
+    .zl_gg .div2 dl dd{ float:left; line-height:25px;width:60px; }
+    .zl_gg .div2 dl dt{ float:left; margin-right:8px;width:810px; }
+    .zl_gg .div2 dl dt em{white-space:nowrap; float: left; margin-right: 5px;}
+    .zl_gg .div2 dl dt input{ vertical-align:middle;line-height:25px;}
+    .zl_bg .div1 ul li a{width: 172px; height: 28px; display: block}
+    .zl_bg .div1 ul li a:hover { text-decoration: none}
+    .category_selected { font-size:12px; cursor: pointer; color:#3e3a39; line-height:28px; height:28px;width:172px; background:#dff1ff; border:1px dotted #7bb2e8;
+        padding-left:8px;}
+    .zl_gg .div3{width:895px; height: 28px; float:left;margin-left: -6px; padding-bottom:5px;padding-left: 5px;  background: #ffffff}
+    .zl_gg .div3 a{width:79px; height: 28px;  float:left;background-image: url('{res file=images/save_attr.gif}');}
+
+</style>
+
+<form method="post" action="" target="my_shipping" id="categoryForm">
+
+    <input type="hidden" name="cate_id" id="ms_id" value="">
+    <input type="hidden" name="cate_name" id="cate_name" value="">
+    <input type="hidden" name="pd_id" id="pd_id" value="">
+    <div class="zl_gg">
+        <div class="zl_title" id="zl_title">
+            <!--{if $store.seller_type eq 3 }-->
+            <a href="javascript:get_category(5)" id="pd_5">本地生活</a>
+            <!--{elseif $hanguo == 'hanguo' }-->
+            <a href="javascript:get_category(10)" id="pd_10">韩国馆</a>
+            <!--{else}-->
+            <a href="javascript:get_category(0)" id="pd_1" style="background:#4c96dc; color:#fff; font-weight:bold;">全部</a> <a href="javascript:get_category(2)" id="pd_2">超市</a>
+            <a href="javascript:get_category(3)" id="pd_3">特色大集</a> <a href="javascript:get_category(4)" id="pd_4">旅游大集</a>
+            <!--{if $visitor.user_name == 'djk11001' || $visitor.user_name == 'djk11002' }-->  <a href="javascript:get_category(5)" id="pd_5">本地生活</a><!--{/if}--> <a href="javascript:get_category(6)" id="pd_6">工厂直供</a>
+            <!--{if $visitor.user_name == 'djk11001' || $visitor.user_name == 'djk11002' }-->  <a href="javascript:get_category(10)" id="pd_10">韩国馆</a><!--{/if}-->
+            <!--{/if}-->
+        </div>
+        <div class="zl_bg" id="div_first">
+                   </div>
+        <div class="div2">
+            <p style="font-size:14px; font-weight:bold;">品牌</p>
+            <dl >
+                <dt id="brand_dt"></dt>
+            </dl>
+        </div>
+        <div class="div2">
+            <p style="font-size:14px; font-weight:bold;">属性</p>
+
+            <dl id="attrs_dl">
+
+            </dl>
+        </div>
+        <div class="div3">
+            <a href="javascript:submit_ok()" ></a>
+        </div>
+        </div>
+</form>

@@ -1,0 +1,67 @@
+@charset "utf-8";
+/*********************** 头部**************************/
+.address-t{width:298px;height:34px;line-height:28px;padding-left:5px;padding-right:6px;padding-top:9px;margin:0 auto;background:#c40000;position:fixed!important; position:absolute;top:0px!important; top:auto; top: expression(eval(document.compatMode && document.compatMode=='CSS1Compat') ? documentElement.scrollTop+(documentElement.clientHeight - this.clientHeight):document.body.scrollTop+(document.body.clientHeight - this.clientHeight));}
+	.address-l{width:43px;color:#fff;padding-left:20px;font-weight:bold;float:left;background: url(images/address/f-h.jpg) no-repeat;}
+	.address-l a{color:#fff;}
+	.address-c2{width:110px;height:34px;height:34px;padding-left:64px;color:#fff; font-size:14px; font-weight:bold;float:left;}
+	.address-r1{width:39px;height:34px;padding-left:12px;float:right;font-weight:bold; background: url(images/address/g-b.jpg) no-repeat;}
+	.address-r1 a{color:#fff;}
+
+.life-bg{width:309px;padding:20px 0px 10px 0px;margin:0 auto;background:#fff;}
+
+/*********************** 搜索**************************/
+.lift-s{width:309px; height:39px;padding-top:50px;background:#e4e4e4;margin:0 auto;}
+.lift-s1{width:300px; height:33px;margin-left:24px;}
+.lift-text{ float:left;width:200px;height:31px;line-height:31px;padding-left:10px;color:#ccc;font-size:14px;border-radius:5px 0px 0px 5px; border:1px solid #cdcdcd;border-right:0px;background:#fff;}
+.lift-bu{width:39px;height:35px;float:left;border-radius:0px 5px 5px 0px; border:1px solid #cdcdcd;border-left:0px; background:#fff url(images/address/f-d-j.jpg) 8px 8px no-repeat;}
+
+
+
+/*********************** 搜索**************************/
+.life-cen{width:309px;}
+.life-cen dl{width:80px;margin-right:33px;margin-bottom:30px;float:left;}
+.life-cen dt{width:78px;height:78px;border:1px solid #cecece;}
+.life-cen dd{width:80px;height:29px;line-height:29px; text-align:center;font-size:14px;background:#cecece;}
+
+/***********************餐饮美食**************************/
+.cate-bg{width:309px; height:500px;padding:10px 6px 0px 5px;margin:0 auto;background:#f8f8f8;padding-top:60px;}
+
+.cate-bg .ddi{ width:310px; height:40px; margin:0px auto; margin-top:20px;}
+.cate-bg .ddi .left{ width:240px; float:left; background:#bfbfbf; height:31px; margin-right:6px; padding-left:10px; padding-top:9px;}
+.cate-bg .ddi .left .a1{ width:42px; height:25px; background:url(../images/ico33.png) no-repeat; float:left; margin-right:42px;}
+.cate-bg .ddi .left .a2{ width:42px; height:25px; background:url(../images/ico33.png) no-repeat -42px 0; float:left;}
+.cate-bg .ddi .right{ width:54px; height:40px; float:left; background:url(../images/ico32.png) no-repeat;}
+.cate-bg .ddi .right a{width:54px; height:40px; display:block;}
+
+.cate1{width:309px;height:35px;line-height:35px; text-align:center; font-size:14px; font-weight:bold;}
+.cate11{width:154px;height:35px; float:left; color:#fff;border-radius:5px 0px 0px 5px;background:#999;}
+.cate22{width:155px;height:35px; float:right;border-radius:0px 5px 5px 0px;background:#ccc;}
+
+.cate2{width:307px;margin-top:10px;border-radius:5px; border:1px solid #e5e5e5; background:#fff;}
+.cate-c1{width:307px;height:115px;border-bottom:1px solid #e5e5e5;}
+.cate-c1 dl{width:285px;height:100px;margin-top:10px;margin-left:10px;}
+.cate-c1 dt{ float:left;width:100px;height:100px;margin-right:5px;}
+.cate-c1 dd{float:right;width:176px;height:100px;}
+.cate-c1 dd h3{font-size:14px;margin-top:5px;}
+.cate-c1 dd h4{ font-family:"微软雅黑"; font-size:16px; color:#c40000;margin-top:5px;}
+.cate-c1 dd p{margin-top:8px;}
+
+/***********************默认排序**************************/
+.default{width:315px;margin-top:80px; background:#fff;}
+.default-t{width:305px;height:35px;line-height:35px;padding-left:10px;font-size:14px; color:#fff;font-weight:bold;background:#c40000;}
+.default-c{width:313px;border:1px solid #e5e5e5;border-top:0px;}
+.default-c p{width:305px;height:35px;line-height:35px; border-bottom:1px solid #e5e5e5; font-size:14px;padding-left:10px;}
+
+/***********************城市列表*************************/
+.city-bg{width:315px;padding:8px 0px 10px 5px;margin:0 auto;background:#fff;}
+.city1{width:309px;height:25px;line-height:25px; text-indent:5px;font-family:"微软雅黑";font-size:16px;margin-bottom:15px;}
+.city2{width:315px;}
+.city2 h3{width:315px;height:34px;line-height:34px; text-indent:5px;border-bottom:1px solid #b8b8b8;font-family:"微软雅黑";font-size:16px; font-weight:normal; background:#e4e4e4;}
+.city2 li{width:309px;height:50px;line-height:50px; text-indent:5px;border-bottom:1px solid #d2d2d2;font-family:"微软雅黑";font-size:16px;}
+
+
+
+
+
+
+

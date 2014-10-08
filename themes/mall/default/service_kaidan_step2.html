@@ -1,0 +1,280 @@
+{include file=member.header.html}
+<style>
+.btn2{width: 75px; height: 29px; border: 0; background: url({$site_url}/themes/mall/default/styles/default/images/btn1.gif); color: #c73702; font-weight: bold; font-size: 14px;}
+</style>
+<div class="content">
+
+{include file=member.menu.html}
+
+
+
+    <div id="right">
+	<ul class="tab">
+                 <li class="active">上传订单</li>
+                 </ul>
+
+        <div class="wrap">
+            <div class="public">
+                <div class="information_index">
+                    <div class="info">
+					<!-- 服务中心 对应的 店铺 列表 -->
+				   <div class="public table">
+
+
+
+
+
+
+<script type="text/javascript">
+    /*$(function(){
+    regionInit("region");
+
+    $("#apply_form").validate({
+        errorPlacement: function(error, element){
+            var error_td = element.parents('td').next('td');
+            error_td.find('.field_notice').hide();
+            error_td.find('.fontColor3').hide();
+            error_td.append(error);
+        },
+        success: function(label){
+            label.addClass('validate_right').text('OK!');
+        },
+        onkeyup: false,
+        rules: {
+            user_name : {
+			        required: true,
+                    byteRange: [3,15,'utf-8'],
+                    remote   : {
+                        url :'index.php?app=member&act=check_invi_code&ajax=1',
+                        type:'get',
+                        data:{
+                            invi_code : function(){
+                                return $('#user_name').val();
+                            }
+                        },
+                        beforeSend:function(){
+                            var _checking = $('#user_name');
+                            _checking.prev('.field_notice').hide();
+                            _checking.next('label').hide();
+                            $(_checking).show();
+                        },
+                        complete :function(){
+                            $('#checking_user_name').hide();
+                        }
+                    }
+                },
+
+            notice: {
+                required : true
+            }
+        },
+        messages: {
+		     user_name: {
+                required: '请输入用户名',
+				remote: '用户不存在'
+            },
+            notice: {
+                required: '请阅读并同意开店协议'
+            }
+        }
+    });
+});*/
+//]]>
+
+
+
+
+</script>
+
+            <div style="margin-top:-40px">
+                        <form method="post" enctype="multipart/form-data" id="apply_form" name="apply_form" method="post">
+                        <input id="savaOrder" name="savaOrder" value="savaOrder" type="hidden" />
+                        <input id="jibie" name="jibie" value="{$jibiekey}" type="hidden" />
+                        <table>
+                        	<tr>
+                                <th width="80px">用户名: </th>
+                                <td class="width7"><input type="text" class="text width7" name="user_name"  id="user_name" value=""/></td>
+                                <td class="padding3"><label id="checking_user" class="checking">检查中...</label> <label id="user_name_lbl" name="user_name_lbl"></label></td>
+                            </tr>
+
+                            <tr>
+                                <th width="80px">收货地址:  </th>
+                                <td class="padding3"><div id="show_address" name="show_address"></div></td>
+                                <td class="padding3"><input type="button" name="get_address" value="获取收货地址" id="get_address" />
+                                <input type="hidden" id="address_id" name="address_id">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                <table>
+                                <tr>
+                                <td width="330px">商品名称</td><td width="200px">商品分类</td><td>单价</td><td>数量</td>
+                                </tr>
+                                <!-- {if goodsList} -->
+                                <!--{foreach from=$goodsList item=item}-->
+                                <tr>
+                                 <td>{$item.goods_name|truncate:55:"……"}<input name="goods_id[]" value="{$item.goods_id}" type="hidden"/></td>
+                                 <td>{$item.cate_name}</td>
+                                 <td>{$item.price}<input name="price[]" value="{$item.price}" type="hidden"/>
+                                 </td>
+                                 <td>
+                                 <input name="store_id" value="{$item.store_id}" type="hidden"/>
+                                 <input name="quantity[]" value="1" onpropertychange="changValue()" onchange="changValue()" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></td>
+                                </tr>
+                                <!--{/foreach}-->
+                                <!--{/if}-->
+                                </table>
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <th width="80px">总价: </th>
+                                <td class="width7"><input type="text" class="text width7" name="allPrice" id="allPrice" value="" readonly="readonly"/></td>
+                                <td class="padding3"></td>
+                            </tr>
+                             <!--
+                             <tr>
+                                <th width="80px">运费: </th>
+                                <td class="width7"><input type="text" class="text width7" name="yunfei" id="yunfei" value="0" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" /></td>
+                                <td class="padding3"></td>
+                            </tr>
+                            -->
+
+                            <tr>
+                                <td colspan="3"><p class="padding4"><input class="btn2" type="button" onclick="check_submit()" style="cursor: pointer; font-size: 12px" value="确认开单" /></p></td>
+                            </tr>
+                        </table>
+                        </form>
+
+
+                </div>
+
+
+					</div>
+				  <!-- 服务中心 对应的 店铺 列表 结束 -->
+                </div>
+                </div>
+
+            </div>
+            <div class="wrap_bottom"></div>
+        </div>
+
+        <div class="clear"></div>
+
+    </div>
+    <div class="clear"></div>
+</div>
+<script>
+var selects=[];
+selects[0]=new Array(
+new Option('--请选择提成比例--','0'));
+
+  //初始化数据   店铺级别,提成比例
+	selects['{$jibiekey}']=new Array(
+
+	<!--{foreach from=$init_ticheng.$jibiekey name=ticheng item=ticheng2 key=tichengkey}-->
+    new Option('{$ticheng2|number2}','{$ticheng2|number2}')
+
+     <!--{if $smarty.foreach.ticheng.last}-->
+
+     <!-- {else} -->
+     ,
+     <!--{/if}-->
+
+    <!--{/foreach}-->
+
+);
+
+/*
+var ticheng=document.getElementById("ticheng");
+function chsel(){
+   ticheng.options.length=0;
+   for(var i=0;i<selects['{$jibiekey}'].length;i++){
+   ticheng.options.add(selects['{$jibiekey}'][i]);
+   }
+}
+chsel();*/
+
+window.onload=function()
+{
+    var pri=document.getElementsByName("price[]");
+	var allPrice=0;
+	for(var i=0;i<pri.length;i++)
+    {
+	  allPrice+=parseFloat(pri[i].value);
+	}
+	$("#allPrice").val(allPrice);
+}
+
+function changValue()
+{
+  var quantity=document.getElementsByName("quantity[]");
+  var pri=document.getElementsByName("price[]");
+  
+    var allPrice=0;
+	for(var i=0;i<pri.length;i++)
+    {
+	  allPrice+=parseFloat(pri[i].value)*parseInt(quantity[i].value);
+	}
+	$("#allPrice").val(allPrice);
+}
+
+$("#get_address").bind("click",function(){
+    var user_name=$.trim($("#user_name").val());
+    if(user_name!=""){
+        $.post("index.php?app=service&act=get_address",{user_name:user_name},function(rs){
+            $("#show_address").html(rs);
+        })
+    }else{
+        alert("请先输入用户名");
+    }
+
+
+})
+
+function set_address(id){
+   if(id!=""){
+       $("#new_address").css("display","none");
+       $("#address_id").val(id);
+       $("#new_address").val("");
+   }else{
+       $("#address_id").val("");
+       $("#new_address").css("display","");
+   }
+}
+
+function check_submit(){
+    var user_name= $.trim($("#user_name").val());
+    var quantitys= document.getElementsByName("quantity[]");
+    $("#user_name_lbl").html("");
+    if(user_name==""){
+       $("#user_name_lbl").html("<font color='red'>用户名不能为空!</font>");
+       return;
+    }
+    if(quantitys.length==0){alert("请选择商品");return;}
+
+    for(var i=0;i<quantitys.length;i++){
+        var quantity=quantitys[i];
+        if(quantity==0 || quantity==""){
+            alert("请输入商品数量");
+            return;
+        }
+    }
+
+    var address_id=$("#address_id").val();
+    var new_address= $.trim($("#new_address").val());
+
+    if(address_id>0 || (typeof(new_address) != "undefined" && new_address!=""))
+    {
+       $("#apply_form").submit();
+    }else{
+        alert("请选择收货地址！");
+        return;
+    }
+
+}
+
+
+</script>
+{include file=footer.html}

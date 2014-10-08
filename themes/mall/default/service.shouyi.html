@@ -1,0 +1,234 @@
+{include file=member.header.html}
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js"></script>
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js"></script>
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+
+<style>
+    .show_alert{
+        background-color: #F5F5F5;
+        border: 1px solid #D8D8D8;
+        margin-top: -20px;
+        margin-left: -12px;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        color: #919191;
+        line-height: 20px;
+        display: block;
+    }
+</style>
+
+<div class="content">
+{include file=member.menu.html}
+<div id="right">
+
+
+<ul class="tab">
+    <li class="<!--{if $smarty.get.orderBy=='server_shouyi' || !$smarty.get.orderBy}-->active<!--{else}-->normal<!--{/if}-->"><a href="index.php?app=service&act=shouyi&orderBy=server_shouyi">我的收益</a></li>
+    <li class="<!--{if $smarty.get.orderBy=='server_jiesuan'}-->active<!--{else}-->normal<!--{/if}-->"><a href="index.php?app=service&act=shouyi&orderBy=server_jiesuan">我的结算</a></li>
+ </ul>
+
+<div class="wrap">
+    <div class="public">
+
+
+
+        <div class="public table" id="serviceTable" name="serviceTable">
+
+            <div class="scarch_order">
+
+
+                <form method="get">
+                    <input type="hidden" name="app" value="service"/>
+                    <input type="hidden" name="act" value="shouyi"/>
+                    <input type="hidden" name="orderBy" value="{$smarty.get.orderBy}"/>
+                    <!--{if $smarty.get.orderBy=='server_shouyi' || !$smarty.get.orderBy}-->   <!--按订单为粒度-->
+                    订单号：&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input class="queryInput" type="text" name="order_sn"
+                           value="{$smarty.get.order_sn|escape}"/>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;订单日期：
+                    <input class="text_normal width2" type="text" name="add_time_from" id="add_time_from" value="{$smarty.get.add_time_from|escape}" /> &#8211;
+                    <input class="text_normal width2" id="add_time_to" type="text" name="add_time_to" value="{$smarty.get.add_time_to|escape}" />&nbsp;
+                    &nbsp;&nbsp;
+                    <br><br>
+                    买家用户：
+                    <input class="queryInput" type="text" name="buyer_name"
+                           value="{$smarty.get.buyer_name|escape}"/>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                    商家用户：
+                    <input class="queryInput" type="text" name="seller_name"
+                           value="{$smarty.get.seller_name|escape}"/>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <!--{else}-->
+                    结算日期：
+                    <input class="text_normal width2" type="text" name="add_time_from" id="add_time_from" value="{$smarty.get.add_time_from|escape}" /> &#8211;
+                    <input class="text_normal width2" id="add_time_to" type="text" name="add_time_to" value="{$smarty.get.add_time_to|escape}" />&nbsp;
+                    <!--{/if}-->
+                    <input type="submit" class="btn" value="查询"/>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div id="shouyi_jine" name="shouyi_jine" style="display:inline"><font color='red'><strong>总收益 &nbsp;&nbsp;&nbsp; ¥ {$total_money|number2}</strong></font>
+                    </div>
+                </form>
+                <!--{if $visitor.member_type == '01' }-->
+                <span style="color: #919191;"><br><br>提示：红色的用户表示自己推荐的会员或商家</span>
+                <!--{/if}-->
+            </div>
+            <div class="public table">
+
+                <!--{if $smarty.get.orderBy=='server_shouyi' || !$smarty.get.orderBy}-->
+                <table width="100%" cellspacing="0" class="table_head_line">
+
+                    <tr class="line_bold">
+                        <th class="" colspan="8">
+                        </th>
+                    </tr>
+
+                    <tr class="gray">
+                        <th>&nbsp;&nbsp;&nbsp;&nbsp;订单号</td>
+                        <th>买家用户</td>
+                        <th>商家用户</td>
+                        <th>收益类型</td>
+                        <!--<th>提成比例</td>-->
+                        <th>平台使用费</td>
+                        <th>订单金额</td>
+                        <th>订单日期</td>
+                    </tr>
+                    <!--{if $shouyi}-->
+                    <!--{foreach from=$shouyi item=sy}-->
+                    <tr class="line">
+                        <td>
+                            {$sy.orderSn|escape}
+                            <input type="hidden" name="total_money" value="<!--{if $sy.total_money !=0 }-->{$stotal_money}<!--{else}-->0<!--{/if}-->"/></td>
+                        <td>
+
+                            <!--{if $sy.t_id_buyer==$visitor.user_id}-->
+                            <font color='red'>{$sy.buyerName|escape}</font>
+                            <!--{else}-->
+                            {$sy.buyerName|escape}
+                            <!--{/if}-->
+                        </td>
+                        <td>
+                            <!--{if $sy.t_id_seller==$visitor.user_id}-->
+                            <font color='red'>{$sy.seller_name|escape}</font>
+                            <!--{else}-->
+                            {$sy.sellerName|escape}
+                            <!--{/if}-->
+                        </td>
+
+                        <td><!--{if $sy.type eq 3}-->收益<!--{elseif $sy.type eq 4}-->奖励<!--{/if}--></td>
+
+                        <!--<td>{$sy.ticheng|changerStr:100}%</td>-->
+                        <td>{$sy.yongjin|number2}</td>
+
+                        <td>{$sy.orderAmount|number2}元</td>
+
+                        <td>{$sy.orderDate}</td>
+                        <td class="table-center">
+                            <!--{ if $sy.status =='0'}-->
+                            <font color="#FB882B">未结算</font>
+                            <!--{elseif $sy.status =='1'}-->
+                            <font color="#65A7DC">结算成功</font>
+                            <!--{elseif $sy.status =='2'}-->
+                            <font color="#65A7DC">结算失败</font>
+                            <!--{/if}--></td>
+
+                    </tr>
+                    <!--{foreachelse}-->
+                    <tr class="no_data">
+                        <td colspan="8" class="member_no_records"><br>没有查询到数据</td>
+                    </tr>
+                    <!--{/foreach}-->
+                    <!--{else}-->
+                    <tr class="no_data">
+                        <td colspan="8" class="member_no_records"><br>没有查询到数据</td>
+                    </tr>
+                    <!--{/if}-->
+                    <tr class="line_bold">
+                        <th class="" colspan="8">
+                        </th>
+                    </tr>
+                </table>
+
+
+
+                <!--{else}-->   <!--按商家为粒度-->
+
+
+                <table width="100%" cellspacing="0" class="table_head_line">
+
+                    <tr class="line_bold">
+                        <th class="" colspan="5">
+                        </th>
+                    </tr>
+
+
+                    <tr class="gray">
+                        <th>&nbsp;&nbsp;&nbsp;&nbsp;结算金额</td>
+                        <th>结算银行</td>
+                        <th>结算卡号</td>
+                        <th>结算时间</td>
+                        <th>结算日期</td>
+                    </tr>
+                    <!--{if $shouyi}-->
+                    <!--{foreach from=$shouyi item=sy}-->
+                    <tr class="line">
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;{$sy.jine|number2}元</td>
+                        <td>{$sy.channelName|escape}</td>
+                        <td>{$sy.channelCard|}</td>
+                        <td>{$sy.orderDate}</td>
+                        <td>{$sy.jiesuanDate}</td>
+                    </tr>
+                    <!--{foreachelse}-->
+                    <tr class="no_data">
+                        <td colspan="5" class="member_no_records"><br>没有查询到数据</td>
+                    </tr>
+                    <!--{/foreach}-->
+                    <!--{else}-->
+                    <tr class="no_data">
+                        <td colspan="5" class="member_no_records"><br>没有查询到数据</td>
+                    </tr>
+                    <!--{/if}-->
+                    <tr class="line_bold">
+                        <th class="" colspan="5">
+                        </th>
+                    </tr>
+                </table>
+
+
+                <!--{/if}-->
+
+                <div class="kandan_foot">
+                    <!--{if $shouyi}-->
+                    <div class="pageLinks">{include file=member.page.bottom.html}</div>
+                    <!--{/if}-->
+                </div>
+            </div>
+            <div class="clear"></div>
+
+
+        </div>
+
+
+    </div>
+    <!--结束 -->
+</div>
+
+
+
+</div>
+
+<div class="clear"></div>
+<div class="adorn_right1"></div>
+<div class="adorn_right2"></div>
+<div class="adorn_right3"></div>
+<div class="adorn_right4"></div>
+</div>
+<div class="clear"></div>
+</div>
+
+<script>
+    $('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+    $('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+</script>
+{include file=footer.html}

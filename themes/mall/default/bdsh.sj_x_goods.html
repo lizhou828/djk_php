@@ -1,0 +1,381 @@
+{include file=header.html}
+<link href="{res file=css/other.css}" rel="stylesheet" type="text/css" xmlns="http://www.w3.org/1999/html"
+      xmlns="http://www.w3.org/1999/html"/>
+<link href="{res file=css/bdsh.css}" rel="stylesheet" type="text/css" />
+<script src="{lib file=/jquery.js}"></script>
+<script charset="utf-8" src="http://map.qq.com/api/js?v=1"></script>
+<script>
+    var geocoder,map,marker = null;
+    var init = function() {
+        var center = new soso.maps.LatLng(39.916527,116.397128);
+        map = new soso.maps.Map(document.getElementById('container'),{
+            center: center,
+            zoomLevel: 15
+        });
+        geocoder = new soso.maps.Geocoder();
+        codeAddress();
+    }
+
+    function codeAddress() {
+        var address = document.getElementById("address").value;
+        geocoder.geocode({'address': address}, function(results, status) {
+            if (status == soso.maps.GeocoderStatus.OK) {
+                map.setCenter(results.location);
+                if (marker != null) {
+                    marker.setMap(null);
+                }
+                marker = new soso.maps.Marker({
+                    map: map,
+                    position:results.location
+                });
+            } else {
+                alert("检索没有结果，原因: " + status);
+            }
+        });
+    }
+    function addFavorite_store(store_id) {
+        var url = "index.php?app=my_favorite&act=add&type=store&item_id="+store_id;
+        $.getJSON(url,function(data){
+            if(data.done) {
+                alert(data.msg);
+            } else {
+                alert("收藏失败！");
+            }
+        });
+    }
+
+    function write_comment() {
+        if($("#user_id").val()>0) {
+            $("#comments").show();
+            $("#title").focus();
+        }else {
+            location = "index.php?app=member&act=login&ret_url={$ret_url}";
+        }
+    }
+</script>
+<script>
+    $(function(){
+        init();
+    });
+
+    function comments(){
+        var url = 'index.php?app=bdsh&act=comment';
+        $.get(url,{'store_id': $("#s_id").val() ,'title':$("#title").val(),'store_name':$("#store_name").val(),'content':$("#ct").val(),'bdsh_reg_id':$("#bdsh_reg_id").val()},function(data){
+            if(data==0) {
+                $("#comments").hide();
+                window.location.reload();
+            }else {
+                alert("评论失败！");
+            }
+        },"get");
+    }
+
+    function show_detail(){
+        $("#tuijian").attr("class", "crree");
+
+//        $("#tuijian").css("class","crree");
+        $("#all").attr("class","crreb");
+        $("#detail").show();
+        $("#all_goods").hide();
+        $("#more").hide();
+        location = "index.php?app=bdsh&act=list_detail&id={$store.store_id}&bdsh_reg_id={$filters.bdsh_reg_id}";
+    }
+    function show_all(){
+        $("#tuijian").attr("class", "crreb");
+//        $("#tuijian").css("class","crree");
+        $("#all").attr("class","crree");
+        $("#detail").hide();
+        $("#all_goods").show();
+        $("#more").show();
+    }
+
+    function store_image() {
+        if ($("#store_image").is(":hidden")) {
+            $("#store_image").show();
+        } else {
+            $("#store_image").hide();
+        }
+    }
+
+    function show_all_goods() {
+        if ($("#page_all_goods").is(":hidden")) {
+            $("#page_all_goods").show();
+            $("#sj_clear").html("");
+        } else {
+            $("#page_all_goods").hide();
+            location.reload();
+            show_all();
+        }
+    }
+    function detail() {
+        if ($("#x_detail").is(":hidden")) {
+            $("#x_detail").show();
+            $("#l_detail").hide();
+            $("#detail_a").html("收起");
+        } else {
+            $("#x_detail").hide();
+            $("#l_detail").show();
+            $("#detail_a").html("查看详细");
+        }
+    }
+
+    function all_goods() {
+        var url = "index.php?app=bdsh&act=ajax_get_all_goods&id={$store.store_id}";
+        $.get(url,function(data){
+            if (data) {
+                window.location=url;
+            }
+        });
+    }
+
+</script>
+<!--全部内容-->
+{include file=bdsh.common_search.html}
+<!--菜单-->
+{include file="bdsh.category_common.html"}
+<!--内容中-->
+<div class="w-z">
+    <strong>我的位置：</strong>
+    <a href="{r_url app=bdsh&act=store&bdsh_reg_id=$filters.bdsh_reg_id}">商家</a>
+    <!--{foreach from=$curlStr item=text name=my_post}-->
+    <!--{if $smarty.foreach.my_post.index<2}-->
+    > <a href="{r_url app=bdsh&act=store&bdsh_reg_id=$filters.bdsh_reg_id}">{$text.region_name}</a>
+    <!--{else}-->
+    > <a href="{r_url app=bdsh&act=store&bdsh_reg_id=$filters.bdsh_reg_id&bdsh_class=$text.cate_id&bdsh_class_name=$text.cate_name}">{$text.cate_name}</a>
+    <!--{/if}-->
+    <!--{/foreach}-->
+    > <a href="{r_url app=bdsh&act=list_detail&id=$store.store_id&bdsh_reg_id=$filters.bdsh_reg_id}"><strong>{$store.store_name}</strong></a>
+</div>
+<div style="height: 10px;"></div>
+<input type="hidden" id="user_id" value="{$visitor.user_id}">
+<div id="shj_x">
+<div class="left">
+    <div class="fi1">
+        <h2 class="biz_nane">{$store.store_name}</h2>
+        <span id="menu"></span>
+        <div class="fi1_1">
+            <div class="font_big">
+                <dl class="field">
+                    <dd>地址：</dd>
+                    <dt>{$store.address}</dt>
+                </dl>
+                <dl class="field">
+                    <dd>电话：</dd>
+                    <dt>{$store.tel}</dt>
+                </dl>
+                <dl class="field">
+                    <dd>营业时间：</dd>
+                    <dt>{$store.yye_time}</dt>
+                </dl>
+                <dl class="field">
+                    <dd>付款方式：</dd>
+                    <dt><!--{if $store.pay_type eq 1}-->可刷卡<!--{else}-->不可刷卡<!--{/if}--></dt>
+                </dl>
+                <dl class="field">
+                    <dd>标签：</dd>
+                    <dt><!--{if $tag}-->
+                        <!--{foreach from=$tag item=t}-->
+                        <a href="javascript:void(0)" class="crrer">&nbsp;{$t}</a>
+                        <!--{/foreach}-->
+                        <!--{/if}-->
+                    </dt>
+
+                </dl>
+                <dl class="field">
+                    <dd>商家介绍：</dd>
+                    <dt style="min-height: 60px;overflow: hidden"><span id="l_detail">{$store.description2|truncate:200:"..."}</span>
+                        <span id="x_detail" style="display: none;">{$store.description2}</span><a href="javascript:detail()" style="color: #0085CF" id="detail_a">查看详细</a>
+                    </dt>
+                </dl>
+                <dl class="field">
+                    <dd style="width: 93px;"><a href="javascript:write_comment();"><img src="{res file=images/bdsh/xx-t.jpg}" width="93" height="22" /></a></dd>
+                    <dt style="width: 50px;margin-left: 15px;"><a href="javascript:addFavorite_store('{$store.store_id}');" style="color:  #0085CF">收藏</a>
+                        <!--<a href="#" class="crrer">　　给商家留言</a>-->
+                    </dt>
+                </dl>
+            </div>
+            <div class="pic_big"><img src="{img_url $img_url/$big_image.file_path/310X310}" width="280" height="280" ><p></p>
+                <!--<a href="javascript:void(0)"><span style="color:#999;">-->
+                <!--全部3张</span></a><a href="javascript:void(0)">查看更多&gt;&gt;</a>-->
+            </div>
+        </div>
+    </div>
+    <div class="fi2">
+        <ul class="el1">
+            <li  class="crreb" id="tuijian"><a href="javascript:show_detail()">推荐商品</a></li>
+            <li class="crree" id="all"><a href="javascript:show_all()">全部商品</a></li>
+            <li class="crred"><a href="javascript:all_goods()" id="more" style="float: right;padding-right: 15px;display: none">更多&gt;&gt;</a> </li>
+        </ul>
+        <div class="biz_box" id="detail" style="display: none">
+            <div style="padding: 15px;width: 820px;overflow: hidden;">
+                <ul class="usl">
+                    <!--{if $goods_list}-->
+                    <!--{foreach from=$goods_list item=goods name=all_goods}-->
+                    <!--{if $goods.recommended ==1}-->
+                    <!--{if $smarty.foreach.all_goods.index <10}-->
+                    <li class="lis" style="width: 150px;">
+                        <a href="{url app=bdsh&act=goods_detail&id=$goods.goods_id}" target="_blank" title="{$goods.goods_name}"><img src="{img_url $img_url/$goods.default_image/150X90}" style="margin-bottom: 8px;" width="150" height="90" /></a>
+                        <h4 class="font" style="width: 150px"><a href="{url app=bdsh&act=goods_detail&id=$goods.goods_id}" target="_blank" title="{$goods.goods_name}"> {$goods.goods_name}</a></h4>
+                        <div class="jiage" style="width: 150px">
+                            <strong>{$goods.price|price}</strong>
+                            <label class="lable" style="display: none">{$goods.price|price}</label>
+                        </div>
+                    </li>
+                    <!--{/if}-->
+                    <!--{/if}-->
+                    <!--{/foreach}-->
+                    <!--{else}-->
+                    暂无记录
+                    <!--{/if}-->
+                </ul>
+            </div>
+        </div>
+        <div class="biz_box" id="all_goods">
+            <div style="padding: 15px;width: 820px;overflow: hidden;">
+                <ul class="usl">
+                    <!--{if $goods_list}-->
+                    <!--{foreach from=$goods_list item=goods name=all_goods}-->
+                    <li class="lis" style="width: 150px;">
+                        <a href="{url app=bdsh&act=goods_detail&id=$goods.goods_id&bdsh_reg_id=$filters.bdsh_reg_id}" title="{$goods.goods_name}" target="_blank"><img src="{img_url $img_url/$goods.default_image/150X90}" style="margin-bottom: 8px;" width="150" height="90" /></a>
+                        <h4 class="font" style="width: 150px"><a href="{url app=bdsh&act=goods_detail&id=$goods.goods_id&bdsh_reg_id=$filters.bdsh_reg_id}" target="_blank" title=" {$goods.goods_name}"> {$goods.goods_name}</a></h4>
+                        <div class="jiage" style="width: 150px">
+                            <strong>{$goods.price|price}</strong>
+                            <label class="lable" style="display: none">{$goods.price|price}</label>
+                        </div>
+                    </li>
+                    <!--{/foreach}-->
+                    <!--{else}-->
+                    暂无记录
+                    <!--{/if}-->
+                </ul>
+            </div>
+            {include file=page.bottom.html}
+            <!--<div style="float: right;margin-right: 10px;"><a href="javascript:show_all_goods()" style="margin-top: 100px;">更多&gt;&gt;</a></div>-->
+        </div>
+        </div>
+    </div>
+<div class="right">
+    <input type="hidden" value="{$store.region_name}{$store.address}" id="address">
+    <div style="width:288px;height:313px" id="container"></div>
+    <!--<div class="di-tu" style="float: left;margin-top: 10px;border: 0px;margin-left: 10px;"><a href="javascript:show_all_ditu('上海宝山区一二八纪念路')" style="color:#27A196; ">查看全图/交通/停车</a></div>-->
+    <div class="right1">
+        <p class="title">看过这家店的还看过</p>
+        <!--{foreach from=$store_see item=st name=my_store}-->
+        <!--{if $smarty.foreach.my_store.index<5}-->
+        <!--{if $store.store_id != $st.store_id}-->
+        <dl class="nhg">
+            <dd><a href="{r_url app=bdsh&act=list_detail&id=$st.store_id&bdsh_reg_id=$filters.bdsh_reg_id}"> <!--{if $st.shitidian_img}--> <img src="{img_url $img_url/$st.shitidian_img/60X60}" width="60" height="60"><!--{else}--><img src="{res file=images/bdsh/default_60X60.jpeg}" width="60" height="60"><!--{/if}--></a> </dd>
+            <dt>
+            <h2><a href="{r_url app=bdsh&act=list_detail&id=$st.store_id&bdsh_reg_id=$filters.bdsh_reg_id}" style="color: #666"><span>·</span>{$st.store_name}</a></h2>
+            <p style="color: #999;">地址：{$st.address} </p>
+            </dt>
+        </dl>
+        <!--{/if}-->
+        <!--{/if}-->
+        <!--{/foreach}-->
+    </div>
+
+    <div class="fu-jin">
+        <div class="fu-jin-t"><span>附近商家</span></div>
+        <div class="fu-jin-t1"><a href="javascript:void(0)" onclick="javascript:show_div('1')">餐厅</a><a href="javascript:void(0)" onclick="javascript:show_div('2')">休闲娱乐</a><a href="javascript:void(0)" onclick="javascript:show_div('3')">购物</a></div>
+        <div class="fu-jin-c" id="fu_jin_1" style="display: none;">
+            <!--{foreach from=$store_fujin_canting item=fujin name=cangting}-->
+            <!--{if $smarty.foreach.cangting.index<6}-->
+            <dl class="nhg">
+                <dd></dd>
+                <dt>
+                <h2><a href="{r_url app=bdsh&act=list_detail&id=$st.store_id&bdsh_reg_id=$filters.bdsh_reg_id}" style="color: #666"><span>·</span>{$st.store_name}</a></h2>
+                <p style="color: #999;">地址：{$fujin.address}</p>
+                </dt>
+            </dl>
+            <!--{/if}-->
+            <!--{/foreach}-->
+        </div>
+        <div class="fu-jin-c" style="display: none;" id="fu_jin_2">
+            <!--{foreach from=$store_fujin_yule item=fujin name=yule}-->
+            <!--{if $smarty.foreach.yule.index<6}-->
+            <dl class="nhg">
+                <dd></dd>
+                <dt>
+                <h2><a href="{r_url app=bdsh&act=list_detail&id=$st.store_id&bdsh_reg_id=$filters.bdsh_reg_id}" style="color: #666"><span>·</span>{$st.store_name}</a></h2>
+                <p style="color: #999;">地址：{$fujin.address}</p>
+                </dt>
+            </dl>
+            <!--{/if}-->
+            <!--{/foreach}-->
+            <p style="margin-top:15px;"><a href="javascript:void(0)">更多附近餐厅>></a></p>
+        </div>
+        <div class="fu-jin-c" style="display: none;" id="fu_jin_3">
+            <!--{foreach from=$store_fujin_gouwu item=fujin name=gouwu}-->
+            <!--{if $smarty.foreach.gouwu.index<6}-->
+            <dl class="nhg">
+                <dd></dd>
+                <dt>
+                <h2><a href="{r_url app=bdsh&act=list_detail&id=$st.store_id&bdsh_reg_id=$filters.bdsh_reg_id}" style="color: #666"><span>·</span>{$st.store_name}</a></h2>
+                <p style="color: #999;">地址：{$fujin.address}</p>
+                </dt>
+            </dl>
+            <!--{/if}-->
+            <!--{/foreach}-->
+        </div>
+    </div>
+</div>
+<!--<div class="x-banner1"><img src="{res file=images/bdsh/x-jike_banner.jpg}" width="288" height="148" alt="大集客广告" /></div>-->
+</div>
+
+<script>
+    $(function(){
+        show_div(1);
+    });
+    function show_div(id) {
+        if (id ==1) {
+            $("#fu_jin_"+id).show();
+            $("#fu_jin_2").hide();
+            $("#fu_jin_3").hide();
+        }
+        if (id ==2) {
+            $("#fu_jin_"+id).show();
+            $("#fu_jin_1").hide();
+            $("#fu_jin_3").hide();
+        }
+        if(id==3){
+            $("#fu_jin_"+id).show();
+            $("#fu_jin_1").hide();
+            $("#fu_jin_2").hide();
+        }
+
+    }
+</script>
+{include file=footer.html}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

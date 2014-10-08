@@ -1,0 +1,64 @@
+    <div id="left">
+       <h4 class="ti_01">个人主页</h4>
+       <div class="lm_01">
+    <!--{foreach from=$_member_menu item=item}-->
+        <!--{if $item.submenu}-->
+        <dl class="show_dl_menu">
+            <dd class="show_menu" show_id="{$item.id}" style="cursor:pointer">{$item.text}
+                <b></b>
+            </dd>
+            <dt>
+        <!--{foreach from=$item.submenu item=subitem k=k}-->
+            
+            <!--{if $subitem.name eq $_curitem}-->            
+                <div class="item_curr" show_menu_id="{$item.id}">
+                <a <!--{if $subitem.name=='cj'}-->href="javascript:;" class="cj_link"<!--{elseif $subitem.name=='daima'}-->href="{$subitem.url}" target="_blank"<!--{else}-->href="{$subitem.url}"<!--{/if}--> >{$subitem.text}</span></a>
+
+
+            <!--{else}-->
+                <div class="item" show_menu_id="{$item.id}">
+                    <a <!--{if $subitem.name=='cj'}-->href="javascript:;" class="cj_link"<!--{elseif $subitem.name=='daima'}-->href="{$subitem.url}" target="_blank"<!--{else}-->href="{$subitem.url}"<!--{/if}--> >{$subitem.text}</span></a>
+            <!--{/if}-->
+
+            <!--{if $subitem.name == 'bank'}--><img src="{$site_url}/themes/mall/default/styles/default/images/help-round.png" title="银行卡作为大集客与您进行资金结算的唯一账号，请您务必事先绑定银行卡，以方便大集客与您进行资金结算。" /><!--{/if}-->
+            </div>
+        <!--{/foreach}-->
+        	</dt>
+        </dl>
+        <!--{/if}-->
+    <!--{/foreach}-->
+        <!--{if $_member_menu.overview}-->
+        <div style="padding: 10px;border-top: 1px solid #E3E3E3;">
+            <p style="line-height: 20px;">{$lang.not_seller}: </p>
+            <a href="{$_member_menu.overview.url}" style="background:url('{res file=images/member/gousite.png}') repeat scroll ;display: block;width: 153px;height: 42px;" title="{$_member_menu.overview.text}"></a>
+        </div>
+        <div class="clear"></div> 
+        <!--{/if}-->
+           <!--{if $member_type =='01' && $_user.spreader_type != 1 && $_user.shop_name =="" && $_user.shop_name ==null}-->
+           <div style="padding: 10px;border-top: 1px solid #E3E3E3;">
+               <p style="line-height: 20px;">您还不是集客小店,您可以: </p>
+               <a href="index.php?app=jkxd_portal" style="background:url('{res file=images/member/gousite.png}') repeat scroll 0px -49px ;display: block;width: 153px;height: 42px;" title="立即开通我的集客小店"></a>
+           </div>
+           <div class="clear"></div>
+           <!--{/if}-->
+        </div>
+    </div>
+
+    <form method="post" name="cj_form" id="cj_form" action="{$TO_PLCHOUJIANG_URL}">
+        <input type="hidden" name="userId" value="{$visitor.user_id}">
+    </form>
+<script>
+    $(".cj_link").bind("click",function(){
+        $("#cj_form").submit();
+    })
+
+    $(".show_menu").bind("click",function(){
+        if($(".show_dl_menu dt div[show_menu_id='"+$(this).attr("show_id")+"']").css("display")=="none"){
+            $(".show_dl_menu dt div[show_menu_id='"+$(this).attr("show_id")+"']").css("display","block");
+            $(".show_dl_menu dd[show_id='"+$(this).attr("show_id")+"'] b").css("background","url('{$site_url}/themes/mall/default/styles/default/images/member/user_icoooo.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0)");
+        }else{
+            $(".show_dl_menu dt div[show_menu_id='"+$(this).attr("show_id")+"']").css("display","none");
+            $(".show_dl_menu dd[show_id='"+$(this).attr("show_id")+"'] b").css("background","url('{$site_url}/themes/mall/default/styles/default/images/member/user_icoooo2.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0)");
+        }
+    })
+</script>	

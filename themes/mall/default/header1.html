@@ -1,0 +1,248 @@
+<!doctype html>
+<html>
+<head>
+    <base href="{$site_url}/" />
+    <meta HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <meta HTTP-EQUIV="expires" CONTENT="0">
+    <meta http-equiv="X-UA-Compatible" content=""/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    {$page_seo}
+
+    <style type="text/css">
+        body {
+            _behavior: url({$site_url}/themes/mall/default/styles/default/csshover.htc);
+        }</style>
+    <LINK href="/favicon.ico" type="image/x-icon" rel=icon>
+    <LINK href="/favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <link href="{res file=css/index.css}" rel="stylesheet" type="text/css">
+    <link href="{res file=css/djk.css}" rel="stylesheet" type="text/css">
+    <link href="{res file=css/base.css}" rel="stylesheet" type="text/css">
+    <link href="{res file=css/dialog.css}" rel="stylesheet" type="text/css">
+    <link href="{res file=css/layout.css}" rel="stylesheet" type="text/css">
+    <link href="{res file=css/dialog.css}" rel="stylesheet" type="text/css">
+    <link href="{res file=css/home_tg.css}" rel="stylesheet" type="text/css">
+    <!--[if IE]>
+    <script src="{res file=js/html5.js}"></script>
+    <![endif]-->
+    <!--[if IE 6]>
+    <script src="{res file=js/IE6_PNG.js}"></script>
+    <script>
+        DD_belatedPNG.fix('.pngFix');
+    </script>
+    <script>
+        // <![CDATA[
+if((window.navigator.appName.toUpperCase().indexOf("MICROSOFT")>=0)&&(document.execCommand))
+try{
+document.execCommand("BackgroundImageCache", false, true);
+   }
+catch(e){}
+// ]]>
+</script>
+<![endif]-->
+    <script>
+        COOKIE_PRE = '7210_';_CHARSET = 'utf-8';SITEURL = '{$site_url}';
+    </script>
+    <script type="text/javascript" src="index.php?act=jslang"></script>
+    <script type="text/javascript" src="{res file=js/jquery.js}" charset="utf-8"></script>
+    <script type="text/javascript" src="{res file=js/common.js}" charset="utf-8"></script>
+    <script type="text/javascript">
+        $(function () {
+            //search
+            $("#details").children('ul').children('li').click(function () {
+                $(this).parent().children('li').removeClass("current");
+                $(this).addClass("current");
+                $('#search_act').attr("value", $(this).attr("act"));
+            });
+            var search_act = $("#details").find("li[class='current']").attr("act");
+            $('#search_act').attr("value", search_act);
+            $("#keyword").blur();
+            var url = "/index.php?app=default&act=get_vistor";
+            $.getJSON(url,{},function(data) {
+                if(data['nick_name']!=null){
+                    $("#login_name").html(data['nick_name']+"&nbsp;");
+                }
+                if (data['user_id'] ==0 ) {
+                    $("#login").html("[<a href='{url app=member&act=login&ret_url=$ret_url}'>{$lang.login}</a>]");
+                    $("#register").html("[<a href='{url app=member&act=register&ret_url=$ret_url}'>{$lang.register}</a>]");
+                } else {
+                    $("#login_out").html("[<a href='{url app=member&act=logout}'>{$lang.logout}</a>]");
+                }
+
+                if (data['member_type'] =='02' || data['member_type']=='03') {
+                    var html="";
+                    html+="<li class=\"user-center\">";
+                    html+="<div class=\"pm\"><a href=\"index.php?app=service&p=service&tuoguan=1\" target=\"_top\" title=\"进入服务中心\">进入服务中心<i></i></a>";
+                    html+="</div>";
+                    html+="</li>";
+                    $(".quick-menu").html(html);
+                } else if (data['member_type'] =='04') {
+                    var html="";
+                    html+="<li class=\"user-center\">";
+                    html+="<div class=\"pm\"><a href=\"index.php?app=service&p=service&tuoguan=1\" target=\"_top\" title=\"进入采购中心\">进入采购中心<i></i></a>";
+                    html+="</div>";
+                    html+="</li>";
+                    $(".quick-menu").html(html);
+                }else{
+                   var html="";
+                    if (!data['member_type']) {
+                        html+="<a href=\"{url app=member&act=login&ret_url=$ret_url}\" target='_blank'><span style=\"color: #ff3300\">服务中心入口</span></a><em class=\"em1\"></em>";
+                    } else {
+                        html+="<a href=\"{url app=service&act=register_service}\" target='_blank'><span style=\"color: #ff3300\">服务中心入口</span></a><em class=\"em1\"></em>";
+                    }
+
+                 $("#fwzx_login").html(html);
+                 }
+
+            })
+        });
+
+        $(function(){
+            $.getJSON("index.php?app=cart&act=cart_kinds",{},function(data) {
+                $("#cart_kinds").html(data);
+            });
+        });
+    </script>
+
+    <script type="text/javascript"  src="{res file=js/min.js}" charset="utf-8"></script>
+    <script type="text/javascript" src="{res file=js/accordion.js}" charset="utf-8"></script>
+    <script type="text/javascript" src="{res file=js/tonjay.js}"  charset="utf-8"></script>
+    <script type="text/javascript"  src="{res file=js/swfobject_modified.js}" charset="utf-8"></script>
+    <script type="text/javascript"  src="{res file=js/mini.js}" charset="utf-8"></script>
+    <script type="text/javascript" src="{res file=js/index.js}" charset="utf-8"></script>
+    <script type="text/javascript" src="{res file=js/poshytip.js}" charset="utf-8"></script>
+    <!-- 首页对联广告 -->
+    <script type="text/javascript"  src="{res file=js/double_adv.js}"></script>
+    <script type="text/javascript">
+        //<!CDATA[
+        var SITE_URL = "{$site_url}";
+        var IMG_URL = "{$img_url}";
+        var REAL_SITE_URL = "{$real_site_url}";
+        var PRICE_FORMAT = '{$price_format}';
+//        document.domain = '{$domain}';
+        //]]>
+    </script>
+    {$_head_tags}
+
+</head>
+<body >
+
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div id="page">
+    <div id="topNav" class="warp-all">
+        <dl class="user-entry">
+            <dt><span id="login_name"></span>{$lang.hello}<span><a href="/" title="{$lang.index}" alt="{$lang.index}">{$lang.index_title}</a></span></dt>
+            <dd id="login"></dd>
+            <dd id="register"></dd>
+            <dd id="login_out"></dd>
+        </dl>
+
+        <ul class="quick-menu">
+            <!--{if !$visitor.member_type || $visitor.member_type=='01'}-->
+            <li class="pm" id="fwzx_login">
+            </li>
+            <!--{/if}-->
+            <li  class="pm"><a href="{url app=member&act=home}"  target="_top" title="{$lang.my_home}">{$lang.my_home}</a></li>
+            <li class="user-center">
+                <div class="menu"><a class="menu-hd" href="{url app=member&p=userInfo}"
+                                     target="_top" title="{$lang.my_shop}">{$lang.my_shop}<i></i></a>
+                    <div class="menu-bd">
+                        <ul>
+                            <li>
+                                <a href="{url app=buyer_order&p=buyer}"  target="_top" title="{$lang.my_order}">{$lang.my_order}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+
+            <li class="seller-center">
+                <div class="menu"><a class="menu-hd" href="{url app=my_goods&p=seller}" target="_top"
+                                     title="{$lang.my_seller}">{$lang.my_seller}<i></i></a>
+                    <div class="menu-bd">
+                        <ul>
+                            <li><a href="{url app=seller_order&p=seller}" target="_top"  title="{$lang.seller_goods}"> {$lang.order_manage}</a></li>
+                            <li><a href="{url app=my_qa&p=seller}" target="_top" title="{$lang.shopping_goods}"> {$lang.my_qa}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            <li class="cart">
+                <div class="menu"><a href="{url app=cart}"> <span class="menu-hd" style="font-size: 1em;"><s></s>{$lang.cart}<strong class="goods_num" id="cart_kinds" style="font-size: 1em;">{$cart_goods_kinds}</strong>{$lang.kind_of_goods}<i></i></span></a>
+                    <!--<div class="menu-bd" id="top_cartlist"><img class="loading"  src="{$site_url}/themes/mall/default/styles/default/loading.gif"/>-->
+                    <!--</div>-->
+                </div>
+            </li>
+            <!-- 收藏夹 -->
+            <li class="favorite">
+                <div class="menu"><a class="menu-hd" href="{url app=my_favorite}"  target="_top"  title="{$lang.favorite}">{$lang.favorite}
+                    <i></i></a>
+
+                    <div class="menu-bd">
+                        <ul>
+                            <li><a href="{url app=my_favorite&type=goods}" target="_top" title="{$lang.fav_goods}">{$lang.fav_goods}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            <!-- 站内信 -->
+            <!--<li class="pm"><a href="{url app=message&act=newpm}" target="_top">{$lang.pm}</a></li>-->
+        </ul>
+    </div>
+</div>
+<div style="background:#f8f8f8; width:100; height:90px;">
+    <header id="topHeader">
+        <div class="site-logo">
+            <!--{if $smarty.get.app =='default' || !$smarty.get.app}-->
+            <a href="/">
+                <img src="{res file=images/logo.png}" class="pngFix">
+                <!--{elseif $smarty.get.app =='market'}-->
+                <a href="{r_url app=market&pd_id=2}">
+                    <img src="{res file=images/chaoshi.png}" class="pngFix">
+                    <!--{elseif $smarty.get.app == 'bdsh'}-->
+                    <a href="{r_url app=bdsh&pd_id=5}">
+                        <img src="{res file=images/bdsh.png}" class="pngFix">
+                        <!--{elseif $smarty.get.app =='tese'}-->
+                        <a href="{r_url app=tese&pd_id=3}">
+                            <img src="{res file=images/tese.png}" class="pngFix">
+                            <!--{elseif $smarty.get.app =='gczg'}-->
+                            <a href="{r_url app=gczg&pd_id=6}">
+                                <img src="{res file=images/gczg.png}" class="pngFix">
+                                <!--{elseif $smarty.get.act =='groupbuy' || $smarty.get.app =='groupbuy' }-->
+                                <a href="{r_url app=search&act=groupbuy}">
+                                    <img src="{res file=images/tuangou.png}" class="pngFix">
+                                    <!--{elseif $smarty.get.app =='jifen'}-->
+                                    <a href="{r_url app=jifen}">
+                                        <img src="{res file=images/jifen.png}" class="pngFix">
+                                        <!--{elseif $smarty.get.app =='lydj'}-->
+                                        <a href="{r_url app=lydj&pd_id=4}">
+                                            <img src="{res file=images/lydj.png}" class="pngFix">
+                                            <!--{else}-->
+                                            <a href="/">
+                                                <img src="{res file=images/logo.png}" class="pngFix">
+                                                <!--{/if}-->
+                                            </a></div>
+        <div id="search" class="search">
+            <div class="details" id="details">
+
+                <div id="a1" class="form">
+                    <form action="{r_url app=search}" onSubmit="return searchInput();" method="GET">
+                        <input type="hidden" name="act" value="index"/>
+                        <input type="hidden" name="app" value="search"/>
+                        <div class="formstyle">
+                            <input type="text" lang="zh-CN"  value="{$ky[0]}" onblur="searchBlur(this)" onfocus="searchFocus(this)" maxlength="60" x-webkit-speech="" onwebkitspeechchange="foo()" x-webkit-grammar="builtin:search" class="textinput" id="keyword" name="keyword" style="color: rgb(153, 153, 153);">
+                            <input type="submit" value="" class="search-button" name="" <!--{if $kw }--> value="{$ky}"<!--{/if}-->>
+                        </div>
+                    </form>
+                </div>
+                <div class="tag">
+                    <!--{foreach from=$hot_keywords item=keyword}-->
+                    <a href="{r_url app=search&keyword=$keyword}">{$keyword}</a>
+                    <!--{/foreach}-->
+                </div>
+            </div>
+        </div>
+    </header>
+</div>
+
+

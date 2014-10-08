@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>大集客-我的集客小店—引导页一</title>
+    <link href="{res file=css/public.css}" rel="stylesheet" type="text/css" />
+    <link href="{res file=css/jike_shop.css}" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<div class="yind">
+    <div class="gb"></div>
+    <div class="font">
+        <h2>这就是您的集客小店：
+            <span>
+                {if $site_url && strstr($site_url,'www')}
+                    www.{$user.user_id}.dajike.com
+                {else}
+                    test.{$user.user_id}.dajike.com
+                {/if}
+            </span>
+        </h2>
+        <p>您推荐的商家店铺内所有商品以及大集客商城韩国直购商品都<span>自动</span>将同步到您的集客小店。只要有人在您的小店购买商品，您无须处理发货、物流等售前售后问题，就能获得该商品<span>佣金的20%-30%奖励</span>。</p>
+    </div>
+    <div class="ann"><a href="javascript:guide_two()"></a></div>
+</div>
+
+
+<script type="text/javascript">
+    function guide_two(){
+        var uri =encodeURI("index.php?app=jkxd_portal&act=guide_two");
+        var id = 'guide_two';
+        var title = "引导二";
+        var width = '755';
+        ajax_form(id, title, uri, width);
+    }
+</script>
+
+
+</body>
+</html>

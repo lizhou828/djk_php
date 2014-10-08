@@ -1,0 +1,126 @@
+{include file="header.html"}
+<script type="text/javascript">
+$(function(){
+    $('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+    $('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+});
+</script>
+<div id="rightTop">
+    <p>提现管理</p>
+    <ul class="subnav">
+        <li><span>查询提现</span></li>
+        <li><span>总计：<span style="color: red"> {$total|price}</span></span></li>
+    </ul>
+</div>
+<div class="mrightTop">
+    <div class="fontl">
+        <form method="get" name="form1" id="form1">
+             <div class="left">
+                <input type="hidden" name="app" value="tixian" />
+                <input type="hidden" name="act" value="index" />
+                <input type="hidden" id="exportFlag" name="exportFlag" value="0" />
+                
+                状态
+                <select class="querySelect" name="status">   
+                <option value='-1' <!--{if $smarty.get.status || $smarty.get.status eq -1 }-->selected="selected"<!--{/if}-->    >全部</option>
+                <option value="0"  <!--{if $smarty.get.status eq 0 }-->selected="selected"<!--{/if}-->    >未处理</option>
+                <option value="1" <!--{if $smarty.get.status eq 1 }-->selected="selected"<!--{/if}-->>处理中</option>
+                <option value="2" <!--{if $smarty.get.status eq 2 }-->selected="selected"<!--{/if}-->>处理成功</option>
+                <option value="3" <!--{if $smarty.get.status eq 3 }-->selected="selected"<!--{/if}-->>处理失败</option>
+                <option value="4" <!--{if $smarty.get.status eq 4 }-->selected="selected"<!--{/if}-->>已取消</option>
+
+                </select>
+                
+                用户类型
+                <select class="querySelect" name="user_type" id="user_type">
+                <option value="-1" <!--{if !$smarty.get.user_type || $smarty.get.user_type eq -1 }-->selected="selected"<!--{/if}-->>全部</option>
+                <option value="1" <!--{if $smarty.get.user_type eq 1 }-->selected="selected"<!--{/if}--> >买家</option>
+                <option value="2" <!--{if $smarty.get.user_type eq 2 }-->selected="selected"<!--{/if}--> >商家</option>
+                <option value="3" <!--{if $smarty.get.user_type eq 3 }-->selected="selected"<!--{/if}--> >服务中心</option>
+                </select>
+                &nbsp;&nbsp;&nbsp;开始时间:<input type="text" value="{$smarty.get.add_time_from}" id="add_time_from" name="add_time_from" class="pick_date" style="width:100px;" />
+                至:<input type="text"  value="{$smarty.get.add_time_to}" id="add_time_to" name="add_time_to" class="pick_date" style="width:100px;" />
+                用户名:<input style="width:100px;" type="text" value="{$smarty.get.user_name}" name="user_name" />
+                <!--
+                 地区:<input class="queryInput2" type="text" style="width:60px;" value="{$query.order_amount_to}" name="order_amount_to" class="pick_date" />-->
+                <input type="submit" class="formbtn" value="{$lang.query}" />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="button" class="formbtn" id="export" name="export" value="导出" />
+            </div>
+            <!--{if $filtered}-->
+            <a class="left formbtn1" href="index.php?app=tixian">{$lang.cancel_query}</a>
+            <!--{/if}-->
+        </form>
+
+    </div>
+
+</div>
+<div class="tdare">
+    <table width="100%" cellspacing="0" class="dataTable" style="table-layout:fixed;" >
+
+        <tr class="tatr1">
+            <td width="15%" class="firstCell"><span>会员名</span></td>
+            <td width="6%" ><span ectype="order_by" fieldname="seller_id">银行开户名</span></td>
+            <td width="6%"><span ectype="order_by" fieldname="order_sn">提现金额</span></td>
+            <td width="5%"><span ectype="order_by" fieldname="add_time">银行名称</span></td>
+            <td width="10%"><span ectype="order_by" fieldname="buyer_name">银行卡号</span></td>
+            <td width="10%"><span ectype="order_by" fieldname="order_amount">提现时间</span></td>
+            <td width="5%"><span ectype="order_by" fieldname="type">提现类型</span></td>
+            <td width="10%"><span ectype="order_by" fieldname="shenfenzheng">身份证号码</span></td>
+            <td  width="5%">状态</td>
+            <td width="5%">操作</td>
+        </tr>
+    
+        <!--{foreach from=$tixians item=tixian}-->
+        <tr class="tatr2">
+            <td class="firstCell">
+				{$tixian.m_user_name|escape}
+				<!--{if $tixian.member_type eq "02"}-->
+					<br><font color='red'>(服务中心:{$tixian.region_name})</font>
+                <!--{/if}-->	
+			</td>
+            <td>{$tixian.user_name|escape}</td>
+            <td>{$tixian.jine}</td>
+            <td>{$tixian.channel_name}</td>
+            <td>{$tixian.channel_card|escape}</td>
+            <td>{$tixian.add_time}</td>
+            <td>
+                <!--{if $tixian.type eq 0}-->免税
+                <!--{elseif $tixian.type eq 1}--><font color='red'>缴税|{$tixian.jine|myeval:"value*0.8"}</font>
+                <!--{/if}-->
+            </td>
+            <td>{$tixian.shenfenzheng}</td>
+            <td>
+            <!--{if $tixian.status eq 0}-->未处理
+            <!--{elseif $tixian.status eq 1}-->处理中
+            <!--{elseif $tixian.status eq 2}-->已完成
+            <!--{elseif $tixian.status eq 3}-->失败
+            <!--{elseif $tixian.status eq 4}-->已取消
+            <!--{/if}-->
+            </td>
+            <td>
+                <a href="index.php?app=tixian&act=edit&id={$tixian.id}">编辑</a>
+                <a href="index.php?app=tixian&act=detail&id={$tixian.user_id}" target="_blank">明细</a>
+            </td>
+        </tr>
+        <!--{foreachelse}-->
+        <tr class="no_data">
+            <td colspan="8">{$lang.no_data}</td>
+        </tr>
+        <!--{/foreach}-->
+    </table>
+    <div id="dataFuncs">
+        <div class="pageLinks">
+            {if $tixians}{include file=page.bottom.html}{/if}
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<script>
+ $("#export").bind("click",function(){
+     $("#exportFlag").val("1");
+     document.getElementById("form1").submit();
+ })
+</script>
+
+{include file="footer.html"}

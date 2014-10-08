@@ -1,0 +1,287 @@
+img, dl, dd, dt, ul, li, img {
+    margin: 0;
+    padding: 0;
+    border: none;
+    list-style-type: none;
+}
+
+.clear {
+    clear: both;
+    line-height: 0px;
+}
+
+.k_bg {
+    width: 610px;
+    height: 493px;
+    margin: 0px auto;
+}
+
+.k_bg1 {
+    height: 493px;
+    background: url(../images/bg1.jpg);
+    width: 8px;
+    float: left
+}
+
+.k_bg2 {
+    height: 493px;
+    background: url(../images/bg.jpg) repeat-x;
+    width: 594px;
+    float: left
+}
+
+.k_bg3 {
+    height: 493px;
+    background: url(../images/bg2.jpg);
+    width: 8px;
+    float: right
+}
+
+.k_top {
+    width: 594px;
+    height: 31px;
+    _margin-top: 8px
+}
+
+.k_topleft {
+    width: 414px;
+    height: 31px;
+    float: left;
+    line-height: 31px;
+    font: "宋体";
+    padding-left: 15px;
+    font-weight: bold;
+    font-size: 12px
+}
+
+.k_topright {
+    width: 164px;
+    height: 31px;
+    float: right
+}
+
+.k_topright ul {
+    margin-top: 7px;
+    float: right;
+    margin-right: 5px;
+    _margin-top: 3px;
+}
+
+.k_topright li {
+    float: left;
+    margin-right: 3px;
+}
+
+.k_bottom {
+    width: 594px;
+    height: 444px;
+}
+
+.k_bottomleft {
+    float: left;
+    width: 422px;
+    height: 444px;
+    margin-left: 5px;
+    _margin-left: 3px;
+}
+
+.k_bottomleft1 {
+    width: 8px;
+    height: 421px;
+    background: url(../images/left1.jpg) no-repeat;
+    float: left
+}
+
+.k_bottomleft2 {
+    float: left;
+    background: url(../images/centent1.jpg) repeat-x;
+    width: 406px;
+    height: 421px;
+}
+
+.k_bottomleft3 {
+    width: 8px;
+    height: 421px;
+    background: url(../images/right1.jpg) no-repeat;
+    float: right
+}
+
+.k_bottomleft2Top {
+    width: 400px;
+    height: 295px;
+    font: "宋体";
+    font-size: 12px;
+    overflow: auto;
+}
+
+.k_bottomleft2Con {
+    width: 400px;
+    height: 31px;
+    font: "宋体";
+    font-size: 12px;
+    line-height: 31px;
+}
+
+.k_bottomleft2Con dl {
+    float: left;
+    margin-left: 10px;
+    _margin-left: 5px;
+}
+
+.k_bottomleft2Con dd {
+    float: left;
+    height: 28px;
+    padding-top: 3px;
+    *padding-top: 0px;
+    _padding-top: 7px;
+    margin-right: 5px;
+}
+
+.k_bottomleft2Con dt {
+    float: left;
+    line-height: 31px;
+}
+
+.k_bottomleft2Bot {
+    width: 400px;
+    height: 80px;
+    font: "宋体";
+    font-size: 12px;
+    border: none
+}
+
+.k_bottomleft2Bot_zi {
+    width: 400px;
+    height: 33px;
+    margin-top: 20px;
+    _margin-top: 10px;
+}
+
+.k_bottomleft2Bot_zi dd {
+    float: left;
+    font: "宋体";
+    font-size: 12px;
+    color: #202020;
+}
+
+.k_bottomleft2Bot_zi dt {
+    float: right;
+    width: 59px;
+    height: 18px;
+    padding-right: 15px;
+}
+
+.k_bottomleft2Bot_zi_button {
+    width: 59px;
+    height: 18px;
+    background: url(../images/fs.jpg);
+    border: none
+}
+
+.k_bottomright {
+    float: right;
+    width: 158px;
+    height: 444px;
+    margin-right: 5px;
+    _margin-right: 3px;
+}
+
+.k_bottomright1 {
+    width: 8px;
+    height: 444px;
+    background: url(../images/left.jpg) no-repeat;
+    float: left
+}
+
+.k_bottomright2 {
+    float: left;
+    background-color: #fff;
+    width: 142px;
+    height: 444px;
+}
+
+.k_bottomright3 {
+    width: 8px;
+    _width: 7px;
+    height: 444px;
+    background: url(../images/right.jpg) no-repeat;
+    float: right
+}
+
+#color_333 {
+    color: #333;
+}
+
+.conright_chat {
+/*padding-left: 15px;*/
+    width: 1006px;
+    height: 443px;
+    border: 1px solid #cecece;
+}
+
+.conright_chat p {
+    height: 33px;
+    width: 991px;
+    background: url(../images/houtai_02.gif) repeat-x;
+    line-height: 34px;
+    font-size: 20px;
+    color: #5d5c5c;
+    font-weight: bold;
+    padding-left: 15px;
+    border-bottom: 1px solid #cecece;
+}
+
+.conright_chat span {
+    padding-right: 15px;
+    padding-top: 4px; /*height:29px;*/
+    _padding-top: 8px; /*_height:25px;*/
+}
+
+.color_af0342 {
+    color: #af0342;
+    line-height: 18px;
+}
+
+#color_0043dc a {
+    color: #0043dc;
+}
+
+.color_999 {
+    color: #999;
+}
+
+.conright_font {
+    font-size: 12px;
+    color: #666;
+    line-height: 22px;
+    padding: 10px;
+}
+
+#talkWindowDivId {
+    position: fixed;
+    left: 200px;
+    top: 10%;
+    z-index: 999;
+    width: 500px;
+    margin-left: 200px;
+}
+
+.talk-content {
+    line-height: 18px;
+    padding-top: 7px;
+}
+
+.talk-content span {
+    color: blue;
+}
+
+.talk-content1 {
+    line-height: 18px;
+    padding-top: 7px;
+}
+#unline{
+    color: #cccccc
+}
+
+
+

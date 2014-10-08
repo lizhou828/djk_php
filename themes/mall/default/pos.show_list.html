@@ -1,0 +1,51 @@
+{include file=pos.header.html}
+<!--面包屑-->
+<div id="mianb"><a href="index.php?app=pos">首页</a> > <a href="index.php?app=pos&act=bind">POS机刷卡绑定</a> > <span>交易记录</span></div>
+
+<!--正文-->
+<div class="sqgout">
+    <h2>POS机刷卡交易记录</h2>
+  <form method="get">
+      <input type="hidden" name="app" value="pos"/>
+      <input type="hidden" name="act" value="show_list"/>
+      <div class="ka1">卡号：<input name="card_num" id="card_num" type="text" value="{$smarty.get.card_num}" class="ipty" /> <input name="" type="submit"  value="查询" class="boty"/> <span>绑定大集客会员，享受积分累计、现金抽奖等更多优惠！
+      <a href="index.php?app=pos&act=bind&card_num={$smarty.get.card_num}" style="color:#0066cc;">现在绑定>></a></span></div>
+  <div class="ka2">刷卡记录共<strong>{$page_info.item_count}</strong>条，刷卡金额共<strong><!--{if $sum_jine}-->{$sum_jine|price}<!--{else}-->0<!--{/if}--></strong>元</div>
+  </form>
+    <table width="968" border="0" align="center" cellpadding="0" cellspacing="1" style="background:#ddd;border-spacing: 1px;margin: 0 auto;">
+  <tr>
+    <td width="133" height="30" align="center" bgcolor="#eeeeee" style="font-weight:bold;">银行名称</td>
+    <td width="182" align="center" bgcolor="#eeeeee" style="font-weight:bold;">银行卡卡号</td>
+    <td width="237" align="center" bgcolor="#eeeeee" style="font-weight:bold;">商家名称</td>
+    <td width="194" align="center" bgcolor="#eeeeee" style="font-weight:bold;">交易所在地</td>
+    <td width="119" align="center" bgcolor="#eeeeee" style="font-weight:bold;">刷卡金额</td>
+    <td width="133" align="center" bgcolor="#eeeeee" style="font-weight:bold;">刷卡时间</td>
+  </tr>
+  <!-- {foreach from=$data item=view name=v} -->
+<tr>
+    <td height="40" align="center" bgcolor="#FFFFFF">{$view.bank_name|escape}</td>
+    <td align="center" bgcolor="#FFFFFF">{$view.bank_card|escape}</td>
+    <td align="center" bgcolor="#FFFFFF">{$view.store_name|escape}</td>
+    <td align="center" bgcolor="#FFFFFF">{$view.region_name|escape}</td>
+    <td align="center" bgcolor="#FFFFFF">{$view.jine|price}</td>
+    <td align="center" bgcolor="#FFFFFF">{$view.xiaofei_time|escape}</td>
+</tr>
+<!-- {foreachelse} -->
+<tr>
+    <td  align="center" colspan="6" bgcolor="#FFFFFF">
+        <br><br><br>没找到刷卡记录！
+    </td>
+</tr>
+<!--{/foreach}-->
+</table>
+
+<div class="ka3">
+  <!--{if $data}-->
+    <div class="kandan_foot">
+        <div class="pageLinks">{include file=member.page.bottom.html}</div>
+    </div>
+    <!--{/if}-->
+</div>
+<div class="clear"></div>
+</div>
+{include file=pos.footer.html}

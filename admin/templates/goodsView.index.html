@@ -1,0 +1,158 @@
+{include file="header.html"}
+<script type="text/javascript">
+//<!CDATA[
+$(function(){
+    // multi-select mall_gcategory
+    $('#gcategory').length>0 && gcategoryInit("gcategory");
+});
+function get_price(id){
+    if (!$("#price_"+id).is(":hidden")) {
+        $("#price_"+id).hide();
+        return;
+    }
+    $("#price_"+id).show();
+    var url = "index.php?app=goods&act=get_ajax_price&id="+id;
+    $.getJSON(url,function(data){
+        if(data) {
+            var speces = eval(data);
+
+            if(speces.spec_name_1==""&&speces.spec_name_2==""){
+                $("#price_"+id).html("价格："+speces._specs[0].price+"<br>"+"供货价："+speces._specs[0].org_price+"佣金比例："+number_format((1-speces._specs[0].org_price/speces._specs[0].price),2)*100+"%");
+            } else if(speces.spec_name_1 !=""&&speces.spec_name_2!=""){
+                var str = "";
+                for(var i=0;i<speces._specs.length;i++){
+                    str+=speces.spec_name_1+":"+speces._specs[i].spec_1+ "; 价格:"+speces._specs[i].price+"; 供货价："+speces._specs[i].org_price+"佣金比例:"+number_format((1-speces._specs[i].org_price/speces._specs[i].price),2)*100+"<br>"+speces.spec_name_2+":" +speces._specs[i].spec_2 +";价格:"+speces._specs[i].price+"; 供货价："+speces._specs[i].org_price+"佣金比例："+number_format((1-speces._specs[i].org_price/speces._specs[i].price),2)*100+"%"+"<br>";
+                }
+                $("#price_"+id).html(str);
+            } else if(speces.spec_name_2 ==""){
+                var str = "";
+                for(var i=0;i<speces._specs.length;i++){
+                    str+=speces.spec_name_1+":"+speces._specs[i].spec_1+ "; 价格:"+speces._specs[i].price+"佣金比例："+number_format((1-speces._specs[i].org_price/speces._specs[i].price),2)*100+"%";
+                }
+                $("#price_"+id).html(str);
+            }
+
+        }
+
+    },'json');
+}
+
+
+//]]>
+</script>
+<div id="rightTop">
+  <p>{$lang.goods}</p>
+  <ul class="subnav">
+    <li><!--{if $smarty.get.closed}--><a class="btn1" href="index.php?app=goods">{$lang.all_goods}</a><!--{else}--><span>{$lang.all_goods}</span><!--{/if}--></li>
+    <li><!--{if $smarty.get.closed}--><span>{$lang.closed}</span><!--{else}--><a class="btn1" href="index.php?app=goods&amp;closed=1">{$lang.closed}</a><!--{/if}--></li>
+  </ul>
+</div>
+<div class="mrightTop1 info">
+  <div class="fontl">
+    <form method="get">
+      <input type="hidden" name="app" value="goods" />
+      <!--&lt;!&ndash;{if $smarty.get.closed}&ndash;&gt;-->
+      <!--<input type="hidden" name="closed" value="1" />-->
+      <!--&lt;!&ndash;{/if}&ndash;&gt;-->
+        {$lang.goods_name}:
+      <input class="queryInput" type="text" name="goods_name" value="{$smarty.get.goods_name|escape}" />
+      {$lang.store_name}:
+      <input class="queryInput" type="text" name="store_name" value="{$smarty.get.store_name|escape}" />
+      {$lang.brand}:
+      <input class="queryInput" type="text" name="brand" value="{$smarty.get.brand|escape}" /><br />
+      <span style="position: relative; top: 5px;">
+      <div class="left">
+          {$lang.gcategory}:
+          <div id="gcategory" style="display:inline;">
+            <input type="hidden" name="cate_id" value="0" class="mls_id" />
+            <select class="querySelect">
+              <option>{$lang.select_pls}</option>
+              {html_options options=$gcategories}
+            </select>
+          </div>
+          <select class="querySelect" name='if_show'>
+              <option value="" selected="selected">--请选择--</option>
+              <option value="1"  <!--{if $smarty.get.if_show eq 1}-->  selected="selected"<!--{/if}--> >上架</option>
+              <option value="0" <!--{if $smarty.get.if_show == "0"}-->  selected="selected"<!--{/if}-->>下架</option>
+          </select>
+          <select class="querySelect" name="closed">
+              <option value="" selected="selected">--请选择--</option>
+              <option value="1" <!--{if $smarty.get.closed eq 1}-->  selected="selected" <!--{/if}-->>禁售</option>
+              <option value="0"  <!--{if $smarty.get.closed =="0"}-->  selected="selected" <!--{/if}-->>正常</option>
+          </select>
+          <input type="submit" class="formbtn" value="{$lang.query}" />
+      </div>
+      <!--{if $smarty.get.cate_id or $query.goods_name or $query.store_name or $query.brand}-->
+      <a class="left formbtn1" href="index.php?app=goods<!--{if $query.closed}-->&amp;closed={$query.closed}<!--{/if}-->">{$lang.cancel_query}</a>
+      <!--{/if}-->
+      </span>
+    </form>
+  </div>
+  <div class="fontr">{include file=page.top.html}</div>
+</div>
+<div class="tdare">
+  <table width="100%" cellspacing="0" class="dataTable">
+    <!--{if $goods_list}-->
+    <tr class="tatr1">
+      <td width="10%" class="firstCell"><input type="checkbox" class="checkall" /></td>
+	  {if $enable_radar}<td width="10%">{$lang.enable_radar}</td>{/if}
+      <td width="30%"><span ectype="order_by" fieldname="goods_name">{$lang.goods_name}</span></td>
+      <td width="10%"><span ectype="order_by" fieldname="store_name">{$lang.store_name}</span></td>
+      <td><span ectype="order_by" fieldname="brand">{$lang.brand}</span></td>
+      <td><span ectype="order_by" fieldname="cate_id">{$lang.gcategory}</span></td>
+      <td class="table-center"><span ectype="order_by" fieldname="if_show">{$lang.if_show}</span></td>
+      <td class="table-center"><span ectype="order_by" fieldname="closed">{$lang.close}</span></td>
+      <td><span ectype="order_by" fieldname="views">{$lang.views}</span></td>
+      <td>{$lang.handler}</td>
+    </tr>
+    <!--{/if}-->
+    <!--{foreach from=$goods_list item=goods}-->
+
+    <tr class="tatr2">
+      <td class="firstCell"><input type="checkbox" class="checkitem" value="{$goods.goods_id}"/></td>
+    {if $enable_radar}
+    <td><span id="r{$goods.goods_id}"class="radar_product_point" radar_price="{$goods.shop_price}" radar_product_id='{$goods.goods_id}' radar_brand="{$goods.brand_name}"  radar_catname="{$goods.cat_name}" radar_sn="{$goods.goods_sn}" radar_keyword="" radar_name="{$goods.goods_name|escape:html}"></span></td>
+    {/if}
+      <td><span ectype="inline_edit" fieldname="goods_name" fieldid="{$goods.goods_id}" required="1" class="editable" title="{$lang.editable}">{$goods.goods_name|escape}</span></td>
+      <td>{$goods.store_name|escape}</td>
+      <td>{$goods.brand|escape}</td>
+      <td>{$goods.cate_name|nl2br}</td>
+      <td class="table-center"><!-- {if $goods.if_show} --><img src="{res file=style/images/positive_enabled.gif}" /><!--{else}--><img src="{res file=style/images/positive_disabled.gif}" /><!-- {/if} --></td>
+      <td class="table-center"><!-- {if $goods.closed} --><img src="{res file=style/images/negative_enabled.gif}" ectype="inline_edit" fieldname="closed" fieldid="{$goods.goods_id}" fieldvalue="1" title="{$lang.editable}"/><!--{else}--><img src="{res file=style/images/negative_disabled.gif}" ectype="inline_edit" fieldname="closed" fieldid="{$goods.goods_id}" fieldvalue="0" title="{$lang.editable}"/><!-- {/if} --></td>
+      <td>{$goods.views|default:0}</td>
+      <td>
+          <a target="_blank" href="{$site_url}/index.php?app=goods&amp;id={$goods.goods_id}">{$lang.view}</a>
+          <a href="javascript:get_price('{$goods.goods_id}')">价格</a>
+            <div style="position: absolute;display: none;right: 0px;border: 1px solid #ddd;padding: 5px;margin-left: 5px; background: #fff;z-index: 999" id="price_{$goods.goods_id}">
+
+          </div>
+      </td>
+    </tr>
+    <!--{foreachelse}-->
+    <tr class="no_data info">
+      <td colspan="8">{$lang.no_data}</td>
+    </tr>
+    <!--{/foreach}-->
+  </table>
+  <!--{if $goods_list}-->
+  <div id="dataFuncs">
+    <div id="batchAction" class="left paddingT15"> <!--{if !$smarty.get.closed}-->
+      <input class="formbtn batchButton" type="button" value="{$lang.recommend}" name="id" uri="index.php?app=goods&act=recommend&ret_page={$page_info.curr_page}" />
+          &nbsp;&nbsp;<!--{/if}-->
+      <input class="formbtn batchButton" type="button" value="{$lang.edit}" name="id" uri="index.php?app=goods&act=edit&ret_page={$page_info.curr_page}" />&nbsp;&nbsp;
+      <input class="formbtn batchButton" type="button" value="{$lang.drop}" name="id" uri="index.php?app=goods&act=drop&ret_page={$page_info.curr_page}" presubmit="confirm('{$lang.drop_confirm}')" />
+    </div>
+    <div class="pageLinks">{include file=page.bottom.html}</div>
+   <!--{/if}-->
+  </div>
+  <div class="clear"></div>
+</div>
+{include file="footer.html"}{if $enable_radar}
+<input type="hidden" id="radar_lincense_id" value="" />
+<input type="hidden" id="radar_product_key" value="djk" />
+<input type="hidden" id="radar_sign_key" value="" />
+<script type="text/javascript" src="http://js.sradar.cn/radarForGoodsList.js"></script>
+<script>
+radar_point_extract();
+</script>
+{/if}

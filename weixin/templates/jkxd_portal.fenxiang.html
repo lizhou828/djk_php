@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>大集客-微信-集客小店一键推广</title>
+    <link href="{$site_url}/weixin/templates/style/com.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/hone.css" rel="stylesheet" type="text/css" />
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        function apply_jkxd(){
+            $.get('index.php?app=jkxd_portal&act=apply_jkxd',function(data){
+                data = eval("("+data+")");
+                if(data.retval == 0){
+                    alert(data.msg);
+                }else if(data.retval==1){
+                    window.location='index.php?app=jkxd_portal&act=apply_jkxd_page';
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<div style=" width:320px; margin:0px auto;">
+<div class="enter-t">
+    <a href="javascript:history.go(-1)"><div class="enter-t1">返回</div></a>
+    <div class="enter-t22">一键推广</div>
+    <a href="javascript:void(0)" onclick="apply_jkxd()"><div class="enter-t33">我也要开小店</div></a>
+</div>
+<div class="clear"></div>
+<div class="enter-bg">
+    <div class="erwei">
+        <img width="220" height="220" src="{$site_url}/weixin/index.php?app=jkxd_portal&act=generalCode&id={$id}">
+        <p style="margin-left: 41px;">扫一扫  进入我的集客小店</p>
+    </div>
+
+    {if $vshop && $vshop.user_id > 0 }
+        <br/>
+        <div class="erwei">
+            <img width="220" height="220" src="{$site_url}/weixin/index.php?app=jkxd_portal&act=generalCode&vshop_id={$vshop.user_id}">
+            <p style="margin-left: 41px;">扫一扫  进入我的精品集客小店</p>
+        </div>
+    {/if}
+
+    <div class="bshare-custom icon-medium-plus" style="margin-bottom: 100px;">
+        分享到：
+        <a title="分享到QQ空间" class="bshare-qzone"></a>
+        <a title="分享到新浪微博" class="bshare-sinaminiblog"></a>
+        <a title="分享到人人网" class="bshare-renren"></a>
+        <a title="分享到腾讯微博" class="bshare-qqmb"></a>
+        <a title="分享到网易微博" class="bshare-neteasemb"></a>
+        <!--<a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a>-->
+        <!--<span class="BSHARE_COUNT bshare-share-count"></span>-->
+    </div>
+    <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=2&amp;lang=zh"></script>
+    <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+    {include file=jkxd_portal.footer.html}
+</div>
+</div>
+</body>
+</html>

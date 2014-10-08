@@ -1,0 +1,78 @@
+{include file="header1.html"}
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<style type="text/css">
+    .top_bs{ width:989px; margin:0px auto; margin-top:55px; margin-bottom:30px;height:220px; border:2px solid #D8D8D8; line-height:50px}
+    .top_bs dl{ margin-top:50px ; margin-left:50px}
+    .top_bs dl dd{ width:68px; height:63px; float:left; margin-right:20px;}
+    .top_bs dl dt{ float:left;}
+    .top_bs dl dt h5{ color:#5e8f0a; font-size:18px; font-weight:normal; font-family:"微软雅黑"; line-height:40px;}
+    .top_bs dl dt p{ color:#666;}
+    .top_bs dl dt p span{ color:#d0281e; font-family:Verdana, Geneva, sans-serif;}
+    .top_bs dl dt p a{ color:#1d5b9f; text-decoration:none; font-size: 14px}
+    .top_bs dl dt .bot{ color:#4f4f4f; font-size:14px; width:102px; height:32px; border:1px solid #d2d2d2; background:#ededed; line-height:32px; text-align:center; margin-top:12px;}
+    .top_bs dl dt .bot a{color:#4f4f4f; }
+    .top_bz{ width:787px; margin:0px auto; margin-top:26px; height:176px; border:1px solid #eaac44; background: #fffcf7; margin-bottom: 50px;}
+    .top_bz p{ font-size:18px; font-family:"微软雅黑"; color:#ffa800; width:526px; margin:0px auto; margin-top:32px}
+    .top_bz p span{ font-size:24px; color:#d0281e;}
+    .top_bz .yx{ height:28px; line-height:28px; width:492px; margin:0px auto; margin-top:32px;}
+    .top_bz .yx .input1{ width:213px; height:26px; border:1px solid #d1d1d1; vertical-align:middle; line-height:26px; color:#b5b5b5; padding-left:5px;}
+    .top_bz .yx .input2{ border:1px solid #d2d2d2; width:100px; height:28px; background:#ebebeb; border:none; vertical-align:middle; color:#616161; cursor:pointer}
+
+    .top_bs dl dt p .sp1{width:150px; height:26px;}
+    .top_bs dl dt p .sp1 .input1{width:150px; height:26px; border:1px solid #d1d1d1; vertical-align:middle; line-height:26px; color:#b5b5b5; padding-left:5px;}
+    .top_bs dl dt p .input2{border:1px solid #d2d2d2; width:50px; height:28px; background:#ebebeb; border:none; vertical-align:middle; color:#616161; cursor:pointer}
+	
+	
+	
+	
+	
+	.top_bs2{ width:989px; margin:0px auto; margin-top:55px; margin-bottom:30px;height:220px; border:2px solid #D8D8D8; line-height:50px}
+    .top_bs2 dl{ margin-top:50px ; margin-left:50px}
+    .top_bs2 dl dd{ width:68px; height:63px; float:left; margin-right:20px;}
+    .top_bs2 dl dt{ float:left;}
+    .top_bs2 dl dt h5{ color:#5e8f0a; font-size:18px; font-weight:normal; font-family:"微软雅黑"; line-height:40px;}
+    .top_bs2 dl dt p{ color:#666;}
+    .top_bs2 dl dt p span{ color:#d0281e; font-family:Verdana, Geneva, sans-serif;}
+    .top_bs2 dl dt p a{ color:#1d5b9f; text-decoration:none; font-size: 14px}
+    .top_bs2 dl dt .bot{ color:#4f4f4f; font-size:14px; width:102px; height:32px; border:1px solid #d2d2d2; background:#ededed; line-height:32px; text-align:center; margin-top:12px;}
+    .top_bs2 dl dt .bot a{color:#4f4f4f; }
+    .top_bz{ width:787px; margin:0px auto; margin-top:26px; height:176px; border:1px solid #eaac44; background: #fffcf7; margin-bottom: 50px;}
+    .top_bz p{ font-size:18px; font-family:"微软雅黑"; color:#ffa800; width:526px; margin:0px auto; margin-top:32px}
+    .top_bz p span{ font-size:24px; color:#d0281e;}
+    .top_bz .yx{ height:28px; line-height:28px; width:492px; margin:0px auto; margin-top:32px;}
+    .top_bz .yx .input1{ width:213px; height:26px; border:1px solid #d1d1d1; vertical-align:middle; line-height:26px; color:#b5b5b5; padding-left:5px;}
+    .top_bz .yx .input2{ border:1px solid #d2d2d2; width:100px; height:28px; background:#ebebeb; border:none; vertical-align:middle; color:#616161; cursor:pointer}
+
+    .top_bs2 dl dt p .sp1{width:150px; height:26px;}
+    .top_bs2 dl dt p .sp1 .input1{width:150px; height:26px; border:1px solid #d1d1d1; vertical-align:middle; line-height:26px; color:#b5b5b5; padding-left:5px;}
+    .top_bs2 dl dt p .input2{border:1px solid #d2d2d2; width:50px; height:28px; background:#ebebeb; border:none; vertical-align:middle; color:#616161; cursor:pointer}
+</style>
+
+
+
+<!--{if $active_user }-->
+<div class="top_bs">
+    <dl>
+        <dd><img src="{$site_url}/themes/mall/default/styles/default/images/gou.png" width="68" height="63" /></dd>
+        <dt>
+        <h5>恭喜，{$active_user.email} 已注册成功！</h5>
+       
+        <p class="bot"><a href="{$site_url}">立即购物</a></p>
+        </dt>
+    </dl>
+</div>
+
+<!--{else}-->
+<div class="top_bs">
+    <dl>
+        <dd><img src="{$site_url}/themes/mall/default/styles/default/images/ku.jpg" width="68" height="63" /></dd>
+        <dt>
+        <h5>抱歉，您的邮箱验证失败！</h5>
+        <p id="p1">您的验证连接已过期，请登录会员中心重新验证！
+        </p>
+        </dt>
+    </dl>
+</div>
+<!--{/if}-->
+{include file=footer1.html}

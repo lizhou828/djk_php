@@ -1,0 +1,372 @@
+{include file=member.header.html}
+<script type="text/javascript">
+    $(function(){
+        $('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+        $('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+        $('.checkall_s').click(function(){
+            var if_check = $(this).attr('checked');
+            $('.checkitem').each(function(){
+                if(!this.disabled)
+                {
+                    $(this).attr('checked', if_check);
+                }
+            });
+            $('.checkall_s').attr('checked', if_check);
+        });
+        $('a[ectype="batchcancel"]').click(function(){
+            if($('.checkitem:checked').length == 0){
+                return false;
+            }
+            if($(this).attr('presubmit')){
+                if(!eval($(this).attr('presubmit'))){
+                    return false;
+                }
+            }
+            var items = '';
+            $('.checkitem:checked').each(function(){
+                items += this.value + ',';
+            });
+            items = items.substr(0, (items.length - 1));
+
+            var uri = $(this).attr('uri');
+            uri = uri + '&' + $(this).attr('name') + '=' + items;
+            var id = 'seller_order_cancel_order';
+            var title = $(this).attr('dialog_title') ? $(this).attr('dialog_title') : '';
+            //var url = $(this).attr('uri');
+            var width = '500';
+            ajax_form(id, title, uri, width);
+        });
+    });
+
+    function show_order(val) {
+        if(val == 0) {
+            location = "index.php?app=service&act=orders&p=service";
+        }else{
+            location = "index.php?app=service&act=benqu_orders&p=service";
+        }
+    }
+</script>
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right">
+        {if $p == 'daifu'}
+            <ul class="tab">
+                <li class="active">代付订单</li>
+            </ul>
+        {else}
+            {include file=member.submenu.html}
+        {/if}
+        <div class="wrap">
+            <div class="scarch_order">
+                <form method="get">
+                    <div style="float:left;">
+                        <!--{if $ordersType}-->
+                        <span class="title">按托管类型:</span>
+                        <select name="store_type" onchange="show_order(this.value)">
+                            <option value="0">托管订单</option>
+                            <!--{if $showBenxiaqu }-->
+                            <option value="1" <!--{if $smarty.get.act == 'benqu_orders'}-->selected="selected"<!--{/if}--> >非托管订单</option>
+                            <!--{/if}-->
+                        </select>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <!--{/if}-->
+                        <span>订单类型:</span>
+                        <select name="order_type" >
+                            <option value="">请选择</option>
+                            <option value="material">普通订单</option>
+                            <option value="shop">集客小店</option>
+                            <option value="mobile,shop">集客小店(手机版)</option>
+                            <option value="vshop">精品集客小店</option>
+                            <option value="mobile,vshop">精品集客小店(手机版)</option>
+                            <option value="mobile">移动商城</option>
+                            <option value="pos">POS机刷卡</option>
+                            <option value="weidian">微店</option>
+                            <option value="two">二维码</option>
+                        </select>
+                        <br/><br/>
+                        <span class="title">{$lang.order_sn}:</span>
+                        <input class="text_normal" style="width: 142px;" type="text" name="order_sn" value="{$query.order_sn|escape}" />
+                        <span class="title" style="margin-left:40px">{$lang.add_time}:</span>
+                        <input class="text_normal width2" type="text" name="add_time_from" id="add_time_from" value="{$query.add_time_from}" /> &#8211; <input class="text_normal width2" id="add_time_to" type="text" name="add_time_to" value="{$query.add_time_to}" />
+                        <!--{if $ordersType}-->
+                        <br><br><!--{/if}-->
+                        <span class="title">{$lang.buyer_name}:</span>
+                        <input class="text_normal" type="text" name="buyer_name" value="{$query.buyer_name|escape}" />
+
+                        <!--{if $ordersType}-->
+                        <input type="hidden" name="app" value="service" />
+                        <input type="hidden" name="act" value="{$smarty.get.act}" />
+                        &nbsp;&nbsp;按商家:
+
+                        <select name="store_id" class="sgcategory">
+                            <option value="-1">全部</option>
+                            <!--{if stores}-->
+                            <!--{foreach from=$stores item=store}-->
+                            <option value="{$store.store_id}" <!--{if $smarty.get.store_id == $store.store_id}-->selected="selected"<!--{/if}--> >{$store.store_name}</option>
+                            <!-- {/foreach} -->
+                            <!--{/if}-->
+                        </select>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="title">商家类型:</span>
+                        <select name="seller_type" id="seller_type">
+                            <option value="0">厂商</option>
+                            <option value="1">代理商</option>
+                            <option value="2">零售商</option>
+                            <option value="3">实体店</option>
+                            <option value="4">全部类型</option>
+                        </select>
+                        <script>
+                            $('#seller_type option:eq(<!--{if $smarty.get.seller_type ==null || $smarty.get.seller_type ==''}-->4<!--{else}-->{$smarty.get.seller_type}<!--{/if}-->)').attr('selected','selected');
+                        </script>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <!--{else}-->
+                        <input type="hidden" name="app" value="seller_order" />
+                        <input type="hidden" name="act" value="index" />
+                        <!--{/if}-->
+
+
+                        <input type="hidden" name="shouhou" value="{$smarty.get.shouhou}" />
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="hidden" name="p" value="{$p}">
+                        <input type="hidden" name="type" value="{$type}" />
+                        <input type="submit" class="btn" value="{$lang.search}" />
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="public">
+
+                <!--{if $orders}-->
+                <table>
+                    <tr>
+                        <th class="width1"><input id="all" type="checkbox" class="checkall_s" /></th>
+                        <th class="" colspan="7">
+                            <label for="all"><span class="all">{$lang.checkall}</span></label>
+                            <!--{if $ordersType}-->
+                            <a href="javascript:;" class="delete" ectype="batchcancel" uri="index.php?app=service&act=cancel_order&ordersType=1" name="order_id">{$lang.cancel_order}</a>
+                            <!--{else}-->
+                            <a href="javascript:;" class="delete" ectype="batchcancel" uri="index.php?app=seller_order&act=cancel_order" name="order_id">{$lang.cancel_order}</a>
+                            <!--{/if}-->
+
+                        </th>
+                    </tr>
+                </table>
+                <!--{foreach from=$orders item=order}-->
+                <div class="dp">买家用户：<a href="javascript:;">{$order.buyer_name|escape}</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收货人姓名：{$order.consignee|escape}
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收货人电话：<!--{ if $order.phone_mob neq ''}-->{$order.phone_mob}<!--{else}-->{$order.phone_tel}<!--{/if}-->
+                    <!--{if $order.status eq ORDER_PENDING && $order.yue_jine > 0 && $order.zhifu > 0}-->
+                    <span style="color:red">&nbsp;(余额已支付{$order.zhifu|number2}元，还剩{$order.yue_jine}元待支付！)</span>
+                    <!--{/if}-->
+                </div>
+                <div class="ble">
+                    <table width="766" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+
+                            <td class="align2" align="center" bgcolor="#f3f3f3" style="color:#333;" >&nbsp;&nbsp;&nbsp;</td>
+                            <td width="100" align="center" bgcolor="#f3f3f3" style="color:#333;">订单号</td>
+                            <td height="30" width="220" colspan="2" align="center" bgcolor="#f3f3f3" style="color:#333;">订单商品</td>
+                            <td width="70" align="center" bgcolor="#f3f3f3" style="color:#333;">订单类型</td>
+                            <td width="88" align="center" bgcolor="#f3f3f3" style="color:#333;">订单金额</td>
+                            <td width="93" align="center" bgcolor="#f3f3f3" style="color:#333;">时间</td>
+                            <td width="82" align="center" bgcolor="#f3f3f3" style="color:#333;">订单状态</td>
+                            <td width="91" align="center" bgcolor="#f3f3f3" style="color:#333;">操作</td>
+                        </tr>
+                        <tr>
+                            <td class="align2" align="center"><input type="checkbox" value="{$order.order_id}" class="checkitem" <!--{if  $order.status eq ORDER_PENDING &&  ($order.yue+$order.koushui_yue == 0) }-->{else} disabled="disabled" <!--{/if}-->/></td>
+                            <td align="center" style=" padding-left:8px;"><a href="{url app=$smarty.get.app&act=view&order_id=$order.order_id}" target="_blank" style="font-weight:bold; color:#666">{$order.order_sn}{if $order.extension eq 'groupbuy'}<span class="color8">[{$lang.groupbuy}]</span>{/if}</a></td>
+                            <td height="80" colspan="2">
+                                <ul class="sp">
+                                    <!--{foreach from=$order.order_goods item=goods name=o_goods}-->
+                                    <!--{if $smarty.foreach.o_goods.index<=2}-->
+                                    <li>
+                                        <!--{if $order.type == 'two' || $order.type =='pos'}-->
+                                        <a href="{url app=$smarty.get.app&act=view&order_id=$order.order_id}" title="{$goods.goods_name}" target="_blank"><img src="{$site_url}/{$goods.goods_image}" style="border: 1px solid #ddd" alt="{$goods.goods_name|escape}" width="60px" height="60px"/></a>
+                                        <!--{else}-->
+                                          <a href="index.php?app=goods&id={$goods.goods_id}" target="_blank" title="{$goods.goods_name}"><img src="{$site_url}/{$goods.goods_image}" style="border: 1px solid #ddd" alt="{$goods.goods_name|escape}" width="60px" height="60px"/></a>
+                                        <!--{/if}-->
+                                    </li>
+                                    <!--{/if}-->
+                                    <!--{/foreach}-->
+                                </ul>
+                            </td>
+                            <td height="50" align="center">
+                                <!--订单类型，material为普通订单，shop为集客小店，mobile为微网站订单,pos为pos机刷卡,weidian微店,vshop精品集客小店  mobile,shop   mobile,vshop two-->
+                                { if $order.type == 'material'}
+                                    普通订单
+                                {elseif $order.type == 'shop'}
+                                    集客小店
+                                {elseif $order.type == 'mobile'}
+                                    移动商城
+                                {elseif $order.type == 'pos'}
+                                    pos机刷卡
+                                {elseif $order.type == 'weidian'}
+                                    微店
+                                {elseif $order.type == 'vshop'}
+                                    精品集客小店
+                                {elseif $order.type == 'mobile,vshop'}
+                                    精品集客小店(手机版)
+                                {elseif $order.type == 'mobile,shop'}
+                                    集客小店(手机版)
+                                {elseif $order.type == 'two' && $order.is_daifu ==1}
+                                    二维码(代付)
+                                {elseif $order.type == 'two' && $order.is_daifu ==0}
+                                    二维码
+                                {/if}
+                            </td>
+                            <td align="center" style="font-weight:bold;">{$order.order_amount|price}</td>
+                            <td align="center" style="color:#999">{$order.add_time|date:Y-m-d H:i:s}</td>
+                            <td align="center" style="font-weight:bold; color:#333">{$order.status|modifier:order_status}<!--{if $order.evaluation_status}-->,&nbsp;已评价<!--{/if}--></td>
+                            <td align="center">
+                                <!--是否是代付订单-->
+                                {if $p == 'daifu'}
+                                    {if $order.status == 11}
+                                        <a href="javascript:void(0); " name="{$order.order_sn}" id="order{$order.order_sn}_action_pay" onclick="pay_order('{$order.order_sn}')" class="btn pay pay_a" style=" color: #e4a600;">支付余款</a>
+                                        <a href="javascript:cancel_order('index.php?app=seller_order&act=cancel_order&order_id={$order.order_id}&ajax','{$lang.cancel_order}','seller_order_cancel_order','{$order.zhifu}');">{$lang.cancel_order}</a>
+                                        <br/>
+                                    {/if}
+                                    <a class="btn1" href="{url app=seller_order&act=view&order_id=$order.order_id}" target="_blank">{$lang.view_order}详情</a>
+                                {else}
+                                    <!--{if $smarty.get.act =='benqu_orders'}--><!--本区订单只能查看-->
+                                    <a class="btn1" href="{url app=service&act=view&order_id=$order.order_id&p=service}" target="_blank">{$lang.view_order}详情</a>
+                                    <!--{else}-->
+                                    <!--{if $ordersType}--><!--服务中心托管订单订单-->
+                                    <a href="javascript:;" ectype="dialog" uri="index.php?app=service&amp;act=confirm_order&amp;order_id={$order.order_id}&ajax" dialog_id="seller_order_confirm_order" dialog_title="{$lang.confirm_cod_order}"  dialog_width="400" id="order{$order.order_id}_action_confirm" {if $order.status neq ORDER_SUBMITTED} style="display:none"{/if}>{$lang.confirm_cod_order}</a>
+                                    {if $order.status neq ORDER_SUBMITTED} {else} <br> {/if}
+
+                                    <a href="javascript:;" uri="index.php?app=service&amp;act=adjust_fee&amp;order_id={$order.order_id}&ajax" dialog_width="450" dialog_title="{$lang.adjust_fee}" ectype="dialog"  dialog_id="seller_order_adjust_fee" id="order{$order.order_id}_action_adjust_fee" {if $order.status neq ORDER_PENDING and $order.status neq ORDER_SUBMITTED} style="display:none"{/if} >{$lang.adjust_fee}</a>
+                                    {if $order.status neq ORDER_PENDING and $order.status neq ORDER_SUBMITTED}  {else} <br> {/if}
+
+                                    <a href="javascript:;" ectype="dialog" dialog_title="{$lang.shipped_order}" dialog_id="seller_order_shipped" uri="index.php?app=service&amp;act=shipped&amp;order_id={$order.order_id}&ajax"  dialog_width="400" id="order{$order.order_id}_action_shipped" {if $order.status neq ORDER_ACCEPTED} style="display:none"{/if}>{$lang.shipped_order}</a>
+                                    {if $order.status neq ORDER_ACCEPTED}  {else} <br> {/if}
+
+                                    <!--//已发货-->
+                                    <a href="javascript:;" ectype="dialog" dialog_id="seller_order_finished"  dialog_title="{$lang.finish_order}" uri="index.php?app=service&amp;act=finished&order_id={$order.order_id}&ajax" dialog_width="400"  id="order{$order.order_id}_action_finish" {if $order.payment_code neq 'cod' or $order.status neq ORDER_SHIPPED} style="display:none"{/if} >{$lang.finish_order}</a>
+                                    {if $order.payment_code neq 'cod' or $order.status neq ORDER_SHIPPED}  {else} <br> {/if}
+
+                                    <a href="javascript:;" ectype="dialog" dialog_title="{$lang.edit_invoice_no}" uri="index.php?app=service&amp;act=shipped&amp;order_id={$order.order_id}&ajax" dialog_id="seller_order_shipped" dialog_width="400" id="order{$order.order_id}_action_edit_invoice_no"{if $order.status neq ORDER_SHIPPED} style="display:none"{/if} >{$lang.edit_invoice_no}</a>
+                                    {if $order.status neq ORDER_SHIPPED} {else} <br> {/if}
+
+                                    <!-- //不是取消和完成的订单就可以取消-->
+                                <!--{if $visitor.user_name != 'djk11001'}-->
+                                    <a href="javascript:;" ectype="dialog" uri="index.php?app=service&amp;act=cancel_order&order_id={$order.order_id}&ajax" dialog_title="{$lang.cancel_order}" dialog_id="seller_order_cancel_order" dialog_width="400" id="order{$order.order_id}_action_cancel" {if $order.status eq ORDER_CANCELED or $order.status eq ORDER_FINISHED} style="display:none"{/if} >{$lang.cancel_order}</a>
+                                    {if $order.status eq ORDER_CANCELED or $order.status eq ORDER_FINISHED} {else} <br> {/if}
+                                <!--{/if}-->
+                                    <!--{if $visitor.user_name == 'djk11001'}-->
+                                    <!--{if $order.status eq 20 ||  $order.status eq 30 || $order.status eq 40}-->
+                                         <a href="javascript:cel_order('{$order.order_sn}','{$order.status}')">取消订单</a><br/>
+                                    <!--{/if}-->
+                                    <!--{/if}-->
+                                    <!--{if $order.shouhouFlg}-->
+                                    <a class="btn1" href="{url app=service&act=order_goods&order_id=$order.order_id}" style="color:#FF0000">售后处理</a>
+                                    <br>
+                                    <!--{/if}-->
+                                    <a class="btn1" href="{url app=service&act=view&order_id=$order.order_id&p=service}" target="_blank">{$lang.view_order}详情</a>
+
+
+                                    <!--{else}--><!--商家订单管理-->
+                                    <a href="javascript:;" ectype="dialog" uri="index.php?app=seller_order&amp;act=confirm_order&amp;order_id={$order.order_id}&ajax" dialog_id="seller_order_confirm_order" dialog_title="{$lang.confirm_cod_order}"  dialog_width="400" id="order{$order.order_id}_action_confirm"{if $order.status neq ORDER_SUBMITTED} style="display:none"{/if} >{$lang.confirm_cod_order}</a>
+                                    {if $order.status neq ORDER_SUBMITTED}  {else} <br> {/if}
+
+                                    <a href="javascript:;" uri="index.php?app=seller_order&amp;act=adjust_fee&amp;order_id={$order.order_id}&ajax" dialog_width="450" dialog_title="{$lang.adjust_fee}" ectype="dialog"  dialog_id="seller_order_adjust_fee" id="order{$order.order_id}_action_adjust_fee" {if $order.status neq ORDER_PENDING and $order.status neq ORDER_SUBMITTED} style="display:none"{/if} >{$lang.adjust_fee}</a>
+                                    {if $order.status neq ORDER_PENDING and $order.status neq ORDER_SUBMITTED}  {else} <br> {/if}
+
+                                    <a href="javascript:;" ectype="dialog" dialog_title="{$lang.shipped_order}" dialog_id="seller_order_shipped" uri="index.php?app=seller_order&amp;act=shipped&amp;order_id={$order.order_id}&ajax"  dialog_width="400" id="order{$order.order_id}_action_shipped" {if $order.status neq ORDER_ACCEPTED} style="display:none"{/if} >{$lang.shipped_order}</a>
+                                    {if $order.status neq ORDER_ACCEPTED} {else} <br> {/if}
+
+                                    <!--//已发货-->
+                                    <a href="javascript:;" ectype="dialog" dialog_id="seller_order_finished"  dialog_title="{$lang.finish_order}" uri="index.php?app=seller_order&amp;act=finished&order_id={$order.order_id}&ajax" dialog_width="400"  id="order{$order.order_id}_action_finish" {if $order.payment_code neq 'cod' or $order.status neq ORDER_SHIPPED} style="display:none"{/if} >{$lang.finish_order}</a>
+                                    {if $order.payment_code neq 'cod' or $order.status neq ORDER_SHIPPED} {else} <br> {/if}
+
+                                    <a href="javascript:;" ectype="dialog" dialog_title="{$lang.edit_invoice_no}" uri="index.php?app=seller_order&amp;act=shipped&amp;order_id={$order.order_id}&ajax" dialog_id="seller_order_shipped" dialog_width="400" id="order{$order.order_id}_action_edit_invoice_no" {if $order.status neq ORDER_SHIPPED} style="display:none"{/if} >{$lang.edit_invoice_no}</a>
+                                    {if $order.status neq ORDER_SHIPPED} {else} <br> {/if}
+                                    <!-- //不是取消和完成的订单就可以取消-->
+                                    <!--{if $visitor.user_name == 'djk11001'}-->
+                                    <!--{if $order.status eq 20 ||  $order.status eq 30 || $order.status eq 40}-->
+                                        <a href="javascript:cel_order('{$order.order_sn}','{$order.status}')">取消订单</a><br/>
+                                    <!--{/if}-->
+                                    <!--{/if}-->
+                                    <!--{if $order.shouhouFlg}-->
+                                    <a class="btn1" href="{url app=seller_order&act=order_goods&order_id=$order.order_id}" style="color:#FF0000">售后处理</a>
+                                    <br>
+                                    <!--{/if}-->
+
+                                    <a class="btn1" href="{url app=seller_order&act=view&order_id=$order.order_id}" target="_blank">{$lang.view_order}详情</a>
+                                    <!--{/if}-->
+                                    <!--{/if}-->
+                                {/if}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <!--{/foreach}-->
+                <table>
+                    <tr>
+                        <th class="width1"><input id="all" type="checkbox" class="checkall_s" /></th>
+                        <th class="" colspan="7">
+                            <label for="all"><span class="all">{$lang.checkall}</span></label>
+
+                            <!--{if $ordersType}-->
+                            <a href="javascript:;" class="delete" ectype="batchcancel" uri="index.php?app=service&act=cancel_order&ordersType=1" name="order_id">{$lang.cancel_order}</a>
+                            <!--{else}-->
+                            <a href="javascript:;" class="delete" ectype="batchcancel" uri="index.php?app=seller_order&act=cancel_order" name="order_id">{$lang.cancel_order}</a>
+                            <!--{/if}-->
+
+                        </th>
+                    </tr>
+                </table>
+                <!--{else}-->
+                <center>
+                    <table>
+                        <tr><td class="member_no_records" colspan="7" style="text-align:center">{$lang.no_records}</td></tr>
+                    </table>
+                </center>
+                <!--{/if}-->
+
+
+                <div class="order_form_page">
+                    <div class="page">
+                        {include file=member.page.bottom.html}
+                    </div>
+                </div>
+
+
+
+            </div>
+            <iframe name="seller_order" style="display:none;"></iframe>
+            <div class="wrap_bottom"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function pay_order(_order_sn){
+        $("#order"+_order_sn+"_action_pay").attr("disabled","disabled");
+        $("#order"+_order_sn+"_action_pay").val("支付中....");
+        $("#orderSn").val(_order_sn);
+        window.open ("{$TO_PAY_URL}"+"?orderSn="+_order_sn)
+
+    };
+    function cancel_order(url,title,id,yue){
+        if(confirm("您已使用余额支付了"+yue+"元，取消订单将会把已支付的金额退还回您的余额账户，确认取消吗？")){
+            var uri =url;
+            var id =id;
+            var title = title;
+            var width = '400';
+            ajax_form(id, title, uri, width);
+        }
+    }
+
+
+    function cel_order(order_sn,status) {
+        $.get("index.php?app=seller_order&act=cell_order&order_sn="+order_sn+"&status="+status,function(rs){
+            if(rs) {
+                alert(rs);
+                location.reload();
+            }
+        });
+    }
+</script>
+<div class="clear"></div>
+</div>
+{include file=footer.html}

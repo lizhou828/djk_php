@@ -1,0 +1,197 @@
+{include file=header.html}
+<link href="{res file=css/chaoshi.css}" rel="stylesheet" type="text/css">
+<link href="{res file=css/index.css}" rel="stylesheet" type="text/css">
+<link href="{res file=css/home_tg.css}" rel="stylesheet" type="text/css">
+<div id="center_w1200" style="width: 100%;" >
+    <!--全部内容-->
+    {include file=common_search.html}
+        <script>
+            $(document).ready(function(){
+                $("#list").hide();
+                $("#button_show").click(function(){
+                    $("#list").toggle();
+                });
+                $("#button_close").click(function(){
+                    $("#list").hide();
+                });
+                $('.group-list').children('ul').children('li').bind('mouseenter',function(){
+                    $('.group-list').children('ul').children('li').attr('class','c1');
+                    $(this).attr('class','c2');
+                });
+                $('.group-list').children('ul').children('li').bind('mouseleave',function(){
+                    $('.group-list').children('ul').children('li').attr('class','c1');
+                });
+                var area = $("#gczg_area").val();
+                if(area == null || area =="") {
+                    $("#show_area_name").html("全国");
+                    $("#gczg_area").val('');
+                }
+                else {
+                    $("#show_area_name").html(area);
+                    $("#gczg_area").val(area);
+                }
+            });
+
+            //提交查询
+            function submit_search() {
+                $('#search_form').attr('method','get');
+                $('#search_form').submit();
+            }
+            //工厂直供地区筛选
+            function set_gczg_area(area) {
+                if(area == '') {
+                    $("#gczg_area").val('');
+                }
+                else {
+                    area_array = area.split(",");
+                    $("#gczg_area").val(area_array[0]);
+                }
+                submit_search();
+            }
+            //工厂直供分类筛选
+            function set_gczg_class(class_id) {
+                $("#gczg_class").val(class_id);
+                submit_search();
+            }
+            //工厂直供价格筛选
+            function set_gczg_price(price_range) {
+                $("#gczg_price").val(price_range);
+                submit_search();
+            }
+            //工厂直供价格筛选
+            function set_gczg_order(order_key) {
+                if(order_key == $("#gczg_order_key").val()) {
+                    change_gczg_order();
+                }
+                else {
+                    $("#gczg_order").val('asc');
+                }
+                $("#gczg_order_key").val(order_key);
+                submit_search();
+            }
+            //工厂直供排序筛选
+            function change_gczg_order() {
+                if($("#gczg_order").val() == 'asc') {
+                    $("#gczg_order").val('desc');
+                }
+                else {
+                    $("#gczg_order").val('asc');
+                }
+            }
+        </script>
+
+<div id="navBargc" class="mb10">
+    <div class="content">
+        <div id="all-categorybd">
+            <div class="title" style="background:#144e92">
+                <h2 title="商品全部分类"><a href="{r_url app=category}">商品全部分类</a></h2>
+                <i></i></div>
+            <div id="category" class="category pngFix" style="background: #F8F8F8;">
+                <ul class="menu">
+                    <!--{foreach from=$gcategorys_left item=gcategory name=gcategory}-->
+                    <!-- {if $smarty.foreach.gcategory.index<7 }-->
+                    <!-- {if !empty($gcategory) }-->
+                    <li id="cat_{$smarty.foreach.gcategory.index}">
+                        <h3><span class="block"><a href="{r_url app=search&cate_id=$gcategory.id}" title="{$gcategory.value|escape}">{$gcategory.value|escape}</a>   </span>
+                         <span>
+                                <a href="{r_url app=search&cate_id=$gcategory.children[0].id}">{$gcategory.children[0].value}</a>
+                                <a href="{r_url app=search&cate_id=$gcategory.children[1].id}">{$gcategory.children[1].value}</a>
+                               <a href="{r_url app=search&cate_id=$gcategory.children[2].id}">{$gcategory.children[2].value}</a>
+                         </span>
+                        </h3>
+                        <div class="cat-menu" id="cat_{$smarty.foreach.gcategory.index}_menu">
+                            <dl>
+                                <dt> {$gcategory.value|escape} </dt>
+                                <dd><!--{foreach from=$gcategory.children item=child}--><a href="{r_url app=search&cate_id=$child.id}">{$child.value|escape}</a> <!--{/foreach}--> </dd>
+                            </dl>
+
+                        </div>
+                    </li>
+                    <!--{/if}-->
+                    <!--{/if}-->
+                    <!--{/foreach}-->
+
+                    <div class="clear"></div>
+                </ul>
+            </div>
+
+        </div>
+        <ul class="nc-nav-menu">
+            <li <!--{if !$smarty.get.act}--> class="current" <!--{else}--> class="link"<!--{/if}-->><a href="{r_url app=gczg&pd_id=6}" ><span>首页</span></a></li>
+            <li <!--{if $brands}--> class="current" <!--{else}--> class="link"<!--{/if}-->><a href="{r_url app=gczg&act=get_brand_goods&pd_id=6}"><span>品牌集</span></a></li>
+            <!--<li &lt;!&ndash;{if $filters.type eq 1}&ndash;&gt; class="current" &lt;!&ndash;{else}&ndash;&gt; class="link"&lt;!&ndash;{/if}&ndash;&gt;><a class="pngFix" href="{r_url app=gczg&act=get_yushou_goods&pd_id=6}&type=1"><span class="pngFix">集市预售</span></a></li>-->
+            <li <!--{if $filters.type eq 2}--> class="current" <!--{else}--> class="link"<!--{/if}-->><a href="{r_url app=gczg&act=get_yushou_goods&pd_id=6&type=2}"><span>集市特卖</span></a></li>
+            <!--<li class="link"><a href="#"><span>分销代理</span></a></li>-->
+            <li class="link"><a href="{url app=service&act=register_service}" target='_blank'><span>抢注服务中心</span></a><em class="em1"></em></li>
+        </ul>
+    </div>
+</div>
+<!--超市内容1-->
+
+<!--<div id="headRelative" style="margin-left: 70px;">-->
+    <!--<div class="title">-->
+        <!--<h1>工厂直供</h1>-->
+        <!--<div class="city"> <a href="javascript:void(0)" id="button_show">-->
+            <!--<h2 id="show_area_name">切换</h2>-->
+        <!--</a> </div>-->
+    <!--</div>-->
+    <!--<div id="list" class="list" style="display:none;"><a id="button_close" class="close" href="javascript:void(0)" >x</a>-->
+        <!--<ul>-->
+            <!--<li><a href="javascript:void(0)" onClick="set_gczg_area('')" >全国</a></li>-->
+            <!--&lt;!&ndash;{foreach from=$region item=reg}&ndash;&gt;-->
+            <!--<li><a href="javascript:void(0)" onClick="set_gczg_area('{$reg}')" >{$reg}</a></li>-->
+            <!--&lt;!&ndash;{/foreach}&ndash;&gt;-->
+        <!--</ul>-->
+    <!--</div>-->
+<!--</div>-->
+<form id="search_form">
+    <input name="app" type="hidden" value="gczg">
+    <input name="act" type="hidden" value="get_yushou_goods">
+    <input name="pd_id" type="hidden" value="6">
+    <input id="gczg_area" name="gczg_area" type="hidden" value="{$filters.gczg_area}"/>
+    <input id="gczg_class" name="gczg_class" type="hidden" value="{$filters.gczg_class}"/>
+
+</form>
+<!--本地生活1-->
+<div class="gc_con1">
+<div class="group-screen">
+    <!--{if $gcategory_list}-->
+    <dl>
+        <dt>分类:</dt>
+        <dd <!--{if !$filters.gczg_class}--> class="nobg selected" <!--{/if}-->><a href="javascript:void(0)" onClick="set_gczg_class('')">不限</a></dd>
+        <!--{foreach from=$gcategory_list item=gcategory  key=key}-->
+        <dd <!--{if $filters.gczg_class eq $gcategory.cate_id }--> class="nobg selected" <!--{/if}-->> <a href="javascript:void(0)" onClick="set_gczg_class('{$gcategory.cate_id}')"> {$gcategory.cate_name}</a> </dd>
+        <!--{/foreach}-->
+    </dl>
+    <!--{/if}-->
+</div>
+</div>
+<!--内容-->
+
+  <div class="gc_con32">
+    <div class="gc_header">
+        <h3 class="title">商品列表</h3>
+    </div>
+    <div class="gc_content">
+        <div class="right">
+            <ul class="ul1">
+                <!--{foreach from=$goods_list item=goods}-->
+            <li>
+             <dl>
+            <dd class="gcimg"><a href="{r_url app=goods&id=$goods.goods_id&pd_id=6}" target="_blank" title="{$goods.goods_name}"><img src="{img_url $img_url/$goods.default_image/160X160}" width="150" height="150"></a></dd>
+            <dt class="gctt"><a href="{r_url app=goods&id=$goods.goods_id&pd_id=6}" class="title" target="_blank" title="{$goods.goods_name}">{$goods.goods_name}</a></dt>
+            <dt class="gctd">价格：<em>{$goods.price|price}</em></dt>
+            <!--<dt class="gcta">限量：<em>14580</em>份</dt>-->
+             </dl>
+            </li>
+                <!--{/foreach}-->
+           </ul>
+        </div>
+
+
+</div>
+</div>
+
+
+{include file=footer.html}
+

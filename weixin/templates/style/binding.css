@@ -1,0 +1,153 @@
+@charset "utf-8";
+/*****************内容区（绑定银行卡0）********************/
+.binding-cen{width:309px; height:500px;padding:10px 6px 0px 5px;margin:0 auto;background:#f8f8f8;}
+.binding-cen1{width:309px; height:500px;padding:10px 6px 0px 5px;margin:0 auto;background:#fff;}
+.binding-cen-1{width:297px;height:32px;font-size:14px;padding-left:10px;border:1px solid #e5e5e5;}
+
+/*****************内容区（绑定银行卡1）********************/
+.bank-card{width:307px; height:50px;margin-bottom:20px;border:1px solid #e5e5e5; background:#fff;}
+	.bank-card dl dt{width:53px; height:50px; float:left;background:url(../style/images/bank/bank-bg.jpg) no-repeat;}
+	.bank-card dl dd{ float:left;}
+	.bank-card dl dd h3{font-size:14px;margin-top:10px;}
+	.bank-card dl dd p{ color:#999;margin-top:3px;}
+	
+/*****************内容区（绑定银行卡2）********************/
+.wen-zi{ font-size:14px;color:#666;margin-top:10px;}
+.binding-cen-2{width:309px;height:30px;margin-top:15px;}
+.binding-cen-text{width:212px;height:26px; float:left;padding-left:10px;border:1px solid #e5e5e5; background:#fff;}
+.binding-cen-button{width:80px;height:30px;color:#fff;border:0px;background:#999;float:right; cursor:pointer;}
+
+/*****************下一步*******************/
+.next-step-1{width:309px;height:28px;line-height:28px; text-align:center;margin-top:30px;background:#27a196;}
+.next-step-1 a{font-size:14px; color:#fff;}
+
+.next-step{width:309px;height:28px;line-height:28px; text-align:center;margin-top:60px;background:#27a196;}
+.next-step a{font-size:14px; color:#fff;}
+
+/*****************内容区（积分查询）********************/
+.Integral{width:309px;height:40px; line-height:40px;font-size:14px;}
+.Integral strong{ color:#c40000;}
+.Integral span{width:80px;height:30px;line-height:30px;float:right;text-align:center;background:#c40000;margin-top:5px;}
+.Integral span a{color:#fff;}
+.Integral span a:hover{color:#fff;}
+
+.Integra2{width:307px; height:38px;margin-top:10px;border:1px solid #e5e5e5;}
+.Integra2 .Integra2-1{width:154px; height:38px; line-height:38px; float:left;font-size:14px; font-weight:bold; text-align:center;color:#c40000;background:#FFF;}
+.Integra2 .Integra2-2{width:153px; height:38px; line-height:38px; float:left;font-size:14px; font-weight:bold;color:#333;  text-align:center;background:#ececec;}
+.Integra2 .Integra2-3{width:103px; height:38px;  line-height:38px; font-size:14px; font-weight:bold;color:#333; float:right; text-align:center; background:#ececec;}
+.Integra2 .Integra2-4{width:102px; height:38px; line-height:38px; float:left;font-size:14px; font-weight:bold; text-align:center;color:#c40000;background:#FFF;}
+.Integra2 .Integra2-5{width:102px; height:38px; line-height:38px; float:left;font-size:14px; font-weight:bold;color:#333;  text-align:center;background:#ececec;}
+.Integra2 .Integra2-6{width:103px; height:38px;  line-height:38px; font-size:14px; font-weight:bold;color:#333; float:right; text-align:center; background:#ececec;}
+
+
+.Integra3{width:307px; border:1px solid #e5e5e5;margin-top:10px;background:#FFF;}
+.Integra3-t{width:307px; border:1px solid #e5e5e5;margin-top:10px;background:#FFF;}
+
+.Integra33{width:287px;height:75px; border-bottom:1px solid #e5e5e5;padding:7px 9px 7px 9px;}
+.Integra33 td m{font-size:14px;}
+.Integra33 td strong{ color:#c40000;font-size:14px;}
+.Integra33 td span{ color:#999;}
+
+	
+/*****************内容区（收益查询）********************/
+.earnings{width:285px;height:53px;padding-left:12px; padding-right:10px;border:1px solid #e5e5e5; background:#FFF;}
+.earnings-l{height:53px;float:left;}
+.earnings-l p{margin-top:8px;font-size:14px;}
+.earnings-l p strong{ color:#c40000; font-size:12px;}
+.earnings-r{width:80px;height:24px;line-height:24px; font-size:14px; font-weight:bold; text-align:center;float:right;margin-top:24px;background:#c40000;}
+.earnings-r a{ color:#fff;}
+.earnings-r a:hover{ color:#fff;}
+
+.Integra3-1{width:289px;height:69px; border-bottom:1px solid #e5e5e5;padding:0px 9px 0px 9px;}
+	.Integra3-11{width:68px;height:54px;float:left;margin-top:15px;font-weight:bold; color:#c40000;}
+	.Integra3-22{width:85px;height:54px;line-height:26px;margin-top:10px;float:left; text-align:center;}
+	.Integra3-33{width:65px;height:54px;line-height:26px;margin-top:10px;float:left; text-align:center;}
+	.Integra3-44{width:69px;height:54px;line-height:26px;margin-top:10px;float:left; text-align:center;}
+
+/*****************内容区（余额查询）********************/
+.Integra33-1e{width:75px;height:59px;line-height:14px; float:left;margin-left:5px;}
+.Integra33-1e h3{ color:#c40000;margin-top:23px;}
+.Integra33-1e h3 s{ font-size:12px;text-decoration:none;}
+.Integra33-c{width:120px;height:59px;line-height:59px;font-size:14px;text-align:center; float:left;}
+.Integra33-r{width:80px;height:59px;line-height:59px;float:right;}
+
+/*****************内容区（提现明细）*******************/
+.detail{width:307px;height:105px; border:1px solid #e5e5e5; background:#FFF;}
+	.detail-t{width:307px;height:38px;line-height:38px; border-bottom:1px solid #e5e5e5; background:#ececec; }
+	.detail-t li{margin-left:20px;margin-right:15px;float:left;font-size:14px;}
+	.detail-b{width:293px;height:65px;padding-left:14px;}
+	.detail-b1{width:110px;height:65px;line-height:65px; font-weight:bold;float:left;}
+	.detail-b2{width:60px;height:65px;line-height:65px; font-size:14px;font-weight:bold;float:left;}
+	.detail-b3{width:96px;height:53px;line-height:20px;margin-top:12px;float:right; text-align:center;margin-right:10px;}
+
+/*****************内容区（提取余额到银行卡）*******************/
+.extract1{width:299px;height:70px;line-height:70px;border-bottom:1px solid #e5e5e5;padding-left:10px;}
+.extract1-l{width:210px;height:70px; float:left;}
+.extract1-l span{ float:left;font-size:14px;}
+.extract1-text{ float:right;width:138px;font-size:14px;height:60px;line-height:65px;margin-top:5px;border:0px;color: #999}
+
+.extract3{width:299px;height:70px;line-height:70px;border-bottom:1px solid #e5e5e5;padding-left:10px;}
+.extract3-l{height:70px; float:left;}
+.extract3-l span{ float:left;font-size:14px;}
+.extract3-text{ float:right;width:130px;font-size:14px;height:60px;line-height:65px;margin-top:5px;border:0px;color: #999}
+
+.extract4{width:299px;height:70px;line-height:70px;border-bottom:1px solid #e5e5e5;padding-left:10px;}
+.extract4-l{width:200px;height:70px; float:left;}
+.extract4-l span{ float:left;font-size:14px;}
+.extract4-text{ float:right;width:130px;font-size:14px;height:60px;line-height:65px;margin-top:5px;border:0px;color: #999}
+
+.extract1-r{width:80px;height:45px; float:right; text-indent:25px;}
+.extract1-r a{ color:#1d5b9f;}
+.extract1-r a:hover{ color:#1d5b9f;}
+
+.extract2{width:299px;height:70px;line-height:70px;font-size:14px;border-bottom:1px solid #e5e5e5;padding-left:10px;}
+	.extract2 s{text-decoration:none;font-size:12px; color:#c40000;}
+	
+.extract5{width:309px;height:52px;padding-top:20px;}
+	.extract5-l{ width:85px;height:46px;float:left;font-size:14px;margin-top:5px;}
+	.extract5-c{ width:130px;height:52px;float:left;}
+	.extract5-t{width:123px;height:25px; border:1px solid #e5e5e5;padding-left:5px;}
+	.extract5-b{width:130px;height:21px;margin-top:4px;background:#979797;color:#fff;border:0px; cursor:pointer;}
+	.extract5-r{ width:85px;height:52px;float:right;font-size:14px;color:#c40000;}
+	
+.bottom{width:309px;height:28px;line-height:28px;font-size:14px;margin-top:40px; text-align: center;background:#c40000;}
+.bottom a{color:#fff;}
+.bottom a:hover{color:#fff;}
+
+/*****************内容区（提现卡号）******************/
+.card{width:307px;height:225px; border:1px solid #e5e5e5; background:#FFF;}
+	.card-t{width:307px;height:40px;line-height:40px;font-size:14px; text-indent:20px;border-bottom:1px solid #e5e5e5;background:#ececec;}
+	.card-c{width:307px;height:187px;}
+	.card-c1{padding-left:12px;width:295px;height:55px;line-height:55px;border-bottom:1px solid #e5e5e5;}
+	.card-c1 span{vertical-align:middle;}
+	.radio{vertical-align:middle;}
+	
+/*****************内容区（结算中心-弹窗）********************/
+.card-1{width:287px; border:1px solid #e5e5e5; background:#FFF;}
+	.card-1-t{width:307px;height:40px;line-height:40px;font-size:14px; text-indent:20px;border-bottom:1px solid #e5e5e5;background:#ececec;}
+	.card-1-c{width:307px;}
+	.card-1-c1{padding-left:12px;width:295px;height:45px;line-height:40px;border-bottom:1px solid #e5e5e5;}
+	.card-1-c1 span{vertical-align:middle; font-size:14px; font-weight:bold;}
+	.radio-1{vertical-align:middle;}
+	
+.que-d{width:115px;height:30px;line-height:30px;margin:0 auto;margin-top:20px; text-align:center;font-size:14px;background:#c40000;}
+.que-d a{ color:#fff;}
+.que-d a:hover{ color:#fff;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

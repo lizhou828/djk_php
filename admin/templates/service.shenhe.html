@@ -1,0 +1,207 @@
+{include file="header.html"}
+<style type="text/css">
+	.suggestionList li:hover {
+		background-color: #659CD8;
+	}
+	.suggestionsBox {
+		position: relative;
+		left: 570px;
+		margin: 10px 0px 0px 0px;
+		width: 200px;
+		background-color: #212427;
+		-moz-border-radius: 7px;
+		-webkit-border-radius: 7px;
+		/*border: 2px solid #000;*/
+		color: #fff;
+	}
+
+	.suggestionList {
+		margin:  -30px 0px 3px 0px;
+		padding: 0px;
+	/*	border: 2px solid #000;*/
+	}
+
+	.suggestionList li {
+
+		margin: 0px 0px 3px 0px;
+		padding: 3px;
+		cursor: pointer;
+	}
+</style>
+<script charset="utf-8" type="text/javascript" src="{lib file=mlselection.js}" ></script>
+<div id="rightTop">
+  <p>
+  服务中心抢注列表
+  </p>   
+</div>
+
+<div class="mrightTop">
+  <div class="fontl">
+    <form method="get">
+       <div class="left">
+          <input type="hidden" name="app" value="{$smarty.get.app}" />
+          <input type="hidden" name="act" value="shenhefwzx" />         
+          申请人:
+          <input class="queryInput" type="text" name="service_user" value="{$smarty.get.service_user|escape}" />
+          <label style='color:#666666'>{$smarty.get.region_name}&nbsp;&nbsp;</label>
+		   抢注时间从:<input class="queryInput" type="text" value="{$smarty.get.add_time_from}" id="add_time_from" name="add_time_from" class="pick_date" />
+                至:<input class="queryInput" type="text" value="{$smarty.get.add_time_to}" id="add_time_to" name="add_time_to" class="pick_date" />
+          服务中心账号:
+          <input type="text" class="queryInput" value="{$smarty.get.user_name}" id="user_name" name="user_name" onkeyup="lookup(this.value);" onblur="fill();" />
+          <div class="suggestionsBox" id="suggestions" style="display: none;">
+				<img src="{$site_url}/data/system/upArrow.png" style="position: relative; top: -12px; left: 30px;" alt="upArrow" />
+				<div class="suggestionList" id="autoSuggestionsList">
+					&nbsp;
+				</div>
+	 	 </div>         
+           审核状态:
+           <select name="type">
+               <option value="" selected="selected">全部</option>
+               <option value="0" <!--{if $query_info.type=='0'}-->selected="selected"<!--{/if}--> >未审核</option>
+               <option value="1" <!--{if $query_info.type=='1'}-->selected="selected"<!--{/if}--> >审核通过</option>
+               <option value="2" <!--{if $query_info.type=='2'}-->selected="selected"<!--{/if}-->>审核不通过</option>          
+           </select>&nbsp;&nbsp;&nbsp;&nbsp;
+           资金状态:
+           <select name="paymentState">
+               <option value="" selected="selected">全部</option>
+               <option value="1" <!--{if $query_info.paymentState=='1'}-->selected="selected"<!--{/if}--> >已付款</option>
+               <option value="2" <!--{if $query_info.paymentState=='2'}-->selected="selected"<!--{/if}-->>已退款</option>
+               <option value="3" <!--{if $query_info.paymentState=='3'}-->selected="selected"<!--{/if}-->>未退款</option>          
+           </select>&nbsp;&nbsp;&nbsp;&nbsp;         	
+            
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" class="formbtn" value="{$lang.query}" />
+      </div>
+      <!--{if $filtered}-->
+      <a class="left formbtn1" href="index.php?app={$smarty.get.app}&type={$member_type}">{$lang.cancel_query}</a>
+      <!--{/if}-->
+    </form>
+  </div>  
+</div>
+<div class="tdare">
+  <table width="100%" cellspacing="0" class="dataTable">
+    <!--{if $shenqings}-->
+    <tr class="tatr1">
+      <td width="20" class="firstCell"><input type="checkbox" class="checkall" /></td>
+      <td>{$lang.service_user}</td>
+      <td>所在区域</td>
+      <td><span ectype="order_by" fieldname="service_user">{$lang.service_name}</span></td>
+      <td><span ectype="order_by" fieldname="service_tel">{$lang.service_tel}</span></td>
+
+      <td><span ectype="order_by" fieldname="service_desc">{$lang.service_desc}</span></td>
+      <td><span ectype="order_by" fieldname="type">{$lang.type}</span></td>
+      <td><span ectype="order_by" fieldname="paymentState">{$lang.payment_status}</span></td>
+      <td><span ectype="order_by" fieldname="add_time">{$lang.add_time}</span></td>    
+      <td class="handler">{$lang.handler}</td>
+    </tr>
+    <!--{/if}-->
+    <!--{foreach from=$shenqings item=shenqing}-->
+    <tr class="tatr2">
+      <td class="firstCell"><input type="checkbox" class="checkitem" value="{$user.user_id}" /></td>
+      <td>{$shenqing.user_name|escape}</td>
+        <td>{$shenqing.region_name|escape}</td>
+      <td>{$shenqing.service_user|escape}</td>
+      <td>{$shenqing.service_tel}</td>
+
+      <td>{$shenqing.service_desc}</td>
+      <td>
+      <!--{if $shenqing.type eq 0}-->
+          <!--{if $shenqing.paymentState eq 1 || $shenqing.q_time >0 }-->
+          未审核
+          <!--{else}-->
+          已失效
+          <!--{/if}-->
+      <!--{elseif $shenqing.type eq 1}-->
+      <font color='#ff4500'>审核通过</fon>
+      <!--{elseif $shenqing.type eq 2}-->
+      审核不通过
+      <!--{/if}-->
+      </td>
+      <td>
+      <!--{if $shenqing.paymentState eq 1}-->
+      <span style="color: green">支付成功</span>
+      <!--{elseif $shenqing.paymentState eq 2}-->
+      已退款
+      <!--{elseif $shenqing.paymentState eq 0}-->
+      <span style="color: red">未支付</span>
+      <!--{/if}-->    
+      <td>{$shenqing.add_time|date:complete}</td>     
+      <td class="handler">
+      <span style="width: 100px">
+      <a href="index.php?app={$smarty.get.app}&type={$member_type}&amp;act=shenhefwzx_view&amp;id={$shenqing.id}">{$lang.view}</a>
+      
+      <!--只有在服务中心状态是待审核的时候才能审核-->
+      <!--{if ( $shenqing.service_status eq 0 || $shenqing.service_status eq 1 ) && $shenqing.type==0 && ( $shenqing.paymentState eq 1 || $shenqing.q_time >0 ) }-->
+      <a href="javascript:shenhe('index.php?app={$smarty.get.app}&type={$member_type}&amp;act=shenhe&amp;id={$shenqing.id}&service_id={$shenqing.service_id}','1')">{$lang.shenhe}</a>
+      <a href="javascript:shenhe('index.php?app={$smarty.get.app}&type={$member_type}&amp;act=shenhe&amp;id={$shenqing.id}&service_id={$shenqing.service_id}','0')">不通过</a>
+      <!--{elseif $shenqing.service_status eq 2}-->
+      	   <!--{if $shenqing.type eq 2 && $shenqing.paymentState eq 3}--> 
+           <!--只有在服务中心状态是审核完毕，并且此人没有通过审核，才能退款-->
+           <a href="javascript:tuikuan('index.php?app={$smarty.get.app}&type={$member_type}&amp;act=tuikuan&amp;id={$shenqing.id}&service_id={$shenqing.service_id}')">{$lang.tuikuan}</a>
+      	   <!--{/if}-->      
+      <!--{/if}-->
+      </span>
+      </td>
+    </tr>
+    <!--{foreachelse}-->
+    <tr class="no_data">
+      <td colspan="11">{$lang.no_data}</td>
+    </tr>
+    <!--{/foreach}-->
+  </table>
+  <!--{if $shenqings}-->
+  
+  
+  <div id="dataFuncs">
+    <div id="batchAction" class="left paddingT15"> &nbsp;&nbsp;
+      <!--
+      <input class="formbtn batchButton" type="button" value="{$lang.drop}" name="id" uri="index.php?app=user&act=drop&type={$member_type}" presubmit="confirm('{$lang.drop_confirm}');" />
+      -->
+    </div>
+    <div class="pageLinks">{include file=page.bottom.html}</div>
+    <div class="clear"></div>
+  </div>
+  <!--{/if}-->
+</div>
+<script>regionInit("region");
+$('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+$('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+function lookup(inputString) {
+		if(inputString.length == 0) {
+
+			$('#suggestions').hide();
+		} else {
+			$.post("index.php?app=store&act=get_RPC_User", {queryString: ""+inputString+"",type:1}, function(data){
+				if(data.length >0) {
+					$('#suggestions').show();
+					$('#autoSuggestionsList').html(data);
+                    //alert(data);
+				}
+			});
+		}
+	} // lookup
+function fill(thisValue) {
+		$('#user_name').val(thisValue);
+		setTimeout("$('#suggestions').hide();", 200);
+}
+function shenhe(url,type)
+{
+  var msg="审核【通过】";
+  if(type==0)
+  {
+      msg="审核【不通过】";
+  }
+  if(confirm("确认审核"+msg+"此人申请吗？1个区域只能有1个人被审核通过"))
+  {
+     window.location = url+"&flg="+type;
+  }
+}
+function tuikuan(url)
+{
+  if(confirm("确认退款给此人吗？该操作不可逆"))
+  {
+     window.location = url;
+  }
+}
+
+</script>
+{include file="footer.html"}

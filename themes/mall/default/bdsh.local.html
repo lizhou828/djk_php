@@ -1,0 +1,180 @@
+{include file=header.html}
+<link href="{res file=css/other.css}" rel="stylesheet" type="text/css" />
+<link href="{res file=css/bdsh.css}" rel="stylesheet" type="text/css" />
+<script src="{res file=js/class_area_array.js}" ></script>
+<script language="JavaScript">
+
+    //提交查询
+    function submit_search() {
+        $('#search_form').attr('method','get');
+        $('#search_form').submit();
+    }
+    //本地生活地区筛选
+    function set_bdsh_area(area,reg_id) {
+        if(area == '') {
+            $("#bdsh_area").val('');
+        }
+        else {
+            $("#bdsh_area").val(area);
+            $("#bdsh_reg_id").val(reg_id);
+            $("#bdsh_city_id").val("");
+            $("#bdsh_class").val("");
+            $("#bdsh_diqu_id").val("");
+        }
+        submit_search();
+    }
+
+    //本地生活县级筛选
+    function set_bdsh_city(reg_id,reg_name) {
+        if(reg_id == '') {
+            $("#bdsh_diqu_id").val('');
+        }
+        else {
+            $("#bdsh_diqu_id").val(reg_id);
+            $("#bdsh_diqu_name").val(reg_name);
+            $("#bdsh_reg_id").val();
+        }
+        submit_search();
+    }
+    function set_diqu_id(reg_id) {
+        if(reg_id == '') {
+            $("#bdsh_diqu_id").val('');
+        }
+        else {
+            $("#bdsh_diqu_id").val(reg_id);
+        }
+        $("#bdsh_reg_id").val();
+        $("#bdsh_city_id").val();
+        submit_search();
+    }
+    //分类筛选
+    function set_bdsh_class(class_id,class_name) {
+        if (class_id==""||class_id==null) {
+            $("#bdsh_class").val("");
+            $("#bdsh_class_name").val("");
+            $("#bdsh_subcateid").val("");
+            $("#bdsh_class_sub_name").val("");
+        } else {
+            $("#bdsh_class").val(class_id);
+            $("#bdsh_class_name").val(class_name);
+        }
+        submit_search();
+    }
+    // 小分类筛选
+    function set_bdsh_subcate(class_id) {
+        $("#bdsh_subcateid").val(class_id);
+
+        submit_search();
+    }
+    //价格筛选
+    function set_bdsh_brand(price_range) {
+        $("#bdsh_brand").val(price_range);
+        submit_search();
+    }
+    //本地生活排序
+    function set_bdsh_order(order_key) {
+        if(order_key == $("#bdsh_order_key").val()) {
+            change_bdsh_order();
+        } else {
+            $("#bdsh_order").val('asc');
+        }
+        $("#bdsh_order_key").val(order_key);
+        submit_search();
+    }
+    //本地生活排序筛选
+    function change_bdsh_order() {
+        if($("#bdsh_order").val() == 'asc') {
+            $("#bdsh_order").val('desc');
+        } else {
+            $("#bdsh_order").val('asc');
+        }
+    }
+    //本地生活子分类
+    function set_bdsh_sub_class(class_id,name) {
+        $("#bdsh_subcateid").val(class_id);
+        $("#bdsh_class_sub_name").val(name);
+        submit_search();
+    }
+</script>
+
+{include file=bdsh.common_search.html}
+<!--菜单-->
+    <form id="search_form">
+        <input name="app" type="hidden" value="bdsh">
+        <input name="act" type="hidden" value="get_category_goods">
+        <input name="pd_id" type="hidden" value="5">
+        <input id="bdsh_subcateid" name="bdsh_subcateid" type="hidden" value="{$filters.bdsh_subcateid}"/>
+        <input id="bdsh_class" name="bdsh_class" type="hidden" value="{$filters.bdsh_class}"/>
+        <input id="bdsh_reg_id" name="bdsh_reg_id" type="hidden" value="{$filters.bdsh_reg_id}"/>
+        <input id="bdsh_diqu_id" name="bdsh_diqu_id" type="hidden" value="{$filters.bdsh_diqu_id}">
+        <input id="bdsh_order_key" name="bdsh_order_key" type="hidden" value="{$filters.bdsh_order_key}">
+        <input id="bdsh_order" name="bdsh_order" type="hidden" value="{$filters.bdsh_order}">
+        <input id="bdsh_class_name" name="bdsh_class_name" type="hidden" value="{$filters.bdsh_class_name}">
+        <input id="bdsh_diqu_name" name="bdsh_diqu_name" type="hidden" value="{$filters.bdsh_diqu_name}">
+        <input id="bdsh_class_sub_name" name="bdsh_class_sub_name" type="hidden" value="{$filters.bdsh_class_sub_name}">
+    </form>
+{include file=bdsh.category_common.html}
+{include file=bdsh_curlocal.html}
+<!--内容中-->
+<div id="filter">
+    <div class="fov1">
+        <!--{if $gcategory_list}-->
+        <div class="txt1">分类:</div>
+        <ul class="inline">
+            <li class="item"><a  href="javascript:void(0)" onClick="set_bdsh_class('','')" <!--{if !$filters.bdsh_class }--> style="background:#27a196;color:#ffffff" <!--{/if}-->>全部</a></li>
+            <!--{foreach from=$gcategory_list item=gcategory  key=key }-->
+            <li class="item"><a href="javascript:void(0)" onClick="set_bdsh_class('{$gcategory.id}','{$gcategory.value}')" <!--{if $filters.bdsh_class eq $gcategory.id }--> style="background:#27a196;color:#ffffff" <!--{/if}-->>{$gcategory.value}</a></li>
+            <!--{/foreach}-->
+        </ul>
+        <!--{/if}-->
+        <!--{if $son_category }-->
+        <div class="bghot">
+            <ul class="inline">
+                <!--{foreach from=$son_category item=gcategory key=key}-->
+                <li class="item"><a href="javascript:void(0)" onClick="set_bdsh_sub_class('{$gcategory.cate_id}','{$gcategory.cate_name}')" <!--{if $filters.bdsh_subcateid == $gcategory.cate_id}--> style="background:#27a196;color:#ffffff" <!--{/if}--> >{$gcategory.cate_name}</a></li>
+                <!--{/foreach}-->
+            </ul>
+        </div>
+        <!--{/if}-->
+        <div class="clear"></div>
+    </div>
+    <div class="fov1">
+        <div class="txt1" style=" background-position:0 -21px;">区域:</div>
+        <ul class="inline">
+            <li class="item"><a href="javascript:void(0)" onClick="set_bdsh_city(' ','')" <!--{if !$filters.bdsh_city_id}--> style="background:#27a196;color:#ffffff" <!--{/if}-->>全部</a></li>
+            <!--{foreach from=$city item=item key=key}-->
+            <li class="item"><a href="javascript:void(0)" onClick="set_bdsh_city('{$key}','{$item}')" <!--{if $filters.bdsh_diqu_id == $key}--> style="background:#27a196;color:#ffffff" <!--{/if}-->>{$item}</a></li>
+            <!--{/foreach}-->
+        </ul>
+        <div class="clear"></div>
+    </div>
+    <div class="libiao">
+        <div class="div1">
+            <a href="javascript:void(0);" onclick="set_bdsh_order('views')" class="c_eeeded">默认排序</a>
+            <a href="javascript:void(0);" onclick="set_bdsh_order('sales')"><span></span>销量</a>
+            <a href="javascript:void(0);" onclick="set_bdsh_order('price')"><span></span>价格</a>
+            <a href="javascript:void(0);" onclick="set_bdsh_order('add_time')"><span></span>最新上架</a>
+        </div>
+    </div>
+</div>
+
+<!--列表-->
+<div id="bd_list">
+    <!--{foreach from=$goods_list item=goods name=my_goods}-->
+    <div class="nbs" <!--{if $smarty.foreach.my_goods.iteration %4 ==0}--> style="margin-right:0px;"<!--{/if}--> >
+        <div class="pic"><a href="{url app=bdsh&act=goods_detail&id=$goods.goods_id&bdsh_reg_id=$filters.bdsh_reg_id}" target="_blank" title="{$goods.goods_name}"><img src="{img_url $img_url/$goods.default_image/280X170}" width="280" height="170" /></a></div>
+        <h2 style="width: 280px;height: 30px;overflow: hidden;"><a href="{url app=bdsh&act=goods_detail&id=$goods.goods_id&bdsh_reg_id=$filters.bdsh_reg_id}" target="_blank" title="{$goods.goods_name}">{$goods.goods_name}</a></h2>
+        <div class="jiag">
+            <a href="{url app=bdsh&act=goods_detail&id=$goods.goods_id&bdsh_reg_id=$filters.bdsh_reg_id}" target="_blank" title="{$goods.goods_name}" class="an">查看详情</a>
+            <span class="span1">{$goods.price|price}</span>
+        </div>
+    </div>
+    <!--{/foreach}-->
+      <div class="clear"></div>
+{include file=page.bottom.html}
+</div>
+
+</div>
+    <div class="clear"></div>
+
+{include file=footer.html}

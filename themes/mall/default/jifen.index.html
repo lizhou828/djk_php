@@ -1,0 +1,101 @@
+{include file=header.html}
+
+<link href="{res file=css/chaoshi.css}" rel="stylesheet" type="text/css">
+<link href="{res file=css/other.css}" rel="stylesheet" type="text/css">
+<div id="center_w1200">
+    {include file=common_search.html}
+    {include file=common.html}
+<div class="nc-layout-all">
+    <div class="nc-layout-left">
+        <!--{if $jifen}-->
+        <div style="background: #DEE6D8;" class="nc-user-info">
+            <dl>
+                <dt class="user-pic"><span class="thumb size60"><i></i><img width="60" height="60" onload="javascript:DrawImage(this,60,60);" src="{res file=images/default_user_portrait.gif}"></span></dt>
+                <dd class="user-name">欢迎您{$jifen.user_name}</dd>
+                <dd class="user-pointprod">您的积分是<strong>{$jifen.jifen}</strong>&nbsp;分</dd>
+                <!--<dd class="user-pointprod-log"><a target="_blank" href="#">积分获得明细</a></dd>-->
+            </dl>
+            <!--<ul>-->
+                <!--<li>已选择兑换礼品&nbsp;<a href="index.php?act=pointcart"><strong>0</strong></a>&nbsp;个</li>-->
+            <!--</ul>-->
+        </div>
+        <!--{else}-->
+        <div class="nc-user-info">
+            <dl>
+                <dt class="user-pic"><span class="thumb size60"><i></i><img src="{res file=images/default_user_portrait.gif}" onload="javascript:DrawImage(this,60,60);"/></span></dt>
+                <dd class="user-login">登录显示积分情况</dd>
+                <dd class="user-login-btn"><a href="{url app=member&act=login&ret_url=$ret_url}">会员登录</a></dd>
+            </dl>
+            <!--<ul>-->
+                <!--<li><a href="#" target="_blank">积分细则</a></li>-->
+                <!--<li><a href="#" target="_blank">积分兑换说明</a></li>-->
+            <!--</ul>-->
+        </div>
+        <!--{/if}-->
+        <!--登录之后-->
+        <!-- -->
+
+        <!-- <div class="nc-voucher-info">
+         <dl>
+           <dt>
+             <h3>代金卡券</h3>
+             <span>店铺限量代金券<br/>现金折扣等你拿</span></dt>
+                 <dd>
+             <ul>
+                         <li><a href="#" target="_self">10元代金券</a></li>
+                         <li><a href="#" target="_self">50元代金券</a></li>
+                   </ul>
+           </dd>
+           </dl>
+       </div>-->
+        <div class="nc-exchange-info">
+            <dl>
+                <dt>
+                <h3>超值换购</h3>
+                <span>商城礼品惊喜多<br/>会员积分天天换</span></dt>
+                <dd>
+                    <h4>兑换排行榜</h4>
+                    <ul>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div class="nc-layout-right">
+        <div><img src="{res file=images/f448e48ee0deb06707480d46a2a360ae.gif}" width="980" height="254"></div>
+        <div id="div_lazyload"  class="nc-layout-right">
+
+                <!-- <div class="nc-voucher-list">
+               <div class="title">
+                 <h3>最新代金券</h3><span><a href="#">更多代金券</a></span></div>
+                       <div class="norecord">暂无代金券</div>
+                   </div>-->
+                <div class="nc-exchange-list">
+                    <div class="title"><h3>最新兑换礼品</h3></div>
+                    <ul>
+                        <!--{foreach from=$goods_list item=goods name=duihuan}-->
+                        <li class="item" >
+                            <dl class="nc-exchange-gift">
+                                <dt class="gift-name"><a href="{r_url app=goods&id=$goods.goods_id&pd_id=10}" target="_blank" tile="{$goods.goods_name}">{$goods.goods_name}</a></dt>
+                                <dd class="gift-pic"><i></i> <a target="_blank" href="{r_url app=goods&id=$goods.goods_id&pd_id=10}"> <img src="{$img_url}/{$goods.default_image}"  onload="javascript:DrawImage(this,160,160);" alt="{$goods.goods_name}" /> </a></dd>
+                                <dd class="gift-price" style="display:none">价格：{$goods.price|price} + 积分：{$goods.if_jifen}</dd>
+                                <dd class="gift-pointpord">{$goods.price|price} + {$goods.if_jifen}分</dd>
+                            </dl>
+                        </li>
+                        <!--{/foreach}-->
+                    </ul>
+                </div>
+            <div class="pagination">
+                {include file=page.bottom.html}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="clear">&nbsp;</div>
+
+
+
+
+{include file=footer.html}

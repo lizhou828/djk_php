@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>
+        {$name}
+        {$gt.cate_name}
+        {$keyWord},
+        大集客-移动商城
+    </title>
+    <link href="{$site_url}/weixin/templates/style/public.css" rel="stylesheet" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+</head>
+
+<body>
+<div id="w_3202" style="min-height:500px;">
+    <div class="search">
+        <span class="font">商品列表</span>
+        {include file=search.form.html}
+    </div>
+    <div class="shitu">
+        <a href="index.php?app=goods&act=goodsList&cate_id={$cate_id}&keyWord={$keyWord}&page={$page}&key={$key}&ifAdd=on&r_id={$r_id}" class="a3">列表视图</a>
+        <a href="index.php?app=goods&act=goodsList&cate_id={$cate_id}&sn=sn&keyWord={$keyWord}&page={$page}&key={$key}&ifAdd=on&r_id={$r_id}" class="a4">图片视图</a>
+    </div>
+    <div class="libiao">
+        <div class="title">
+            <!--{if $key == ""}-->
+                <a href="index.php?app=goods&act=goodsList&cate_id={$cate_id}&page={$page}&keyWord={$keyWord}&sn={$sn}&ifAdd=on&r_id={$r_id}" class="a1">
+            <!--{else}-->
+                <a href="index.php?app=goods&act=goodsList&cate_id={$cate_id}&page={$page}&keyWord={$keyWord}&sn={$sn}&ifAdd=on&r_id={$r_id}" class="a2">
+            <!--{/if}-->
+                人气
+                </a>
+            <!--{if $key == ""}-->
+                <a href="index.php?app=goods&act=goodsList&cate_id={$cate_id}&page={$page}&key=price&keyWord={$keyWord}&sn={$sn}&ifAdd=on&r_id={$r_id}" class="a2">
+             <!--{else}-->
+                <a href="index.php?app=goods&act=goodsList&cate_id={$cate_id}&page={$page}&key=price&keyWord={$keyWord}&sn={$sn}&ifAdd=on&r_id={$r_id}" class="a1">
+             <!--{/if}-->
+                 价格
+                </a>
+        </div>
+        <div class="llsstt2">
+            <!--{foreach from=$goods item=gds}-->
+            <a href="{$site_url}/weixin/goods/0/{$gds.goods_id}{if $member && $member.user_id > 0}/{$member.user_id}{/if}">
+                <dl>
+                    <dd><img src="{$img_url}/{$gds.default_image}" width="138" height="138" /></dd>
+                    <dt>
+                    <div class="jiage">{$gds.price|price}</div>
+                    <!--<div class="dianji">查看详情</div>-->
+                    </dt>
+                </dl>
+            </a>
+            <!--{/foreach}-->
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="ddi">
+        <div class="left" style="width: 235px; padding-left: 75px;">
+            <a href="index.php?app=goods&act=goodsList&cate_id={$cate_id}&page={$page}&key={$key}&flag=2&keyWord={$keyWord}&sn={$sn}&r_id={$r_id}" class="a1" style="margin-right: 20px;"></a>
+            <a style="float: left; height: 26px; line-height: 26px; font-family: tahoma; font-size: 14px; margin-right: 20px;">{$page}/{$totalPage}</a>
+            <a href="index.php?app=goods&act=goodsList&cate_id={$cate_id}&page={$page}&key={$key}&flag=1&keyWord={$keyWord}&sn={$sn}&r_id={$r_id}" class="a2"></a>
+        </div>
+    </div>
+
+
+    <!--<div class="dii">-->
+    <!--&lt;!&ndash;{if $count < $totalCount}&ndash;&gt;-->
+    <!--显示更多结果…-->
+    <!--&lt;!&ndash;{/if}&ndash;&gt;-->
+    <!--<br />已显示{$count}条，共{$totalCount}条</div>-->
+    {include file=member.index_footer.html}
+</div>
+</body>
+</html>

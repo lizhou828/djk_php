@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>积分查询</title>
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/binding.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{$SITE_URL}/weixin/templates/js/jquery-1.6.2.min.js"></script>
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            var type= "{$type}";
+//            alert(status+"_"+typeof status+"_length:"+status.length);
+            if(type=='income'){
+                $(".Integra2-4").css({"background":"none repeat scroll 0 0 #ECECEC","color":"#333333"});
+                $(".Integra2-5").css({"background":"none repeat scroll 0 0 #FFFFFF","color":"#C40000"});
+                $(".Integra2-5 a").css({"color":"#c40000"});
+                $(".Integra2-6").css({"background":"none repeat scroll 0 0 #ECECEC","color":"#333333"});
+
+            }else if(type=='pay'){
+                $(".Integra2-4").css({"background":"none repeat scroll 0 0 #ECECEC","color":"#333333"});
+                $(".Integra2-5").css({"background":"none repeat scroll 0 0 #ECECEC","color":"#333333"});
+                $(".Integra2-6").css({"background":"none repeat scroll 0 0 #FFFFFF","color":"#C40000"});
+                $(".Integra2-6 a").css({"color":"#c40000"});
+            }else{
+                $(".Integra2-4").css({"background":"none repeat scroll 0 0 #FFFFFF","color":"#C40000"});
+                $(".Integra2-4 a").css({"color":"#c40000"});
+                $(".Integra2-5").css({"background":"none repeat scroll 0 0 #ECECEC","color":"#333333"});
+                $(".Integra2-6").css({"background":"none repeat scroll 0 0 #ECECEC","color":"#333333"});
+            }
+        });
+    </script>
+</head>
+<body>
+<div style="width: 320px;margin: 0px auto">
+    <div style="padding-top: 50px;">
+<div class="address-t">
+    <div class="address-l"><a href="javascript:history.go(-1)">返回</a></div>
+    <div class="address-c2" style="padding-left: 60px;">积分查询</div>
+    {include file=member.index_header.html}
+</div>
+<div class="binding-cen">
+    <div class="Integral">
+        <!--<span><a href="#">积分兑换</a></span>-->
+        当前可用积分：<strong>{$userFinance.jifen}</strong></div>
+    <div class="Integra2">
+        <div class="Integra2-4"><a href="{$site_url}/weixin/index.php?app=member_account&act=jifen&type=all">全部</a></div>
+        <div class="Integra2-5"><a href="{$site_url}/weixin/index.php?app=member_account&act=jifen&type=income">获取</a></div>
+        <div class="Integra2-6"><a href="{$site_url}/weixin/index.php?app=member_account&act=jifen&type=pay">支出</a></div>
+    </div>
+    <div class="Integra3">
+        {if $jifenlog && count($jifenlog) > 0}
+            {foreach from=$jifenlog item=jifen_log name=log_index}
+                <div class="Integra33" {if $smarty.foreach.log_index.last} style="border-bottom:0px;"{/if}>
+                    <table width="287" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="141" height="20" align="left">
+                            <m>
+                                {if $jifen_log.type == JIFEN_UNKNOW}
+                                未知
+                                {elseif $jifen_log.type ==JIFEN_AVERAGE}
+                                未抽奖自动分配
+                                {elseif $jifen_log.type ==JIFEN_HELP_REGISTER}
+                                注册送积分
+                                {elseif $jifen_log.type ==JIFEN_CANCEL_ORDER}
+                                取消订单
+                                {elseif $jifen_log.type ==JIFEN_PAY}
+                                支付
+                                {elseif $jifen_log.type ==JIFEN_TUIGUANG}
+                                推广获得积分
+                                {/if}
+                            </m>
+                        </td>
+                        <td width="30" height="20">&nbsp;</td>
+                        <td width="136" height="20" align="right">
+                            <strong>
+                                {if !strstr($jifen_log.jifen,'-') }
+                                {$jifen_log.jifen}
+                                {else}
+                                {$jifen_log.jifen}
+                                {/if}
+                            </strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="20" colspan="3">
+                            <span>{$jifen_log.beizhu}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="141" height="20">{$jifen_log.create_time}</td>
+                        <td height="20">&nbsp;</td>
+                        <td height="20" align="right">&nbsp;</td>
+                    </tr>
+                </table>
+
+                </div>
+            {/foreach}
+
+        {else}
+            <div class="Integra33">
+                <div  style="margin-top:20px;text-align: center;font-size: 14px;">没有相关数据...</div>
+            </div>
+        {/if}
+
+    </div>
+</div>
+</div>
+</div>
+{include file=cnzz.html}
+</body>
+</html>

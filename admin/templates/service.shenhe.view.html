@@ -1,0 +1,62 @@
+{include file="header.html"}
+<div id="rightTop">
+    <p><b>{$lang.shenqing_detail}</b></p>
+</div>
+<div class="info">
+    <div class="order_form">
+        <h1>{$lang.shenqing_status}</h1>
+        <ul>           
+            <li><b>{$lang.payment_status} : </b><span class="red_common">
+            <!--{if $shenqing.paymentState eq 0}-->未付款
+            <!--{elseif $shenqing.paymentState eq 1}-->已付款
+            <!--{elseif $shenqing.paymentState eq 2}-->已退款
+            <!--{elseif $shenqing.paymentState eq 3}-->未退款
+            <!--{/if}-->
+            </span></li>
+            <li><b>{$lang.jine} : </b> <span class="red_common">{$shenqing.jine|price}</span></li>
+            <li><b>{$lang.shenqing_status} : </b><span class="red_common"><!--{if $shenqing.type=='1'}-->申请成功<!--{elseif $shenqing.type=='2'}-->申请不成功<!--{else}-->未审核<!--{/if}--></span></li>
+        </ul>
+        <div class="clear"></div>
+    </div>
+    <div class="order_form">
+        <h1>{$lang.shenqing_detail}</h1>       
+        <ul>
+            <li><b>{$lang.service_name} : </b> {$shenqing.service_user|escape}</li>
+            <li><b>{$lang.service_tel} &nbsp;&nbsp;&nbsp;&nbsp;: </b>{$shenqing.service_tel}</li>
+            <li><b>{$lang.service_desc} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b>{$shenqing.service_desc|escape}</li>
+            <li><b>{$lang.region_name} &nbsp;&nbsp;&nbsp;&nbsp;: </b>{$shenqing.region_name|escape}</li>
+            <li><b>{$lang.add_time} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b>{$shenqing.add_time|date:complete}</li>
+            <li><b>{$lang.service_user}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </b>{$shenqing.service_id|escape}</li>
+
+            <li><b>营业执照 &nbsp;&nbsp;&nbsp;&nbsp;: </b>
+            <!--{if $shenqing.yingyezhizhaoImg !="" }-->
+            <br>
+            <a href="{$site_url}/{$shenqing.yingyezhizhaoImg}" target=" _blank">
+                查看营业执照
+            </a>
+            <!--{else}-->
+            没有上传营业执照
+            <!--{/if}-->
+            </li>
+
+            <li><b>身份证照片 : </b>
+
+            <!--{if $shenqing.shenfenzhengImg !="" }-->
+                <br>
+            <a href="{$site_url}/{$shenqing.shenfenzhengImg}"  target=" _blank">
+            查看身份证
+            </a>
+            <!--{else}-->
+             没有上传身份证照片
+            <!--{/if}-->
+            </li>
+        </ul>
+        <div class="clear"></div>
+    </div>
+    <br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="formbtn batchButton" onclick="history.back()" value="返回" />
+    <br>
+    <br><br>
+</div>
+
+{include file="footer.html"}

@@ -1,0 +1,273 @@
+{include file=member.header.html}
+<style type="text/css">
+.bgwhite { background: #FFFFFF; }
+</style>
+<script type="text/javascript">
+$(function(){
+});
+</script>
+<style>
+.borline td { padding:10px 0px; }
+.ware_list th { text-align:left; }
+</style>
+
+<!--[if IE]><style type="text/css">
+    .content #right .kuang3 .item .f1 .a1{margin-left:5px}
+</style><![endif]-->
+
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right" >
+        <ul class="tab">
+            <li class="active" > <a href="index.php?app={$smarty.get.app}&act=aqzx&p={$smarty.get.p}">安全中心</a></li>
+            </ul>
+
+       <div class="eject_con bgwhite" style="padding: 30px 0 50px">        
+       <center><div id="warning" name="warning" style="width:92%;"></div></center>
+       <!--修改手机-->
+       <div class="kuang2">        
+         <div  <!--{if $user.im_qq }--> class="ttp2"<!--{else}-->  class="ttp1"<!--{/if}-->>
+             <span class="spa1">1.验证身份</span>
+             <span <!--{if $user.im_qq }--> class="spa1"<!--{else}-->  class="spa2"<!--{/if}-->>2.输入手机</span>
+             <span class="spa3">3.完成</span>
+          </div>        
+          <div class="kuang3">
+          	 <form method="post" id="sava_form" name="sava_form"> <br><br>
+             <input type="hidden" name="type" id="type" value="{$smarty.get.type}" />
+                 <input type="hidden" name="step" id="step" value="2" />
+                 <!--{if $user.phone_mob}-->
+                         <!--{if $user.phone_mob_bind_status eq 0}-->
+                         <div class="item" style="padding-top:0px;">
+                             <span class="label">您的手机未验证：</span>
+                             <div class="f1"><div style=" margin-top:10px">{$user.phone_mob|hidden}</div>
+                             <input type="hidden" value="{$user.phone_mob}" name="phone_mob" id="phone_mob" />
+                             </div>
+                         </div>
+                         <script>
+                          document.getElementById("sava_form").action="index.php?app={$smarty.get.app}&act=aqzx_mob_bind";
+                         </script>
+                         <!--{else}-->
+                         <div class="item" style="padding-top:0px;">
+                             <span class="label">请输入新手机号码：</span>
+                             <div class="f1">
+                             <input name="new_phone_mob" onblur="check_mob(this.value,'new_phone_mob')" id="new_phone_mob" type="txt" class="input1" />
+                             <label class="fontColor3">*</label>
+                             {$user.phone_mob|hidden}
+                             
+                             <span id="new_phone_mob_lbl" class="fontColor3"></span></div>
+							 
+                         </div>
+                        <!--{/if}-->
+                 <!--{else}-->
+                 <div class="item" style="padding-top:0px;">
+                     <span class="label">请输入手机号码：</span>
+                     <div class="f1">
+                     <input name="phone_mob" id="phone_mob" onblur="check_mob(this.value,'phone_mob')" type="txt" value="{$post_data.phone_mob}" class="input1" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" />
+                     <span id="phone_mob_lbl" class="fontColor3">&nbsp;*</span></div>
+
+                 </div>
+                 <!--{/if}-->
+
+                 <div class="item" style="padding-top:0px;">
+                     <span class="label">手机验证码：</span>
+                     <div class="f1">
+                     <input name="yanzhengma" id="yanzhengma" type="text" class="input1" />
+                     <span id="yanzhengma_lbl" class="fontColor3">&nbsp;*</span>
+                     </div>
+                     <input id="btnSendCode" type="button" class="btn" style="background-color: #ffffff ;color: green;width: 150px; cursor: pointer;" value="发送验证码" onclick="sendMessage()" />
+                 </div>
+           
+             <div class="item" style="padding-top:0px;">
+                <span class="label"></span>
+                <div class="f1">
+                <input class="a1" value="提交" type="button"  onclick="sava_mob_form()" style=" cursor:pointer; border:0px" />
+                </div>
+             </div>
+             </form>
+          </div>
+       </div>
+    
+      </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<script>
+        var state = 1;
+		var InterValObj; //timer变量，控制时间
+		var count = {$FAIL_TIME}; //间隔函数，1秒执行
+		var curCount;//当前剩余秒数
+		var code = ""; //验证码
+		var codeLength = 6;//验证码长度		
+		
+		function sendMessage() {
+			
+			<!--{if $user.phone_mob}-->
+                <!--{if $user.phone_mob_bind_status eq 1}-->
+                var phone_mob=$("#new_phone_mob").val();
+                <!--{else}-->
+                var phone_mob=$("#phone_mob").val();
+                <!--{/if}-->
+			<!--{else}-->
+			var phone_mob=$("#phone_mob").val();
+			<!--{/if}-->
+
+			$("#warning").html("");
+			if(check_phone_or_tel()){
+				curCount = count;
+				//设置button效果，开始计时
+				$("#btnSendCode").attr("disabled", "true");
+				$("#btnSendCode").val("请在" + curCount + "秒内输入验证码");			
+				InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+				//向后台发送处理数据
+				$.get("index.php?app=sendcode&act=send2",{phone_or_tel:phone_mob},function(rs){
+					//js_fail(rs);
+					$("#yanzhengma_lbl").html('<label class=\"error\" for=\"captcha\" generated=\"true\">'+rs.replace("<br/>","")+'！</label>');							
+                    state=0;
+				})
+			}
+		
+		}
+
+        <!--{if $t_time && $t_time >0 }-->
+            curCount = {$t_time};
+            $("#btnSendCode").attr("disabled", "true");
+            $("#btnSendCode").val("请在" + curCount + "秒内输入验证码");
+            InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+        <!--{/if}-->
+		
+		function sendMessage2() {		
+			$("#warning").html("");
+			curCount = count;				
+			//设置button效果，开始计时
+			$("#btnSendCode").attr("disabled", "true");
+			$("#btnSendCode").val("请在" + curCount + "秒内输入验证码");			
+			InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+			//向后台发送处理数据
+			$.get("index.php?app=sendcode&act=send3",function(rs){
+				js_fail(rs);
+                state=0;
+			})
+
+		
+		}
+		
+		function check_phone_or_tel(){		
+			var mob_type="new_phone_mob";	
+			<!--{if $user.phone_mob}-->
+                <!--{if $user.phone_mob_bind_status eq 1}-->
+                var phone_mob=$("#new_phone_mob").val();
+
+                <!--{else}-->
+                var phone_mob=$("#phone_mob").val();
+				mob_type="phone_mob";
+                <!--{/if}-->
+			<!--{else}-->
+			var phone_mob=$("#phone_mob").val();
+				mob_type="phone_mob";
+			<!--{/if}-->
+		
+			var phone_or_tel=$.trim(phone_mob);
+			if(phone_or_tel==""){
+				$("#"+mob_type+"_lbl").html('<label class=\"error\" for=\"captcha\" generated=\"true\">请输入手机号码！</label>');		
+				return false;
+			}
+			var phone_reg = /^([0-9]{11})?$/;
+			var falg=phone_or_tel.search(phone_reg);
+			if (falg==-1){
+				$("#"+mob_type+"_lbl").html('<label class=\"error\" for=\"captcha\" generated=\"true\">手机格式错误！</label>');	
+				return false;
+			}
+			return true;
+		}
+		
+		//timer处理函数
+		function SetRemainTime() {
+			if (curCount == 0) {
+				window.clearInterval(InterValObj);//停止计时器
+				$("#btnSendCode").removeAttr("disabled");//启用按钮
+                if(state ==0 ){
+                    $("#btnSendCode").val("重新发送验证码");
+                }else{
+                    $("#btnSendCode").val("发送验证码");
+                }
+				code = ""; //清除验证码。如果不清除，过时间后，输入收到的验证码依然有效
+			}
+			else {
+				curCount--;
+				$("#btnSendCode").val("请在" + curCount + "秒内输入验证码");
+			}
+		}
+
+
+
+
+
+
+function sava_mob_form(){
+		$("#warning").html("");
+
+		<!--{if $user.phone_mob}-->
+			<!--{if $user.phone_mob_bind_status==1}-->
+			var new_phone_mob		=$("#new_phone_mob").val();
+			if(new_phone_mob==""){			
+				$("#new_phone_mob_lbl").html('<label class=\"error\" for=\"captcha\" generated=\"true\">请输入新手机号码！</label>');			
+				return;
+			}
+			if(!check_phone_or_tel()){
+				return;
+			}
+			<!--{/if}-->
+		<!--{else}-->
+				var phone_mob		=$("#phone_mob").val();
+				if(phone_mob==""){				
+					$("#phone_mob_lbl").html('<label class=\"error\" for=\"captcha\" generated=\"true\">请输入手机号码！</label>');		
+					return;
+				}
+		 <!--{/if}-->
+
+		var yanzhengma=$("#yanzhengma").val();
+		if(yanzhengma==""){			
+			$("#yanzhengma_lbl").html('<label class=\"error\" for=\"captcha\" generated=\"true\">请输入手机验证码！</label>');		
+			return;
+		}
+
+		$.get("index.php?app=sendcode&act=checkCode2",{yanzhengma:yanzhengma},function(rs){
+			if(rs!=1){
+				window.clearInterval(InterValObj);
+				$("#btnSendCode").removeAttr("disabled");
+
+				if(state ==0 ){
+					$("#btnSendCode").val("重新发送验证码");
+				}else{
+					$("#btnSendCode").val("发送验证码");
+				}
+				$("#yanzhengma_lbl").html('<label class=\"error\" for=\"captcha\" generated=\"true\">验证码验证错误！</label>');		
+				$("#yanzhengma").val("");
+				return;
+			} else {
+				$(".a1").attr("disabled","disabled");
+				$(".a1").css("background","");
+				$(".a1").val("处理中...");
+				document.getElementById('sava_form').submit();
+			}
+		})
+		
+}
+
+
+
+function check_mob (val,inputName){
+    if(val!=""){
+		$("#"+inputName+"_lbl").html('');	
+        $.get("index.php?app=member&act=check_phone_mob&ajax=1","phone_mob="+val,function(rs){
+            if(eval(rs) == false || eval(rs) == "false"){
+                 $("#"+inputName).val("");               
+				 $("#"+inputName+"_lbl").html('<label class=\"error\" for=\"captcha\" generated=\"true\">手机号码已经存在，请更换！</label>');		
+            }
+        })
+    }
+
+}
+
+</script>
+{include file=footer.html}

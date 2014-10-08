@@ -1,0 +1,58 @@
+{include file="header.html"}
+<script>
+//    function check_gcategory(obj) {
+//        var url = SITE_URL+'/admin/index.php?app=brand&act=check_mgcate';
+//        $.getJSON(url,{'cate_id':obj.value},function(data){
+//                    if(data.done) {
+//                        alert(data);
+//                    } else {
+//                        alert("请选择最后一级分类");
+//                    }
+//                });
+//    }
+
+    function submits() {
+        var cate_id = $("#parent_id").val();
+        if (cate_id ==0) {
+            alert("请选择分类");
+            return false;
+        }
+        $("#cate_id").val(cate_id);
+        document.getElementById("gcategory_brand_form").target = "_self";
+        document.getElementById("gcategory_brand_form").action="index.php?app=brand&act=add_gcategory_brand";
+        document.getElementById("gcategory_brand_form").submit();
+    }
+  function closeWin() {
+      this.window.close();
+  }
+</script>
+<div style="margin-top:15px;margin-left: 15px;">
+
+    <form method="post" enctype="multipart/form-data" id="gcategory_brand_form">
+    <input name="brand_id" type="hidden" value="{$brand.brand_id}">
+    <input type="hidden" id="cate_id" name="cate_id" value="" />
+    <table style="margin: 10px;" width="100%">
+       <tr><Td>品牌名称：</Td><Td><h3>{$brand.brand_name}</h3></Td></tr>
+      <tr>
+          <Td>请给品牌指定分类:</td>
+          <Td>
+           <select id="parent_id" name="parent_id" onchange="javascript:check_gcategory(this)"><option value="0">{$lang.select_pls}</option>{html_options options=$parents selected=$gcategory.parent_id}</select>
+              &nbsp; &nbsp;<input type="button" value="确定" onclick="javascript:submits()"><Br>
+              <label>注：请选择小分类</label>
+
+          </Td>
+      </tr>
+        <tr style="height: 30px;"><Td>&nbsp;</Td></tr>
+    </table>
+    </form>
+ <div class="tdare">
+        <table width="100%" cellspacing="0" class="dataTable">
+            <tr><td>分类名称</td><Td>品牌名称</Td><td>操作</td></tr>
+            <!--{foreach from=$gcategory_brand item=gbrand}-->
+            <tr><Td>{$gbrand.cate_name}</Td><Td>{$gbrand.brand_name}</Td><Td><a href="index.php?app=brand&act=drop_gb&gb_id={$gbrand.id}&brand_id={$brand.brand_id}">删除</a> </Td></tr>
+            <!--{/foreach}-->
+        </table>
+
+</div>
+</div>
+{include file="footer.html"}

@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>提现卡号</title>
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/binding.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{$SITE_URL}/weixin/templates/js/jquery-1.6.2.min.js"></script>
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+    <script type="text/javascript">
+        function choose(){
+            var countCard = $("#countCard").val();
+//            alert(tixianCard+"_"+typeof tixianCard);
+            if(countCard == null ||countCard ==''|| typeof countCard =="undefined"){
+//                alert("您没有历史提现卡");
+                window.location ="{$site_url}/weixin/index.php?app=member_account&act=tixianPage";
+                return;
+            }
+            var cardId = $('input[name="tixian"]:checked').val();
+            if(cardId == null || typeof cardId == "undefined"){
+                alert("请选择银行卡！");
+                return;
+            }
+//            alert(cardId+"_"+typeof cardId);
+            window.location ="{$site_url}/weixin/index.php?app=member_account&act=tixianPage&tixianCardId="+cardId;
+        }
+
+
+    </script>
+</head>
+<body>
+<div style="width: 320px;margin: 0px auto">
+    <div style="padding-top: 50px;">
+<div class="address-t">
+    <div class="address-l"><a href="javascript:history.go(-1)">返回</a></div>
+    <div class="address-c4">提取余额到银行卡</div>
+</div>
+<div class="binding-cen">
+    <div class="card">
+        <div class="card-t">选择历史提现卡号</div>
+            <div class="card-c">
+                {if $tixianCards}
+                    <input id="countCard" value="{$countCard}"  type="hidden">
+                    {foreach from=$tixianCards item =tixianCard}
+                        <div class="card-c1">
+                            <input class="radio-1" name="tixian" type="radio" value="{$tixianCard.id}" />
+                            <span style="padding-top:5px;">
+                                {$tixianCard.channel_name}　　{$tixianCard.user_name}　{if $tixianCard.channel_card != null}　{$tixianCard.channel_card|truncate:4}{$tixianCard.channel_card|lastTruncate:-4:4}{/if}
+                            </span>
+                        </div>
+                    {/foreach}
+                {else}
+                    <div class="card-c1">
+                        <span style="padding-top:5px;">您没有历史提现卡</span>
+                    </div>
+                {/if}
+                <a href="#" onclick="choose()" style="color: white">
+                    <div class="que-d">确定</div>
+                </a>
+            </div>
+    </div>
+</div>
+    </div>
+</div>
+{include file=cnzz.html}
+</body>
+</html>

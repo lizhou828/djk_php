@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>余额查询</title>
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/binding.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{$SITE_URL}/weixin/templates/js/jquery-1.6.2.min.js"></script>
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            var type= "{$type}";
+//            alert(type+"_"+typeof type+"_length:"+type.length);
+            if(type=='income'){
+                $(".Integra2-4").css({"background":"none repeat scroll 0 0 #ECECEC","color":"#333333"});
+                $(".Integra2-5").css({"background":"none repeat scroll 0 0 #FFFFFF","color":"#C40000"});
+                $(".Integra2-6").css({"background":"none repeat scroll 0 0 #ECECEC","color":"#333333"});
+            }else if(type=='pay'){
+                $(".Integra2-4").css({"background":"none repeat scroll 0 0 #ECECEC","color":"#333333"});
+                $(".Integra2-5").css({"background":"none repeat scroll 0 0 #ECECEC","color":"#333333"});
+                $(".Integra2-6").css({"background":"none repeat scroll 0 0 #FFFFFF","color":"#C40000"});
+            }else{
+                $(".Integra2-4").css({"background":"none repeat scroll 0 0 #FFFFFF","color":"#C40000"});
+                $(".Integra2-5").css({"background":"none repeat scroll 0 0 #ECECEC","color":"#333333"});
+                $(".Integra2-6").css({"background":"none repeat scroll 0 0 #ECECEC","color":"#333333"});
+            }
+        });
+        function tixian(shouyi){
+            if(!shouyi || shouyi==null || shouyi=="" || typeof shouyi =="undefined" ||shouyi < 100){
+                alert("余额不足100，不能提现!");
+            }else{
+                window.location='{$site_url}/weixin/index.php?app=member_account&act=tixianPage&type=0';
+            }
+        }
+    </script>
+</head>
+<body>
+<div style="width: 320px;margin: 0px auto">
+    <div style="padding-top: 50px;">
+<div class="address-t">
+    <div class="address-l"><a href="javascript:history.go(-1)">返回</a></div>
+    <div class="address-c2" style="padding-left: 55px;">余额查询</div>
+    {include file=member.index_header.html}
+</div>
+<div class="binding-cen">
+    <div class="Integral">
+        <!--<span><a href="#">积分兑换</a></span>-->
+        账户余额：<strong>￥{$userFinance.unkoushui_yue|number2}</strong>
+        {if $flag}
+        <div class="earnings-r"><a href="javascript:void(0)" onclick="tixian('{$userFinance.unkoushui_yue}')">我要提现</a></div>
+        {/if}
+    </div>
+    <div class="Integra2">
+        <div class="Integra2-4"><a href="{$site_url}/weixin/index.php?app=member_account&act=yue">全部</a></div>
+        <div class="Integra2-5"><a href="{$site_url}/weixin/index.php?app=member_account&act=yue&type=income">获取</a></div>
+        <div class="Integra2-6"><a href="{$site_url}/weixin/index.php?app=member_account&act=yue&type=pay">支出</a></div>
+    </div>
+    <div class="Integra3">
+        {if $yuelogs && count($yuelogs) > 0 }
+            {foreach from=$yuelogs item=yuelog}
+            <div class="Integra33">
+                <div class="Integra33-1e">
+                    <h3><s>￥</s>{$yuelog.jine|number2}</h3>
+                </div>
+                <div class="Integra33-c">
+                    {if $yuelog.type== -1}
+                    未知
+                    {elseif $yuelog.type== 0}
+                    抽奖
+                    {elseif $yuelog.type== 1}
+                    获得平均分配
+                    {elseif $yuelog.type== 2}
+                    买家退款
+                    {elseif $yuelog.type== 3 }
+                    提现
+                    {elseif $yuelog.type== 4}
+                    支付商家
+                    {elseif $yuelog.type== 5}
+                    支付
+                    {elseif $yuelog.type==6}
+                    收益或奖励
+                    {elseif $yuelog.type==7 }
+                    充值
+                    {/if}
+
+                </div>
+                <div class="Integra33-r">{$yuelog.create_time|lastTruncate:0:10}</div>
+            </div>
+            {/foreach}
+        {else}
+            <div class="Integra33">
+                <div  style="margin-top:20px;text-align: center;font-size: 14px;">没有相关数据...</div>
+            </div>
+        {/if}
+
+
+
+    </div>
+</div>
+    </div>
+</div>
+{include file=cnzz.html}
+</body>
+</html>

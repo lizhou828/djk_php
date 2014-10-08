@@ -1,0 +1,224 @@
+<!-- 头部开始  -->
+<!doctype html>
+<html>
+<head>
+    <base href="{$site_url}/" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7 charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style type="text/css">
+        body {
+            _behavior: url({$site_url}/themes/mall/default/styles/default/csshover.htc);
+        }</style>
+    <script type="text/javascript">
+        //<!CDATA[
+        var SITE_URL = "{$site_url}";
+        var REAL_SITE_URL = "{$real_site_url}";
+        var PRICE_FORMAT = '{$price_format}';
+        //]]>
+    </script>
+    <script type="text/javascript" src="index.php?act=jslang"></script>
+    <link href="{res file=css/index.css}" rel="stylesheet" type="text/css">
+    <link href="{res file=css/djk.css}" rel="stylesheet" type="text/css">
+    <link href="{res file=css/base.css}" rel="stylesheet" type="text/css">
+    <link href="{res file=css/dialog.css}" rel="stylesheet" type="text/css">
+    <link href="{res file=css/layout.css}" rel="stylesheet" type="text/css">
+    <link href="{res file=css/dialog.css}" rel="stylesheet" type="text/css">
+    <link href="{res file=css/user.css}" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        #all-category .category { display: block !important;}
+        #all-category .title i { display: none!important;}
+    </style>
+    <!--[if IE]>
+    <script src="{res file=js/html5.js}"></script>
+    <![endif]-->
+    <!--[if IE 6]>
+    <script src="{res file=js/IE6_PNG.js}"></script>
+    <script>
+        DD_belatedPNG.fix('.pngFix');
+    </script>
+    <script>
+        // <![CDATA[
+if((window.navigator.appName.toUpperCase().indexOf("MICROSOFT")>=0)&&(document.execCommand))
+try{
+document.execCommand("BackgroundImageCache", false, true);
+   }
+catch(e){}
+// ]]>
+</script>
+<![endif]-->
+    <script>
+        COOKIE_PRE = '7210_';_CHARSET = 'utf-8';SITEURL = '{$site_url}';
+    </script>
+    <script type="text/javascript" src="{res file=js/jquery.js}" charset="utf-8"></script>
+    <script type="text/javascript" src="{res file=js/common.js}" charset="utf-8"></script>
+    <script type="text/javascript">
+        $(function () {
+            //search
+            $("#details").children('ul').children('li').click(function () {
+                $(this).parent().children('li').removeClass("current");
+                $(this).addClass("current");
+                $('#search_act').attr("value", $(this).attr("act"));
+            });
+            var search_act = $("#details").find("li[class='current']").attr("act");
+            $('#search_act').attr("value", search_act);
+            $("#keyword").blur();
+        });
+
+    </script>
+    <script type="text/javascript"  src="{res file=js/min.js}" charset="utf-8"></script>
+    <script type="text/javascript" src="{res file=js/accordion.js}" charset="utf-8"></script>
+    <script type="text/javascript" src="{res file=js/tonjay.js}"  charset="utf-8"></script>
+    <script type="text/javascript"  src="{res file=js/swfobject_modified.js}" charset="utf-8"></script>
+    <script type="text/javascript"  src="{res file=js/mini.js}" charset="utf-8"></script>
+    <script type="text/javascript" src="{res file=js/index.js}" charset="utf-8"></script>
+    <script type="text/javascript" src="{res file=js/poshytip.js}" charset="utf-8"></script>
+    <!-- 首页对联广告 -->
+    <script type="text/javascript"  src="{res file=js/double_adv.js}"></script>
+    <script type="text/javascript" src="{lib file=jquery.js}" charset="utf-8"></script>
+    <script type="text/javascript" src="{lib file=jike.js}" charset="utf-8"></script>
+    <script type="text/javascript" src="{lib file=member.js}" charset="utf-8"></script>
+    {$_head_tags}
+    <script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js"></script>
+    <script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js"></script>
+    <link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+</head>
+<body STYLE='OVERFLOW:SCROLL;OVERFLOW-X:HIDDEN'>
+
+
+<!-- 头部结束  -->
+<div class="content" id="show_query">
+        <div class="wrap">
+            <div class="public">
+
+
+					<!-- 服务中心 对应的 店铺 列表 -->
+				   <div class="public table" id="serviceTable" name="serviceTable">
+
+                    <table id="my_goods" server="{$site_url}/index.php?app=my_goods&amp;act=ajax_col" >
+                    <tr class="line_bold">
+                        <th colspan="12">
+                            <div class="scarch_order">
+                            <form  method="get">
+							<!--{if $filtered}-->
+                            <!--<a class="detlink" style="float:right" href="{url app=service&act=query_goods}">{$lang.cancel_query}</a>-->
+                            <!--{/if}-->
+                            <input type="hidden" name="app" value="service">
+                            <input type="hidden" name="act" value="query_goods">
+                            <input type="hidden" name="step" value="1">
+                            &nbsp;
+                                按商家搜索<select class="select1" name='store_id'>
+                                <!--{if $stores}-->
+                                <option value="" selected="selected">查询全部</option>
+                                <!--{foreach from=$stores item=store name=_goods_f}-->
+                                <option value="{$store.store_id}" <!--{if $smarty.get.store_id== $store.store_id}-->selected="selected" <!--{/if}--> >{$store.store_name}</option>
+                                <!--{/foreach}-->
+                                <!--{else}-->
+                                <option value="" selected="selected">没有找到商家</option>
+                                <!--{/if}-->
+                            </select>
+                            &nbsp;&nbsp;新增时间：
+                            <input class="text_normal width2" type="text" name="add_time_from" id="add_time_from" value="{$smarty.get.add_time_from|escape}" /> &#8211;
+                            <input class="text_normal width2" id="add_time_to" type="text" name="add_time_to" value="{$smarty.get.add_time_to|escape}" />&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                &nbsp;&nbsp;&nbsp;商品名称：<input type="text" class="text_normal" name="keyword" value="{$smarty.get.keyword|escape}"/>
+
+                                <br><br>
+                                &nbsp;&nbsp; 分类&nbsp;&nbsp;&nbsp;&nbsp;
+                                <select name="cate_id" id="cate_id">
+                                    <option value="0">{$lang.select_pls}</option>
+                                    {html_options options=$scategories selected=$smarty.get.cate_id}
+                                </select>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                            <input type="submit" class="btn" value="搜索" />
+                            </form>
+                            </div>
+							<br><br>
+                        </th>
+                    </tr>
+
+
+                    <tr class="gray"  ectype="table_header">
+                        <th width="30"></th>
+                        <th width="55">略缩图</th>
+                        {if $store.enable_radar}
+                        <th width="50"></th>
+                        {/if}
+                        <th width="165" coltype="editable" column="goods_name" checker="check_required" inputwidth="90%" title="{$lang.sort_order}"  class="cursor_pointer"><span ectype="order_by">{$lang.goods_name}</span></th>
+                        <th width="70" column="cate_id" title="{$lang.sort_order}"  class="cursor_pointer"><span ectype="order_by">{$lang.gcategory}</span></th>
+                        <th width="55" coltype="editable" column="brand" checker="check_required" inputwidth="55px" title="{$lang.sort_order}"  class="cursor_pointer"><span ectype="order_by">{$lang.brand}</span></th>
+                        <th width="55" class="cursor_pointer" coltype="editable" column="price" checker="check_number" inputwidth="50px" title="{$lang.sort_order}"><span ectype="order_by">{$lang.price}</span></th>
+                        <th width="55" class="cursor_pointer" coltype="editable" column="stock" checker="check_pint" inputwidth="50px" title="{$lang.sort_order}"><span ectype="order_by">{$lang.stock}</span></th>
+                        <th width="25" coltype="switchable" column="if_show" onclass="right_ico" offclass="wrong_ico" title="{$lang.sort_order}"  class="cursor_pointer"><span ectype="order_by">上架</span></th>
+                        <th width="25" coltype="switchable" column="recommended" onclass="right_ico" offclass="wrong_ico" title="{$lang.sort_order}"  class="cursor_pointer"><span ectype="order_by">推荐</span></th>
+                        <th>{$lang.handle}</th>
+                    </tr>
+
+                    <!--{foreach from=$goods_list item=goods name=_goods_f}-->
+                    <tr class="line<!--{if $smarty.foreach._goods_f.last}--> last_line<!--{/if}-->" ectype="table_item" idvalue="{$goods.goods_id}">
+                        <td width="25" class="align2"></td>
+                        <td width="50" class="align2"><a href="{url app=goods&id=$goods.goods_id}" target="_blank"><img src="{$site_url}/{$goods.default_image}" width="50" height="50"  /></a></td>
+                        {if $store.enable_radar}
+                        <td width="50"  align="center"><span id="r{$goods.goods_id}" class="radar_product_point" radar_price="{$goods.price}" radar_product_id='{$goods.goods_id}' radar_brand="{$goods.brand}"  radar_catname="{$goods.cat_name}" radar_sn="{$goods.goods_sn}" radar_keyword="" radar_name="{$goods.goods_name}"></span></td>
+                        {/if}
+                        <td width="160" align="align2">
+                          <p class="ware_text"><span class="color2" ectype="editobj">{$goods.goods_name|escape}</span></p>
+                        </td>
+                        <td width="65"><span class="color2">{$goods.cate_name|nl2br}</span></td>
+                        <td width="50" class="align2"><span class="color2" ectype="editobj">{$goods.brand|escape}</span></td>
+                        <td width="50" class="align2"><!--{if $goods.spec_qty}--><span ectype="dialog" dialog_width="430" uri="index.php?app=my_goods&amp;act=spec_edit&amp;id={$goods.goods_id}" dialog_id="my_goods_spec_edit" class="cursor_pointer"><!--{else}--><span class="color2" ectype="editobj"><!--{/if}-->{$goods.price}</span></td>
+                        <td width="50" class="align2"><!--{if $goods.spec_qty}--><span ectype="dialog" dialog_width="430" uri="index.php?app=my_goods&amp;act=spec_edit&amp;id={$goods.goods_id}" dialog_id="my_goods_spec_edit" class="cursor_pointer"><!--{else}--><span class="color2" ectype="editobj">
+                            <!--{/if}-->{$goods.stock}</span></td>
+
+                        <td width="20" class="align2"><span style="margin:0px 5px;" ectype="editobj" <!--{if $goods.if_show}-->class="right_ico" status="on"<!--{else}-->class="wrong_ico" stauts="off"<!--{/if}-->></span></td>
+                        <td width="20" class="align2"><span style="margin:0px 5px;" ectype="editobj" <!--{if $goods.recommended}-->class="right_ico" status="on"<!--{else}-->class="wrong_ico" stauts="off"<!--{/if}-->></span></td>
+                        <td>
+                        <a href="javascript:parent.window.showGoods(setGoods('{$goods.goods_id}','{$goods.goods_name|escape}','{$goods.price}','{$goods.cate_name|nl2br}','{$goods.stock}','{$goods.store_id}'))" class="a_kaidan">
+                        <img src="{$site_url}/themes/mall/default/styles/default/images/checkbtn.jpg">
+                        </a>
+                        </td>
+                    </tr>
+                    <!--{foreachelse}-->
+                    <tr>
+                        <td class="align2 member_no_records padding6" colspan="10">{$lang.$smarty.get.act}{$lang.no_records}</td>
+                    </tr>
+                    <!--{/foreach}-->
+                    <!--{if $goods_list}-->
+                    <tr>
+                        <td colspan="11"><input type="hidden" id="checkValues" name="checkValues"></td>
+                    </tr>
+
+                    <!--{/if}-->
+                </table>
+
+				</div>
+
+                <!--{if $goods_list}-->
+                <div class="kandan_foot">                
+                   {include file=member.page.bottom.html}
+                </div>
+                </div>
+                <div class="clear"></div>
+                <!--{/if}-->
+				<!-- 服务中心 对应的 店铺 列表 结束 -->
+
+
+
+
+
+        </div>
+
+        <div class="clear"></div>
+        <div class="adorn_right1"></div>
+        <div class="adorn_right2"></div>
+        <div class="adorn_right3"></div>
+        <div class="adorn_right4"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+</body>
+<script>
+    $('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+    $('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+</script>
+</html>

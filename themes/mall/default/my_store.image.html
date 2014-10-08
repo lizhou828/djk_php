@@ -1,0 +1,203 @@
+{include file=member.header.html}
+<style>
+.information .info table{ width :auto;}
+.progressContainer{display: none}
+.show_alert{
+    /*border: 1px solid #00a9d1;*/
+    line-height: 11px;
+    padding: 5px;
+    width: 730px;
+    margin-bottom: 10px;
+}
+.show_alert div{
+    line-height: 15px;
+    margin-top: -23px;
+    margin-left: 30px;
+    color: #9D9D9D; 
+}
+</style>
+
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js" ></script>
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+
+
+<script type="text/javascript">
+
+    function add_uploadedfile2(file_data){
+        $('#desc_images2').append('<li style="width: 300px;height: 340px;margin-bottom: 15px;margin-left: 50px;"  file_name="'+ file_data.file_name +'" file_path="'+ file_data.file_path +'" ectype="handle_pic" file_id="'+ file_data.file_id +'">'+
+                                '<input type="hidden" name="store_uploaded_file[]" value="'+ file_data.file_path +'">' +
+                '<img width="280" height="280" src="' +'{$site_url}/'+ file_data.file_path +'"  alt="'+ file_data.file_name +'" />' +
+                '<input  name="image_name[]" style="margin-left: 18px;border: 1px solid #e5e5e5;width: 50px;height:20px;text-align: center; ">'+
+                '<p class="operation" style="width: 280px;font-size: 12px;margin-left: 20px;">' +
+                '<input type="radio" name="if_default" value="'+file_data.file_path+'" />设为店铺封面</p><p style="margin-left: 35px"> ' +
+                "<a href=\"javascript:drop_image2('"+file_data.file_path+"')\">删除</a></p>" +
+               '</li>');
+//        trigger_uploader();
+//        if(EDITOR_SWFU.getStats().files_queued == 0){
+//            window.setTimeout(function(){
+//                $('#editor_uploader').hide();
+//            },5000);
+//        }
+    }
+
+    var SWFUp=null;
+    $(function(){
+        SWFUp=new SWFUpload({
+            upload_url: "index.php?app=swfupload&act=upload_store_image&up_type=1",  //taobao_image
+            flash_url: "{$site_url}/includes/libraries/javascript/swfupload/swfupload.swf",
+            post_params: {
+                "ECM_ID": "{$ECM_ID}",
+                "HTTP_USER_AGENT":"{$HTTP_USER_AGENT}",
+                'belong': 2,
+                'item_id': 0,
+                'ajax': 1,
+                'up_store_id':1
+            },
+            file_size_limit: "8 MB",
+            file_types: "*.gif;*.jpg;*.jpeg;*.png;*.tbi",
+            custom_settings: {
+                upload_target: "divFileProgressContainer",
+                if_multirow: 0
+            },
+
+            // Button Settings
+            button_image_url: "{$site_url}/includes/libraries/javascript/swfupload/images/SmallSpyGlassWithTransperancy_17x18.png",
+            button_width: 86,
+            button_height: 18,
+            button_text: '<span class="button">批量上传</span>',
+            button_text_style: '.button {font-family: Helvetica, Arial, sans-serif; font-size: 12pt; font-weight: bold; color: #3F3D3E;} .buttonSmall {font-size: 10pt;}',
+            button_text_top_padding: 0,
+            button_text_left_padding: 18,
+            button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
+            button_cursor: SWFUpload.CURSOR.HAND,
+
+            // The event handler functions are defined in handlers.js
+            file_queue_error_handler: fileQueueError,
+            file_dialog_complete_handler: fileDialogComplete,
+            upload_progress_handler: uploadProgress,
+            upload_error_handler: uploadError,
+            upload_success_handler: uploadSuccess2,
+            upload_complete_handler: uploadComplete,
+            button_placeholder_id: "spanButtonPlaceholder",
+            file_queued_handler : fileQueued
+        });
+    });
+//<!CDATA[
+function drop_image(file_id)
+{
+    if (confirm(lang.uploadedfile_drop_confirm))
+        {
+            var url = SITE_URL + '/index.php?app=my_store&act=drop_uploadedfile<!--{if $smarty.get.id}-->&store_id={$smarty.get.id}<!--{/if}-->';
+            $.getJSON(url, {'file_id':file_id}, function(data){
+                if (data =="0" || data =="1")
+                {
+                    alert("删除成功!");
+                    $('*[file_id="' + file_id + '"]').remove();
+                } else {
+                    alert("删除失败！");
+                }
+            });
+        }
+}
+
+    function shenhe(store_id) {
+        var file_id= $("input[name='file']");
+        var arr = new Array();
+        for (var i=0;i<file_id.length;i++) {
+            arr[i] = file_id[i].value;
+        }
+        var url = SITE_URL+"/index.php?app=my_store&act=shenhe&store_id="+store_id+"&file_id="+arr;
+        $.get(url,function(data){
+            if (data) {
+                alert("审核通过!");
+                $("#shenhe").hide();
+            }else {
+                alert("审核失败！");
+            }
+
+        });
+    }
+//]]>
+
+</script>
+{$editor_upload}
+{$build_editor}
+<div class="content">
+  <div class="totline"></div>
+  <div class="botline"></div>
+  {include file=member.menu.html}
+  <form method="post">
+  <div id="right">
+  <ul class="tab">
+      <!--{if $visitor.member_type == '04' && $visitor.user_name == 'djk11001'}-->
+      <li <!--{if $smarty.get.act=='store_edit' }-->class="active"<!--{else}-->class="normal"<!--{/if}-->>
+      <a href="index.php?app=service&act=store_edit&id={$smarty.get.id}">店铺基本设置</a>
+      </li>
+      <li <!--{if $smarty.get.act=="store_set_image" }-->class="active"<!--{else}-->class="normal"<!--{/if}-->>
+      <a href="index.php?app=service&act=store_set_image&li=bq&p=service&id={$smarty.get.id}">店铺相册设置</a>
+      </li>
+      <!--{else}-->
+      <li <!--{if !$smarty.get.act }-->class="active"<!--{else}-->class="normal"<!--{/if}-->>
+      <a href="index.php?app=my_store&op=seller">店铺基本设置</a>
+      </li>
+      <li <!--{if $smarty.get.act=="set_image" }-->class="active"<!--{else}-->class="normal"<!--{/if}-->>
+      <a href="index.php?app=my_store&act=set_image&li=bq&p=service">店铺相册设置</a>
+      </li>
+      <!--{/if}-->
+  </ul>
+   <!--<ul class="tab" ><li><a href="#">查看我的店铺</a></li></ul>-->
+    <div  style="margin-top: 30px;">
+        <table>
+            <tr ><td colspan="3" style="padding-left: 120px;" ><span style="margin-top: 30px;color: #666666">单张照片请不要超过2M，建议尺寸为340*240，最多可上传10张。店铺相册将显示在您的店铺首页。</span>
+            </td></tr>
+            <tr >
+                <td colspan="3" style="border: 0">
+                    <div style="background:none;text-align: center;" class="editor" >
+                        <ul id="desc_images2" name='desc_images2' class="preview">
+                            <!--{foreach from=$desc_image item=image}-->
+                            <!--{if  $visitor.member_type =='04' || $image.dropState == 1}-->
+                            <li style="width: 300px;height: 340px;margin-bottom: 15px;margin-left: 50px;" file_id="{$image.file_id}">
+                                <input name="file_id[]" type="hidden" value="{$image.file_id}">
+                                <input name="file" type="hidden" value="{$image.file_id}">
+                                <input type="hidden" name="store_uploaded_file[]" value="{$image.file_path}">
+                                <a href="{$img_url}/{$image.file_path}" target="_blank"><img width="280" height="280" src="{$img_url}/{$image.file_path}"></a> <br>
+                                <input value="{$image.image_name}" name="image_name[]" style="margin-left: 15px;border: 1px solid #e5e5e5;width: 50px;height:20px;text-align: center;">
+                                <p class="operation" style="width: 280px;font-size: 12px;margin-left: 20px;">
+                                <input type="radio" name="if_default" value="{$image.file_path}" <!--{if $image.if_default == 1}--> checked="true" <!--{/if}--> />设为店铺封面</p>
+                                <p style="margin-left: 20px;"><a href="javascript:drop_image('{$image.file_id}')">删除</a></p></li>
+                            <!--{else}-->
+                            <li>您上传的图片正在审核之中</li>
+                            <!--{/if}-->
+                            <!--{/foreach}-->
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        <tr>
+        <th class="pdl" style="width: 200px;text-align: right;padding-left: 50px;"><span class="fontColor3">*</span >请上传实体店内照片：</th>
+        <td >
+            <div id="divSwfuploadContainer" style="width:120px;">
+                <div id="divButtonContainer">
+                    <span id="spanButtonPlaceholder"></span>
+                </div>
+                <div id="divFileProgressContainer"></div>
+            </div>
+        </td>
+         </tr>
+            <Tr><Td ><div class="issuance" style="margin-top: 30px;"><input type="submit" class="btn" value="保存" /></div></Td><Td><!--{if $visitor.member_type =='04' }--><div class="issuance" style="margin-top: 30px;" id="shenhe"><input type="button" onclick="javascript:shenhe('{$store.store_id}')" class="btn" value="通过审核" /><!--{/if}--></div></Td></tr>
+            </table>
+        <div class="clear"></div>
+
+
+        <div class="adorn_right1"></div>
+        <div class="adorn_right2"></div>
+        <div class="adorn_right3"></div>
+        <div class="adorn_right4"></div>
+
+    </div>
+
+   </div>
+  </form>
+    <div class="clear"></div>
+{include file=footer.html}

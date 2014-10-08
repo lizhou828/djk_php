@@ -1,0 +1,107 @@
+{include file=member.header.html}
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/dialog/dialog.js" id="dialog_js"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js" ></script>
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right">
+        <ul class="tab">
+        <li class="active">签约业务员申请</li>
+        </ul>
+        <div class="wrap">
+            <div class="public table">
+
+            <div class="eject_btn_two eject_pos1" title="申请签约业务员">
+                <b class="ico1" ectype="dialog" uri="index.php?app=service&amp;act=add_qianyue" ectype="dialog" dialog_id="add_zizhanghu" dialog_width="700" dialog_title="申请签约业务员">申请业务员</b>
+            </div><br>
+
+			<div class="user_search">
+                <br />
+                <form method="get">
+                    <span>申请时间: </span>
+                    <input type="text" class="text1 width2" name="add_time_from" id="add_time_from" value="{$smarty.get.add_time_from}"/> &#8211;
+                    <input type="text" class="text1 width2" name="add_time_to" id="add_time_to" value="{$smarty.get.add_time_to}"/>
+                    
+                    <span>申请人:</span>
+                    <input type="text" class="text1 width_normal" name="user_name" value="{$smarty.get.user_name}">
+					
+                    <span>状态:</span>
+                    <select id="status" name="status">
+                    <option value="">全部</option>
+                    <option value="0" <!--{if $smarty.get.status !="" && $smarty.get.status eq 0}-->selected="selected"<!--{/if}--> >未审核</option>
+                    <option value="1" <!--{if $smarty.get.status eq 1}-->selected="selected"<!--{/if}-->>成功</option>
+                    <option value="2" <!--{if $smarty.get.status eq 2}-->selected="selected"<!--{/if}-->>失败</option>
+                    </select>
+                    <input type="hidden" name="app" value="service" />
+                    <input type="hidden" name="act" value="qianyue" />
+                    &nbsp;&nbsp;&nbsp;
+                    <input type="submit" class="btn" value="{$lang.soso}" />
+                </form>
+                </div>	
+
+            <table class="table_head_line">
+              
+                <tr class="line_bold">
+                    <th class="" colspan="8">
+                    </th>
+                </tr>
+                
+                <tr class="gray">
+                    <th class="width4">业务员类型</th>
+                    <th class="width4">姓名</th>
+                    <th class="width4">电话号码</th>
+                    <th class="width13">邮箱</th>
+                    <th class="width4">状态</th>
+                    <th class="width4">合同</th>
+                    <th class="width13">申请时间</th>
+                    <th class="width13">操作</th>
+                </tr>
+              
+                <!-- {foreach from=$data item=shenqing name=v} -->
+                <tr <!--{if $smarty.foreach.v.last}-->class="line_bold"<!--{else}-->class="line"<!--{/if}-->>
+                    <td class="width4"><span class="padding1"><!--{if $shenqing.account_type eq 0}-->个人<!--{else}-->公司<!--{/if}--></span></td>
+                    <td>{$shenqing.user_name|escape}</td>
+                    <td class="align2">{$shenqing.phone_mob}</td>
+                    <td class="width13">{$shenqing.email}</th>
+                    <td class="width4"><!--{if $shenqing.status eq 0}-->未审核<!--{elseif $shenqing.status eq 1}-->审核成功<!--{else}-->审核失败<!--{/if}--></th>                    
+                    <td class="width4">
+                        <!--{if $shenqing.hetong != ""}-->
+                        <div class="padding1">
+                        <a href="{$site_url}/{$shenqing.hetong}" target="_blank">查看</a>
+                        </div>
+                        <!--{else}-->--
+                        <!--{/if}-->
+                    </th>
+             		<td class="width13">{$shenqing.add_time}</th>
+                    <td>
+                        <div class="padding1">
+                            <a href="index.php?app=service&amp;act=qianyue_view&id={$shenqing.user_id}" target="_blank" dialog_width="600" dialog_title="{$lang.edit}" class="edit1">查看</a>
+                            </div>
+                    </td>
+                </tr>
+                <!-- {foreachelse} -->
+                <tr>
+                    <td colspan="8" class="member_no_records padding6">
+                        没有找到签约业务员申请信息
+                    </td>
+                </tr>
+                <!--{/foreach}-->
+            </table>
+
+           <!--{if $data}-->
+                <div class="kandan_foot">
+                    <div class="pageLinks">{include file=member.page.bottom.html}</div>
+                </div>
+            <div class="clear"></div>
+            <!--{/if}-->
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+<iframe name="qianyue_iframe" id="qianyue_iframe" style="display:none" ></iframe>
+<script>
+    $('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+    $('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+</script>
+{include file=footer.html}

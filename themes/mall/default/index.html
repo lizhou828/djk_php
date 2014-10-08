@@ -1,0 +1,584 @@
+{include file=header.html}
+<!--头部伸展广告-->
+<DIV style="MARGIN: 0px auto; WIDTH: 1200px; DISPLAY: block" id=js_ads_banner_top>
+    <A href="#" target=_blank><IMG src="{res file=images/1234567890.jpg}" width=1200 height=91></A>
+</DIV>
+
+<DIV style="MARGIN: 0px auto; WIDTH: 1200px; DISPLAY: none" id=js_ads_banner_top_slide>
+    <A href="#" target=_blank><IMG src="{res file=images/123456789.jpg}" width=1200 height=350></A>
+</DIV>
+
+<SCRIPT type=text/javascript src="{res file=js/jquery.min.js}"> </SCRIPT>
+<SCRIPT type=text/javascript src="{res file=js/lrtk.js}"> </SCRIPT>
+
+<div id="center_w1200">
+{include file=common_search.html}
+{include file=common.html}
+<!--<script src="http://58439.fy.kf.qycn.com/vclient/state.php?webid=58439" language="javascript" type="text/javascript"></script>-->
+<script src="{res file=js/jquery-1.6.2.min.js}" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function(){
+        var ul = $(".lxfscroll ul");
+        var li = $(".lxfscroll li");
+        var tli = $(".lxfscroll-title li");
+        var speed = 0;
+        var autospeed = 4000;
+        var i=1;
+        var index = 0;
+        var n = 0;
+        /* 标题按钮事件 */
+        function lxfscroll() {
+            var index = tli.index($(this));
+            tli.removeClass("cur");
+            $(this).addClass("cur");
+
+            ul.css({"left":"0px"});
+            li.css({"left":"0px"});
+            li.eq(index).css({"z-index":i});
+            li.eq(index).css({"left":"750px"});
+            ul.animate({left:"-750px"},speed);
+            i++;
+        };
+        /* 自动轮换 */
+        function autoroll() {
+            if(n >=7) {
+                n = 0;
+                i= 1;
+            }
+            tli.removeClass("cur");
+            tli.eq(n).addClass("cur");
+            ul.css({"left":"0px"});
+            li.css({"left":"0px"});
+            li.eq(n).css({"z-index":i});
+            li.eq(n).css({"left":"750px"});
+            n++;
+            i++;
+            timer = setTimeout(autoroll, autospeed);
+            ul.animate({left:"-750px"},speed);
+        };
+
+
+        /* 鼠标悬停即停止自动轮换 */
+        function stoproll() {
+            li.hover(function() {
+                clearTimeout(timer);
+                n = $(this).prevAll().length+1;
+            }, function() {
+                timer = setTimeout(autoroll, autospeed);
+            });
+            tli.hover(function() {
+                clearTimeout(timer);
+                n = $(this).prevAll().length+1;
+            }, function() {
+                timer = setTimeout(autoroll, autospeed);
+            });
+        };
+        tli.mouseenter(lxfscroll);
+        autoroll();
+        stoproll();
+    });
+</script>
+<style type="text/css">
+
+    .lxfscroll {
+        width:750px;
+        margin-left:auto;
+        margin-right:auto;
+        position: relative;
+        height: 347px;
+        overflow: hidden;
+    }
+
+    .lxfscroll ul li {
+        height: 347px;
+        width: 750px;
+        text-align: center;
+        line-height: 347px;
+        position: absolute;
+        font-size: 40px;
+        font-weight: bold;
+    }
+    .lxfscroll-title{
+        width: 200px;
+        margin-right: auto;
+        margin-left: auto;
+        position: absolute;
+        top: 310px;
+        left: 535px;
+        z-index: 500;
+    }
+    .lxfscroll-title li{
+        height: 20px;
+        width: 25px;
+        float: left;
+        line-height: 20px;
+        text-align: center;
+        cursor: pointer;
+        margin-top: 2px;
+        /*margin-right: 5px;*/
+        border: 1px solid #CCC;
+        color: #c3c3c3;
+    }
+    .cur{
+        color: #FFF;
+        font-weight: bold; background:#001b34;
+    }
+    .lxfscroll ul {
+        position: absolute;
+    }
+</style>
+<!--热门搜索部分-->
+<div class="hot">热卖：
+    <!--{foreach from=$hot_category item=ct name=my_cate}--><a href="{$ct.url}"
+    <!--{if $smarty.foreach.my_cate.index==0}-->  class="cd0281e"
+    <!--{elseif $smarty.foreach.my_cate.index==1}--> class="c1d5b9f"
+    <!--{elseif $smarty.foreach.my_cate.index==2}-->class="c27a196"
+    <!--{elseif $smarty.foreach.my_cate.index==3}-->class="ceaac44"
+    <!--{elseif $smarty.foreach.my_cate.index==4}-->class="c666666"
+    <!--{elseif $smarty.foreach.my_cate.index==5}-->class="c666666"
+    <!--{elseif $smarty.foreach.my_cate.index==6}-->class="c92bd49"
+    <!--{elseif $smarty.foreach.my_cate.index==7}-->class="c27a196"
+    <!--{/if}--> >{$ct.name}</a><!--{/foreach}--></div>
+<!--第一屏广告-->
+<div class="fl">
+    <div class="menu_left">
+        <div class="title"><a href="{r_url app=category}" target="_blank" style="color: #fff">全部商品列表</a></div>
+        <div class="con">
+            <!--{foreach from=$gcategorys_left item=gcategory name=gcategory}-->
+            <!-- {if $smarty.foreach.gcategory.index<8 }-->
+            <!-- {if !empty($gcategory) }-->
+            <dl>
+                <dd><a href="{r_url app=search&cate_id=$gcategory.id}">{$gcategory.value|truncate:22:"……"}</a></dd>
+                <dt>
+                    <span><a href="{r_url app=search&cate_id=$gcategory.children[0].id}">{$gcategory.children[0].value}</a></span>
+                    <span><a href="{r_url app=search&cate_id=$gcategory.children[1].id}">{$gcategory.children[1].value}</a></span>
+                    <span><a href="{r_url app=search&cate_id=$gcategory.children[2].id}">{$gcategory.children[2].value}</a></span>
+                </dt>
+                <em>
+                    <dl class="ssp_no1">
+                        <dd> {$gcategory.value|escape} </dd>
+                        <dt>
+                            <!--{foreach from=$gcategory.children item=child}-->
+                            <i><a href="{r_url app=search&cate_id=$child.id}">{$child.value|escape}</a></i> <!--{/foreach}-->
+                        </dt>
+                    </dl>
+
+                </em>
+            </dl>
+            <span class="menu_line"></span>
+            <!--{/if}-->
+            <!--{/if}-->
+            <!--{/foreach}-->
+        </div>
+    </div>
+    <div class="banner">
+        <div class="ban" id="zy_banner">
+           <div class="lxfscroll">
+               <ul>
+               <!--{foreach from=$huanden item=hd}-->
+               <li><a href="{$hd.link}" target="_blank"><img src="{$hd.img}"  width="750" height="347"/></a></li>
+               <!--<li><a href="{url app=bdsh&pd_id=5}" target="_blank"><img src="{res file=images/bdsh_banner.jpg}" width="750" height="347" /></a></li>-->
+               <!--<li><a href="{url app=article&act=view&article_id=55}" target="_blank"><img src="{res file=images/jike_banner.jpg}" width="750" height="347" /></a></li>-->
+               <!--<li><a href="{url app=search&search_type=search&keyword=牛轧糖}" target="_blank"><img src="{res file=images/banner01.jpg}" width="750" height="347" /></a></li>-->
+               <!--<li><a href="{url app=search&cate_id=1298}" target="_blank"><img src="{res file=images/banner04.jpg}" width="750" height="347" /></a></li>-->
+               <!--&lt;!&ndash;<li><a href="{r_url app=search&cate_id=1248}" target="_blank"><img src="{res file=images/gaogenxie_banner.jpg}" width="750" height="347" /></a></li>&ndash;&gt;-->
+               <!--<li><a href="{r_url app=search&cate_id=1245}" target="_blank"><img src="{res file=images/banner03.jpg}" width="750" height="347" /></a></li>-->
+               <!--<li><a href="{r_url app=search&cate_id=1275}" target="_blank"><img src="{res file=images/yinshi_banner.jpg}" width="750" height="347" /></a></li>-->
+               <!--{/foreach}-->
+               <!--<li><a href="{r_url app=search&cate_id=1236}" target="_blank"><img src="{res file=images/fushi_banner.jpg}"  width="750" height="347"/></a></li>-->
+
+               <!--<li><a href="{url app=service&act=register_service}" target="_blank"><img src="{res file=images/banner01.jpg}" width="750" height="347" /></a></li>-->
+               <!--<li><a href="{url app=service&act=register_service}" target="_blank"><img src="{res file=images/fwzx.jpg}" width="750" height="347" /></a></li>-->
+           </ul>
+           </div>
+            <div class="lxfscroll-title">
+            <ul>
+                <li class="cur">1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+                <li>7</li>
+            </ul>
+        </div>
+        </div>
+        <div class="pic">
+            <ul>
+                <!--{foreach from=$shouye_xiaotu item=xiaotu name=xt}-->
+                <li <!--{if $smarty.foreach.xt.iteration==4}--> style="margin-right:0px;" <!--{/if}-->><a href="{$xiaotu.link}" target="_blank" title="{$xiaotu.title}"><img src="{$xiaotu.img}" width="180" height="190" /></a></li>
+                <!--{/foreach}-->
+            </ul>
+        </div>
+    </div>
+    <div class="f_right">
+        <div class="fl11"> <!--{foreach from=$shouye_huandeng_right item=hr name=sr}--> <!--{if $smarty.foreach.sr.iteration==1}--><a href="{$hr.link}"><img src="{$hr.img}" width="220" height="65" /></a><!--{/if}--><!--{/foreach}--></div>
+        <div class="fl2">
+            <h2><span><a href="{url app=article&cate_id=2}" target="_blank">更多>></a></span>商城公告</h2>
+            <div class="con" style="overflow: hidden;">
+                <ul>
+                    <!--{foreach from=$news_ad.notices item=article name=notices}-->
+                    <!-- {if $smarty.foreach.notices.index < 5} -->
+                        <li>
+                            <a target="_blank" href="{url app=article&act=view&article_id=$article.article_id}" title="{$article.title|escape}">{$article.title|escape}</a>
+                        </li>
+                    <!-- {/if} -->
+                    <!--{/foreach}-->
+                </ul>
+            </div>
+        </div>
+        <div class="fl3">
+            <span style="height: 32px;line-height: 32px;">大集客官方微信</span>
+            <div class="wenxin" style="width: 174px;text-align: center;"><img src="{res file=images/qrcode_for_gh_1d111f902492_258.jpg}" width="174" height="174" />微信扫一扫 随时随地购物
+            </div>
+        </div>
+        <div class="fl4"><!--{foreach from=$shouye_huandeng_right item=hr name=sr}--> <!--{if $smarty.foreach.sr.iteration==2}--> <a href="{$hr.link}" target="_blank"><img src="{$hr.img}" width="220" height="60" /></a><!--{/if}--><!--{/foreach}--> </div>
+    </div>
+</div>
+<!--横条广告1-->
+<div class="h1_banner"><!--{foreach from=$shouye_top item=top}--><a href="{$top.link}" target="_blank"><img src="{$top.img}" width="1200" height="100"></a><!--{/foreach}--></div>
+<!--楼层1-->
+<div class="fl1" style="border-top:2px solid #27a196">
+    <div class="f1_left">
+        <div class="top"> <!--{foreach from=$layer_1 item=layer name=lay1}--><!--{if $smarty.foreach.lay1.iteration ==1 }--><a href="{$layer.link}" target="_blank" title="{$layer.des}"><img src="{$layer.img}" width="210" height="108" /></a><!--{/if}--> <!--{/foreach} --></div>
+        <div class="cen">
+            <ul>
+                <!--{foreach from=$hgg_category item=categoryfacher key=hgg}-->
+                <li><a href="{$categoryfacher}" target="_blank">{$hgg}</a></li>
+                <!--{/foreach}-->
+            </ul>
+        </div>
+        <div class="bottom"><!--{foreach from =$layer_1 item=layer name=lay1}--><!--{if $smarty.foreach.lay1.iteration ==2 }--> <a href="{$layer.link}"  target="_blank" title="{$layer.des}"><img src="{$layer.img}" width="210" height="135" /></a> <!--{/if}--> <!--{/foreach}--></div>
+    </div>
+    <div class="f1_center">
+        <ul>
+            <!-- {foreach from=$goods_module1.img_goods_list item=goods name=goods1} -->
+            <li <!--{if $smarty.foreach.goods1.index>4}--> style="border-bottom:none"<!--{/if}-->>
+            <div class="pic"><a href="{r_url app=goods&id=$goods.goods_id}" target="_blank" title="{$goods.goods_name}"><img src="{img_url $img_url/$goods.default_image/100X100}" width="100" height="100" /></a></div>
+            <div class="text"><a href="{r_url app=goods&id=$goods.goods_id}" target="_blank" title="{$goods.goods_name}">{$goods.goods_name|truncate:35:"……"}</a></div>
+            <div class="jiage"><span>{$goods.price|price}</span></div>
+            </li>
+            <!-- {/foreach} -->
+        </ul>
+    </div>
+    <div class="f1_right">
+        <ul>
+            <!--{foreach from =$shouye_layer_1_brand item=layer name=lay1}-->
+            <li><a href="{$layer.link}"><img src="{$layer.img}" width="98" height="35" /></a>
+              <a href="{$layer.link}" target="_blank" title="{$layer.des}">&nbsp;{$layer.des|truncate:15:"……"}</a>
+            </li>
+            <!--{/foreach}-->
+            <li class="more"><a href="{url app=brand}">查看更多品牌</a></li>
+        </ul>
+    </div>
+</div>
+
+<!--楼层2-->
+<div class="fl1">
+    <div class="f1_left">
+        <div class="top"> <!--{foreach from =$layer_2 item=layer name=lay2}--><!--{if $smarty.foreach.lay2.iteration ==1 }--><a href="{$layer.link}" target="_blank" title="{$layer.des}"><img src="{$layer.img}" width="210" height="108" /></a><!--{/if}--> <!--{/foreach} --></div>
+        <div class="cen">
+            <ul>
+                <!--{foreach from=$goods_module2.gcategorys_goods item=categoryfacher name=my_father}-->
+                <!--{if $smarty.foreach.my_father.iteration<2}-->
+                <!--{foreach from=$categoryfacher item=facher name=fa}-->
+                <!--{foreach from=$facher.childcate item=item name=child }-->
+                <!--{if $smarty.foreach.child.index<8}-->
+                <li><a href="{r_url app=search&cate_id=$item.cate_id}">{$item.cate_name}</a></li>
+                <!--{/if}-->
+                <!--{/foreach}-->
+                <!--{/foreach}-->
+                <!--{/if}-->
+                <!--{/foreach}-->
+            </ul>
+        </div>
+        <div class="bottom"><!--{foreach from =$layer_2 item=layer name=lay2}--><!--{if $smarty.foreach.lay2.iteration ==2 }--> <a href="{$layer.link}" target="_blank" title="{$layer.des}"><img src="{$layer.img}" width="210" height="135" /></a> <!--{/if}--> <!--{/foreach}--></div>
+    </div>
+    <div class="f1_center">
+        <ul>
+            <!-- {foreach from=$goods_module2.img_goods_list item=goods name=goods1} -->
+            <li <!--{if $smarty.foreach.goods2.index>4}--> style="border-bottom:none"<!--{/if}-->>
+                <div class="pic"><a href="{r_url app=goods&id=$goods.goods_id}" target="_blank" title="{$goods.goods_name}"><img src="{img_url $img_url/$goods.default_image/100X100}" width="100" height="100" /></a></div>
+                <div class="text"><a href="{r_url app=goods&id=$goods.goods_id}" target="_blank" title="{$goods.goods_name}">{$goods.goods_name|truncate:35:"……"}</a></div>
+                <div class="jiage"><span>{$goods.price|price}</span></div>
+            </li>
+            <!-- {/foreach} -->
+        </ul>
+    </div>
+    <div class="f1_right">
+        <ul>
+            <!--{foreach from =$shouye_layer_2_brand item=layer name=lay2}-->
+            <li><a href="{$layer.link}" target="_blank"><img src="{$layer.img}" width="98" height="35" /></a>
+                <a href="{$layer.link}" target="_blank" title="{$layer.des}">&nbsp;{$layer.des|truncate:15:"……"}</a>
+            </li>
+            <!--{/foreach}-->
+            <li class="more"><a href="{url app=brand}" target="_blank">查看更多品牌</a></li>
+        </ul>
+    </div>
+</div>
+<!--楼层3-->
+<div class="fl1" style="border-top:2px solid #1d5b9f">
+    <div class="f1_left">
+        <div class="top"><!--{foreach from =$layer_3 item=layer name=lay3}--><!--{if $smarty.foreach.lay3.iteration ==1 }--><a href="{$layer.link}" target="_blank" title="{$layer.des}"><img src="{$layer.img}" width="210" height="108" /></a><!--{/if}--> <!--{/foreach} --></div>
+        <div class="cen">
+            <ul>
+                <!--{foreach from=$goods_module3.gcategorys_goods item=categoryfacher name=my_father}-->
+                <!--{if $smarty.foreach.my_father.iteration<2}-->
+                <!--{foreach from=$categoryfacher item=facher name=fa}-->
+                <!--{foreach from=$facher.childcate item=item name=child }-->
+                <!--{if $smarty.foreach.child.index<8}-->
+
+                <li><a href="{r_url app=search&cate_id=$item.cate_id}">{$item.cate_name}</a></li>
+                <!--{/if}-->
+                <!--{/foreach}-->
+                <!--{/foreach}-->
+                <!--{/if}-->
+                <!--{/foreach}-->
+            </ul>
+        </div>
+        <div class="bottom"><!--{foreach from =$layer_3 item=layer name=lay3}--><!--{if $smarty.foreach.lay3.iteration ==2 }--> <a href="{$layer.link}" target="_blank" title="{$layer.des}"><img src="{$layer.img}" width="210" height="135" /></a> <!--{/if}--> <!--{/foreach}--></div>
+    </div>
+    <div class="f1_center">
+        <ul>
+            <!-- {foreach from=$goods_module3.img_goods_list item=goods name=goods3} -->
+            <li <!--{if $smarty.foreach.goods3.index>4}--> style="border-bottom:none"<!--{/if}-->>
+            <div class="pic"><a href="{r_url app=goods&id=$goods.goods_id}" target="_blank" title="{$goods.goods_name}"><img src="{img_url $img_url/$goods.default_image/100X100}" width="100" height="100" /></a></div>
+            <div class="text"><a href="{r_url app=goods&id=$goods.goods_id}" target="_blank" title="{$goods.goods_name}">{$goods.goods_name|truncate:35:"……"}</a></div>
+            <div class="jiage"><span>{$goods.price|price}</span></div>
+            </li>
+            <!-- {/foreach} -->
+
+        </ul>
+    </div>
+    <div class="f1_right">
+        <ul>
+            <!--{foreach from =$shouye_layer_3_brand item=layer name=lay3}-->
+            <li><a href="{$layer.link}" target="_blank"><img src="{$layer.img}" width="98" height="35" /></a>
+                <a href="{$layer.link}" target="_blank" title="{$layer.des}">&nbsp;{$layer.des|truncate:15:"……"}</a>
+            </li>
+            <!--{/foreach}-->
+            <li class="more"><a href="{url app=brand}" target="_blank">查看更多品牌</a></li>
+        </ul>
+    </div>
+</div>
+<!--楼层4-->
+<div class="fl1" style="border-top:2px solid #eaac44">
+    <div class="f1_left">
+        <div class="top"><!--{foreach from =$layer_4 item=layer name=lay4}--><!--{if $smarty.foreach.lay4.iteration ==1 }--><a href="{$layer.link}" target="_blank" title="{$layer.des}"><img src="{$layer.img}" width="210" height="108" /></a><!--{/if}--> <!--{/foreach} --></div>
+        <div class="cen">
+            <ul>
+                <!--{foreach from=$goods_module4.gcategorys_goods item=categoryfacher name=my_father}-->
+                <!--{if $smarty.foreach.my_father.iteration<2}-->
+                <!--{foreach from=$categoryfacher item=facher name=fa}-->
+                <!--{foreach from=$facher.childcate item=item name=child }-->
+                <!--{if $smarty.foreach.child.index<8}-->
+                <li><a href="{r_url app=search&cate_id=$item.cate_id}">{$item.cate_name}</a></li>
+                <!--{/if}-->
+                <!--{/foreach}-->
+                <!--{/foreach}-->
+                <!--{/if}-->
+                <!--{/foreach}-->
+            </ul>
+        </div>
+        <div class="bottom"><!--{foreach from =$layer_4 item=layer name=lay4}--><!--{if $smarty.foreach.lay4.iteration ==2 }--> <a href="{$layer.link}" target="_blank" title="{$layer.des}"><img src="{$layer.img}" width="210" height="135" /></a> <!--{/if}--> <!--{/foreach}--></div>
+    </div>
+    <div class="f1_center">
+        <ul>
+            <!-- {foreach from=$goods_module4.img_goods_list item=goods name=goods4} -->
+            <li <!--{if $smarty.foreach.goods4.index>4}--> style="border-bottom:none"<!--{/if}-->>
+            <div class="pic"><a href="{r_url app=goods&id=$goods.goods_id}" title="{$goods.goods_name}" target="_blank"><img src="{img_url $img_url/$goods.default_image/100X100}" width="100" height="100" /></a></div>
+            <div class="text"><a href="{r_url app=goods&id=$goods.goods_id}" title="{$goods.goods_name}" target="_blank">{$goods.goods_name|truncate:35:"……"}</a></div>
+            <div class="jiage"><span>{$goods.price|price}</span></div>
+            </li>
+            <!-- {/foreach} -->
+        </ul>
+    </div>
+    <div class="f1_right">
+        <ul>
+            <!--{foreach from =$shouye_layer_4_brand item=layer name=lay4}-->
+            <li><a href="{$layer.link}" target="_blank"><img src="{$layer.img}" width="98" height="35" /></a>
+                <a href="{$layer.link}" target="_blank" title="{$layer.des}">&nbsp;{$layer.des|truncate:15:"...."}</a>
+            </li>
+            <!--{/foreach}-->
+            <li class="more"><a href="{url app=brand}" target="_blank">查看更多品牌</a></li>
+        </ul>
+    </div>
+</div>
+<!--楼层5-->
+<div class="fl1" style="border-top:2px solid #92bd49">
+    <div class="f1_left">
+        <div class="top"><!--{foreach from =$layer_5 item=layer name=lay5}--><!--{if $smarty.foreach.lay5.iteration ==1 }--><a href="{$layer.link}" target="_blank" title="{$layer.des}"><img src="{$layer.img}" width="210" height="108" /></a><!--{/if}--> <!--{/foreach} --></div>
+        <div class="cen">
+            <ul>
+                <!--{foreach from=$goods_module5.gcategorys_goods item=categoryfacher name=my_father}-->
+                <!--{if $smarty.foreach.my_father.iteration<2}-->
+                <!--{foreach from=$categoryfacher item=facher name=fa}-->
+                <!--{foreach from=$facher.childcate item=item name=child }-->
+                <!--{if $smarty.foreach.child.index<8}-->
+                <li><a href="{r_url app=search&cate_id=$item.cate_id}">{$item.cate_name}</a></li>
+                <!--{/if}-->
+                <!--{/foreach}-->
+                <!--{/foreach}-->
+                <!--{/if}-->
+                <!--{/foreach}-->
+            </ul>
+        </div>
+        <div class="bottom"><!--{foreach from =$layer_5 item=layer name=lay5}--><!--{if $smarty.foreach.lay5.iteration ==2 }--> <a href="{$layer.link}" target="_blank" title="{$layer.des}"><img src="{$layer.img}" width="210" height="135" /></a> <!--{/if}--> <!--{/foreach}--></div>
+    </div>
+    <div class="f1_center">
+        <ul>
+            <!-- {foreach from=$goods_module5.img_goods_list item=goods name=goods3} -->
+            <li <!--{if $smarty.foreach.goods3.index>4}--> style="border-bottom:none"<!--{/if}-->>
+            <div class="pic"><a href="{r_url app=goods&id=$goods.goods_id}" title="{$goods.goods_name}" target="_blank"><img src="{img_url $img_url/$goods.default_image/100X100}" width="100" height="100" /></a></div>
+            <div class="text"><a href="{r_url app=goods&id=$goods.goods_id}" title="{$goods.goods_name}" target="_blank">{$goods.goods_name|truncate:35:"……"}</a></div>
+            <div class="jiage"><span>{$goods.price|price}</span></div>
+            </li>
+            <!-- {/foreach} -->
+        </ul>
+    </div>
+    <div class="f1_right">
+        <ul>
+            <!--{foreach from =$shouye_layer_5_brand item=layer name=lay5}-->
+            <li><a href="{$layer.link}" target="_blank"><img src="{$layer.img}" width="98" height="35" /></a>
+                <a href="{$layer.link}" target="_blank" title="{$layer.des}">&nbsp;{$layer.des|truncate:15:"...."}</a>
+            </li>
+            <!--{/foreach}-->
+            <li class="more"><a href="{url app=brand}" target="_blank">查看更多品牌</a></li>
+        </ul>
+    </div>
+</div>
+
+<!--楼层6-->
+<div class="fl1" style="border-top:2px solid #27a196">
+    <div class="f1_left">
+        <div class="top"><!--{foreach from =$layer_6 item=layer name=lay6}--><!--{if $smarty.foreach.lay6.iteration ==1 }--><a href="{$layer.link}" title="{$layer.des}" target="_blank"><img src="{$layer.img}" width="210" height="108" /></a><!--{/if}--> <!--{/foreach} --></div>
+        <div class="cen">
+            <ul>
+                <!--{foreach from=$goods_module6.gcategorys_goods item=categoryfacher name=my_father}-->
+                <!--{if $smarty.foreach.my_father.iteration<2}-->
+                <!--{foreach from=$categoryfacher item=facher name=fa}-->
+                <!--{foreach from=$facher.childcate item=item name=child }-->
+                <!--{if $smarty.foreach.child.index<8}-->
+                <li><a href="{r_url app=search&cate_id=$item.cate_id}">{$item.cate_name}</a></li>
+                <!--{/if}-->
+                <!--{/foreach}-->
+                <!--{/foreach}-->
+                <!--{/if}-->
+                <!--{/foreach}-->
+            </ul>
+        </div>
+        <div class="bottom"><!--{foreach from =$layer_6 item=layer name=lay6}--><!--{if $smarty.foreach.lay6.iteration ==2 }--> <a href="{$layer.link}" title="{$layer.des}" target="_blank"><img src="{$layer.img}" width="210" height="135" /></a> <!--{/if}--> <!--{/foreach}--></div>
+    </div>
+    <div class="f1_center">
+        <ul>
+            <!-- {foreach from=$goods_module6.img_goods_list item=goods name=goods6} -->
+            <li <!--{if $smarty.foreach.goods6.index>4}--> style="border-bottom:none"<!--{/if}-->>
+            <div class="pic"><a href="{r_url app=goods&id=$goods.goods_id}" title="{$goods.goods_name}" target="_blank"><img src="{img_url $img_url/$goods.default_image/100X100}" width="100" height="100" /></a></div>
+            <div class="text"><a href="{r_url app=goods&id=$goods.goods_id}" title="{$goods.goods_name}" target="_blank">{$goods.goods_name|truncate:35:"……"}</a></div>
+            <div class="jiage"><span>{$goods.price|price}</span></div>
+            </li>
+            <!-- {/foreach} -->
+        </ul>
+    </div>
+    <div class="f1_right">
+        <ul>
+            <!--{foreach from =$shouye_layer_6_brand item=layer name=lay6}-->
+            <li><a href="{$layer.link}" target="_blank"><img src="{$layer.img}" width="98" height="35" /></a>
+                <a href="{$layer.link}" target="_blank" title="{$layer.des}">&nbsp;{$layer.des|truncate:15:"...."}</a>
+            </li>
+            <!--{/foreach}-->
+            <li class="more"><a href="{url app=brand}" target="_blank">查看更多品牌</a></li>
+        </ul>
+    </div>
+</div>
+
+<!--楼层7-->
+<div class="fl1" style="border-top:2px solid #d0281e">
+    <div class="f1_left">
+        <div class="top"><!--{foreach from =$layer_7 item=layer name=lay7}--><!--{if $smarty.foreach.lay7.iteration ==1 }--><a href="{$layer.link}" title="{$layer.des}" target="_blank"><img src="{$layer.img}" width="210" height="108" /></a><!--{/if}--> <!--{/foreach} --></div>
+        <div class="cen">
+            <ul>
+                <!--{foreach from=$goods_module7.gcategorys_goods item=categoryfacher name=my_father}-->
+                <!--{if $smarty.foreach.my_father.iteration<2}-->
+                <!--{foreach from=$categoryfacher item=facher name=fa}-->
+                <!--{foreach from=$facher.childcate item=item name=child }-->
+                <!--{if $smarty.foreach.child.index<8}-->
+                <li><a href="{r_url app=search&cate_id=$item.cate_id}">{$item.cate_name}</a></li>
+                <!--{/if}-->
+                <!--{/foreach}-->
+                <!--{/foreach}-->
+                <!--{/if}-->
+                <!--{/foreach}-->
+            </ul>
+        </div>
+        <div class="bottom"><!--{foreach from =$layer_7 item=layer name=lay7}--><!--{if $smarty.foreach.lay7.iteration ==2 }--> <a href="{$layer.link}" title="{$layer.des}" target="_blank"><img src="{$layer.img}" width="210" height="135" /></a> <!--{/if}--> <!--{/foreach}--></div>
+    </div>
+    <div class="f1_center">
+        <ul>
+            <!-- {foreach from=$goods_module7.img_goods_list item=goods name=goods7} -->
+            <li <!--{if $smarty.foreach.goods7.index>4}--> style="border-bottom:none"<!--{/if}-->>
+            <div class="pic"><a href="{r_url app=goods&id=$goods.goods_id}" title="{$goods.goods_name}" target="_blank"><img src="{img_url $img_url/$goods.default_image/100X100}" width="100" height="100" /></a></div>
+            <div class="text"><a href="{r_url app=goods&id=$goods.goods_id}" title="{$goods.goods_name}" target="_blank">{$goods.goods_name|truncate:35:"……"}</a></div>
+            <div class="jiage"><span>{$goods.price|price}</span></div>
+            </li>
+            <!-- {/foreach} -->
+        </ul>
+    </div>
+    <div class="f1_right">
+        <ul>
+            <!--{foreach from =$shouye_layer_7_brand item=layer name=lay7}-->
+            <li><a href="{$layer.link}" target="_blank"><img src="{$layer.img}" width="98" height="35" /></a>
+                <a href="{$layer.link}" target="_blank" title="{$layer.des}">&nbsp;{$layer.des|truncate:15:"...."}</a>
+            </li>
+            <!--{/foreach}-->
+            <li class="more"><a href="{url app=brand}" target="_blank">查看更多品牌</a></li>
+        </ul>
+    </div>
+</div>
+
+<!--楼层8-->
+<div class="fl1" style="border-top:2px solid #1d5b9f">
+    <div class="f1_left">
+        <div class="top"><!--{foreach from =$layer_8 item=layer name=lay8}--><!--{if $smarty.foreach.lay8.iteration ==1 }--><a href="{$layer.link}" title="{$layer.des}" target="_blank"><img src="{$layer.img}" width="210" height="108" /></a><!--{/if}--> <!--{/foreach} --></div>
+        <div class="cen">
+            <ul>
+                <!--{foreach from=$goods_module8.gcategorys_goods item=categoryfacher name=my_father}-->
+                <!--{if $smarty.foreach.my_father.iteration<2}-->
+                <!--{foreach from=$categoryfacher item=facher name=fa}-->
+                <!--{foreach from=$facher.childcate item=item name=child }-->
+                <!--{if $smarty.foreach.child.index<8}-->
+                <li><a href="{r_url app=search&cate_id=$item.cate_id}">{$item.cate_name}</a></li>
+                <!--{/if}-->
+                <!--{/foreach}-->
+                <!--{/foreach}-->
+                <!--{/if}-->
+                <!--{/foreach}-->
+            </ul>
+        </div>
+        <div class="bottom"><!--{foreach from =$layer_8 item=layer name=lay8}--><!--{if $smarty.foreach.lay8.iteration ==2 }--> <a href="{$layer.link}" target="_blank" title="{$layer.des}"><img src="{$layer.img}" width="210" height="135" /></a> <!--{/if}--> <!--{/foreach}--></div>
+    </div>
+    <div class="f1_center">
+        <ul>
+            <!-- {foreach from=$goods_module8.img_goods_list item=goods name=goods3} -->
+            <li <!--{if $smarty.foreach.goods3.index>4}--> style="border-bottom:none"<!--{/if}-->>
+            <div class="pic"><a href="{r_url app=goods&id=$goods.goods_id}" title="{$goods.goods_name}" target="_blank"><img src="{img_url $img_url/$goods.default_image/100X100}" width="100" height="100" /></a></div>
+            <div class="text"><a href="{r_url app=goods&id=$goods.goods_id}" title="{$goods.goods_name}" target="_blank">{$goods.goods_name|truncate:35:"……"}</a></div>
+            <div class="jiage"><span>{$goods.price|price}</span></div>
+            </li>
+            <!-- {/foreach} -->
+        </ul>
+    </div>
+    <div class="f1_right">
+        <ul>
+            <!--{foreach from =$shouye_layer_8_brand item=layer name=lay8}-->
+            <li><a href="{$layer.link}" target="_blank"><img src="{$layer.img}" width="98" height="35" /></a>
+                <a href="{$layer.link}" target="_blank" title="{$layer.des}">&nbsp;{$layer.des|truncate:15:"...."}</a>
+            </li>
+            <!--{/foreach}-->
+            <li class="more"><a href="{url app=brand}" target="_blank">查看更多品牌</a></li>
+        </ul>
+    </div>
+</div>
+
+<!--底部横banner-->
+{include file=footer.html}

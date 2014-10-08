@@ -1,0 +1,76 @@
+{if $page_info && $page_info.goodsList && count($page_info.goodsList) >0 }
+<div class="xiaod">
+    <div class="top">
+        {if $type=='search'}
+            <div class="biti1"></div>
+        {else}
+            <div class="biti2"></div>
+        {/if}
+        <div class="duo">
+            <a>共 <span> {$page_info.item_count}</span> 件商品</a>
+        </div>
+    </div>
+    <div class="bottom" style="margin-top:0px;">
+        <ul>
+            {foreach from=$page_info.goodsList item=goods name=goods_index }
+                <li {if $smarty.foreach.goods_index.iteration%5 eq 0 } style="padding-right:0px;margin-right:0px;"{/if}>
+                    <div class="pic">
+                        <a href="index.php?app=goods&id={$goods.goods_id}&shop_id={$shopOwner.user_id}" target="_blank">
+                            <img src="{img_url $img_url/$goods.default_image/220X220}" width="220" height="220" />
+                        </a>
+
+                    </div>
+                    <div class="text">
+                        <a href="index.php?app=goods&id={$goods.goods_id}&shop_id={$shopOwner.user_id}" target="_blank">
+                            {$goods.goods_name|truncate:60}
+                        </a>
+                    </div>
+                    <div class="jiage">￥<span>{$goods.price}</span>
+                        {if $user && $shopOwner && $user.user_id == $shopOwner.user_id}
+                            <em class="em1">奖励：￥{$goods.yongjin|number2}</em>
+                        {/if}
+                    </div>
+                </li>
+            {/foreach}
+        </ul>
+    </div>
+</div>
+<div class="clear"></div>
+
+<!--分页开始-->
+    <!--{if $page_info.page_count gt 1}-->
+    <div class="fenye1">
+        <!--<a>{sprintf lang=total_item var1=page_info.item_count}</a>-->
+        <!--{if $page_info.prev_link}-->
+        <a class="a3" href="{$page_info.prev_link}">上一页<span></span></a>
+        <!--{else}-->
+        <a class="a1" style="color:#c9c9c9;">上一页<span></span></a>
+        <!--{/if}-->
+        <!--{if $page_info.first_link}-->
+        <a href="{$page_info.first_link}">1&nbsp;<!--{$page_info.first_suspen}--></a>
+        <!--{/if}-->
+        <!--{foreach from=$page_info.page_links key=page item=link}-->
+        <!--{if $page_info.curr_page eq $page}-->
+        <a  class="dangqian" href="{$link}">{$page}</a>
+        <!--{else}-->
+        <a  href="javascript:formSubmit('{$link}')">{$page}</a>
+        <!--{/if}-->
+        <!--{/foreach}-->
+        <!--{if $page_info.last_link}-->
+        <a  href="{$page_info.last_link}"><!--{$page_info.last_suspen}-->&nbsp;<!--{$page_info.page_count}--></a>
+        <!--{/if}-->
+        <a class="nonce">{$page_info.curr_page}/{$page_info.page_count}</a>
+        <!--{if $page_info.next_link}-->
+        <a class="a2" href="{$page_info.next_link}">{$lang.next_page}<span></span></a>
+        <!--{else}-->
+        <a class="a2" style="color:#c9c9c9;">下一页<span></span></a>
+        <!--{/if}-->
+    </div>
+    <!--{/if}-->
+<!--分页结束-->
+
+{else}
+<div class="shangc">
+    没有相关商品！
+</div>
+{/if}

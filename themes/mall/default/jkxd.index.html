@@ -1,0 +1,172 @@
+{include file=member.header.html}
+
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js"></script>
+<script type="text/javascript"  src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js"></script>
+<script type="text/javascript" src="{$site_url}/includes/libraries/javascript/mlselection.js" charset="utf-8"></script>
+<style>
+    .show_alert{
+        background-color: #F5F5F5;
+        border: 1px solid #D8D8D8;
+        margin-top: 20px;
+        margin-left: 2px;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        color: #919191;
+        line-height: 20px;
+        display: block;
+        width: 80%;
+    }
+    .go_btn{
+        cursor: pointer;background:
+        none repeat scroll 0 0 #009de6;
+        border: medium none;
+        color: #FFFFFF;
+        font-weight: bold;
+        height: 28px;
+        margin-left: 170px;
+        vertical-align: middle;
+        width: 140px;
+        float: left;
+    }
+    /*集客小店申请弹出框*/
+    .danchu{ width:728px; height:386px; margin:0px auto;}
+    .danchu h2{ width:692px; height:38px; margin:0px auto; border-bottom:1px solid #dedede; color:#666; font-weight:bold; font-size:14px; line-height:38px;}
+    .danchu h2 span{ width:16px; height:16px; background:url(../images/shop_ico5.png) no-repeat; float:right; margin-top:12px;}
+    .danchu .lst{ width:692px; margin:0px auto; height:306px; padding-top:40px;}
+    .danchu .lst .left{ width:331px; float:left; padding-left:15px;}
+    .danchu .lst .left .fl1{ color:#555; font-weight:bold; font-size:12px; padding-left:35px;}
+    .danchu .lst .left .fl2{ width:170px; height:32px; margin-top:16px; padding-left:35px;}
+    .danchu .lst .left .fl3{ line-height:20px; color:#999; margin-top:155px;}
+    .danchu .lst .right{ width:346px; float:left;}
+    .danchu .lst .right .fl1{ color:#555; font-weight:bold; font-size:12px; padding-left:35px;}
+    .danchu .lst .right .fl2{ width:346px;}
+    .danchu .lst .right .fl2 ul{ padding-top:10px;}
+    .danchu .lst .right .fl2 ul li{ height:25px; margin-top:6px;}
+    .danchu .lst .right .fl2 ul li .sp1{ width:86px; float:left; text-align:right; height:25px; line-height:25px; color:#666;}
+    .danchu .lst .right .fl2 ul li .sp2{ float:left; width:152px; height:23px; }
+    .danchu .lst .right .fl2 ul li .sp2 .ipp{ width:147px; height:23px;border:1px solid #e9e9e9; padding-left:5px; color:#666;}
+    .danchu .lst .right .fl2 ul li .sp2 .btt{ width:95px; height:29px; background:#d0281e; border-radius:5px; border:none; line-height:29px; font-size:12px; text-align:center; color:#fff; font-weight:bold;}
+    .danchu .lst .right .fl3{ line-height:20px; color:#999; margin-top:35px;}
+
+    .danchu .lst .yops{ font-family:Tahoma, Geneva, sans-serif; font-size:16px; color:#333; background:url(../images/shop_ico4.png) no-repeat; height:32px; line-height:32px; padding-left:40px; width:210px; margin:0px auto;}
+    .danchu .lst .fonts{ width:400px; margin:0px auto; margin-top:30px;}
+    .danchu .lst .fonts .ol1{ width:450px; height:35px; line-height:35px;}
+    .danchu .lst .fonts .ol1 .left{ width:125px; float:left; text-align:right;}
+    .danchu .lst .fonts .ol1 span{ float:left;}
+    .danchu .lst .fonts .ol1 span .kk{ width:400px; height:80px; border:1px solid #0070c0; background:#fff; position:absolute;left:-100px; top:20px; font-style:normal; color:#666; text-align:left; padding:8px; line-height:20px; display:none;}
+    .danchu .lst .fonts .ol1 span .kk a{color:#fff}
+    .danchu .lst .fonts .ol1 span:hover .kk{ display:block;}
+    .danchu .lst .anan{ width:145px; height:35px; margin:0px auto; margin-top:25px;}
+    .danchu .lst .anan a{ width:145px; height:35px; background:#27a196; display:block; color:#fff; font-size:14px; font-weight:bold; text-align:center; line-height:35px;}
+
+</style>
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+
+<div class="content">
+  {include file=member.menu.html}
+   <div id="right">
+       <ul class="tab">
+           <li class="active" ><a href="index.php?app=tuiguang&act=tuiguang_member&p=tuiguang" style="padding:0px">集客小店信息</a></li>
+        </ul>
+
+       <div class="wrap">
+            <div class="public">
+<!-- 中间部分 -->
+<div class="public table" id="serviceTable" name="serviceTable">
+
+
+
+    <div class="scarch_order" style="display: inline">
+        <br>
+        <font style='color: #666666;font-size: 14px;font-weight: bold; '>什么是集客小店？</font><br>
+        <hr style=" border:1px solid #E9ECEF" />
+        <div style="color: #666666;padding: 5px;line-height: 30px">
+            集客小店即个人开设的零成本、零库存、无需处理物流与售后、无需客服，只需利用碎片时间和个人社交圈就可进行营销推广。<br>
+            其店内商品主要由两大部分组成：一、同步自己所推荐的商家的店铺内所有商品；二、同步大集客商城所代理的商品。
+            <br><a href="{$site_url}/index.php?app=jkxd_portal">点击查看更多详情>></a>
+        </div>
+        <br>
+        <font style='color: #666666;font-size: 14px;font-weight: bold;'>&nbsp;我的集客小店信息</font>
+        <br><br><hr style=" border:1px solid #E9ECEF" />
+        <div class="show_alert">
+            {if $user && $user.spreader_type==1 && $user.shop_name !=null}
+                <table>
+                    <tr>
+                        <td style="text-align: right; width: 150px">您的集客小店号：</td>
+                        <td style="text-align: left;padding-left: 20px">{$visitor.user_id}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">您的集客小店名：</td>
+                        {if $user.shop_name && $user.shop_name!=null && $user.shop_name!=''}
+                            <td style="text-align: left;padding-left: 20px">{$user.shop_name}</td>
+                        {else}
+                            <td style="text-align: left;padding-left: 20px"><input name="shop_name" id="shop_name" style="border: 1px solid #009DE6;" value="{$user.shop_name}"/>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" style="background: #009de6; color: #fff;
+                                padding: 4px 6px;" class="sava_shop_name">保存</a>
+                            </td>
+                        {/if}
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">您的集客小店地址：</td>
+                        <td style="text-align: left;padding-left: 20px"><a href="{$jkxd_site_url}">{$jkxd_site_url}</a></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;" colspan="3"><a href="{$jkxd_site_url}" target="_blank"><input type="button" id="d_clip_button"  value="浏览我的集客小店"  class="go_btn" /></a></td>
+                    </tr>
+                </table>
+            {else}
+                <table>
+                    <tr>
+                        <td style="text-align: right;float: left;width: 250px;">您还没有集客小店!&nbsp;&nbsp;
+                            <!--<a href="javascript:void(0)" style="color:#009DE6;font-size: 14px;" onclick="apply_jkxd()">申请开通集客小店</a>-->
+                            <a href="index.php?app=jkxd_portal" style="color:#009DE6;font-size: 14px;">申请开通集客小店</a>
+                        </td>
+                        <td style="text-align: left;padding-left: 20px" onclick=""></td>
+                        <td></td>
+                    </tr>
+                </table>
+
+            {/if}
+        </div>
+    </div>
+
+
+</div>
+<div class="wrap_bottom"></div>
+</div>
+        <div class="clear"></div>
+        <div class="adorn_right1"></div>
+        <div class="adorn_right2"></div>
+        <div class="adorn_right3"></div>
+        <div class="adorn_right4"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<script>
+    $(".sava_shop_name").bind("click",function(){
+        $.post("index.php?app=jkxd&act=sava_shop_name",{shop_name:$("#shop_name").val()},function(rs){
+            alert(rs);
+        })
+    })
+</script>
+    <script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.plugins/jquery.validate.js" ></script>
+    <script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/dialog/dialog.js" id="dialog_js"></script>
+    <script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js" ></script>
+    <script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js" ></script>
+    <script type="text/javascript">
+        function apply_jkxd(){
+            var uri =encodeURI("index.php?app=jkxd_portal&act=apply_jkxd");
+            var id = 'apply_jkxd_page';
+            var title = "申请开通集客小店";
+            var width = '755';
+            ajax_form(id, title, uri, width);
+        }
+    </script>
+{include file=footer.html}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>下载门贴</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7 charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script>
+        function down(){
+            var url = "http://weixin1.dajike.com/twos/down?storeId={$store.store_id}&storeName=" + encodeURIComponent("{$store.store_name}");
+            window.open(url);
+        }
+    </script>
+</head>
+<body>
+{if $store }
+<div style="text-align: center">商家名称：<strong>{$store.store_name}</strong><br><br>
+    <img src="http://weixin1.dajike.com/twos/view?storeId={$store.store_id}" >
+</div>
+<div style="text-align: center;margin-top: 30px;">
+    <span>注意！打印门贴的尺寸为：15cm * 10cm</span><br/>
+    <a href="javascript:down();" target="_blank" style="text-decoration: none">
+        <input type="button" value="下载" onclick="down();" style="height: 40px;width: 80px"/>
+    </a>
+</div>
+{else}
+<div style="text-align: center">该店铺没有门贴!</div>
+{/if}
+
+</body>
+</html>

@@ -1,0 +1,122 @@
+{include file=member.header.html}
+<style>
+.btn3{width: 106px; height: 29px; border: 0; background: url({$site_url}/themes/mall/default/styles/default/images/btn11.gif); color: #c73702; font-weight: bold;cursor: pointer; font-size: 14px;}
+</style>
+<div class="content">
+
+{include file=member.menu.html}
+    <div id="right">
+	<ul class="tab">
+                 <li class="active">
+              查看商家资料
+                 </li>
+                 </ul>
+
+        <div class="wrap">
+            <div class="public">
+                <div class="information_index">
+                    <div class="info">
+					<!-- 服务中心 对应的 店铺 列表 -->
+				   <div class="public table">
+            <div style="margin-top:-40px">
+                        <form method="post" enctype="multipart/form-data" id="apply_form" onsubmit="return check_form()">
+                        <input type="hidden" name="init_region_name"  value="{$init_user.region_name}"/>
+                        <table>
+						<tr>
+                            <th width="80px">用户名: </th>
+                            <td class="width7">
+                                {$store_info.user_name}
+                            </td>
+                            <td class="padding3"></td>
+                        </tr>
+
+                        <tr>
+                            <th width="80px">店主姓名: </th>
+                            <td class="width7">{$store_info.owner_name}</td>
+                            <td class="padding3"></td>
+                        </tr>
+                        <tr>
+                            <th>身份证号: </th>
+                            <td>{$store_info.owner_card}</td>
+                            <td class="padding3"> </td>
+                        </tr>
+                        <tr>
+                            <th>商家名称: </th>
+                            <td>
+                                {$store_info.store_name}
+                            </td>
+                            <td class="padding3"></td>
+                        </tr>
+                        <tr>
+                            <th>所属分类: </th>
+                            <td>
+                                <div class="select_add">
+                                    <select name="cate_id" id="cate_id" disabled="disabled">
+                                        <option value="0">{$lang.select_pls}</option>
+                                        {html_options options=$scategories selected=$store_info.cate_id}
+                                    </select>
+                                </div>
+
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>所在地区:</th>
+                            <td>
+                                {$store_info.region_name}
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>详细地址: </th>
+                            <td>{$store_info.address}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>邮政编码: </th>
+                            <td>{$store_info.zipcode}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>联系电话: </th>
+                            <td>
+                                {$store_info.tel}
+                            </td>
+                            <td class="padding3"></td>
+                        </tr>
+
+                        <tr>
+                            <th>比例: </th>
+                            <td>
+                                {$store_info.ticheng|changerStr:100}%
+                            </td>
+                            <td class="padding3"></td>
+                        </tr>
+
+                        <tr>
+                            <th>营业执照全称: </th>
+                            <td>
+                                {$store_info.yyzz}
+                            </td>
+                            <td class="padding3"></td>
+                        </tr>
+                        </table>
+                </div>
+
+
+					</div>
+				  <!-- 服务中心 对应的 店铺 列表 结束 -->
+                </div>
+                </div>
+
+            </div>
+            <div class="wrap_bottom"></div>
+        </div>
+
+        <div class="clear"></div>
+
+    </div>
+    <div class="clear"></div>
+</div>
+
+{include file=footer.html}

@@ -1,0 +1,59 @@
+{include file=header.html}
+<script type="text/javascript" language="javascript">
+    $(function(){
+        window.onscroll=function(){
+            if( document.body.scrollTop + document.documentElement.scrollTop >= 660){
+                $("#sjb_top").css({"display":"block"});
+            }else{
+                $("#sjb_top").css({"display":"none"});
+            }
+        };
+        _fresh();
+        setInterval(_fresh,1000);
+    });
+
+    function _fresh()
+    {
+        var endtime=new Date("December 20, 2014 20:00:00");//这里设置的时间为2011年，您可以修改为其它时间。
+        var nowtime = new Date();
+        var leftsecond=parseInt((endtime.getTime()-nowtime.getTime())/1000);
+        if(leftsecond<0){leftsecond=0;}
+        __d=parseInt(leftsecond/3600/24);
+        __h=parseInt((leftsecond/3600)%24);
+        __m=parseInt((leftsecond/60)%60);
+        __s=parseInt(leftsecond%60);
+        document.getElementById("times").innerHTML= "<div class='wshi'>"+__d+" 天</div><div class='wshi2'><span>"+__h+ "</span> 时 <span>"+__m +"</span>  分 <span>"+__s +"</span> 秒</div>";
+    }// ｄｏｗｎ．ｌｉｅｈｕｏ．ｎｅｔ
+
+</script>
+
+<div id="center_w1200">
+    {include file=common_search.html}
+    {include file=common.html}
+</div>
+
+<div id="zq_nr" style="min-width: 1200px;">
+    <div class="banner"><em class="time" id="times"></em></div>
+    <div class="bg01"></div>
+    <div class="bg02"><a href="{url app=goods&id=42125}"><img src="{res file=images/sjb_03.png}" width="1200" height="393" /></a></div>
+    <div class="bg03"><a href="{url app=goods&id=42125}"><img src="{res file=images/sjb_04.png}" width="1200" height="350" /></a></div>
+    <div class="bg04">
+        <ul class="zq_ul">
+            <!--{foreach from=$goods_list item=goods name=my_goods}-->
+            <li class="zq_li">
+                <div class="pic"><img src="{img_url $img_url/$goods.default_image/220X220}" width="220" height="220" /></div>
+                <div class="font">{$goods.goods_name}</div>
+                <div class="font1">抢购价：<strong>{$goods.price|price}</strong> 元</div>
+                <div class="font2">市场价：128.00 元</div>
+                <div class="bot"><a href="{url app=goods&id=$goods.goods_id}">立即抢购</a></div>
+            </li>
+            <!--{/foreach}-->
+        </ul>
+    </div>
+    <div style="position:fixed!important; position:absolute;bottom:300px!important; bottom:auto; top: expression(eval(document.compatMode && document.compatMode=='CSS1Compat') ? documentElement.scrollTop+(documentElement.clientHeight - this.clientHeight):document.body.scrollTop+(document.body.clientHeight - this.clientHeight));"><img src="{res file=images/zi0001.png}" width="150" height="91" /></div>
+    <div id="sjb_top" style="position:fixed!important; display:none; position:absolute;top:0px!important; bottom:auto; top: expression(eval(document.compatMode && document.compatMode=='CSS1Compat') ? documentElement.scrollTop+(documentElement.clientHeight - this.clientHeight):document.body.scrollTop+(document.body.clientHeight - this.clientHeight)); color:red; left:0; background:rgba(50, 122, 58, 0.7); width:100%; height:60px;"><a href="{url app=goods&id=42125}" id="zi03" title="立即购买" style="width:1200px; margin:0 auto; padding-top:8px;"><img src="{res file =images/sjb_botbg2.png}" width="1200" height="47" /></a></div>
+</div>
+
+
+<div class="clear"></div>
+

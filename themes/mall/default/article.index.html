@@ -1,0 +1,57 @@
+{include file=header1.html}
+{include file=curlocal.html}
+<div class="content">
+    <div class="left">
+        <div class="module_sidebar">
+            <h2><b>{$lang.acategory}</b></h2>
+            <div class="wrap">
+                <div class="wrap_child">
+                    <div class="classify_list">
+                        <ul>
+                            <!-- {foreach from=$acategories item=acategory} -->
+                            <!--{if $acategory.code != 'm_about' && $acategory.code != 'm_guide' && $acategory.code != 'm_pay' &&  $acategory.code != 'm_Asale'}-->
+                            <li><a href="{url app=article&cate_id=$acategory.cate_id}">{$acategory.cate_name|escape}</a></li>
+                            <!--{/if}-->
+                            <!-- {/foreach} -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h2><b>{$lang.new_article}</b></h2>
+            <div class="wrap">
+                <div class="wrap_child">
+                    <div class="side_textlist">
+                        <ul>
+                            <!-- {foreach from=$new_articles item=new_article} -->
+                            <li><a {if $new_article.link}target="_blank"{/if} href="{url app=article&act=view&article_id=$new_article.article_id}">{$new_article.title|escape}</a></li>
+                            <!-- {foreachelse} -->
+                            <li>{$lang.no_new_article}</li>
+                            <!-- {/foreach} -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="right">
+        <div class="shop_text_list">
+            <div class="ornament1"></div>
+            <div class="ornament2"></div>
+            <table>
+                <!-- {foreach from=$articles item=article} -->
+                <tr>
+                    <td><a {if $article.link}target="_blank"{/if} href="{url app=article&act=view&article_id=$article.article_id}" class="lebioa">{$article.title|escape}</a></td>
+                    <td class="width9">{$article.add_time|date:Y-m-d H:i}</td>
+                </tr>
+                <!-- {foreachelse} -->
+                <tr>
+                  <td align="center" colspan="2">{$lang.no_records}</td>
+                </tr>
+                <!-- {/foreach} -->
+            </table>
+        </div>
+    </div>
+</div>
+{include file=footer1.html}

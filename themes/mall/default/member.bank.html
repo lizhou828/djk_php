@@ -1,0 +1,154 @@
+{include file=member.header.html}
+<script type="text/javascript" src="{lib file=jquery.js}" charset="utf-8"></script>
+<script type="text/javascript" src="{lib file=jike.js}" charset="utf-8"></script>
+<script type="text/javascript" src="{lib file=member.js}" charset="utf-8"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.plugins/jquery.validate.js" ></script>
+
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/dialog/dialog.js" id="dialog_js"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js" ></script>
+<script>
+
+</script>
+
+<style>
+.borline td { padding:10px 0px; }
+.ware_list th { text-align:left; }
+</style>
+
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right">
+        <ul class="tab">
+            <li class="active">银行卡管理</li>
+        </ul>
+            <div class="wrap">
+                <div class="public">
+                    <!--{if $flag}-->
+                    <div style="text-align: center">
+                        <img
+                                src="{$site_url}/themes/mall/default/styles/default/images/gantanhao.gif" title="" />
+                        银行卡是大集客与您进行资金结算的唯一账号。
+                        大集客会员提现、商家及服务中心结算必须绑定银行卡
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="button" value="新增银行卡" id = "b1">
+                    </div>
+                    <br><br><br><br>
+                    <div style="text-align: center;font-weight: bold;font-size: 14px;color: #666">您还未绑定银行卡，请先<a href="javascript:;" id = 'a1' onclick="bind1();" style="color: #2d6d91">绑定银行卡</a>，方便大集客与您进行资金结算</div>
+                    <!--{else}-->
+                    <div style="text-align: center">
+                        <img
+                                src="{$site_url}/themes/mall/default/styles/default/images/gantanhao.gif" title="" />
+                        银行卡是大集客与您进行资金结算的唯一帐号。大集客会员提现、商家及服务中心结算必须绑定银行卡
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="button" value="新增银行卡" id = "b1">
+                    </div>
+                    <br><br>
+                    <!--{if $IF_DUANXING eq 0}-->
+                    <div style="margin-top: -15px; padding-left:67px;margin-bottom: 30px; color: red;">
+                        短信通道维护中，短信功能将不可用，我们会尽快处理请耐心等待！
+                    </div>
+                    <!--{/if}-->
+                    <div style="font-size: 14px;text-align: left;font-weight: bold"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        已绑定的银行卡信息</div>
+                    <br>
+                    <table width="100%" border="1" cellspacing="1" cellpadding="0" style="background:#a0afc2;">
+                        <tr>
+                            <td height="25" colspan="5" bgcolor="#FFFFFF">
+                                <span style="width:86px; float:left; text-align:center;border: 1px solid #a0afc2; line-height: 22px;border-right: none">开户银行名称</span>
+                                <span style="width:86px; float:left; text-align:center;border: 1px solid #a0afc2; line-height: 22px;border-right: none;border-left: none">银行开户名</span>
+                                <span style="width:150px; float:left; text-align:center;border: 1px solid #a0afc2; line-height: 22px;border-right: none;border-left: none">银行卡号</span>
+                                <span style="width:120px; float:left; text-align:center;border: 1px solid #a0afc2; line-height: 22px;border-right: none;border-left: none">开户银行支行名称</span>
+                                <span style="width:130px; float:left; text-align:center;border: 1px solid #a0afc2; line-height: 22px;border-right: none;border-left: none">开户银行所在地</span>
+                                <span style="width:100px; float:left; text-align:center; line-height: 22px;border: 1px solid #a0afc2;border-right: none;border-left: none;height: 22px;"></span>
+                                <span style="width:86px; float:left; text-align:center; line-height: 22px;border: 1px solid #a0afc2;border-left: none">操作</span>
+                            </td>
+                        </tr>
+                        <!--{foreach from=$bank item=bk name = bank}-->
+                            <tr>
+                                <td height="25" colspan="5" bgcolor="#FFFFFF">
+                                    <span style="width:86px; float:left; text-align:center;border: 1px solid #a0afc2; line-height: 22px;border-right: none;border-top: none;overflow:hidden; height:22px;">{$bk.bank_name}&nbsp;</span>
+                                    <span style="width:86px; float:left; text-align:center;border: 1px solid #a0afc2; line-height: 22px;border-right: none;border-left: none;border-top: none; overflow:hidden; height:22px;">{$bk.user_name}&nbsp;</span>
+                                    <span style="width:150px; float:left; text-align:center;border: 1px solid #a0afc2; line-height: 22px;border-right: none;border-left: none;border-top: none;overflow:hidden; height:22px;">{$bk.kahao}&nbsp;</span>
+                                    <span style="width:120px; float:left; text-align:center;border: 1px solid #a0afc2; line-height: 22px;border-right: none;border-left: none;border-top: none;overflow:hidden; height:22px;">{$bk.kaihuhang}&nbsp;</span>
+                                    <span style="width:130px; float:left; text-align:center;border: 1px solid #a0afc2; line-height: 22px;border-right: none;border-left: none;border-top: none;overflow:hidden; height:22px;">{$bk.region_name}&nbsp;</span>
+                                    <span style="width:100px; float:left; text-align:center; line-height: 22px;border: 1px solid #a0afc2;border-right: none;border-left: none;border-top: none;overflow:hidden; height:22px;">
+                                        <!--{if $bk.if_default == 1}-->
+                                             默认结算账号
+                                        <!--{else}-->
+                                             <a href="javascript:;" onclick="setdefault('{$bk.kahao}');">设为默认</a>
+                                        <!--{/if}-->
+                                    </span>
+                                    <span style="width:86px; float:left; text-align:center; line-height: 22px;border: 1px solid #a0afc2;border-left: none;border-top: none">
+                                        <a href="javascript:;" onclick="update1('{$bk.kahao}');">更改</a>
+                                        /
+                                        <a href="javascript:;" onclick="delete1('{$bk.kahao}');">解绑</a>
+                                    </span>
+                                </td>
+                            </tr>
+                        <!--{/foreach}-->
+                    </table>
+
+                    <!--{/if}-->
+                </div>
+                <div class="wrap_bottom"></div>
+            </div>
+
+            <div class="clear"></div>
+            <div class="adorn_right1"></div>
+            <div class="adorn_right2"></div>
+            <div class="adorn_right3"></div>
+            <div class="adorn_right4"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+<script>
+
+$("#b1").bind("click",function()
+{
+            var uri =encodeURI("index.php?app=member&act=bankform");
+            var id = 'member_bank_bind';
+            var title = "绑定银行卡";
+            var width = '700';
+            ajax_form(id, title, uri, width);
+});
+
+    function bind1(){
+        var uri =encodeURI("index.php?app=member&act=bankform");
+        var id = 'member_bank_bind';
+        var title = "绑定银行卡";
+        var width = '700';
+        ajax_form(id, title, uri, width);
+    }
+
+function delete1(a){
+    var uri =encodeURI("index.php?app=member&act=verification_phone&code=" + a);
+    var id = 'member_bank_verification';
+    var title = "删除银行卡账户";
+    var width = '700';
+    ajax_form(id, title, uri, width);
+}
+
+function setdefault(a){
+    $.post("index.php?app=member&act=setdefault",{kahao:a},function(data){
+        if(data.flag == 'ok'){
+            alert('设置成功！')
+        }else{
+            alert('设置失败！')
+        }
+        location.href = "index.php?app=member&act=bank&p=userInfo";
+    },'json');
+}
+
+function update1(a){
+    var uri =encodeURI("index.php?app=member&act=verification_phone_delete&code=" + a);
+    var id = 'member_bank_verification_update';
+    var title = "更改银行卡账户";
+    var width = '700';
+    ajax_form(id, title, uri, width);
+}
+</script>
+
+{include file=footer.html}

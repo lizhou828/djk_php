@@ -1,0 +1,1 @@
+<div class="address-r"><a href="<?php echo $this->_var['SITE_URL']; ?>/weixin/index.php?app=member">会员中心</a></div>

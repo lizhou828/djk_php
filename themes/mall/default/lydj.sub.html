@@ -1,0 +1,206 @@
+{include file=header.html}
+<link href="{res file=css/chaoshi.css}" rel="stylesheet" type="text/css">
+<link href="{res file=css/index.css}" rel="stylesheet" type="text/css">
+<link href="{res file=css/other.css}" rel="stylesheet" type="text/css">
+<link href="{res file=css/home_tg.css}" rel="stylesheet" type="text/css">
+<script src="{res file=js/class_area_array.js}" ></script>
+<div id="center_w1200" style="width: 100%;" >
+    <!--全部内容-->
+    {include file=common_search.html}
+<script language="JavaScript">
+    //鼠标触及更替li样式
+    $(document).ready(function(){
+        $("#list").hide();
+        $("#button_show").click(function(){
+            $("#list").toggle();
+        });
+        $("#button_close").click(function(){
+            $("#list").hide();
+        });
+        $('.group-list').children('ul').children('li').bind('mouseenter',function(){
+            $('.group-list').children('ul').children('li').attr('class','c1');
+            $(this).attr('class','c2');
+        });
+        $('.group-list').children('ul').children('li').bind('mouseleave',function(){
+            $('.group-list').children('ul').children('li').attr('class','c1');
+        });
+        var area = $("#lydj_area").val();
+        if(area == null || area =="") {
+            $("#show_area_name").html("全国");
+            $("#lydj_area").val('');
+        }
+        else {
+            $("#show_area_name").html(area);
+            $("#lydj_area").val(area);
+        }
+    });
+
+    //提交查询
+    function submit_search() {
+        $('#search_form').attr('method','get');
+        $('#search_form').submit();
+    }
+    //团购地区筛选
+    function set_lydj_area(area) {
+        if(area == '') {
+            $("#lydj_area").val('');
+        }
+        else {
+            area_array = area.split(",");
+            $("#lydj_area").val(area_array[0]);
+        }
+        submit_search();
+    }
+    //团购分类筛选
+    function set_lydj_class(class_id) {
+        $("#lydj_class").val(class_id);
+        submit_search();
+    }
+    function set_lydj_subcate(cate_id) {
+        $("#lydj_subcateid").val(cate_id);
+        submit_search();
+
+    }
+    //团购价格筛选
+    function set_lydj_price(price_range) {
+        $("#lydj_price").val(price_range);
+        submit_search();
+    }
+    //团购价格筛选
+    function set_lydj_order(order_key) {
+        if(order_key == $("#lydj_order_key").val()) {
+            change_lydj_order();
+        }
+        else {
+            $("#lydj_order").val('asc');
+        }
+        $("#lydj_order_key").val(order_key);
+        submit_search();
+    }
+    //团购排序筛选
+    function change_lydj_order() {
+        if($("#lydj_order").val() == 'asc') {
+            $("#lydj_order").val('desc');
+        }
+        else {
+            $("#lydj_order").val('asc');
+        }
+    }
+</script>
+<div id="navBarly" class="mb10">
+    <div class="content">
+        <div id="all-categorybd">
+            <div class="title" style="background:#0088bc">
+                <h2 title="商品全部分类"><a href="{r_url app=category}">商品全部分类</a></h2>
+                <i></i></div>
+            <div id="category" class="category pngFix" style="background: #F8F8F8;">
+                <ul class="menu">
+                    <!--{foreach from=$gcategorys_left item=gcategory name=gcategory}-->
+                    <!-- {if $smarty.foreach.gcategory.index<7 }-->
+                    <!-- {if !empty($gcategory) }-->
+                    <li id="cat_{$smarty.foreach.gcategory.index}">
+                        <h3><span class="block"><a href="{r_url app=search&cate_id=$gcategory.id}" title="{$gcategory.value|escape}">{$gcategory.value|escape}</a>   </span>
+                         <span>
+                                <a href="{r_url app=search&cate_id=$gcategory.children[0].id}">{$gcategory.children[0].value}</a>
+                                <a href="{r_url app=search&cate_id=$gcategory.children[1].id}">{$gcategory.children[1].value}</a>
+                               <a href="{r_url app=search&cate_id=$gcategory.children[2].id}">{$gcategory.children[2].value}</a>
+                         </span>
+                        </h3>
+                        <div class="cat-menu" id="cat_{$smarty.foreach.gcategory.index}_menu">
+                            <dl>
+                                <dt> {$gcategory.value|escape} </dt>
+                                <dd><!--{foreach from=$gcategory.children item=child}--><a href="{r_url app=search&cate_id=$child.id}">{$child.value|escape}</a> <!--{/foreach}--> </dd>
+                            </dl>
+
+                        </div>
+                    </li>
+                    <!--{/if}-->
+                    <!--{/if}-->
+                    <!--{/foreach}-->
+
+                    <div class="clear"></div>
+                </ul>
+            </div>
+
+        </div>
+        <ul class="nc-nav-menu">
+            <li <!--{if !$filters.lydj_class}--> class="current" <!--{else}--> class="link"<!--{/if}-->><a href="{r_url app=lydj&pd_id=4}"><span>首页</span></a></li>
+            <li <!--{if $filters.lydj_class eq 1665}--> class="current" <!--{else}-->class="link"<!--{/if}-->><a class="pngFix" href="{r_url app=lydj&lydj_class=1665&act=get_goods_category}"><span class="pngFix">旅游度假</span></a></li>
+            <li <!--{if $filters.lydj_class eq 1666}--> class="current" <!--{else}-->class="link"<!--{/if}-->><a href="{r_url app=lydj&lydj_class=1666&act=get_goods_category}"><span>酒店</span></a></li>
+            <li <!--{if $filters.lydj_class eq 1667}--> class="current" <!--{else}-->class="link"<!--{/if}-->><a href="{r_url app=lydj&lydj_class=1667&act=get_goods_category}"><span>经济客栈</span></a></li>
+            <!--<li &lt;!&ndash;{if $filters.lydj_class eq 1668}&ndash;&gt; class="current" &lt;!&ndash;{else}&ndash;&gt;class="link"&lt;!&ndash;{/if}&ndash;&gt;><a href="{r_url app=lydj&lydj_class=1668&act=get_goods_category}"><span>机票</span></a></li>-->
+            <!--<li &lt;!&ndash;{if $filters.lydj_class eq 1669}&ndash;&gt; class="current" &lt;!&ndash;{else}&ndash;&gt;class="link"&lt;!&ndash;{/if}&ndash;&gt;><a href="{r_url app=lydj&lydj_class=1669&act=get_goods_category}"><span>团购</span></a></li>-->
+            <!--<li &lt;!&ndash;{if $filters.lydj_class eq 1670}&ndash;&gt; class="current" &lt;!&ndash;{else}&ndash;&gt;class="link"&lt;!&ndash;{/if}&ndash;&gt;><a href="{r_url app=lydj&lydj_class=1670&act=get_goods_category}"><span>特色旅游</span></a></li>-->
+            <li class="link"><a href="{url app=service&act=register_service}" target='_blank'><span>抢注服务中心</span></a><em class="em1"></em></li>
+        </ul>
+    </div>
+</div>
+<!--<div id="headRelative" style="margin-left: 50px;">-->
+    <!--<div class="title">-->
+        <!--<h1></h1>-->
+        <!--<div class="city"> <a href="javascript:void(0)" id="button_show">-->
+            <!--<h2 id="show_area_name">切换</h2>-->
+        <!--</a> </div>-->
+    <!--</div>-->
+    <!--<div id="list" class="list" style="display:none;"><a id="button_close" class="close" href="javascript:void(0)" >x</a>-->
+        <!--<ul>-->
+            <!--<li><a href="javascript:void(0)" onClick="set_lydj_area('')" >全国</a></li>-->
+            <!--&lt;!&ndash;{foreach from=$region item=reg}&ndash;&gt;-->
+            <!--<li><a href="javascript:void(0)" onClick="set_lydj_area('{$reg}')" >{$reg}</a></li>-->
+            <!--&lt;!&ndash;{/foreach}&ndash;&gt;-->
+        <!--</ul>-->
+    <!--</div>-->
+<!--</div>-->
+<form id="search_form">
+    <input name="app" type="hidden" value="lydj">
+    <input name="act" type="hidden" value="get_goods_category">
+    <input name="pd_id" type="hidden" value="5">
+    <input id="lydj_area" name="lydj_area" type="hidden" value="{$filters.lydj_area}"/>
+    <input id="lydj_class" name="lydj_class" type="hidden" value="{$filters.lydj_class}"/>
+    <input id="lydj_subcateid" name="lydj_subcateid" type="hidden" value="{$filters.lydj_subcateid}"/>
+</form>
+<!--本地生活1-->
+    <div id="filter" style="display:none">
+        <div class="fov1">
+            <!--{if $gcategory_list}-->
+            <div class="txt1">分类:</div>
+            <ul class="inline">
+                <li class="item"><a href="javascript:void(0)" onClick="set_lydj_subcate('')"
+                    <!--{if !$filters.lydj_subcateid }--> style="background:#27a196;color:#ffffff" <!--{/if}-->>全部</a></li>
+                <!--{foreach from=$gcategory_list item=gcategory  key=key }-->
+                <li class="item"><a href="javascript:void(0)" onClick="set_lydj_subcate('{$category.id}')"
+                    <!--{if $filters.lydj_subcateid eq $gcategory.cate_id }-->  style="background:#27a196;color:#ffffff"
+                    <!--{/if}-->>{$gcategory.cate_name}&nbsp;&nbsp;</a></li>
+                <!--{/foreach}-->
+            </ul>
+            <!--{/if}-->
+            <div class="clear"></div>
+        </div>
+
+    </div>
+<div class="ly_tese1_1">
+    <!--<div><img src="{res file=images/ly_pic1.jpg}" width="1000" height="295"></div>-->
+    <div class="content">
+
+        <div class="ff1">
+            <h3 class="gn_title">商品列表</h3>
+            <div class="gn_con">
+                <ul>
+                    <!--{foreach from=$goods_list item=goods name=goodslist}-->
+                    <li class="li1" <!--{if ($smarty.foreach.goodslist.index+1) % 5 == 0}--> style="margin-right:0px" <!-- {/if} -->>
+                        <a href="{r_url app=goods&id=$goods.goods_id&pd_id=4}" target="_blank"><img src="{img_url $img_url/$goods.default_image/220X220}"></a>
+                        <h4 class="title" style="width:220px; height:22px"><a href="{r_url app=goods&id=$goods.goods_id&pd_id=4}" target="_blank" title="{$goods.goods_name}">{$goods.goods_name}</a></h4>
+                        <p class="p1">{$goods.price|price}</p>
+                        <!--<p class="p2">30天成交490笔</p>-->
+                    </li>
+
+                  <!--{/foreach}-->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="clear"></div>
+
+{include file=footer.html}

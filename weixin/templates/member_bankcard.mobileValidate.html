@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>绑定银行卡-手机验证</title>
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/binding.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{$SITE_URL}/weixin/templates/js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+    <script type="text/javascript">
+        //发送短信验证码
+        var count = 90;
+        function sendCode(){
+            $.get(
+                    "/weixin/index.php?app=sendcode&act=sendMsgCode",
+                    {"phone_mob":$("#phone_mob").val()},
+                    function(rs){
+                        alert(rs);
+                        SetRemainTime();
+                    }
+            );
+        }
+        function SetRemainTime(){
+            if (count < 1) {
+                $("#codeButton").removeAttr("disabled")
+                $("#codeButton").val("重新发送验证码");
+                $(".binding-cen-button").css({"background-color":"#C40000"});
+            } else {
+                $("#codeButton").attr("disabled","disabled");
+                $("#codeButton").val(count +"秒后重新获取");
+                $(".binding-cen-button").css({"background-color":"#999"});
+                count--;
+                setTimeout(SetRemainTime, 1000);
+            }
+        }
+        function submit(){
+            var verifyCode = $("#verifyCode").val();
+            verifyCode = verifyCode.trim();
+            if(!verifyCode || verifyCode==""){
+                alert("验证码不能为空！");
+                return;
+            }
+            $.get(
+                    "{$site_url}/weixin/index.php?app=member_bankcard&act=checkCode",
+                    {"verifyCode":verifyCode},
+                    function(result){
+                        result = eval("("+result+")");
+                        if(parseInt(result.retval) == 0){    //验证码正确
+                            window.location = "{$site_url}/weixin/index.php?app=member_bankcard&act=bindPage";
+                        }else{   //验证码错误
+                            alert(result.msg);
+                            return;
+                        }
+                    }
+            );
+        }
+    </script>
+</head>
+<body>
+<div style="width: 320px;margin: 0px auto">
+    <div style="padding-top: 50px;">
+
+<div class="address-t">
+    <div class="address-l"><a href="javascript:history.go(-1)">返回</a></div>
+    <div class="address-c2">绑定银行卡-手机验证</div>
+</div>
+<div class="binding-cen">
+    <form>
+        <div class="wen-zi">请输入手机{$user.phone_mob}收到的短信验证码。</div>
+        <div class="binding-cen-2">
+            <input class="binding-cen-text" name="" id="verifyCode" type="text" />
+            <input id="codeButton" name="" type="button" onclick="sendCode()" class="binding-cen-button" value="90秒后重发" />
+        </div>
+        <a href="#" onclick="submit()"><div class="next-step">下一步</div></a>
+    </form>
+</div>
+    </div>
+</div>
+{include file=cnzz.html}
+</body>
+</html>

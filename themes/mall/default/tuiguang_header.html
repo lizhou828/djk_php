@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>大集客-会员中心</title>
+<link href="{res file=css/lianmengke.css}" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="{res file=js/jquery.js}" charset="utf-8"></script>
+<script type="text/javascript">
+//<!CDATA[
+var SITE_URL = "{$site_url}";
+var REAL_SITE_URL = "{$real_site_url}";
+var REAL_BACKEND_URL = "{$real_backend_url}";
+var SITEURL = "{$site_url}";
+//]]>
+</script>
+
+<script>
+var url = "{$site_url}/index.php?app=default&act=get_vistor";
+            $.getJSON(url,{},function(data) {
+				var html= "";
+                if(data['nick_name']!=null){
+                   	html += data['nick_name'] + "&nbsp;";
+                }
+				html += "您好，欢迎来到大集客网上商城！";
+                if (data['user_id'] ==0 ) {
+					html += "[<a href='{url app=member&act=login&ret_url=$ret_url}'>登入</a>] [<a href='{url app=member&act=register&ret_url=$ret_url}'>免费注册</a>]";
+                } else {
+					html += "[<a href='{url app=member&act=logout}'>{$lang.logout}</a>]";
+                }
+				//$("#top_div").html(html);
+                document.getElementById("top_div").innerHTML=html;
+		})
+</script>
+</head>
+
+<body>
+<!--头部-->
+<div id="top">
+  <div class="w1000">
+   
+   <div class="left" id="top_div">您好，欢迎来到大集客网上商城！<a href="{url app=member&act=login&ret_url=$ret_url}">[登录]</a> <a href="{url app=member&act=register&ret_url=$ret_url}">[免费注册]</a></div>
+   
+   <div class="right">
+     <ul>
+      <li><a href="{$site_url}">首页</a>&nbsp;&nbsp;&nbsp;</li>
+      <li><a href="{$site_url}/index.php?app=member&p=userInfo">个人主页</a>&nbsp;&nbsp;&nbsp;</li>
+      <li><span></span><a href="{url app=my_favorite}">收藏大集客</a></li>
+     </ul>
+   </div>
+  </div>
+</div>
+
+<!--菜单-->
+<div id="menu">
+   <div class="logo"><a href="index.php?app=member&p=userInfo"><img src="{$site_url}/themes/mall/default/styles/default/images/lianmengke/logo.png" width="270" height="47" /></a></div>
+   <div class="menu">
+     <ul>
+       <li><a href="index.php?app=tuiguang&act=view" <!--{if $smarty.get.act == 'view'}--> class="a1" <!--{/if}--> ><span></span>首页</a></li>
+       <li><a href="index.php?app=tuiguang&act=product" <!--{if $smarty.get.act == 'product'}--> class="a1" <!--{/if}--> >新手上路</a></li>
+       <li><a href="#" <!--{if $smarty.get.act == 'xieyi'}--> class="a1" <!--{/if}--> >会员协议</a></li>
+       <li><a href="index.php?app=tuiguang&act=daima" <!--{if $smarty.get.act == 'daima'}--> class="a1" <!--{/if}--> >获取代码</a></li>
+       <li><a href="index.php?app=tuiguang&act=help" style="padding-right:13px" <!--{if $smarty.get.act == 'help'}--> class="a1" <!--{/if}--> >帮助中心</a></li>
+     </ul>
+   </div>
+</div>

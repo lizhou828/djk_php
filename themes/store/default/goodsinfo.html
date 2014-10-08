@@ -1,0 +1,328 @@
+<style xmlns="http://www.w3.org/1999/html">
+    .cloud-zoom-lens {
+        border: 0px solid #888;
+        margin: -4px;
+        background-color: #fff;
+        cursor: move;
+    }
+
+        /* 这是标题文本 */
+    .cloud-zoom-title {
+        font-family: Arial, Helvetica, sans-serif;
+        position: absolute !important;
+        background-color: #000;
+        color: #fff;
+        padding: 3px;
+        width: 100%;
+        text-align: center;
+        font-weight: bold;
+        font-size: 10px;
+        top: 0px;
+    }
+
+        /* 这是缩放窗口。 */
+    .cloud-zoom-big {
+        border: 0px solid #ccc;
+        overflow: hidden;
+    }
+
+        /* 这是加载消息。 */
+    .cloud-zoom-loading {
+        color: white;
+        background: #222;
+        padding: 3px;
+        border: 0px solid #000;
+    }
+
+</style>
+<script type="text/javascript">
+
+
+    function div_show(name) {
+        $("#tab_" + name).addClass("current");
+        $("#tab_" + name).parents('li').siblings().find('a').removeClass("current");
+        if (name == "description") {
+            $("#description").show();
+            $("#comment").hide();
+            $("#salelog").hide();
+            $("#qa").hide();
+        }
+        if (name == "comment") {
+            $("#description").hide();
+            $("#salelog").hide();
+            $("#qa").hide();
+            $("#comment").show();
+        }
+        if (name == "salelog") {
+            $("#description").hide();
+            $("#comment").hide();
+            $("#qa").hide();
+            $("#salelog").show();
+        }
+        if (name == "qa") {
+            $("#comment").hide();
+            $("#salelog").hide();
+            $("#description").hide();
+            $("#qa").show();
+        }
+    }
+    function buy() {
+//        var shop_id = $("#shop_id").val()
+//        var user_id = $("#user_id").val()
+//        if(shop_id != null && user_id != null && shop_id != "" && user_id != "" && user_id == shop_id){
+//            alert("你不能购买自己的集客小店的商品！");
+//            return;
+//        }
+        var B = "";
+        var i = 1;
+        $('dt[nctyle="ul_sign"]').each(function () {
+            if (!$(this).find('a').hasClass('sel')) {
+                if (i == 1) {
+                    B = "spec1";
+                } else {
+                    B = "spec2";
+                }
+            } else {
+                i++;
+            }
+        });
+        if (goodsspec.getSpec() == null) {
+            alert('请选择{$goods.spec_name_1|escape}和{$goods.spec_name_2|escape}！');
+            return;
+        } else if (B == "spec1") {
+            alert('请选择{$goods.spec_name_1|escape}！');
+            return;
+        } else if (B == "spec2") {
+            alert('请选择{$goods.spec_name_2|escape}！');
+            return;
+        }
+
+        var spec_id = goodsspec.getSpec().id;
+        var quantity = parseInt($("#quantity").val());
+        if (!(quantity >= 1)){
+            alert("请正确填写购买数量");
+            $("#quantity").val('1');
+            return;
+        }
+        max = parseInt($('[nctype="goods_stock"]').text());
+        if (quantity > max) {
+            alert("您购买的商品数量，超出了该商品库存，请您重新选择商品数量");
+            return;
+        }
+        add_to_cart(spec_id, quantity);
+    }
+    // 立即购买js                                                                                                                                                          
+    function buynow(spec_id, quantity, type) {
+        login_dialog();
+    }
+
+    function showdiv() {
+        document.getElementById("yunfei_div").style.display = "block";
+    }
+
+    function closediv() {
+        document.getElementById("yunfei_div").style.display = "none";
+    }
+    function get_yunfei(reg_name,spid,pname) {
+        var url = "index.php?app=goods&act=get_ajax_yunfei";
+        $.getJSON(url, {reg_name: reg_name, shipping_id: spid}, function (data) {
+            if (pname == data['diqu']) {
+                $("#diqu").html(pname);
+            } else {
+                $("#diqu").html(pname+"--"+data['diqu']);
+            }
+            $("#shipping_value").html("&nbsp;运费：￥"+data['jiage']+"元");
+            closediv();
+        });
+    }
+
+    function check_region(id,reg_name) {
+        var url = "index.php?app=goods&act=get_diqu&region_id=" + id;
+        var spid = $("#shipping_id").val();
+        $.post(url, {region_id: id, shipping_id: spid}, function (data) {
+            //drop_cart_item(store_id, rec_id);]
+            var html = "";
+            var d = data;
+            if (d!="" && d!=null) {
+                for (var i=0;i< d.length;i++) {
+                    html+="<a href=\"javascript:get_yunfei('"+d[i].region_name+"',"+spid+",'"+reg_name+"')\">"+d[i].region_name+"</a>";
+                }
+                $("#em_diqu").html(html);
+            } else {
+                get_yunfei(reg_name,spid,reg_name);
+            }
+        },"json");
+    }
+
+    function close_cart() {
+        document.getElementById("show_cart").style.display = "none";
+    }
+</script>
+
+<div class="product_info">
+    <div class="x_top">
+        <div class="x_left">
+            <div class="zoom-section">
+                <div class="zoom-small-image"><a href='{$img_url}/{$goods._images.0.image_url}' class="cloud-zoom"
+                                                 id="zoom1" rel="adjustX:10, adjustY:-4">
+                    <img src="{img_url $img_url/$goods._images.0.image_url/310X310}" width="350" height="350" alt=""
+                         title=""></a>
+                </div>
+            </div>
+            <div class="top_n2" id="top_n2">
+                <div class="list_a1"></div>
+                <div class="list_a2"></div>
+                <div class="list_div">
+                    <ul>
+                        <!--{foreach from=$goods._images item=goods_image name=fe_goods_image}-->
+                        <li><a href="{$img_url}/{$goods_image.image_url}" class="cloud-zoom-gallery"
+                               rel="useZoom: 'zoom1', smallImage: '{img_url $img_url/$goods_image.image_url/310X310}' ">
+                            <img class="zoom-tiny-image" src="{$img_url}/{$goods_image.thumbnail}" alt=""
+                                 onload="javascript:DrawImage(this,40,40);"> </a></li>
+                        <!--{/foreach}-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="x_right">
+            <div class="n1_01">{$goods.goods_name|escape}</div>
+            <div class="n1_02">
+                <ul>
+                    <li style="display: none">参 考 价：<span class="span1" nctype="goods_price">¥{$goods._specs.0.price|myeval:"value*1.15"}</span></li>
+                    <li>商 城 价：
+                        <span class="span2" >
+                            <em class="x_em" nctype="goods_price">
+                                {$goods._specs.0.price|price}
+                            </em>
+                            <!-- {if $goods.if_jifen > 0} -->
+                             <em class="x_em">
+                                 + {$goods.if_jifen}积分
+                             </em>
+                                <!-- {/if} -->
+                        </span>
+                    </li>
+                    <li>品&nbsp;&nbsp;&nbsp;&nbsp;牌：{$goods.brand|escape}</li>
+                    <!--<li>销售情况：{$sales_info}{$comments}</li>-->
+                    <li>配 送 至：
+                  <!--{if $yunfei eq -1}-->
+                   <span >&nbsp;卖家包邮&nbsp;</span>
+                   <!--{elseif $yunfei}-->
+                  <input type="hidden" id="shipping_id" value="{$goods.shipping_id}">
+
+                    <span class="span3" style="width: 500px;"><a id="diqu" href="javascript:showdiv();" style="text-align: center;color: #666666">--请选择-- </a>
+
+                  <div class="spp1" id="yunfei_div" style="display: none;">
+                      <a href="javascript:closediv();" style="float: right;margin-top: 0px;left: 200px;top: 0px; *top:10px; margin-right: 2px;position: absolute"><img src="{res file=images/close.png}"></a>
+                  <!--{foreach from=$yunfei item=region}-->
+                  <a href="javascript:check_region('{$region.region_id}','{$region.region_name}')">{$region.region_name}</a>
+                  <!--{/foreach}-->
+                  <em id="em_diqu">
+                  </em>
+                   </div>
+                    </span>
+                     <span id="shipping_value"></span>
+                        <!--{else}-->
+                        <span >&nbsp;无法配送&nbsp;</span>
+                        <!--{/if}-->
+                    </li>
+                    <li>所在地区：{$store.region_name|escape}</li>
+                </ul>
+            </div>
+            <div class="n1_02" style="border-bottom: none">
+                <!-- S 商品规格值-->
+                <!--{if $goods.spec_qty gt 0}-->
+                <dl>
+                    <dd>{$goods.spec_name_1|escape}：</dd>
+                    <dt nctyle="ul_sign">
+
+                    </dt>
+                </dl>
+                <!--{/if}-->
+                <!--{if $goods.spec_qty gt 1}-->
+                <dl>
+                    <dd>{$goods.spec_name_2|escape}：</dd>
+                    <dt nctyle="ul_sign">
+                    </dt>
+                </dl>
+                <!--{/if}-->
+                <!-- E 商品规格值-->
+                <dl nctype="goods_prompt" style="display:none;line-height: 20px;"></dl>
+            </div>
+            <!--{if !$readonly == "true" && $goods.dropState=='1'}-->
+            <div class="n1_03">
+                <div class="x_lt">购买数量：</div>
+                <div class="x_rt">
+                    <a href="javascript:void(0)" class="a_x1"></a><input type="text" name="" id="quantity" value="1"
+                                                                         size="3" maxlength="6" class="ipt"
+                                                                         style="border-radius:0;">
+                    <a href="javascript:void(0)" class="a_x2"></a>
+                    <em style="font-style: normal; margin-left: 90px;display: none;">(当前库存<strong
+                        nctype="goods_stock">{$goods._specs.0.stock}</strong>件)</em>
+
+                </div>
+            </div>
+
+            <div class="n1_04">
+                <a href="javascript:buy();" class="but1"></a>
+                <a href="javascript:collect_goods('{$goods.goods_id}');" class="but2"></a>
+                <!--<div class="ncs_cart_popup" >-->
+                <!--<dl>-->
+                <!--<dt>-->
+                <!--<h3 style="font-size: 1em;">成功添加到购物车</h3>-->
+                <!--<a title="关闭" onClick="$('.ncs_cart_popup').css({});">关闭</a></dt>-->
+                <!--<dd>-->
+                <!--<p class="mb5" style="font-size: 1em;">购物车共有 <strong id="bold_num" style="font-size: 1em;"></strong> 种商品 总金额为：<em id="bold_mly"-->
+                <!--class="price" style="font-size: 1em;"></em></p>-->
+
+                <!--<p style="font-size: 1em;">-->
+                <!--<input type="submit" class="btn1" name="" value="查看购物车"-->
+                <!--onClick="location.href='/index.php?app=cart'"/>-->
+                <!--<input type="submit" class="btn2" name="" value="继续购物"-->
+                <!--onClick="$('.ncs_cart_popup').css({});"/>-->
+                <!--</p>-->
+                <!--</dd>-->
+                <!--</dl>-->
+                <!--</div>-->
+                <div class="tt" id="show_cart" style="display: none;">
+                    <dl>
+                        <dt>
+                        <h3>成功添加到购物车</h3>
+                        <a title="关闭" onClick="close_cart();">关闭</a>
+                        </dt>
+                        <dd>
+                            <p class="mb1">购物车共有 <strong id="bold_num" ></strong>种商品 总金额为：<em id="bold_mly"></em></p>
+                            <p>
+                                <input class="iput1" type="submit" value="去结算" name="" onClick="location.href='/index.php?app=cart'">
+                                <input class="iput2" type="submit" value="继续购物" name=""onClick="close_cart();">
+                            </p>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+
+                        <!--{/if}-->
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="x_bot">
+        {include file=left.html}
+        <div class="list_r">
+            <div class="tab">
+                <ul>
+                    <li><a id="tab_description" class="current" href="javascript:div_show('description')"><span>{$lang.goods_detail}</span></a>
+                    </li>
+                    <li><a id="tab_comment" href="javascript:div_show('comment')"><span>{$lang.goods_comment}</span></a>
+                    </li>
+                    <li><a id="tab_salelog" href="javascript:div_show('salelog')"><span>{$lang.sales_log}</span></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="x_con" id="description">{$goods.description|escape:editor}</div>
+
+
+
+        </div>
+    </div>
+</div>
+
+

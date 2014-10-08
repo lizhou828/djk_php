@@ -1,0 +1,186 @@
+{include file=member.header.html}
+
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.plugins/jquery.validate.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js" ></script>
+<link rel="stylesheet" type="text/css" href="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"  />
+
+<style type="text/css">
+.bgwhite { background: #FFFFFF; }
+</style>
+<script type="text/javascript">
+$(function(){	
+    $("#sava_form").validate({
+        errorPlacement: function(error, element){
+           var error_td = element.parent('div');
+                error_td.find('span').hide();
+                error_td.append(error);
+        },
+        success: function(label){
+            label.addClass('validate_right').text('OK!');
+        },
+        onkeyup: false,
+        rules: {
+				password: {
+                	required: true,					
+					remote   : {
+                        url : 'index.php?app=member&act=check_password',
+                        type: 'get',
+                        data:{
+                            captcha : function(){
+                                return $('#password').val();
+                            }
+                        }
+                    }  			
+                }
+//				captcha : {
+//					required : true,
+//					remote   : {
+//                        url : 'index.php?app=captcha&act=check_captcha',
+//                        type: 'get',
+//                        data:{
+//                            captcha : function(){
+//                                return $('#captcha').val();
+//                            }
+//                        }
+//                    }
+//				}
+        },
+        messages: {
+			password: {
+                required: '请输入密码',
+				remote	: '登入密码错误'               
+            }
+//            captcha: {
+//                required: '请输入验证码',
+//				remote	:  '验证码错误'
+//            }
+        }
+    });
+});
+</script>
+<style>
+.borline td { padding:10px 0px; }
+.ware_list th { text-align:left; }
+</style>
+
+<!--[if IE]><style type="text/css">
+    .content #right .kuang3 .item .f1 .a1{margin-left:5px}
+</style><![endif]-->
+
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right" >
+        <ul class="tab">
+            <li class="active" > <a href="index.php?app={$smarty.get.app}&act=aqzx&p={$smarty.get.p}">安全中心</a></li>
+            </ul>
+
+        <div class="eject_con bgwhite" style="padding: 30px 0 50px">     
+       
+        
+         <div class="kuang2">
+         
+         <!--{if $smarty.get.type=='changerpassword'}-->
+         <div class="ttp1">
+             <span class="spa1">1.验证身份</span>
+             <span class="spa2">2.输入密码</span>
+             <span class="spa3">3.完成</span>
+          </div>             
+         <!--{elseif $smarty.get.type=='changeremail'}-->         
+         <div class="ttp1">
+             <span class="spa1">1.验证身份</span>
+             <span class="spa2">2.进入邮箱验证</span>
+             <span class="spa3">3.完成</span>
+          </div>  
+         <!--{elseif $smarty.get.type=='changerphonemob'}-->       
+         <div class="ttp1">
+             <span class="spa1">1.验证身份</span>
+             <span class="spa2">2.输入手机</span>
+             <span class="spa3">3.完成</span>
+          </div>
+
+             <!--{if $IF_DUANXING eq 0}-->
+                 <div style="padding: 30px; color: red; padding-left: 200px">
+                     由于短信通道维护中，手机绑定功能暂不可用，我们会尽快处理请耐心等待
+                 </div>
+             <!--{/if}-->
+
+        <!--修改支付密码-->
+        <!--{elseif $smarty.get.type=='changerpassword2'}-->
+       			 <!--{if !$user.show_phone_mob}-->
+                 <script>js_fail("<br><br>您还没有设置安全手机不能设置和修改支付密码，请先<a href='index.php?app={$smarty.get.app}&act=aqzx_manager&type=changerphonemob'>绑定安全手机</a>！<br><br>");</script>
+                 <br><br><br>
+                 <!--{else}-->           
+                 <div class="ttp1">
+                     <span class="spa1">1.验证身份</span>
+                     <span class="spa2">2.输入手机验证码和支付密码</span>
+                     <span class="spa3">3.完成</span>
+                  </div>
+
+                 <!--{if $IF_DUANXING eq 0}-->
+                 <div style="padding: 30px; color: red; padding-left: 200px">
+                     由于短信通道维护中，手机绑定功能暂不可用，我们会尽快处理请耐心等待
+                 </div>
+                 <!--{/if}-->
+
+                  <!--{/if}-->     
+         <!--{/if}-->     
+         
+         
+          <!--{if $smarty.get.type=='changerpassword2' && ( !$user.show_phone_mob || $user.phone_mob_bind_status eq 0 ) }-->
+          		 <br><br><br><br>
+          		 <center><div id="warning" name="warning" style="width:92%;"></div></center>
+                 <script>js_fail("<br><br>您还没有设置安全手机不能设置和修改支付密码，请先<a href='index.php?app={$smarty.get.app}&act=aqzx_manager&type=changerphonemob'>绑定安全手机</a>！<br><br>");</script>
+                 <br><br><br>
+                 <!--{else}-->
+         
+              
+          <div class="kuang3">
+          	 <form method="post" id="sava_form" name="sava_form"><br><br>
+             <input type="hidden" name="type" id="type" value="{$smarty.get.type}" />         
+             <input type="hidden" name="step" id="step" value="1" />
+             <div class="item">
+                <span class="label">请输入登录密码：</span>
+                <div class="f1">
+                <input name="password" id="password" type="password" class="input1" />
+                <span id="password_lbl" class="fontColor3">&nbsp;*</span>
+                </div>
+             </div>
+             <div class="item" style="padding-top:0px;">
+                     <span class="label">验证码：</span>
+                     <div class="f1">
+                     <input name="captcha" id="captcha" type="text" class="input1" />
+                     <span id="captcha_lbl" class="fontColor3">&nbsp;*</span>
+                     </div>
+             </div>    
+             
+              <div class="item" style="padding-top:0px;">
+                 <span class="label" style="width:250px;">&nbsp;</span>
+                 <div class="f1">
+                 <a href="javascript:change_captcha($('#captcha_img'));" class="renewedly">&nbsp;&nbsp;<img id="captcha_img" name="captcha_img" src="index.php?app=captcha&amp;{$random_number}" /></a>
+                     <label><a href="javascript:change_captcha($('#captcha_img'));">看不清？换一张</a></label>
+                 </div>    
+             </div>
+             
+                     
+             <div class="item" style="padding-top:0px;">
+                <span class="label"></span>
+                <div class="f1"><input class="a1" value="提交" type="submit" style=" cursor:pointer; border:0px" /></div>
+             </div>
+             </form>
+          </div>
+          
+          
+          
+          <!--{/if}-->
+          
+          
+          
+          
+       </div>
+      
+      </div>
+    </div>
+    <div class="clear"></div>
+</div>
+{include file=footer.html}

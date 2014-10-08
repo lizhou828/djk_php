@@ -1,0 +1,48 @@
+#login_1000{ width:1000px; margin:0px auto;}
+#login_1000 .logo1{ width:406px; height:61px; background:url(../images/member/login_logo.png) no-repeat; margin-top:30px;}
+#login_1000 .reglogo1{ width:406px; height:61px; background:url(../images/member/reg_logo.png) no-repeat; margin-top:30px;}
+#login_1000 .logo2{ width:1000px; height:26px; line-height:26px; color:#353535; text-align:right; margin-top:8px;}
+#login_1000 .logo2 a{ color:#1d5b9f; font-weight:bold;}
+#login_1000 .logo3{ width:990px; height:305px; border:5px solid #efefef; background:#fff;}
+#login_1000 .logo3 .left_pic{ width:474px; height:305px; float:left;}
+#login_1000 .logo3 .right_txt{ float:left; width:320px; margin-left:80px;}
+#login_1000 .logo3 .right_txt .go1{ width:320px; margin-bottom:15px;}
+#login_1000 .logo3 .right_txt .go1 span{color: #999999;display: block;line-height: 20px;margin-top: 1px;}
+#login_1000 .logo3 .right_txt .go1 .item_ifo{position: relative;width: 320px;} 
+#login_1000 .logo3 .right_txt .go1 .item_ifo .text_in{border: 1px solid #CCCCCC;float: none;font-family: arial,"宋体";font-size: 14px; height: 24px;line-height: 24px; padding: 4px 20px 4px 3px; width: 318px; position:relative; color:#999;}
+#login_1000 .logo3 .right_txt .go1 .item_ifo .ico1{ position:absolute; background:url(../images/member/login_ico1.png) no-repeat; width:16px; height:16px; left:315px; top:10px;}
+#login_1000 .logo3 .right_txt .go1 .item_ifo .ico2{ position:absolute; background:url(../images/member/login_ico2.png) no-repeat; width:16px; height:19px; left:315px; top:8px;}
+#login_1000 .logo3 .right_txt .go1 .item_ifo label{ color:#d0281e; line-height:25px; position:absolute; left:0px; top:35px; width:336px; height:25px; background:#ffebec; border:1px solid #fdcfd2; border-top:none; padding-left:5px; display:none;}
+#login_1000 .logo3 .right_txt .go2{width:320px;}
+#login_1000 .logo3 .right_txt .go2 input,#login_1000 .logo3 .right_txt .go5 input{ vertical-align:middle;}
+#login_1000 .logo3 .right_txt .go2 .wangji{ float:right;}
+#login_1000 .logo3 .right_txt .go2 .wangji a{ color:#1d5b9f;}
+#login_1000 .logo3 .right_txt .go3{ width:341px; height:34px; background:#d0281e; margin-top:10px;}
+#login_1000 .logo3 .right_txt .go3 .anniu{width:341px; height:34px; background:#d0281e; border:none; color:#fff; font-size:14px; font-weight:bold; cursor:pointer;}
+#login_1000 .logo3 .right_txt .go4{width:341px; color:#8a8a8a; margin-top:20px;}
+#login_1000 .logo3 .right_txt .go4 span{ width:63px; height:18px; background:url(../images/member/login_ico3.png) no-repeat; float:left}
+#login_1000 .logo3 .right_txt .go4 label{ float:left; line-height:20px;}
+#login_1000 .logo3 .right_txt .go4 span a{width:63px; height:18px; display:block;}
+#login_1000di{ width:1000px; margin:0px auto; text-align:center; height:100px; line-height:100px;}
+
+#login_1000 .logo3 .right_txt .go5{width:341px; }
+#login_1000 .logo3 .right_txt .go5 a{ }
+#login_1000 .logo3 .right_txt .go5 a:hover{ text-decoration: underline}
+#login_1000 .logo3 .right_txt .go5 label{color:#d0281e;}
+#login_1000 .logo3 .rrt{ float:left; margin-left:300px; margin-top:25px;}
+#login_1000 .logo3 .rrt .txt1{ width:109px; height:23px; background:url(../images/member/login_pic1.png) no-repeat; margin-left:25px;}
+#login_1000 .logo3 .rrt .txt2{ width:174px; margin-top:30px;}
+#login_1000 .logo3 .rrt .txt2 dd{}
+#login_1000 .logo3 .rrt .txt2 dt{ text-align:center; line-height:32px; color:#27a196;}
+
+.emails_li {height: 26px; background: #fff;
+    padding-left: 10px; line-height : 26px; cursor: default; border: none;width: 218px; font-size: 12px;text-align: left; color: #000;
+}
+.emails_li:hover { height: 26px;
+    background : #DDD ; padding-left: 10px; line-height : 26px; cursor: default; border: none;width: 218px; font-size: 12px;text-align: left; color: #000;
+}
+
+#emails_ul{
+	left: 257px; *left: 255px;  top: 190px; background : #FFFFFF ; z-index: 99999; display: none; position: absolute; border: 1px solid #CCCCCC; width: 228px
+}
+

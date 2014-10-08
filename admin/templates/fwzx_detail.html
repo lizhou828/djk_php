@@ -1,0 +1,90 @@
+{include file="header.html"}
+
+<script type="text/javascript">
+
+    function ajax_detail(store_id) {
+        if($("#"+store_id+"_detail").is(":hidden")) {
+            $("#"+store_id+"_detail").show();
+        } else {
+            $("#"+store_id+"_detail").hide();
+        }
+        $.post("index.php?app=order&act=ajax_store_record",{id:store_id},function(rs){
+               if(rs) {
+                   $("#"+store_id+"_detail").html(rs);
+               }
+        });
+    }
+
+</script>
+<div id="rightTop">
+    <ul class="subnav">
+        <li><span>{$fwzx}服务中心</span></li>
+    </ul>
+
+</div>
+<div class="mrightTop">
+    <div class="fontl">
+        <form method="get">
+            <div class="left">
+                <input type="hidden" name="app" value="order" />
+                <input type="hidden" name="act" value="fwzx_detail" />
+
+                <span class="title">商家 / 用户名 / {$lang.store_name}</span>
+                <input class="queryInput" type="text" name="search_name" value="{$query.search_name|escape}" />
+                <span class="title">注册时间:</span>&nbsp;&nbsp;&nbsp;
+                <input class="queryInput2" type="text" value="{$query.add_time_from}" id="add_time_from" name="add_time_from" class="pick_date" />
+                <input class="queryInput2" type="text" value="{$query.add_time_to}" id="add_time_to" name="add_time_to" class="pick_date" />
+
+
+                <input type="submit" class="formbtn" value="{$lang.query}" />
+            </div>
+        </form>
+    </div>
+    <div class="fontr">
+        {if $stores}{include file=page.top.html}{/if}
+    </div>
+</div>
+<div class="tdare">
+    <table width="100%" cellspacing="0" class="dataTable">
+
+        <tr class="tatr1">
+            <th>&nbsp;&nbsp;&nbsp;商家帐号</th>
+            <th>&nbsp;&nbsp;&nbsp;<span ectype="order_by" fieldname="store_name">{$lang.store_name}</span></th>
+            <th ><span ectype="order_by" fieldname="orderCount">订单数量</span></th>
+            <th>推广会员</th>
+            <th><span ectype="order_by" fieldname="jine">营业额</span></th>
+            <th><span ectype="order_by" fieldname="sgrade">佣金比例</span></th>
+            <th class="handler">操作</th>
+        </tr>
+        <!--{foreach from=$stores item=store}-->
+        <tr class="tatr2">
+            <td style="text-align: center"><!--{if $store.im_qq }-->{$store.nick_name|truncate:20:"……"}<!--{else}-->{$store.user_name|truncate:20:"……"}<!--{/if}--></a></td>
+            <td style="text-align: center">{$store.store_name|escape}</td>
+            <td style="text-align: center">{$store.orderCount|escape}</td>
+            <td style="text-align: center">{$store.tuserCount}位</td>
+            <td style="text-align: center">{$store.jine|price}</td>
+            <td style="text-align: center"><!--{if $store.seller_type eq 3}--> {$store.ticheng|changerStr:100}% <!--{/if}--></td>
+            <td style="text-align: center"><a href="javascript:ajax_detail('{$store.store_id}')">查看详细</a></td>
+        </tr>
+        <tr><td colspan="7" id="{$store.store_id}_detail" style="text-align: center;display: none;" ></td></tr>
+        <!--{foreachelse}-->
+        <tr class="no_data">
+            <td colspan="7">{$lang.no_data}</td>
+        </tr>
+        <!--{/foreach}-->
+    </table>
+    <div id="dataFuncs">
+        <div class="pageLinks">
+            {include file=page.bottom.html}
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+        <script>
+            $(function(){
+                $('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+                $('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+            });
+
+        </script>
+{include file="footer.html"}

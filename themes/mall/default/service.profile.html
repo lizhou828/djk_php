@@ -1,0 +1,136 @@
+{include file=member.header.html}
+<style>
+.borline td { padding:10px 0px; }
+.ware_list th { text-align:left; }
+
+</style>
+<script type="text/javascript">
+
+$(function(){
+    $('#profile_form').validate({
+        errorPlacement: function(error, element){
+            $(element).parent('span').parent('b').after(error);
+        },
+        rules : {
+            portrait : {
+                accept   : 'gif|jpe?g|png'
+            }
+        },
+        messages : {
+            portrait  : {
+                accept   : '{$lang.avatar}'
+            }
+        }
+    });
+    $('input[ectype="change_avatar"]').change(function(){
+
+        var src = getFullPath($(this)[0]);
+        $('img[ectype="avatar"]').attr('src', src);
+        $('input[ectype="change_avatar"]').removeAttr('name');
+        $(this).attr('name', 'portrait');
+    });
+});
+</script>
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right">
+ 			<ul class="tab">
+                 <li class="active">我的资料</li>
+                 </ul>
+            <div class="wrap">
+                <div class="public">
+                <form method="post" id="profile_form">
+                    <div class="information">                      
+                        <div class="info individual">
+                        <input type="hidden" name="service_id" value="{$visitor.user_id}" />
+                        <!--{if $serviceInfo.id}-->
+                        <input type="hidden" name="id" value="{$serviceInfo.id}" />
+                        <!--{/if}-->
+                            <a href="index.php?app=service&act=service_info&p=service#yingyezhizhaoImg" style="color: orange">查看我的营业执照</a>
+                            <a href="index.php?app=service&act=service_info&p=service#shenfenzhengImg" style="color: orange"> 查看我的手持身份证</a>
+                            <table class="service_table">
+                                <tr>
+                                    <th class="width2">{$lang.user_name}: </th>
+                                    <td>{$visitor.user_name|escape}</td>
+                                </tr>
+                              <tr>
+                                    <th>身份证号:</th>
+                                    <td> <!--{if $serviceInfo.service_zhengjian}-->{$serviceInfo.service_zhengjian|escape}<!--{else}-->无<!--{/if}--></td>
+                               </tr>
+                               <tr>
+                                    <th>真实姓名:</th>
+                                    <td><!--{if $serviceInfo.service_user}-->{$serviceInfo.service_user|escape}<!--{else}-->无<!--{/if}--></td>
+                                </tr>
+
+                                <tr>
+                                    <th>所在地区:</th>
+                                    <td><!--{if $region_name}-->
+                                        {$region_name}
+                                        <!--{else}-->无
+                                        <!--{/if}-->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>联系电话:</th>
+                                    <td> <!--{if $serviceInfo.service_tel}-->{$serviceInfo.service_tel}<!--{else}-->无<!--{/if}--></td>
+                                </tr>
+                                <tr>
+                                    <th>{$lang.email}:</th>
+                                    <td><!--{if $serviceInfo.service_email}-->{$serviceInfo.service_email}<!--{else}-->无<!--{/if}--></td>
+                                </tr>
+                                <tr>
+                                    <th>地址:</th>
+                                    <td><!--{if $serviceInfo.service_address}-->{$serviceInfo.service_address}<!--{else}-->无<!--{/if}--></td>
+                                </tr>
+
+                                <!--
+                                <tr>
+                                    <th></th>
+                                    <td><input type="submit" class="btn" value="保存资料" /></td>
+                                </tr>
+                                -->
+                                <tr>
+                                    <th>营业执照: </th>
+                                    <td>
+                                        <!--{if $serviceInfo.yingyezhizhaoImg}-->
+                                        <a id="yingyezhizhaoImg" name="yingyezhizhaoImg"><img src="{$serviceInfo.yingyezhizhaoImg}" style="border: 1px  solid orange;width: 400px;height: 200px" /></a><br><br>
+                                        <a href="{$site_url}/{$serviceInfo.yingyezhizhaoImg}" target="_blank">查看大图</a>
+                                        <br><br>
+                                        <!--{else}-->
+                                        <a id="yingyezhizhaoImg" name="yingyezhizhaoImg"><img src="{$site_url}/data/system/default_goods_image.gif" style="width: 200px;height: 150px" /></a>暂无图片<br><br>
+                                         <br><br>
+                                        <!--{/if}-->
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>手持身份证: </th>
+                                    <td>
+                                        <!--{if $serviceInfo.shenfenzhengImg}-->
+                                        <a id="shenfenzhengImg" name="shenfenzhengImg">
+                                            <img src="{$serviceInfo.shenfenzhengImg}" style="border: 1px  solid orange;width: 400px;height: 200px" /></a><br><br>
+                                        <a href="{$site_url}/{$serviceInfo.shenfenzhengImg}" target="_blank">查看大图</a>
+                                        <!--{else}-->
+                                        <a id="yingyezhizhaoImg" name="yingyezhizhaoImg"><img src="{$site_url}/data/system/default_goods_image.gif" style="width: 200px;height: 150px" /></a>暂无图片<br><br>
+                                        <!--{/if}-->
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+                </div>
+                <div class="wrap_bottom"></div>
+            </div>
+
+            <div class="clear"></div>
+            <div class="adorn_right1"></div>
+            <div class="adorn_right2"></div>
+            <div class="adorn_right3"></div>
+            <div class="adorn_right4"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+{include file=footer.html}

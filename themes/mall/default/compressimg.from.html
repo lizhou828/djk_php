@@ -1,0 +1,25 @@
+{include file=header1.html}
+     <!--{if status == 1}-->
+     压缩成功!
+     <!--{/if}-->
+     <form action="index.php?app=compressimg&act=compress" method="post">
+         第<input type="text" name="start">条开始;
+         压缩<input type="text" name="end">条;
+         <input type="submit" value="确定">
+     </form>
+
+     <script>
+         var pageSize = 200;
+         var k = 0;
+         setInterval(post, 10 * 3000);
+
+         function post() {
+             if (k > 200) return;
+             for (var pageNo = k * 10; pageNo < (k + 1) * 10; pageNo++) {
+                 $.post("index.php?app=compressimg&act=compress", {start:pageNo*pageSize,end:pageSize});
+             }
+             k ++;
+         }
+
+
+     </script>

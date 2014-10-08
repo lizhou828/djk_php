@@ -1,0 +1,16 @@
+<div class="w-z">
+    <strong>我的位置：</strong>
+    <a href="{r_url app=bdsh&act=store&bdsh_reg_id=$filters.bdsh_reg_id}">商家</a> >
+    <!--{if $filters.bdsh_reg_id}-->
+    <a href="{r_url app=bdsh&act=store&bdsh_reg_id=$filters.bdsh_reg_id}">{$filters.bdsh_area}</a>
+    <!--{/if}-->
+    <!--{if $filters.bdsh_diqu_id}-->
+    > <a href="{r_url app=bdsh&act=store&bdsh_reg_id=$filters.bdsh_reg_id}">{$filters.bdsh_diqu_name}</a>
+    <!--{/if}-->
+    <!--{if $filters.bdsh_class }-->
+   > <a href="{r_url app=bdsh&act=store&bdsh_reg_id=$filters.bdsh_reg_id&bdsh_class=$filters.bdsh_class&bdsh_class_name=$filters.bdsh_class_name}">{$filters.bdsh_class_name}</a>
+    <!--{/if}-->
+    <!--{if $filters.bdsh_subcateid }-->
+    > <a href="{r_url app=bdsh&act=store&bdsh_reg_id=$filters.bdsh_reg_id&bdsh_class=$filters.bdsh_class&bdsh_subcateid=$filters.bdsh_subcateid&bdsh_class_sub_name=$filters.bdsh_class_sub_name}"><strong>{$filters.bdsh_class_sub_name}</strong></a>
+    <!--{/if}-->
+</div>

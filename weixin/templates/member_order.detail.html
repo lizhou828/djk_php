@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>订单详情</title>
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/order-inquiry.css" rel="stylesheet" type="text/css" />
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$SITE_URL}/weixin/templates/js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+    <script type="text/javascript">
+        $(function (){
+            $(".ann2").click(function(){
+//                window.location.href= "{$site_url}/weixin/index.php?app=member_order&act=payPage&orderSn={$order.order_sn}";
+                window.location.href="http://pay.dajike.com/dajike-account/mobile/list.action?orderSn={$order.order_sn}&userId={$member.user_id}"
+            });
+        });
+        function confirmReceive(){
+            $.ajax({
+                type:"post",
+                url:'{$SITE_URL}/weixin/index.php?app=member_order&act=confirmReceive',
+                data:{"order_id":'{$order.order_id}'},
+                success:function(data){
+                    data=eval("("+data+")");
+                    alert(data.msg);
+                    if(data.retval =="1"){
+                        window.location.reload();
+                    }
+                },
+                beforeSend:function(){
+                    $("#confirmReceive").html("<img src='{$site_url}/weixin/templates/style/img/waiting.gif'>");
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<div style="width: 320px;margin: 0px auto">
+    <div style="padding-top: 50px;">
+<div class="address-t">
+    <div class="address-l"><a href="javascript:history.go(-1)">返回</a></div>
+    <div class="address-c2" style="padding-left: 55px;">订单详情</div>
+    {include file=member.index_header.html}
+</div>
+<div class="Safety-cen-1">
+    <div class="cancel">
+        <p>
+            <span>
+                {if $order.status==0}
+                    <span style="color: #1D5B9F">订单已取消</span>
+                {elseif $order.status==30}
+                    <span id="confirmReceive"><a href="javascript:void(0)" onclick="confirmReceive()">确认收货</a></span>
+                {elseif $order.status==11 || $order.status==10 ||$order.status==20}
+                    <a href="{$SITE_URL}/weixin/index.php?app=member_order&act=confirmCancel&order_id={$order.order_id}">取消订单</a>
+                {elseif $order.status==40}
+                    <span style="color: #1D5B9F">已完成</span>
+                {/if}
+
+            </span>订单编号：{$order.order_sn}
+        </p>
+        <p>下单时间：{$order.add_time|date:Y-m-d H:i:s}</p>
+    </div>
+    <div class="shou-h">
+        <p>收货人：{$order_extm.consignee}</p>
+        <p>电话：{$order_extm.phone_mob}</p>
+        <p style="border:0px;line-height:20px;margin-top: 3px;">收货地址：{$order_extm.region_name}{$order_extm.address}</p>
+    </div>
+    <div class="image-text">
+        {foreach from=$goods item=good name=_goods}
+        <dl {if $smarty.foreach._goods.last && count($goods) > 1} style="margin:0px;"{/if}>
+            <dt>
+                <img src="{$site_url}/{$good.goods_image}" width="100" height="100" alt="{$good.goods_name|truncate:30:...}"/>
+            </dt>
+            <dd>
+                <h3>{$good.goods_name}</h3>
+                <p>{$good.specification}</p>
+                <strong>￥{$good.price|number2}×{$good.quantity}</strong>
+            </dd>
+        </dl>
+        {/foreach}
+
+    </div>
+    <!--<div class="Payment">支付方式<span><a href="#">支付宝</a></span></div>-->
+    <div class="list">
+        <div class="list1">
+            <dl>
+                <dt>商品总额</dt>
+                <dd>￥{$order.goods_amount|number2}</dd>
+            </dl>
+            <dl>
+                <dt>运费</dt>
+                <dd>￥{$order_extm.shipping_fee}</dd>
+            </dl>
+            <!--<dl>-->
+                <!--<dt>积分抵扣</dt>-->
+                <!--<dd>￥{$order.jifen}</dd>-->
+            <!--</dl>-->
+        </div>
+        <p><strong>订单金额</strong><span>￥{$order.order_amount|number2}</span></p>
+        <p style="border:0px;">订单状态<span> {$order.status|modifier:order_status}</span></p>
+    </div>
+    {if $user.member_type==01 && $order.status == 11 &&  $order.is_daifu == 0}
+        <div class="ann2">
+            <a href="javascript:void(0)">
+                {if $order.yue + $order.koushui_yue > 0 }
+                    支付余款
+                {else}
+                    立即支付
+                {/if}
+            </a>
+        </div>
+    {/if}
+
+    {if $order.status && $order.status==30}
+        <div class="list" style="padding: 8px 15px 0 10px;width: 282px;" >
+            <div style="border-bottom: 1px solid #E5E5E5; margin-top: 10px;">
+                <span style="height: 30px;line-height: 20px;margin-top: 10px;width:75px;">
+                    <strong>发货时间</strong>
+                </span>
+                <span style="height: 30px;line-height: 20px;margin-top: 10px;width:75px;">
+                    <div style="float: right">{$order.ship_time|date:Y-m-d H:i:s}</div>
+                </span>
+            </div>
+
+            {if $wuliugongsi && $wuliugongsi!='' && $wuliudanhao && $wuliudanhao!=''}
+                <div style="border-bottom: 1px solid #E5E5E5; margin-top: 10px;">
+                    <span style="height: 30px;line-height: 20px;margin-top: 10px;width:75px;">
+                        <strong>物流公司</strong>
+                    </span>
+                    <span style="height: 30px;line-height: 20px;margin-top: 10px;width:75px;">
+                        <div style="float: right">{$wuliugongsi}</div>
+                    </span>
+                </div>
+                <div style="border-bottom: 1px solid #E5E5E5; margin-top: 10px;">
+                    <span style="height: 30px;line-height: 20px;margin-top: 10px;width:75px;">
+                        <strong>物流单号</strong>
+                    </span>
+                    <span style="height: 30px;line-height: 20px;margin-top: 10px;width:75px;">
+                        <div style="float: right">{$wuliudanhao}</div>
+                    </span>
+                </div>
+            {/if}
+        </div>
+    {/if}
+
+    <div class="00" style="height:50px;"></div>
+</div>
+    </div>
+</div>
+{include file=cnzz.html}
+</body>
+</html>

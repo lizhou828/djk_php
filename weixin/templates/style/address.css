@@ -1,0 +1,82 @@
+@charset "utf-8";
+/*********************** 内容区(地址管理)************************* */	
+.address-cen{width:309px;padding:10px 6px 0px 5px;margin:0 auto;background:#f8f8f8;}
+.address-cen-bg{width:307px; border-radius:5px; border:1px solid #e5e5e5; background:#FFF;}
+	.address-cen-1{width:307px; height:74px; border-bottom:1px solid #e5e5e5;}
+	.address-cen-1 dl{width:297px; height:74px;margin-left:10px;}
+    .address-cen-1 dl  h3 span{width:60px; height:20px;line-height:20px; text-align:center; display:block;  color:#fff;font-size:12px; font-weight:normal; float: right; position:absolute;top:60px; left:715px;}
+
+    .address-cen-1 dt{width:34px;margin-top:25px;float:right;}
+	.address-cen-1 dd{width:260px;float:left;}
+	.address-cen-1 dd h3{margin-top:10px; font-size:14px;}
+	.address-cen-1 dd p{line-height:16px;margin-top:3px;}
+	
+	
+/*********************** 内容区(新增收货地址)************************* */
+.address-cen1{width:309px;}
+.input-1{width:295px;height:33px;line-height:33px;padding-left:12px;border-radius:5px; border:1px solid #e5e5e5;font-size:14px;margin-bottom:10px;background:#FFF;}
+.select-1{width:307px;height:35px;padding-top:7px;line-height:35px;padding-left:10px;border-radius:5px; border:1px solid #e5e5e5;font-size:14px;float:left;margin-bottom:10px;background:#FFF;position:relative;}
+.Region{ position:relative;}
+.Region span{ float:right;position:absolute; left:278px;}
+.mo-ren{width:295px;height:33px;line-height:33px;padding-left:12px;border-radius:5px; border:1px solid #e5e5e5;font-size:14px;margin-bottom:10px;background:#FFF;position:relative;}
+.mo-ren span{margin-top:5px;position:absolute; left:230px;}
+
+.address-cen2,.address-cen3{width:309px;height:28px;line-height:28px;margin-top:10px;text-align:center;background:#999;}
+.address-cen2 a,.address-cen3 a{font-size:14px; color:#fff;}
+.address-cen3{width:309px;height:28px;line-height:28px;margin-top:50px;text-align:center;background:#c40000;}
+
+
+
+/*********************** 内容区(结算中心)************************* */
+.clearing1{width:309px;height:45px;line-height:16px; padding-top:5px;text-indent:23px;font-weight:bold; color:#666;background:url(../style/img/wen-hao.jpg)  0px 5px no-repeat;}
+
+.clearing2{width:280px;height:48px;line-height:18px; border:1px solid #e5e5e5;padding:10px 12px 0px 15px;background:#FFF;margin-bottom:10px;}
+.clearing2 p span{ float:right;color:#999;}
+.clearing2 p { font-weight:bold; color:#999;}
+
+/*********************** 内容区(结算明细)************************* */
+.clearing-1{ border-right:1px solid #e5e5e5;border-top:1px solid #e5e5e5;}
+.address-cen td{ border-bottom:1px solid #e5e5e5;border-left:1px solid #e5e5e5;}
+.clearing-1 td{font-size:14px;}
+
+.clearing-2{width:133px;height:22px;line-height:22px; text-indent:22px;margin:30px 0px 0px 86px;background:url(../style/img/wen-hao.jpg) 0px 3px no-repeat;}
+
+/*********************** 内容区(结算中心-绑定信息银行卡)************************* */	.address5{width:309px;height:28px;line-height:28px; font-weight:bold;margin-bottom:3px;color:#666;}
+.address5 span{ font-weight:normal; float:right; color:#1d5b9f;}
+
+.address6{width:297px;height:58px;padding-left:10px;border:1px solid #e5e5e5;background:#FFF;}
+.address6 dl{width:287px;margin-top:8px;height:50px;}
+.address6 dt{width:46px;height:40px;float:left;}
+.address6 dd{width:240px;margin-top:3px;line-height:18px;float:left;}
+.address6 dd h3{ font-size:14px;}
+.address6 dd h3 span{ float:right; font-weight:normal;font-size:12px; color:#999;}
+.address6 dd p{ color:#999;}
+
+
+
+
+
+
+
+/*********************支付成功******************* */
+.succ{width:270px;height:35px;line-height:35px; text-indent:18px;font-size:14px; font-weight:bold; color:#666;padding-left:39px;background:url(img/gou.png) 28px 2px no-repeat;margin-top:5px;}
+.succ1{width:287px;padding:10px 10px 0px 10px;border:1px solid #e5e5e5;border-radius:5px; border-top:3px solid #e5e5e5;margin-top:15px; background:#fff;}
+.succ1 p{font-size:14px;margin-bottom:15px;}
+.succ1 p m{ float:right;font-size:14px; color:#666;font-weight:bold;}
+.succ1 p strong{ color:#c40000;}
+.succ2{width:287px;border-bottom:1px solid #e5e5e5;}
+.succ3{margin-top:40px;font-size:14px;line-height:20px; color:#666;}
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+

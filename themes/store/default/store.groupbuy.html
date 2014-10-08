@@ -1,0 +1,172 @@
+{include file=header.html}
+
+{include file=top.html}
+
+<article id="content" xmlns="http://www.w3.org/1999/html">
+    <section class="layout expanded mt10">
+        <article class="nc-goods-main">
+            <!-- 商品评分统计信息S -->
+            <div class="nc-s-c-s2">
+                <div class="title">
+                    <h4>{$lang.praise_rate} ( 100 % )</h4>
+                </div>
+                <div class="content">
+                    <table class="ncs-evaluation-tb">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <td class="ncse-good"><span class="ico pngFix"></span>好评</td>
+                            <td class="ncse-normal"><span class="ico pngFix"></span>中评</td>
+                            <td class="ncse-bad"><span class="ico pngFix"></span>差评</td>
+                            <td class="ncse-sum">总计</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th>最近1周</th>
+                            <td class="ncse-good">{$stats.3.in_a_week}</td>
+                            <td class="ncse-normal">{$stats.2.in_a_week}</td>
+                            <td class="ncse-bad">{$stats.1.in_a_week}</td>
+                            <td class="ncse-sum">{$stats.0.in_a_week}</td>
+                        </tr>
+                        <tr>
+                            <th>最近1个月</th>
+                            <td class="ncse-good">{$stats.3.in_a_month}</td>
+                            <td class="ncse-normal">{$stats.2.in_a_month}</td>
+                            <td class="ncse-bad">{$stats.1.in_a_month}</td>
+                            <td class="ncse-sum">{$stats.0.in_a_month}</td>
+                        </tr>
+                        <tr>
+                            <th>最近6个月</th>
+                            <td class="ncse-good">{$stats.3.in_six_month}</td>
+                            <td class="ncse-normal">{$stats.2.in_six_month}</td>
+                            <td class="ncse-bad">{$stats.1.in_six_month}</td>
+                            <td class="ncse-sum">{$stats.0.in_six_month}</td>
+                        </tr>
+                        <tr>
+                            <th>6个月前</th>
+                            <td class="ncse-good">{$stats.3.six_month_before}</td>
+                            <td class="ncse-normal">{$stats.2.six_month_before}</td>
+                            <td class="ncse-bad">{$stats.1.six_month_before}</td>
+                            <td class="ncse-sum">{$stats.0.six_month_before}</td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>总计</th>
+                            <td>{$stats.3.total}</td>
+                            <td>{$stats.2.total}</td>
+                            <td>{$stats.1.total}</td>
+                            <td>{$stats.0.total}</td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </article>
+        <!-- 商品评分统计信息E -->
+
+
+        <aside class="nc-sidebar">
+            <!--店铺基本信息 S-->
+            <div>
+                <div class="ncs-info clearfix">
+                    <div class="shop-card">
+                        <h4>{$store.store_name|escape}</h4>
+                        <dl>
+                            <dt><a href="{url app=store&id=$store.store_id}"><img src="{$store.store_logo}" class="size60"
+                                                                                  title="{$store.store_owner.user_name|escape}" alt="{$store.store_owner.user_name|escape}"/></a></dt>
+                            <dd><a href="" class="shopkeeper">{$store.store_owner.user_name|escape}</a> <a href="{url app=message&act=send&to_id=$store.store_owner.user_id|escape}"
+                                                                                                           class="message text-hidden" title="发站内信">发站内信</a></dd>
+                            <dd class="ncs-level">
+                                <span class="seller-crown level-5"></span>
+                            </dd>
+                            <dd><span>好评率：</span>{$store.praise_rate}%</dd>
+                        </dl>
+                    </div>
+
+                    <div class="shop-detail">
+                        <h4>店铺信息</h4>
+                        <!-- 店铺信息 -->
+                        <dl>
+                            <dt>{$lang.store_add_time}：</dt>
+                            <dd>{$store.add_time|date}</dd>
+                            <dt>{$lang.region}：</dt>
+                            <dd>{$store.region_name|escape}</dd>
+                            <dt>{$lang.goods_count}：</dt>
+                            <dd><strong>{$store.goods_count}</strong>件商品</dd>
+                            <dt>{$lang.credit_value}：</dt>
+                            <dd>{$store.credit_value}
+
+                        </dl>
+                    </div>
+                    <div class="shop-im">
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+
+            <div class="clear"></div>
+            {include file=left.html}
+
+        </aside>
+    </section>
+</article>
+{include file=footer.html}
+
+
+
+<div id="content">
+    <div id="left">
+        {include file=left.html}
+    </div>
+    
+    <div id="right">
+        <div class="module_special">
+            <h2 class="common_title veins2">
+                <div class="ornament1"></div>
+                <div class="ornament2"></div>
+                <span class="ico1"><span class="ico2">
+                <!-- {foreach from=$search_name item=item} -->
+                <!-- {if $item.url} -->
+                <p class="message_link"><a href="{$item.url}">{$item.text}</a></p>
+                <!-- {else} -->
+                {$item.text}
+                <!-- {/if} -->
+                <!-- {/foreach} -->
+                </span></span>
+            </h2>
+            <div class="wrap">
+                <div class="wrap_child">
+                    <!--{if $groupbuy_list}-->
+                    <div class="group_major">
+                        <ul class="list">
+                        <!--{foreach from=$groupbuy_list item=groupbuy}-->
+                        <li>
+                            <div class="pic"><a href="{url app=groupbuy&id=$groupbuy.group_id}"><img src="{$groupbuy.default_image}" /></a></div>
+                            <h3><a href="{url app=groupbuy&id=$groupbuy.group_id}" target="_blank">{$groupbuy.group_name|escape}</a></h3>
+                            <p><span>{$lang.groupbuy_price}:&nbsp;</span>{$groupbuy.price|price}</p>
+                            <div class="time">
+                                <!-- {if $groupbuy.group_state} -->
+                                <span>{$groupbuy.group_state}
+                                <!-- {else} -->
+                                <span>{$lang.lefttime}:&nbsp;</span>{$groupbuy.lefttime}
+                                <!-- {/if} -->
+                            </div>
+                        </li>
+                        <!-- {/foreach} -->
+                        </ul>
+                    </div>
+                    {include file=page.bottom.html}
+                    <!--{else}-->
+                    <div class="nothing"><p>{$lang.no_groupbuy}</p></div>
+                    <!--{/if}-->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="clear"></div>
+</div>
+
+{include file=footer.html}

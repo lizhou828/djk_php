@@ -1,0 +1,219 @@
+{include file=header.html}
+<link href="{res file=css/chaoshi.css}" rel="stylesheet" type="text/css">
+<link href="{res file=css/index.css}" rel="stylesheet" type="text/css">
+<link href="{res file=css/other.css}" rel="stylesheet" type="text/css">
+<div id="center_w1200" style="width: 100%;" >
+<!--全部内容-->
+{include file=common_search.html}
+
+<script language="JavaScript">
+    //鼠标触及更替li样式
+    $(document).ready(function(){
+//        $("#list").hide();
+//        $("#button_show").click(function(){
+//            $("#list").toggle();
+//        });
+//        $("#button_close").click(function(){
+//            $("#list").hide();
+//        });
+//        $('.group-list').children('ul').children('li').bind('mouseenter',function(){
+//            $('.group-list').children('ul').children('li').attr('class','c1');
+//            $(this).attr('class','c2');
+//        });
+//        $('.group-list').children('ul').children('li').bind('mouseleave',function(){
+//            $('.group-list').children('ul').children('li').attr('class','c1');
+//        });
+//
+//        var area = $("#tese_area").val();
+//        if(area == null || area =="") {
+//            $("#show_area_name").html("全国");
+//            $("#tese_area").val('');
+//        }
+//        else {
+//            $("#show_area_name").html(area);
+//            $("#tese_area").val(area);
+//        }
+    });
+
+    //提交查询
+//    function submit_search() {
+//        $('#search_form').attr('method','get');
+//        $('#search_form').submit();
+//    }
+//    //团购地区筛选
+    function set_tese_area(area) {
+        if(area == '') {
+            $("#tese_area").val('');
+        } else {
+            $("#tese_area").val(area);
+        }
+        submit_search();
+    }
+    //团购分类筛选
+    function set_tese_cateid(class_id) {
+        $("#tese_cateid").val(class_id);
+        submit_search();
+    }
+    // 小分类筛选
+    function set_tese_subcate(class_id) {
+        $("#tese_cate").val(class_id);
+        submit_search();
+    }
+    //团购价格筛选
+    function set_tese_brand(price_range) {
+        $("#tese_brand").val(price_range);
+        submit_search();
+    }
+//    //团购价格筛选
+//    function set_tese_order(order_key) {
+//        if(order_key == $("#tese_order_key").val()) {
+//            change_tese_order();
+//        }
+//        else {
+//            $("#tese_order").val('asc');
+//        }
+//        $("#tese_order_key").val(order_key);
+//        submit_search();
+//    }
+//    //团购排序筛选
+//    function change_tese_order() {
+//        if($("#tese_order").val() == 'asc') {
+//            $("#tese_order").val('desc');
+//        }
+//        else {
+//            $("#tese_order").val('asc');
+//        }
+//    }
+</script>
+
+<div id="navBarts" class="mb10">
+    <div class="content">
+        <div id="all-categoryts">
+            <div class="title">
+                <h2 title="商品全部分类"><a href="{r_url app=category}">商品全部分类</a></h2>
+                <i></i></div>
+            <div id="category" class="category pngFix" style="background: #f8f8f8">
+                <ul class="menu">
+                    <!--{foreach from=$gcategorys_left item=gcategory name=gcategory}-->
+                    <!-- {if $smarty.foreach.gcategory.index<7 }-->
+                    <!-- {if !empty($gcategory) }-->
+                    <li id="cat_{$smarty.foreach.gcategory.index}">
+                        <h3><span class="block"><a href="{r_url app=search&cate_id=$gcategory.id}" title="{$gcategory.value|escape}">{$gcategory.value|escape}</a>   </span>
+                         <span>
+                                <a href="{r_url app=search&cate_id=$gcategory.children[0].id}">{$gcategory.children[0].value}</a>
+                                <a href="{r_url app=search&cate_id=$gcategory.children[1].id}">{$gcategory.children[1].value}</a>
+                               <a href="{r_url app=search&cate_id=$gcategory.children[2].id}">{$gcategory.children[2].value}</a>
+                         </span>
+                        </h3>
+                        <div class="cat-menu" id="cat_{$smarty.foreach.gcategory.index}_menu">
+                            <dl>
+                                <dt> {$gcategory.value|escape} </dt>
+                                <dd><!--{foreach from=$gcategory.children item=child}--><a href="{r_url app=search&cate_id=$child.id}">{$child.value|escape}</a> <!--{/foreach}--> </dd>
+                            </dl>
+
+                        </div>
+                    </li>
+                    <!--{/if}-->
+                    <!--{/if}-->
+                    <!--{/foreach}-->
+
+                    <div class="clear"></div>
+                </ul>
+            </div>
+
+        </div>
+        <ul class="nc-nav-menu">
+            <li <!--{if $filters.tese_cate_id eq 1613 }--> class="current"<!--{else}--> class="link"<!--{/if}-->><a href="{r_url app=tese&act=get_techan_goods&pd_id=3}"><span>当地土特产</span></a></li>
+            <!--<li &lt;!&ndash;{if $filters.tese_cate_id eq 1614 }&ndash;&gt; class="current"&lt;!&ndash;{else}&ndash;&gt; class="link"&lt;!&ndash;{/if}&ndash;&gt; ><a class="pngFix" href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=1614&pd_id=3}"><span class="pngFix">蔬果菜市</span></a></li>-->
+            <li <!--{if $filters.tese_cate_id eq 1615 }--> class="current"<!--{else}--> class="link"<!--{/if}--> ><a href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=1615&pd_id=3}"><span>营养健康</span></a></li>
+            <li <!--{if $filters.tese_cate_id eq 1616 }--> class="current"<!--{else}--> class="link"<!--{/if}--> ><a href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=1616&pd_id=3}"><span>有机食品</span></a></li>
+            <li <!--{if $filters.tese_cate_id eq 1617 }--> class="current"<!--{else}--> class="link"<!--{/if}--> ><a href="{r_url app=tese&act=get_son_gcategory&tese_cate_id=1617&pd_id=3}"><span>休闲食品</span></a></li>
+            <!--<li &lt;!&ndash;{if $smarty.get.act == 'get_goods_qianggou' }&ndash;&gt; class="current"&lt;!&ndash;{else}&ndash;&gt; class="link"&lt;!&ndash;{/if}&ndash;&gt; ><a href="{r_url app=tese&act=get_goods_qianggou}"><span>限时抢购</span></a></li>-->
+            <!--<li class="link"><a href="{url app=service&act=register_service}" target='_blank'><span>抢注服务中心</span></a><em class="em1"></em></li>-->
+        </ul>
+    </div>
+</div>
+<form id="search_form">
+    <input name="app" type="hidden" value="tese">
+    <input name="act" type="hidden" value="get_son_gcategory">
+    <input id="tese_area" name="tese_area" type="hidden" value="{$category.cate_name}"/>
+    <input id="tese_cateid" name="tese_cate_id" type="hidden" value="{$filters.tese_cate_id}"/>
+    <!--<input id="tese_brand" name="tese_brand" type="hidden" value="{$filters.tese_brand}"/>-->
+    <input id="tese_cate" name="tese_subcateid" type="hidden" value="{$filters.tese_subcateid}">
+</form>
+<div id="filter" style="display: none;">
+<div class="fov1" style="display: none;">
+    <!--{if $tese_category}-->
+    <div class="txt1">分类:</div>
+    <ul class="inline">
+        <li class="item"><a href="javascript:void(0)" onClick="set_tese_subcate('')"
+            <!--{if !$filters.tese_subcateid }--> style="background:#27a196;color:#ffffff" <!--{/if}-->>全部</a></li>
+        <!--{foreach from=$tese_category item=gcategory  key=key }-->
+        <li class="item"><a href="javascript:void(0)" onClick="set_tese_subcate('{$category.id}')"
+            <!--{if $filters.tese_subcateid eq $gcategory.cate_id }-->  style="background:#27a196;color:#ffffff"
+            <!--{/if}-->>{$gcategory.cate_name}&nbsp;&nbsp;</a></li>
+        <!--{/foreach}-->
+    </ul>
+    <!--{/if}-->
+    <div class="clear"></div>
+</div>
+
+</div>
+<div class="clear"></div>
+<!--当地土特产-->
+<div class="tese_2" style="margin-top: 20px;">
+   <h3 class="ts-title">商品列表</h3>
+    <div class="bd-con">
+        <!--{foreach from=$goods_list item=goods}-->
+        <div class="city">
+            <a href="{r_url app=goods&id=$goods.goods_id&pd_id=3}" target="_blank" title="{$goods.goods_name}"><img src="{img_url $img_url/$goods.default_image/160X160}" width="170" height="170"></a>
+            <a href="{r_url app=goods&id=$goods.goods_id&pd_id=3}" class="title" target="_blank" title="{$goods.goods_name}">{$goods.goods_name}</a>
+            <!--<p class="desc">{$goods.description}</p>-->
+            <p class="desc">{$goods.price|price}</p>
+        </div>
+        <!--{/foreach}-->
+    </div>
+</div>
+      <div class="clear"></div>
+<div class="pagination" style="padding-right: 100px;">
+    {include file=page.bottom.html}
+</div>
+<!--蔬果菜市-->
+<!--<div class="tese_2">-->
+    <!--<h3 class="ts-title">蔬果菜市<span><a href="#">华北</a><a href="#">华东</a><a href="#">华南</a><a href="#">华中</a>-->
+   <!--<a href="#">西北</a><a href="#">西南</a><a href="#">东北</a><a href="#">港澳台</a></span></h3>-->
+    <!--<div class="bd-con">-->
+        <!--<div class="city">-->
+            <!--<a href="#"><img src="images/48.jpg" width="170" height="170"></a>-->
+            <!--<a href="#" class="title">新疆特产开心果</a>-->
+            <!--<p class="desc">开心果，产自古丝路南麓疏勒国境内喀什和疏勒县，在喀什地区4月下旬开花，平均每穗有16个侧枝，坐果率低</p>-->
+            <!--<p class="buyer">最近<em class="num">2</em>人购买</p>-->
+        <!--</div>-->
+        <!--<div class="city">-->
+            <!--<a href="#"><img src="{res file=images/49.jpg}" width="170" height="170"></a>-->
+            <!--<a href="#" class="title">蔬菜之乡-宁乡</a>-->
+            <!--<p class="desc">来自“蔬菜之乡”的千余种蔬菜种子一站购齐可盆栽 圣女果 樱桃番茄种子 红玉女 西红柿种子 1粒</p>-->
+            <!--<p class="buyer">最近<em class="num">82</em>人购买</p>-->
+        <!--</div>-->
+        <!--<div class="city">-->
+            <!--<a href="#"><img src="{res file=images/50.jpg}" width="170" height="170"></a>-->
+            <!--<a href="#" class="title">洪湖新鲜莲蓬</a>-->
+            <!--<p class="desc">据《本草纲目》称，自然环境中野生野长的莲子为莲参(读sen，为名贵中药补品。种植的莲子不叫莲参）。是一种难得的纯中药野生植物。洪湖湿地保护区生长大量的野莲子. </p>-->
+            <!--<p class="buyer">最近<em class="num">82</em>人购买</p>-->
+        <!--</div>-->
+        <!--<div class="city">-->
+            <!--<a href="#"><img src="{res file=images/51.jpg}" width="170" height="170"></a>-->
+            <!--<a href="#" class="title">美国草莓番茄</a>-->
+            <!--<p class="desc">阳台庭院盆栽 30种蔬菜种子套餐送肥料 家庭种花种阳台庭院盆栽 30种蔬菜种子套餐送肥料 家庭种花种子草莓番茄。</p>-->
+            <!--<p class="buyer">最近<em class="num">82</em>人购买</p>-->
+        <!--</div>-->
+        <!--<div class="city">-->
+            <!--<a href="#"><img src="{res file=images/52.jpg}" width="170" height="170"></a>-->
+            <!--<a href="#" class="title">埃及帝王菜</a>-->
+            <!--<p class="desc">原产于阿拉伯半岛、埃及、利比亚等地，又称菜用黄麻，阿拉伯人、日本人称莫洛海芽( Muludhiya )。相传埃及国王病重时，曾每日饮此菜汁作为处方医治，结果很快痊愈，</p>-->
+            <!--<p class="buyer">最近<em class="num">82</em>人购买</p>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+<div class="clear"></div>
+{include file=footer.html}

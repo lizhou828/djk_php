@@ -1,0 +1,359 @@
+{include file=header.html}
+<link href="{res file=css/hanguo.css}" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+    $(function(){
+        var ul = $(".lxfscroll ul");
+        var li = $(".lxfscroll li");
+        var tli = $(".lxfscroll-title li");
+        var speed = 0;
+        var autospeed = 4000;
+        var i=1;
+        var index = 0;
+        var n = 0;
+        /* 标题按钮事件 */
+        function lxfscroll() {
+            var index = tli.index($(this));
+            tli.removeClass("cur");
+            $(this).addClass("cur");
+
+            ul.css({"left":"0px"});
+            li.css({"left":"0px"});
+            li.eq(index).css({"z-index":i});
+            li.eq(index).css({"left":"1200px"});
+            ul.animate({left:"-1200px"},speed);
+            i++;
+        };
+        /* 自动轮换 */
+        function autoroll() {
+            if(n >=2) {
+                n = 0;
+                i= 1;
+            }
+            tli.removeClass("cur");
+            tli.eq(n).addClass("cur");
+            ul.css({"left":"0px"});
+            li.css({"left":"0px"});
+            li.eq(n).css({"z-index":i});
+            li.eq(n).css({"left":"1200px"});
+            n++;
+            i++;
+            timer = setTimeout(autoroll, autospeed);
+            ul.animate({left:"-1200px"},speed);
+        };
+
+
+
+        /* 鼠标悬停即停止自动轮换 */
+        function stoproll() {
+            li.hover(function() {
+                clearTimeout(timer);
+                n = $(this).prevAll().length+1;
+            }, function() {
+                timer = setTimeout(autoroll, autospeed);
+            });
+            tli.hover(function() {
+                clearTimeout(timer);
+                n = $(this).prevAll().length+1;
+            }, function() {
+                timer = setTimeout(autoroll, autospeed);
+            });
+        };
+        tli.mouseenter(lxfscroll);
+        autoroll();
+        stoproll();
+    });
+</script>
+<style type="text/css">
+
+    .lxfscroll {
+        width:1200px;
+        margin-left:auto;
+        margin-right:auto;
+        position: relative;
+        height: 380px;
+        overflow: hidden;
+    }
+
+    .lxfscroll ul li {
+        height: 380px;
+        width: 1200px;
+        text-align: center;
+        line-height: 380px;
+        position: absolute;
+        font-size: 40px;
+        font-weight: bold;
+    }
+    .lxfscroll-title{
+        width: 200px;
+        margin-right: auto;
+        margin-left: auto;
+        position: absolute;
+        top: 545px;
+        left: 1170px;
+        z-index: 500;
+    }
+    .lxfscroll-title li{
+        height: 20px;
+        width: 25px;
+        float: left;
+        line-height: 20px;
+        text-align: center;
+        cursor: pointer;
+        margin-top: 2px;
+        /*margin-right: 5px;*/
+        border: 1px solid ;
+    }
+    .cur{
+        color: #FFF;
+        font-weight: bold; background:#001b34;
+    }
+    .lxfscroll ul {
+        position: absolute;
+    }
+</style>
+<!--内容-->
+
+<div id="center_w1200" style="width: 100%;" >
+<!--logo部分-->
+{include file=hgg.common.html}
+<div id="hg_bg">
+<div id="hg_menu">
+    <div class="w1200">
+        <div class="left_w210">所有商品分类<span class="hg_ico"></span>
+            <div class="fenlei">
+                <!--{foreach from=$hgg_category item=gcategory name=gcategory}-->
+                <!-- {if $smarty.foreach.gcategory.index<8 }-->
+                <!-- {if !empty($gcategory) }-->
+                <dl>
+                    <dd><a href="{r_url app=hgg&act=search&pd_id=$pd_id&cate_id=$gcategory.id}">{$gcategory.value|truncate:22:"……"}</a></dd>
+                    <dt>
+                        <span><a href="{r_url  app=hgg&act=search&pd_id=$pd_id&cate_id=$gcategory.children[0].id}">{$gcategory.children[0].value}</a></span>
+                        <span><a href="{r_url  app=hgg&act=search&pd_id=$pd_id&cate_id=$gcategory.children[1].id}">{$gcategory.children[1].value}</a></span>
+                        <span><a href="{r_url  app=hgg&act=search&pd_id=$pd_id&cate_id=$gcategory.children[2].id}">{$gcategory.children[2].value}</a></span>
+                    </dt>
+                    <em>
+                        <dl class="ssp_no1">
+                            <dd>{$gcategory.value|escape}</dd>
+                            <dt><!--{foreach from=$gcategory.children item=child}-->
+                                <i><a href="{r_url app=hgg&act=search&pd_id=$pd_id&cate_id=$child.id}">{$child.value|escape}</a></i> <!--{/foreach}-->
+                            </dt>
+                        </dl>
+                    </em>
+
+                </dl>
+                <span class="menu_line"></span>
+                <!--{/if}-->
+                <!--{/if}-->
+                <!--{/foreach}-->
+            </div>
+        </div>
+        {include file=hgg.top.html}
+        <!--<div class="hg_right">更多精彩，敬请期待……</div>-->
+    </div>
+</div>
+<!--banner-->
+<div id="hg_banner">
+    <div class="lxfscroll"> <ul>
+        <li>
+           <a href="http://www.dajike.com/index.php?app=hgg&act=search&pd_id=&cate_id=3008">
+            <img src="{res file=images/pic/hg_banner.jpg}" width="1200" height="380" />
+         </a>
+        </li>
+        <li>
+            <!--<a href="http://www.dajike.com/index.php?app=hgg&pd_id=15&act=get_category_goods&r_id=37">-->
+            <img src="{res file=images/pic/hgg.jpg}" width="1200" height="380" />
+            <!--</a>-->
+        </li>
+    </ul></div>
+</div>
+<div class="lxfscroll-title">
+<ul>
+    <li class="cur">1</li>
+    <li>2</li>
+
+</ul>
+</div>
+<!--品牌-->
+<div id="hg_pinpai">
+    <h2 class="one1"><span class="more"><a href="{r_url app=hgg&pd_id=10&country_id=2}">我是品牌控</a></span>品牌精选</h2>
+    <div class="one2">
+        <ul class="pp">
+            <li><a href="http://www.dajike.com/index.php?app=goods&id=23149"><img src="{$site_url}/themes/mall/default/styles/default/images/hgg/1.png" width="99" height="38" /></a></li>
+            <li><a href="http://www.dajike.com/index.php?act=index&app=search&keyword=BUGSLESS"><img src="{$site_url}/themes/mall/default/styles/default/images/hgg/2.png" width="99" height="38" /></a></li>
+            <li><a href="http://www.dajike.com/index.php?act=index&app=search&keyword=丹碧"><img src="{$site_url}/themes/mall/default/styles/default/images/hgg/3.png" width="99" height="38" /></a></li>
+            <li><a href="http://www.dajike.com/index.php?act=index&app=search&keyword=Oran.G"><img src="{$site_url}/themes/mall/default/styles/default/images/hgg/4.png" width="99" height="38" /></a></li>
+            <li><a href="http://www.dajike.com/?act=index&app=search&search_type=&keyword=u-za"><img src="{$site_url}/themes/mall/default/styles/default/images/hgg/5.png" width="99" height="38" /></a></li>
+            <li><a href="http://www.dajike.com/index.php?act=index&app=search&search_type=&keyword=ZARPAR"><img src="{$site_url}/themes/mall/default/styles/default/images/hgg/6.png" width="99" height="38" /></a></li>
+            <li><a href="http://www.dajike.com/?act=index&app=search&search_type=&keyword=吉山动力"><img src="{$site_url}/themes/mall/default/styles/default/images/hgg/7.png" width="99" height="38" /></a></li>
+            <li><a href="http://www.dajike.com/index.php?act=index&app=search&keyword=+松莱芙"><img src="{$site_url}/themes/mall/default/styles/default/images/hgg/8.png" width="99" height="38" /></a></li>
+            <li><a href="http://www.dajike.com/?act=index&app=search&search_type=&keyword=hurom"><img src="{$site_url}/themes/mall/default/styles/default/images/hgg/9.png" width="99" height="38" /></a></li>
+            <li><a href="http://www.dajike.com/?act=index&app=search&search_type=&keyword=cuckoo"><img src="{$site_url}/themes/mall/default/styles/default/images/hgg/10.png" width="99" height="38" /></a></li>
+            <li><a href="http://www.dajike.com/?act=index&app=search&search_type=&keyword=韩京姬"><img src="{$site_url}/themes/mall/default/styles/default/images/hgg/11.png" width="99" height="38" /></a></li>
+            <li><a href="http://www.dajike.com/?act=index&app=search&search_type=&keyword=麹醇堂"><img src="{$site_url}/themes/mall/default/styles/default/images/hgg/12.png" width="99" height="38" /></a></li>
+        </ul>
+    </div>
+</div>
+<!--热销-->
+<div id="hg_rexiao">
+    <div class="hg_title"></div>
+    <ul>
+        <!--{foreach from=$recommendeds item=recgoods}-->
+        <li>
+            <div class="hg_rex">
+                <div class="hg_pic">
+                    <a href="{r_url app=goods&id=$recgoods.goods_id}" target="_blank">
+                        <img src="{img_url $img_url/$recgoods.default_image/160X160}" width="160" height="160" title="{$recgoods.goods_name}" />
+                    </a>
+                </div>
+                <div class="hg_txt">{$recgoods.goods_name}</div>
+                <div class="hg_jiage"><em><a href="{r_url app=goods&id=$recgoods.goods_id}">立即购买</a></em>商城价：<strong><span>{$recgoods.price|price}</span></strong></div>
+            </div>
+        </li>
+        <!--{/foreach}-->
+
+    </ul>
+</div>
+<!--F1-->
+<div id="hg_one1">
+    <div class="tltle">
+        <div class="tleft"><img src="{res file=images/hg_one1.png}" width="222" height="36" /></div>
+    </div>
+    <div class="hg_font">
+        <div class="left_pic">
+            <div class="pic1"><a href="{r_url app=hgg&pd_id=12&act=get_category_goods&r_id=34}"><img src="{res file=images/hgg/fo1.jpg}" width="253" height="218" /></a></div>
+            <div class="pic2"><a href="{r_url app=hgg&pd_id=12&act=get_category_goods&r_id=34}"><img src="{res file=images/hgg/fo11.jpg}" width="253" height="155" /></a></div>
+        </div>
+        <div class="center">
+            <ul>
+                <!-- {foreach from=$goods_module1.img_goods_list item=goods name=goods1} -->
+                <li>
+                    <div class="pic"><a href="{r_url app=goods&id=$goods.goods_id}" target="_blank" title="{$goods.goods_name}"><img src="{img_url $img_url/$goods.default_image/100X100}" width="100" height="100" /></a></div>
+                    <div class="text"><a href="{r_url app=goods&id=$goods.goods_id}" target="_blank">{$goods.goods_name|truncate:35:"……"}</a></div>
+                    <div class="jiage"><span>{$goods.price|price}</span></div>
+                </li>
+                <!-- {/foreach} -->
+            </ul>
+        </div>
+    </div>
+</div>
+<!--F2-->
+<div id="hg_one1">
+    <div class="tltle">
+        <div class="tleft"><img src="{res file=images/hg_one2.png}" width="260" height="36" /></div>
+    </div>
+    <div class="hg_font">
+        <div class="left_pic">
+            <div class="pic1"><a href="{r_url app=hgg&pd_id=13&act=get_category_goods&r_id=35}"><img src="{res file=images/hgg/fo2.jpg}" width="253" height="218" /></a></div>
+            <div class="pic2"><a href="{r_url app=hgg&pd_id=13&act=get_category_goods&r_id=35}"><img src="{res file=images/hgg/fo21.jpg}" width="253" height="155" /></a></div>
+        </div>
+        <div class="center">
+            <ul>
+                <!-- {foreach from=$goods_module2.img_goods_list item=goods name=goods2} -->
+                <li>
+                    <div class="pic"><a href="{r_url app=goods&id=$goods.goods_id}" target="_blank"  title="{$goods.goods_name}"><img src="{img_url $img_url/$goods.default_image/100X100}" width="100" height="100" /></a></div>
+                    <div class="text"><a href="{r_url app=goods&id=$goods.goods_id}" target="_blank">{$goods.goods_name|truncate:35:"……"}</a></div>
+                    <div class="jiage"><span>{$goods.price|price}</span></div>
+                </li>
+                <!-- {/foreach} -->
+            </ul>
+        </div>
+    </div>
+</div>
+<!--F3-->
+<div id="hg_one1">
+    <div class="tltle">
+        <div class="tleft"><img src="{res file=images/hg_one3.png}" width="260" height="36" /></div>
+    </div>
+    <div class="hg_font">
+        <div class="left_pic">
+            <div class="pic1"><a href="{r_url app=hgg&pd_id=14&act=get_category_goods&r_id=36}"><img src="{res file=images/hgg/fo3.jpg}" width="253" height="218" /></a></div>
+            <div class="pic2"><a href="{r_url app=hgg&pd_id=14&act=get_category_goods&r_id=36}"><img src="{res file=images/hgg/flo5.jpg}" width="253" height="155" /></a></div>
+        </div>
+        <div class="center">
+            <ul>
+                <!-- {foreach from=$goods_module3.img_goods_list item=goods name=goods3} -->
+                <li>
+                    <div class="pic"><a href="{r_url app=goods&id=$goods.goods_id}" target="_blank"  title="{$goods.goods_name}"><img src="{img_url $img_url/$goods.default_image/100X100}" width="100" height="100" /></a></div>
+                    <div class="text"><a href="{r_url app=goods&id=$goods.goods_id}" target="_blank">{$goods.goods_name|truncate:35:"……"}</a></div>
+                    <div class="jiage"><span>{$goods.price|price}</span></div>
+                </li>
+                <!-- {/foreach} -->
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!--F4-->
+<div id="hg_one1">
+    <div class="tltle">
+        <div class="tleft"><img src="{res file=images/hg_one4.png}" width="210" height="36" /></div>
+    </div>
+    <div class="hg_font">
+        <div class="left_pic">
+            <div class="pic1"><a href="{r_url app=hgg&pd_id=15&act=get_category_goods&r_id=37}"><img src="{res file=images/hgg/fo4.jpg}" width="253" height="218" /></a></div>
+            <div class="pic2"><a href="{r_url app=hgg&pd_id=15&act=get_category_goods&r_id=37}"><img src="{res file=images/hgg/fo41.jpg}" width="253" height="155" /></a></div>
+        </div>
+        <div class="center">
+            <ul>
+                <!-- {foreach from=$goods_module4.img_goods_list item=goods name=goods4} -->
+                <li>
+                    <div class="pic"><a href="{r_url app=goods&id=$goods.goods_id}" target="_blank"  title="{$goods.goods_name}"><img src="{img_url $img_url/$goods.default_image/100X100}" width="100" height="100" /></a></div>
+                    <div class="text"><a href="{r_url app=goods&id=$goods.goods_id}" target="_blank">{$goods.goods_name|truncate:35:"……"}</a></div>
+                    <div class="jiage"><span>{$goods.price|price}</span></div>
+                </li>
+                <!-- {/foreach} -->
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!--F5-->
+<div id="hg_one1">
+    <div class="tltle">
+        <div class="tleft"><img src="{res file=images/hg_one5.png}" width="200" height="36" /></div>
+    </div>
+    <div class="hg_font">
+        <div class="left_pic">
+            <div class="pic1"><a href="{r_url app=hgg&pd_id=16&act=get_category_goods&r_id=38}"><img src="{res file=images/hgg/fo5.jpg}" width="253" height="218" /></a></div>
+            <div class="pic2"><a href="{r_url app=hgg&pd_id=16&act=get_category_goods&r_id=38}"><img src="{res file=images/hgg/fo31.jpg}" width="253" height="155" /></a></div>
+        </div>
+        <div class="center">
+            <ul>
+                <!-- {foreach from=$goods_module5.img_goods_list item=goods name=goods5} -->
+                <li>
+                    <div class="pic"><a href="{r_url app=goods&id=$goods.goods_id}" target="_blank"  title="{$goods.goods_name}"><img src="{img_url $img_url/$goods.default_image/100X100}" width="100" height="100" /></a></div>
+                    <div class="text"><a href="{r_url app=goods&id=$goods.goods_id}" target="_blank">{$goods.goods_name|truncate:35:"……"}</a></div>
+                    <div class="jiage"><span>{$goods.price|price}</span></div>
+                </li>
+                <!-- {/foreach} -->
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!--F6-->
+<div id="hg_one1">
+    <div class="tltle">
+        <div class="tleft"><img src="{res file=images/hg_one6.png}" width="245" height="36" /></div>
+    </div>
+    <div class="hg_font">
+        <div class="left_pic">
+            <div class="pic1"><a href="{r_url app=hgg&pd_id=17&act=get_category_goods&r_id=39}"><img src="{res file=images/hgg/fo6.jpg}" width="253" height="218" /></a></div>
+            <div class="pic2"><a href="{r_url app=hgg&pd_id=17&act=get_category_goods&r_id=39}"><img src="{res file=images/hgg/fo61.jpg}" width="253" height="155" /></a></div>
+        </div>
+        <div class="center">
+            <ul>
+                <!-- {foreach from=$goods_module6.img_goods_list item=goods name=goods6} -->
+                <li>
+                    <div class="pic"><a href="{r_url app=goods&id=$goods.goods_id}" target="_blank"  title="{$goods.goods_name}"><img src="{img_url $img_url/$goods.default_image/100X100}" width="100" height="100" /></a></div>
+                    <div class="text"><a href="{r_url app=goods&id=$goods.goods_id}" target="_blank">{$goods.goods_name|truncate:35:"……"}</a></div>
+                    <div class="jiage"><span>{$goods.price|price}</span></div>
+                </li>
+                <!-- {/foreach} -->
+            </ul>
+        </div>
+    </div>
+</div>
+
+</div>
+{include file=footer.html}

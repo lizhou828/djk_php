@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>已绑定银行卡</title>
+    <link href="{$site_url}/weixin/templates/style/address.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/binding.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+</head>
+<body>
+<div style="width: 320px;margin: 0px auto">
+    <div style="padding-top: 50px;">
+        <div class="address-t">
+            <div class="address-l"><a href="javascript:history.go(-1)">返回</a></div>
+            <div class="address-c" style="padding-left: 54px;">银行卡信息</div>
+            {include file=member.index_header.html}
+        </div>
+        <div class="address-cen">
+            <div class="address5">
+                已绑定的银行卡信息
+            </div>
+            <div  class="address6" >
+                <dl>
+                    <dt><img src="{$site_url}/weixin/templates/style/img/union_pay.jpg" width="46" height="40" alt="{$bankCard.bank_name}" /></dt>
+                    <dd style="width:180px;">
+                        <h3>
+                            <span>
+                                {if $bankCard.if_default == 1}
+                                    结算账号
+                                {/if}
+                            </span>
+                            {$bankCard.bank_name}
+                        </h3>
+                        <p>尾号{$bankCard.kahao|lastTruncate:-4:4}储蓄卡</p>
+                    </dd>
+                    <a href="javascript:void(0)" alt="解除银行卡绑定" onclick="confirm_payPassword('{$bankCard.id}')">
+                        <img src="{$site_url}/weixin/templates/style/images/la-ji.jpg" alt="解除银行卡绑定" style="float: right;margin-top: 8px;">
+                    </a>
+
+                </dl>
+            </div>
+            <div class="address6" style="height: 80px;">
+                <div style="margin-top: 5px;height: 40px;font-size: 14px;">姓名 <span style="float:right;padding-right: 10px;">{$bankCard.user_name}</span></div>
+                <div  style="margin-top:5px;height: 40px;font-size: 14px;">身份证号码 <span style="float:right;padding-right: 10px;">{$user.card_id}</span></div>
+            </div>
+    </div>
+</div>
+</div>
+{include file=cnzz.html}
+<script type="text/javascript" src="{$site_url}/weixin/templates/js/jike.js" charset="utf-8"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.plugins/jquery.validate.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/dialog/dialog.js" id="dialog_js"></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js" ></script>
+<script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js" ></script>
+<script type="text/javascript">
+    function confirm_payPassword(card_id){
+        var uri =encodeURI("{$site_url}/weixin/index.php?app=member_bankcard&act=confirm_payPasswordPage&card_id="+card_id);
+        var id = 'confirm_payPassword';
+        var title = "解绑银行卡";
+        var width = '308';
+        ajax_form(id, title, uri, width);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+{include file=member.header.html}
+<!--<script type="text/javascript" src="{res file=js/jquery-ui.js}"></script>-->
+<!--<style type="text/css" src="{$site_url}/includes/libraries/javascript/jquery.ui/themes/ui-lightness/jquery.ui.css"></style>-->
+
+<!--<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>-->
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>-->
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>-->
+<script type="text/javascript" charset="utf-8">
+    jQuery(function($){
+        $.datepicker.regional['zh-CN'] ={
+                clearText: '清除', clearStatus: '清除已选日期',
+                closeText: '关闭', closeStatus: '不改变当前选择',
+                prevText: '<上月', prevStatus: '显示上月',
+                nextText: '下月>', nextStatus: '显示下月',
+                currentText: '今天', currentStatus: '显示本月',
+                monthNames: ['一月','二月','三月','四月','五月','六月',
+            '七月','八月','九月','十月','十一月','十二月'],
+                monthNamesShort: ['一','二','三','四','五','六',
+            '七','八','九','十','十一','十二'],
+                monthStatus: '选择月份', yearStatus: '选择年份',
+                weekHeader: '周', weekStatus: '年内周次',
+                dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+                dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
+                dayNamesMin: ['日','一','二','三','四','五','六'],
+                dayStatus: '设置 DD 为一周起始', dateStatus: '选择 m月 d日, DD',
+                dateFormat: 'yy-mm-dd', firstDay: 1,
+                initStatus: '请选择日期', isRTL: false
+        }
+        $.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+        $("#add_time_from").datepicker({dateFormat: 'yy-mm-dd'});
+        $("#add_time_to").datepicker({dateFormat: 'yy-mm-dd'});
+    });
+</script>
+
+<div class="content">
+{include file=member.menu.html}
+<div id="right">
+    {include file=member.submenu.html}
+<div class="wrap">
+<div class="scarch_order">
+    <form method="get">
+        <div style="float:left;">
+
+            <span class="title" <!--{if $ordersType}-->style="margin-left:53px"<!--{/if}--> >&nbsp;&nbsp;{$lang.order_sn}:</span>
+            <input class="text_normal" type="text" name="order_sn" value="{$order_sn|escape}" />
+            <span class="title" style="margin-left:40px">下单时间:</span>
+            <input class="text_normal width2 " type="text" name="add_time_from" id="add_time_from" value="{$add_time_from}" />
+            &#8211;
+            <input class="text_normal width2" id="add_time_to" type="text" name="add_time_to" value="{$add_time_to}" />
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="title">{$lang.buyer_name}:</span>
+            <input class="text_normal" type="text" name="buyer_name" value="{$buyer_name|escape}" />
+
+            <input type="hidden" name="app" value="service" />
+            <input type="hidden" name="act" value="vshop_order" />
+            <input type="hidden" name="type" value="{$type}" />
+            <br/>
+            <br/>
+            <span class="title">集客小店号:</span>
+            <select name="shop_id" style="width: 105px;">
+                {if $vshopList != null && count($vshopList) > 0 }
+                    <option value="">请选择</option>
+                    {foreach from=$vshopList item=vshop}
+                        <option value="{$vshop.user_id}" {if $shop_id==$vshop.user_id}selected="selected"{/if}>{$vshop.user_id}</option>
+                    {/foreach}
+                {else}
+                    <option value="">请选择</option>
+                {/if}
+            </select>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="submit" class="btn" value="{$lang.search}" />
+        </div>
+
+
+    </form>
+</div>
+<div class="public">
+
+    <!--{if $orders}-->
+        <!--{foreach from=$orders item=order}-->
+            <div class="dp">买家用户：<a href="javascript:;">{$order.buyer_name|escape}</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收货人姓名：{$order.consignee|escape}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收货人电话：<!--{ if $order.phone_mob neq ''}-->{$order.phone_mob}<!--{else}-->{$order.phone_tel}<!--{/if}-->
+                <!--{if $order.status eq ORDER_PENDING && $order.yue_jine > 0 && $order.zhifu > 0}-->
+                <span style="color:red">&nbsp;(余额已支付{$order.zhifu|number2}元，还剩{$order.yue_jine}元待支付！)</span>
+                <!--{/if}-->
+            </div>
+            <div class="ble">
+                <table width="766" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td class="align2" align="center" bgcolor="#f3f3f3" style="color:#333;" >订单号</td>
+                        <td height="30" width="220" colspan="3" align="center" bgcolor="#f3f3f3" style="color:#333;">订单商品</td>
+                        <td width="93" align="center" bgcolor="#f3f3f3" style="color:#333;">订单金额</td>
+                        <td width="108" align="center" bgcolor="#f3f3f3" style="color:#333;">时间</td>
+                        <td width="87" align="center" bgcolor="#f3f3f3" style="color:#333;">订单状态</td>
+                        <!--<td width="96" align="center" bgcolor="#f3f3f3" style="color:#333;">操作</td>-->
+                    </tr>
+                    <tr>
+
+                        <td align="center" style=" padding-left:8px;">
+                            <a href="{url app=$smarty.get.app&act=view&order_id=$order.order_id}" target="_blank" style="font-weight:bold; color:#666">
+                                {$order.order_sn}{if $order.extension eq 'groupbuy'}<span class="color8">[{$lang.groupbuy}]</span>{/if}
+                            </a>
+                        </td>
+                        <td height="80" colspan="2">
+                            <ul class="sp">
+                                <!--{foreach from=$order.order_goods item=goods name=o_goods}-->
+                                    <!--{if $smarty.foreach.o_goods.index<=3}-->
+                                        <li>
+                                            <a href="index.php?app=goods&id={$goods.goods_id}" target="_blank">
+                                                <img src="{$site_url}/{$goods.goods_image}" style="border: 1px solid #ddd" alt="{$goods.goods_name|escape}" width="60px" height="60px"/>
+                                            </a>
+                                        </li>
+                                    <!--{/if}-->
+                                <!--{/foreach}-->
+                            </ul>
+                        </td>
+                        <td height="50">&nbsp;</td>
+                        <td align="center" style="font-weight:bold;">{$order.order_amount|price}</td>
+                        <td align="center" style="color:#999">{$order.add_time|date:Y-m-d H:i:s}</td>
+                        <td align="center" style="font-weight:bold; color:#333">{$order.status|modifier:order_status}<!--{if $order.evaluation_status}-->,&nbsp;{$lang.already_evaluate}<!--{/if}--></td>
+
+                    </tr>
+                </table>
+            </div>
+    <!--{/foreach}-->
+
+    <!--{else}-->
+        <center>
+            <table>
+                <tr><td class="member_no_records" colspan="7" style="text-align:center">{$lang.no_records}</td></tr>
+            </table>
+        </center>
+    <!--{/if}-->
+
+
+    <div class="order_form_page">
+        <div class="page">
+            {include file=member.page.bottom.html}
+        </div>
+    </div>
+
+
+
+</div>
+<iframe name="seller_order" style="display:none;"></iframe>
+
+</div>
+</div>
+</div>
+<div class="clear"></div>
+</div>
+{include file=footer.html}

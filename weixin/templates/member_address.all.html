@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>地址管理</title>
+    <link href="{$site_url}/weixin/templates/style/address.css" rel="stylesheet" type="text/css" />
+    <link href="{$site_url}/weixin/templates/style/common.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{$SITE_URL}/weixin/templates/js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+    <script type="text/javascript">
+        function deleteAddress(id){
+//            alert(typeof id+"_"+id.length+"_"+id);
+            if(!id  || id=="" || id =="undefined"){
+                return;
+            }
+            var id = parseInt(id);
+            //弹出对话框（带遮罩层）
+            var bh = $("body").height();
+            var bw = $("body").width();
+            $("#fullbg").css({
+                height:bh,
+                width:bw,
+                display:"block"
+            });
+            $(".dialog").show();
+            $("#deleteButton").bind("click",function(){
+                $.get("/weixin/index.php?app=member_address&act=delete&addr_id="+id,function(result){
+                    var result = eval("("+result+")");
+                    alert(result.msg);
+                    window.location.reload();
+                })
+            })
+        }
+
+        function cancelDelete(){
+            $("#fullbg,.dialog").hide();
+        }
+    </script>
+    <style type="text/css">
+        #fullbg{
+            background: rgba(118, 113, 120, 0.22);
+            left:0;
+            opacity:0.5;
+            position:absolute;
+            top:0;
+            z-index:3;
+            filter:alpha(opacity=50);
+            -moz-opacity:0.5;
+            -khtml-opacity:0.5;}
+        .dialog{
+            width:188px;
+            height:86px;
+            border-radius:5px;
+            background:#fff;
+            border:1px solid #e5e5e5;
+            display: none;
+            margin-left:-94px;
+            margin-top: -43px;
+            text-align:center;
+            left:50%;
+            padding:1px;
+            position:fixed !important; /* 浮动对话框 */
+            position:absolute;
+            top:50%;
+            z-index:5;
+        }
+        .dialog-1{width:187px;height:50px;line-height:50px; text-align:center;border-bottom:1px solid #e5e5e5;}
+        .dialog-2{width:187px;height:33px;line-height:33px; font-weight:bold;font-size:12px;text-align:center;}
+    </style>
+
+</head>
+<body>
+<div style="width: 320px;margin: 0px auto">
+    <div style="padding-top: 50px;">
+        <div class="address-t">
+            <div class="address-l"><a href="index.php?app=member">返回</a></div>
+            <div class="address-c" style="padding-left: 60px;">地址管理</div>
+            <div class="address-r"><a href="index.php?app=member_address&act=addAddress">新增地址</a></div>
+        </div>
+
+
+        <div class="address-cen">
+            <div class="address-cen-bg">
+                <!--{if !$addresses}-->
+                <div class="address-cen-1" style="border:0px;">
+                    <dl>
+                        <dt></dt>
+                    <dd>
+                        <h3>您还没有填写过收货地址！</h3>
+                    </dd>
+                    </dl>
+                </div>
+                <!--{else if}-->
+                <!--{foreach from = $addresses item= address name=address}-->
+                   <!--{if $smarty.foreach.address.index == $count}-->
+                         <div class="address-cen-1" style="border-bottom:0px; height:85px; ">
+                   <!--{else}-->
+                         <div class="address-cen-1" style="height:85px;">
+                   <!--{/if}-->
+                        <dl>
+                            <dt>
+                                <a href="#" onclick="deleteAddress('{$address.addr_id}')">
+                                    <img src="{res file =images/address/x-x.jpg}" width="34" height="19" alt="删除按钮" />
+                                </a>
+                            </dt>
+                            <a href="index.php?app=member_address&act=editPage&addr_id={$address.addr_id}">
+                                <dd>
+                                    <h3>
+                                        {$address.consignee}&nbsp;{$address.region_name}
+                                        {if $address.state == 0}
+                                        <img src="templates/style/images/address/di-zhi.jpg" width="60" height="20" alt="默认地址" style="vertical-align: middle;"/>
+                                        {/if}
+                                    </h3>
+                                    <p>{$address.address}</p>
+                                    <p>{$address.phone_mob}</p>
+                                </dd>
+                            </a>
+                        </dl>
+                    </div>
+                <!--{/foreach}-->
+                <!--{/if}-->
+                <!--半透明的遮罩层-->
+                <div id="fullbg"></div>
+                <div class="dialog">
+                    <div class="dialog-1">你确定删除该地址？</div>
+                    <div class="dialog-2">
+                        <input type="button" id="deleteButton" onclick="" value="确定" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="取消" onclick="cancelDelete()"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    {include file=cnzz.html}
+</body>
+</html>

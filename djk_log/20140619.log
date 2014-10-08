@@ -1,0 +1,21 @@
+
+错误url=http:///
+2014-06-19 08:52:38  	[2]parse_url(http://) [<a href='function.parse-url'>function.parse-url</a>]: Unable to parse URL	\includes\subdomain.inc.php	50
+
+错误url=http://192.168.0.137/weixin/index.php?app=jkxd_portal&act=my_jkxd
+2014-06-19 10:34:29  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+MySQL Query:SELECT *,member.user_id FROM ecm_member member WHERE user_id=
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=jkxd_portal&act=my_jkxd
+2014-06-19 10:34:38  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+MySQL Query:SELECT *,member.user_id FROM ecm_member member WHERE user_id=
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http://192.168.0.137/weixin/index.php?app=jkxd_portal&act=my_jkxd&u_id=2
+2014-06-19 10:34:38  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+MySQL Query:SELECT *,member.user_id FROM ecm_member member WHERE user_id=
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310
+
+错误url=http:///
+2014-06-19 16:43:55  	[2]parse_url(http://) [<a href='function.parse-url'>function.parse-url</a>]: Unable to parse URL	\includes\subdomain.inc.php	50

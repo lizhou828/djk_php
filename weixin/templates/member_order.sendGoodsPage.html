@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>选择快递公司</title>
+    <link href="{res file=common.css}" rel="stylesheet" type="text/css" />
+    <link href="{res file=order-inquiry.css}" rel="stylesheet" type="text/css" />
+    <meta id="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" name="viewport">
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/hide_share_button.js"></script>
+    <script type="text/javascript">
+        //选择快递
+        function kuaidi(){
+            $('#kuaidi').html("<img src='{$site_url}/weixin/templates/images/da-g.jpg' width='30' height='29' />");
+            $("#sendMethod").val("kuaidi");
+            $('#wuxuwuliu').html("");
+            $("#invoice_no").css({"display":"block"});
+            $("#kdgs").css({"display":"block"});
+            $("#wuxuwuliu_button").css({"display":"none"});
+        }
+        //无需物流
+        function wuxuwuliu(){
+            $('#wuxuwuliu').html("<img src='{$site_url}/weixin/templates/images/da-g.jpg' width='30' height='29' />");
+            $("#sendMethod").val("wuxuwuliu");
+            $('#kuaidi').html("");
+            $("#kdgs_chosen").val("")
+            $("#invoice_no").css({"display":"none"});
+            $("#kdgs").css({"display":"none"});
+            $("#wuxuwuliu_button").css({"display":"block"});
+        }
+
+        //选择快递公司
+        function gongsi(_kdgs){
+            $("#kdgs_chosen").val(_kdgs);
+            $("#company_chosen").html('');
+
+            //删除id=companies节点下所有的img标签
+            $("#companies img").remove();
+
+            var _id="#"+_kdgs;
+            $(_id).html('<img src="{$site_url}/weixin/templates/images/da-g.jpg" width="30" height="29" />');
+            window.location='{$site_url}/weixin/index.php?app=member_order&act=sendGoodsPage1&type={$type}&order_id={$order_id}&sendMethod=kuaidi&kdgs='+_kdgs;
+        }
+
+
+
+        $(function(){
+            $("#wuliudanhao").focus(function(){
+                if(this.value=='请输入物流单号'||this.value==''){this.value='';this.style.color='#333'}
+            });
+            $("#wuliudanhao").blur(function(){
+                if(this.value=='请输入物流单号'||this.value==''){this.value='请输入物流单号';this.style.color='#ccc'}
+            });
+
+
+            $("#kuaidigongsi").focus(function(){
+                if(this.value=='自己填写快递公司'||this.value==''){
+                    this.value='';document.getElementById('kdgs_chosen').value='';this.style.color='#333';
+                    //删除id=companies节点下所有的img标签
+                    $("#companies img").remove();
+                }else{
+                    document.getElementById('kdgs_chosen').value=this.value;
+                }
+            });
+            $("#kuaidigongsi").blur(function(){
+                if(this.value=='自己填写快递公司'|| this.value==''){
+                    this.value='自己填写快递公司';document.getElementById('kdgs_chosen').value='';this.style.color='#ccc';
+                }else{
+                    document.getElementById('kdgs_chosen').value=this.value;
+                }
+            });
+        });
+
+
+        //表单提交
+        function submit_form(){
+            var sendMethod = $("#sendMethod").val();
+            if( sendMethod && sendMethod != "" && sendMethod == "kuaidi"){
+                var kdgs_chosen = $("#kdgs_chosen").val();
+                if(!kdgs_chosen || kdgs_chosen =="" || kdgs_chosen == null){
+                    alert("未选择快递公司");
+                    return;
+                }
+                window.location='{$site_url}/weixin/index.php?app=member_order&act=sendGoodsPage1&type={$type}&order_id={$order_id}&sendMethod='+sendMethod+'&kdgs='+kdgs_chosen;
+            }else if(sendMethod =="wuxuwuliu"){
+                $.post(
+                        '{$site_url}/weixin/index.php?app=member_order&act=sendGoods',
+                        {"order_id":"{$order_id}","sendMethod":sendMethod},
+                        function(result){
+                            result = eval("("+result+")");
+                            alert(result.msg);
+                            if(result.retval == "1"){
+                                window.location = "{$site_url}/weixin/index.php?app=member_order&act=detail&type=seller&order_id={$order_id}";
+                            }
+                        }
+                );
+            }
+        }
+    </script>
+</head>
+<body>
+<div style="width: 320px;margin: 0px auto">
+
+
+    <div class="ord-t">
+        <div class="ord-l"><a href="javascript:history.go(-1)">返回</a></div>
+        <div class="ord-c5" style="padding-left: 44px;">选择快递公司</div>
+        <div class="ord-r1"><a href="index.php?app=member">会员中心</a></div>
+    </div>
+
+    <div style="padding-top: 50px;">
+        <div class="Safety-cen-1">
+            <form action="{$site_url}/weixin/index.php?app=member_order&amp;act=sendGoodspage1" method="post" id="sendGoodsForm" enctype="application/x-www-form-urlencoded">
+                <input type="hidden" name="order_id" value="{$order_id}"/>
+                <div class="deliver">
+                    <ul>
+                        <li id="deliverr">发货方式</li>
+                        <li onclick="kuaidi()"><span><div id="kuaidi" ><img src='{$site_url}/weixin/templates/images/da-g.jpg' width='30' height='29' /></div></span>快递</li>
+                        <li onclick="wuxuwuliu()" style="border-bottom:0px;"><span><div id="wuxuwuliu" ></div></span>无需物流</li>
+                    </ul>
+                    <input type="hidden" name="sendMethod" id="sendMethod" value="kuaidi"/>
+                </div>
+
+
+                <div id="kdgs" class="deliver" style="margin-top: 10px;">
+                    <ul >
+                        <li id="deliverr">
+                            <p>快递公司</p>
+                        </li>
+                        <div id="companies">
+                            {foreach from=$kdgs item=kds  name=k}
+                            <li onclick="gongsi('{$kds}')">
+                                <span id="{$kds}"></span>
+                                {$kds}
+                            </li>
+                            {/foreach}
+                        </div>
+                    </ul>
+                    <input class="deli" type="text" id="kuaidigongsi" value="自己填写快递公司"/>
+                    <input type="hidden" name="kdgs" id="kdgs_chosen" value=""/>
+                </div>
+
+
+                <div style="text-align: center;margin-top: 20px;"><input type="button" onclick="submit_form()"  value="发货"></div>
+            </form>
+
+        </div>
+
+
+    </div>
+</div>
+{include file=cnzz.html}
+</body>
+
+</html>

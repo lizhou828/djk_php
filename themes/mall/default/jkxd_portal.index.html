@@ -1,0 +1,124 @@
+{include file=header.html}
+<!--全部内容-->
+<div id="center_w1200">
+    <!--logo部分-->
+    {include file=common_search.html}
+
+    <!--导航部分-->
+    {include file=common.html}
+
+
+    <!--集客小店banner-->
+
+
+
+
+</div>
+
+<!--集客小店开通流程-->
+    <div id="banner">
+        <div class="benn">
+            <a href="javascript:apply_jkxd()" >
+                <span class="a1"></span>
+            </a>
+            {if $user &&($user.spreader_type !=1 || $user.shop_name ==null || $user.shop_name =='') }
+            <a href="javascript:apply_jkxd()" ><span class="a2"></span></a>
+            {elseif $user && $user.spreader_type==1 && $user.shop_name != null && $user.shop_name != ''}
+                {if $site_url && strstr($site_url,'www')}
+                <a href="http://www.{$user.user_id}.dajike.com" ><span class="a2"></span></a>
+                {else}
+                <a href="http://test.{$user.user_id}.dajike.com" ><span class="a2"></span></a>
+                {/if}
+            {elseif !$user}
+            <a href="index.php?app=member&act=login&ret_url=%2Findex.php%3Fapp%3Djkxd_portal"><span class="a2"></span></a>
+            {/if}
+        </div>
+    </div>
+    <div id="pic1"></div>
+    <div id="pic2"></div>
+    <div id="pic3"></div>
+    <div id="pic4"></div>
+<!--集客小店开通流程-->
+
+
+
+<div id="font4">
+    <div class="top">
+        <div class="biti"></div>
+        <div class="duo"></div>
+    </div>
+
+
+    <!--带左右箭头的图片轮播  开始-->
+    <div class="bottom">
+        <!--带左右箭头的图片轮播  左箭头-->
+        <div class="left" onmousedown="ISL_GoUp()" onmouseup="ISL_StopUp()" onmouseout="ISL_StopUp()"></div>
+        <!--带左右箭头的图片轮播  组图容器-->
+        <div id="ISL_Cont" class="Cont">
+            <div class="ScrCont">
+                <div id="List1" class="rong" >
+                    <ul>
+                        {foreach from=$goodsList item=goods name=goods_index}
+                        <li>
+                            <div class="pic"><a href="index.php?app=goods&id={$goods.goods_id}" target="_blank"><img src="{img_url $img_url/$goods.default_image/220X220}" width="220" height="220" /></a></div>
+                            <div class="text"><a href="#">{$goods.goods_name}_{$goods.goods_id}</a></div>
+                            <div class="jiage">￥<span>{$goods.price}</span></div>
+                        </li>
+                        {/foreach}
+                    </ul>
+                </div>
+                <div id="List2"></div>
+            </div>
+        </div>
+
+        <!--带左右箭头的图片轮播  右箭头-->
+        <div class="right" onmousedown="ISL_GoDown()" onmouseup="ISL_StopDown()" onmouseout="ISL_StopDown()"></div>
+        <!--加载相关的css,js等文件-->
+        <style type="text/css" >
+            .bottom{width:1170px;height:300px;overflow:hidden;padding:0 15px 0 15px;margin:0 auto;}
+            .bottom .left{height:25px;width:49px;background:url({res file=images/shop_ico1.png}) no-repeat 0px 5px;overflow:hidden;float:left;display:inline;margin:110px 0 0 0;cursor:pointer;}
+            .bottom .right{height:25px;width:49px;background:url({res file=images/shop_ico2.png}) no-repeat 0px 5px;overflow:hidden;float:left;display:inline;margin:110px 0 0 0;cursor:pointer;}
+            .bottom .Cont{width:1120px;overflow:hidden;float:left;}
+            .bottom .ScrCont{width:10000000px;}
+            .bottom .Cont ul li{float: left; padding: 0 28px 20px;text-align: left;width: 221px;}
+            .bottom .Cont .pic{padding: 5px 0; text-align: left;}
+            .bottom .Cont .pic img{padding:4px;background:#fff;border:1px solid #ccc;display:block;margin:0 auto;}
+            .bottom .Cont .text{ height: 3em; line-height: 18px; margin-bottom: 5px; word-break: break-all; word-wrap: break-word;}
+            .bottom .Cont .jiage{color: #D0281E; font-family: Tahoma,Geneva,sans-serif;font-weight: bold;}
+            .bottom .Cont.text a{ color:#666;}
+            .bottom #List1,.bottom #List2{float:left;}
+
+        </style>
+        <script type="text/javascript" src="{res file=js/jquery-1.6.2.min.js}" charset="utf-8"></script>
+        <script type="text/javascript" src="{res file=js/arrow_slider.js}"></script>
+    </div>
+    <!--带左右箭头的图片轮播  结束-->
+
+
+
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jquery.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/jike.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{$site_url}/weixin/templates/js/member.js" charset="utf-8"></script>
+    <script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.plugins/jquery.validate.js" ></script>
+    <script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/dialog/dialog.js" id="dialog_js"></script>
+    <script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/jquery.ui.js" ></script>
+    <script charset="utf-8" type="text/javascript" src="{$site_url}/includes/libraries/javascript/jquery.ui/i18n/zh-CN.js" ></script>
+    <script type="text/javascript">
+        function apply_jkxd(){
+            var uri =encodeURI("index.php?app=jkxd_portal&act=apply_jkxd");
+            var id = 'apply_jkxd_page';
+            var title = "申请开通集客小店";
+            var width = '755';
+            ajax_form(id, title, uri, width);
+        }
+    </script>
+
+    <script>
+        var apply = '{$apply}';
+        if (apply == '1') {
+            apply_jkxd();
+        }
+    </script>
+
+    <!--底部横banner-->
+    {include file=footer.html}

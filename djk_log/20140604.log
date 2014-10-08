@@ -1,0 +1,5 @@
+
+错误url=http://192.168.0.137/index.php?app=service&act=vshop_recomGoods
+2014-06-04 15:41:40  	[256]MySQL Error[1064]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+MySQL Query:SELECT *,vshop_recom_goods.id FROM ecm_vshop_recom_goods vshop_recom_goods WHERE position=1 and goods_id=
+Wrong File:  D:\wamp\www\eccore\model\mysql.php[558]	\eccore\model\mysql.php	310

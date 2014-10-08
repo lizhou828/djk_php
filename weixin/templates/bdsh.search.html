@@ -1,0 +1,32 @@
+<script type="text/javascript">
+    function showFocus(obj)
+    {
+        obj.value="";
+    }
+
+    function showBlur(obj)
+    {
+        if(obj.value=="")
+        {
+            obj.value="输入商品关键字";
+        }
+    }
+
+    function search1(){
+        var rgid = "{$rgid}";
+        var keyWord = $("#keyWord").val();
+        if(keyWord == "" || keyWord == "输入商品关键字"){
+            alert("请输入商品关键字！");
+        }else{
+            location.href = "index.php?app=bdsh&act=goodsList&keyWord=" + keyWord + "&rgid=" + rgid;
+        }
+    }
+</script>
+
+
+<div class="lift-s">
+    <div class="lift-s1">
+        <input class="lift-text" name="" type="text" value="{$keyWord}" onfocus="showFocus(this)" onblur="showBlur(this)" id="keyWord"/>
+        <input  name="" type="submit" class="lift-bu" value="" onclick="search1()"/>
+    </div>
+</div>

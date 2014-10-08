@@ -1,0 +1,101 @@
+{include file="header.html"}
+{include file="common.html"}
+<script type="text/javascript" src="{res file=js/goodsinfo.js}"></script>
+<script type="text/javascript" src="{res file=js/cloud-zoom.1.0.2.min.js}"></script>
+<script type="text/javascript" src="{res file=js/goods_detail.js}"></script>
+<script type="text/javascript" src="{res file=js/jquery.js}"></script>
+<script type="text/javascript" src="{res file=js/jquery.json.2.3.min.js}"></script>
+<!--{if  $is_chat =='ON' && $visitor.user_id>0}-->
+<link href="{$chat_domain}{$chat_ctx}/css/chat.css" rel="stylesheet" type="text/css">
+<link href="{$chat_domain}{$chat_ctx}/css/im.css" rel="stylesheet" type="text/css">
+<script type="text/javascript"  src="{$chat_domain}{$chat_ctx}/js/im.js"></script>
+<script type="text/javascript" src="{$chat_domain}{$chat_ctx}/js/jquery.easydrag.js"></script>
+<script type="text/javascript" src="{$chat_domain}{$chat_ctx}/js/jquery.dateFormat-1.0.js"></script>
+<!--{/if}-->
+<script type="text/javascript" xmlns="http://www.w3.org/1999/html">
+ //    var SITE_URL = "http://localhost";
+    //<!CDATA[
+    /* buy */
+
+ var specs = new Array();
+ <!--{foreach from=$goods._specs item=spec}-->
+ specs.push(new spec({$spec.spec_id}, '{$spec.spec_1|escape}', '{$spec.spec_2|escape}',{$spec.price},{$spec.stock}));
+ <!--{/foreach}-->
+ var specQty ={$goods.spec_qty};
+ var defSpec ={$goods.default_spec|escape};
+ var goodsspec = new goodsspec(specs, specQty, defSpec);
+    //]]>
+
+</script>
+
+<input type="hidden" id="goodsName"  value="{$goods.goods_name|escape}"/>
+<input type="hidden" id="goodsId"  value="{$goods.goods_id}"/>
+
+<input type="hidden" value="{$receive.user_name|escape}" name="shopName" id="shopName"/>
+<input type="hidden" value="{$receive.user_id}" name="shopId" id="shopId"/>
+
+<input type="hidden" value="{$visitor.user_name}" id="sendName"/>
+<input type="hidden" value="{$visitor.user_id}" id="sendId"/>
+
+<input type="hidden" value="{$store.region_name}" id="shopCity"/>
+<input type="hidden" value="{$store.store_owner.user_name|escape}" id="shopContacter"/>
+<input type="hidden" value="{$store.tel2}" id="shopTel"/>
+<input type="hidden" value="{$store.tel}" id="shopMobile"/>
+<input type="hidden" value="{$store.address}" id="shopAddress"/>
+<input type="hidden" value="{$chat_domain}{$chat_ctx}{$chat_url}" id="chat_url"/>
+<div class="mbxie">
+    <!--{foreach from=$_curlocal item=lnk name=my_curlocal}-->
+    <!--{if $lnk.url}-->
+    <a href="{$lnk.url}">{$lnk.text|escape}</a><span>>&nbsp;</span>
+    <!--{/if}-->
+    <!--{/foreach}-->
+</div>
+
+
+{include file=goodsinfo.html}
+<!--S 店铺信息-->
+<input type="hidden" name="shop_id" id="shop_id" value="{$shop_id}"/>
+<input type="hidden" name="user_id" id="user_id" value="{$user.user_id}"/>
+
+
+
+
+<div class="clear">&nbsp;</div>
+
+
+<div class="clear"></div>
+<script type="text/javascript">
+    function to_chat() {
+        to_im();
+    }
+</script>
+<style>
+    #back_top {
+        -moz-border-bottom-colors: none;
+        -moz-border-left-colors: none;
+        -moz-border-right-colors: none;
+        -moz-border-top-colors: none;
+        background: none;
+        border-color: -moz-use-text-color #ECECEC;
+        border-image: none;
+        border-left: 1px solid #ECECEC;
+        border-right: 1px solid #ECECEC;
+        border-style: none solid;
+        border-width: medium 1px;
+        bottom: 0;
+        display: block;
+        height: 28px;
+        line-height: 28px;
+        position: fixed;
+        right: -135px;
+        bottom:50px;
+        width: 200px;
+        z-index: 2000;
+    }
+</style>
+<div id="back_top">
+    <img src="{res file=images/back_top.png}" onclick="javascript:scroll(0,0)">
+</div>
+
+
+{include file=footer.html}

@@ -1,0 +1,132 @@
+{include file=member.header.html}
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right">
+        {include file=member.submenu.html}
+        <script type="text/javascript" src="{lib file=jquery.plugins/jquery.validate.js}" charset="{$charset}"></script>
+        <div class="wrap">
+
+            <!--{if $peisong}-->
+            <div class="scarch_order">
+                <form id="truncate_form" method="post">
+                </form>
+
+                <form id="my_goods_form" method="get">
+                    <input type="hidden" name="app" value="service">
+                    <input type="hidden" name="act" value="peisong">
+                    <input type="hidden" name="p" value="service">
+
+            &nbsp;&nbsp;&nbsp;&nbsp;按商家
+
+            <select name="store_id" class="sgcategory">
+                <!--{if $stores}-->
+                <option value="-1">全部</option>
+                <!--{foreach from=$stores item=store}-->
+                <option value="{$store.store_id}" <!--{if $smarty.get.store_id == $store.store_id}-->selected="selected"<!--{/if}--> >{$store.store_name}</option>
+                <!-- {/foreach} -->
+                <!--{else}-->
+                <option value="">没有找到商家</option>
+                <!--{/if}-->
+            </select>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="submit" class="btn" value="{$lang.soso}" />
+
+            </form>
+            </div>
+            <!--{/if}-->
+
+            <div class="eject_btn">
+            <!--{if $peisong}-->
+            <input name="store_id" value="{$store_id}" type="hidden" />
+            <b class="ico5" ectype="dialog" uri="index.php?app=service&amp;act=add_shipping&id={$store_id}" ectype="dialog" dialog_id="my_shipping_add" dialog_width="600" dialog_title="{$lang.add_shipping}">
+            <!--{else}-->
+            <b class="ico5" ectype="dialog" uri="index.php?app=my_shipping&amp;act=add" ectype="dialog" dialog_id="my_shipping_add" dialog_width="600" dialog_title="{$lang.add_shipping}">
+            <!--{/if}-->
+            {$lang.add_shipping}</b></div>
+            <div class="public table">
+
+            <font size=-1>使用步骤：1.先新增运费模板 2.点击编辑详细设置具体区域对应的运费</font>
+
+            <table class="table_head_line">
+             
+                <tr class="line_bold">
+                    <th class="" colspan="6">
+                    </th>
+                </tr>
+                
+                <tr class="gray">
+                    <th class="width13">{$lang.shipping_name}</th>
+                    <th class="width4">{$lang.shipping_desc}</th>
+                    <th class="width4">{$lang.enabled}</th>
+
+                    <!--{if $stores}-->
+                    <th class="width13">&nbsp;&nbsp;卖家账号</th>
+                    <!--{/if}-->
+
+                    <th class="width13">&nbsp;&nbsp;详细</th>
+                    <th class="width13">&nbsp;&nbsp;{$lang.handle}</th>
+                </tr>
+             
+                <!-- {foreach from=$shippings item=shipping name=v} -->
+                <tr <!--{if $smarty.foreach.v.last}-->class="line_bold"<!--{else}-->class="line"<!--{/if}-->>
+                    <td><span class="padding1">{$shipping.shipping_name|escape}</span></td>
+                    <td>{$shipping.shipping_desc|escape}</td>
+                    <td class="align2"><!--{if $shipping.enabled}-->{$lang.yes}<!--{else}-->{$lang.no}<!--{/if}--></td>
+
+                    <!--{if $stores}-->
+                    <td class="width13">{$shipping.store_name|escape}</th>
+                    <!--{/if}-->
+
+                    <!--{if $peisong}-->
+                    <td><a href="javascript:void(0);" uri="index.php?app=service&amp;act=yunfei&shipping_id={$shipping.shipping_id}&store_id={$shipping.store_id}" ectype="dialog" dialog_id="seller_order_confirm_order" dialog_width="720" dialog_title="{$lang.edit}" class="edit1">编辑详细</a></td>
+                    <!--{else}-->
+                    <td><a href="javascript:show_detail_div('{$shipping.shipping_id}');"  class="edit1">编辑详细</a>
+                        <script>
+                            function show_detail_div(shipping_id) {
+                                var uri =encodeURI("index.php?app=my_shipping&act=yunfei&shipping_id="+shipping_id);
+                                var id = 'yunfeiForm';
+                                var title = "运费详细";
+                                var width = '520';
+                                ajax_form(id, title, uri, width);
+                            }
+                        </script>
+                    </td>
+
+                    <!--{/if}-->
+                    <td>
+                        <div class="padding1">
+                            <!--{if $peisong}-->
+                            <a href="javascript:void(0);" uri="index.php?app=service&amp;act=edit_shipping&shipping_id={$shipping.shipping_id}&store_id={$shipping.store_id}" ectype="dialog" dialog_id="my_shipping_edit" dialog_width="600" dialog_title="{$lang.edit}" class="edit1">{$lang.edit}</a>
+                            <a href="javascript:drop_confirm('确认删除吗？', 'index.php?app=service&amp;act=delete_shipping&shipping_id={$shipping.shipping_id}&store_id={$shipping.store_id}');" class="delete">{$lang.drop}</a>
+                            <!--{else}-->
+                            <a href="javascript:void(0);" uri="index.php?app=my_shipping&amp;act=edit&shipping_id={$shipping.shipping_id}" ectype="dialog" dialog_id="my_shipping_edit" dialog_width="600" dialog_title="{$lang.edit}" class="edit1">{$lang.edit}</a>
+                            <a href="javascript:drop_confirm('确认删除吗？', 'index.php?app=my_shipping&amp;act=drop&shipping_id={$shipping.shipping_id}');" class="delete">{$lang.drop}</a>
+                            <!--{/if}-->
+                            </div>
+                    </td>
+                </tr>
+                <!-- {foreachelse} -->
+                <tr>
+                    <td colspan="6" class="member_no_records padding6">
+                        <!--{if $peisong}-->
+                         没有找到运费模板
+                        <!--{else}-->
+                        {$lang.no_records}
+                        <!--{/if}-->
+                    </td>
+                </tr>
+                <!--{/foreach}-->
+                <iframe name="my_shipping" style="display:none" ></iframe>
+            </table>
+
+           <!--{if $shippings}-->
+                <div class="kandan_foot">
+                    <div class="pageLinks">{include file=member.page.bottom.html}</div>
+                </div>
+            <div class="clear"></div>
+            <!--{/if}-->
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+{include file=footer.html}
